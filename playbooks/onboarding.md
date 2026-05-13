@@ -53,7 +53,7 @@ In an active project, on a non-trivial change:
 
 > "Adopt the software-engineer role from `roles/software-engineer/ROLE.md` and review my last commit. Focus on the deep-dive heuristics. Report findings in ≤200 lines."
 
-> Hornero v0 does not yet ship the software-engineer ROLE.md. Use one of the available roles: product-manager, designer, tester, security-expert, data-scientist, marketing-expert. (Software-engineer scaffolding lands in a future phase.)
+> Available roles in Hornero v0: `software-engineer`, `tester`, `designer`, `security-expert`, `marketing-expert`, `product-manager`. (`data-scientist` is scaffolded but skills land in a future phase.)
 
 Notice:
 - The agent works through the broad pass first, then drills in

@@ -9,8 +9,8 @@
 Hornero is a self-contained repo that gives any team — across functions, not just engineering — a shared methodology for working with AI coding assistants. It provides:
 
 - **Role personas** for software engineer, product manager, designer, tester, security expert, data scientist, and marketing expert — each grounded in canonical expert sources, not LLM platitudes.
-- **Skills** that those roles invoke: artifacts they produce, interactive flows they run, workflows they orchestrate.
-- **Multi-agent orchestration** — a protocol for invoking multiple roles in parallel and synthesizing their findings.
+- **Skills** that those roles invoke: artifacts they produce, audits they run, workflows they orchestrate.
+- **Multi-agent orchestration** — a protocol for invoking multiple roles in parallel and synthesising their findings.
 - **Templates and playbooks** so a teammate can apply the methodology to any new repo.
 
 ## Who this is for
@@ -22,24 +22,180 @@ Teams adopting AI-assisted work who want:
 - Expert-anchored frameworks rather than LLM-generated generic advice
 - A repeatable way to invoke multiple expert lenses on important decisions
 
+---
+
+## Install
+
+```bash
+git clone <this-repo>
+cd hornero
+./install.sh --dry-run    # see what would be installed
+./install.sh              # actually install (interactive — confirms each overwrite)
+```
+
+What gets installed:
+
+- All cross-role skills (`spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `multi-role-review`) → `~/.claude/skills/`
+- All role-based skills under `roles/<role>/skills/` → `~/.claude/skills/`
+- Any agent definitions → `~/.claude/agents/`
+
+Verify:
+
+```bash
+ls ~/.claude/skills/
+```
+
+To remove: `./install.sh --uninstall`.
+
+> **Note:** the role personas themselves (`roles/<role>/ROLE.md`) are not installed into `~/.claude` — they live in this repo and you reference them by path when invoking a role. This is deliberate: ROLE.md is *context*, skills are *operations*.
+
+---
+
+## How to use
+
+Six concrete patterns. Each one is a prompt you type into Claude Code.
+
+### 1. Invoke a single role to review something
+
+Use when you want one expert lens on a piece of work — a diff, a draft, a plan.
+
+> "Adopt the **software-engineer** role from `~/Sites/hornero/roles/software-engineer/ROLE.md` and review my last commit. Walk the broad pass first, then drill into the highest-severity concern. Report findings in ≤200 lines."
+
+Notice:
+- The role file is referenced by path so the agent loads its mindset, heuristics, and anti-patterns.
+- The agent works broad-then-deep, citing named sources from `sources.md`.
+- Out-of-scope concerns get flagged as "consult <other role>" rather than adjudicated.
+
+Other roles: `product-manager`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist` (forthcoming).
+
+### 2. Invoke a role to produce an artifact
+
+Use when you need a specific deliverable: a PRD, an ADR, a threat model, a positioning canvas, a launch brief, a test plan, etc.
+
+> "Adopt the **security-expert** role and produce a **threat-model** for the new permissions service. Use `~/Sites/hornero/roles/security-expert/skills/threat-model/SKILL.md` as the production guide. Pre-reads: `<RFC link>`, `<DFD link>`."
+
+The skill walks the role through its production sequence (e.g., for `threat-model`: scope → DFD → adversaries → STRIDE walk → controls → Shostack's Q4).
+
+Component skills currently shipped (24 across six roles): see the [What's in the box](#whats-in-the-box) section below.
+
+### 3. Run a cross-role process skill
+
+These work on any task, regardless of which role(s) are involved.
+
+| Skill | When to run |
+|---|---|
+| **`spec-the-problem`** | Before non-trivial implementation, when the task arrived solution-shaped ("add a retry button") and you want to translate it to problem-shape first. |
+| **`harness-check`** | Periodically (weekly / on joining a new repo) to audit how well your `CLAUDE.md` / skills / settings cooperate. |
+| **`context-reset-check`** | When the agent's behaviour feels off and you suspect the context is fighting itself. |
+| **`extract-lesson`** | At the end of a session that produced a surprise (good or bad) — proposes durable deltas to roles, skills, or your project memory. **Run this habitually or the harness doesn't compound.** |
+| **`multi-role-review`** | For decisions that warrant multiple expert lenses — see pattern 4. |
+
+Invoke:
+
+> "Run **harness-check** on this repo."
+
+> "Run **spec-the-problem** on the task: 'add a quick-checkout button to the cart page.'"
+
+### 4. Run a multi-role review on a contested or cross-functional artifact
+
+Use for PRs touching multiple domains, RFCs, launch briefs, security-sensitive changes, anything where one lens isn't enough.
+
+> "Run **multi-role-review** on this PR. Use roles: **software-engineer**, **security-expert**, **tester**. The artifact is at `<path or link>`."
+
+The orchestrator will:
+1. Triage your role choice (one question, declines or accepts).
+2. Dispatch the named roles in parallel, each with a detailed brief (scope, output format, sources, success criteria, out-of-scope).
+3. Receive their condensed findings.
+4. Synthesise — surface non-overlapping findings, name conflicts, produce a ranked recommendation.
+
+Rules the orchestrator follows: maximum 7 roles per invocation; one layer of nesting; artifacts passed via `tmp/<role>-review-<task>.md` to keep the lead's context lean. Full protocol in [`skills/multi-role-review/SKILL.md`](skills/multi-role-review/SKILL.md).
+
+Sensible role combinations:
+
+| Situation | Role combination |
+|---|---|
+| Engineering PR review | engineer + tester |
+| Feature spec review | product-manager + designer + engineer |
+| Pre-launch readiness | engineer + tester + security-expert + marketing-expert |
+| AI/LLM feature design | engineer + security-expert + product-manager |
+| Major launch readout | All seven |
+
+See `playbooks/orchestration-heuristics.md` for when to use 1 vs 4 vs 7 roles.
+
+### 5. Run a pre-launch workflow
+
+Three roles ship sibling pre-launch workflow skills with the same shape — frame → re-confirm → execute → audit → synthesise → recommend Go/Hold/No-Go.
+
+| Role | Workflow skill |
+|---|---|
+| Tester | `pre-release-test-pass` — risk re-assessment + targeted exploratory charters + suite readout |
+| Security-expert | `pre-launch-security-audit` — threat-model refresh + focused review + LLM risk + control-readiness |
+| Marketing-expert | `pre-launch-marketing-audit` — positioning + narrative + brief audit + channel readiness + measurement design |
+
+For cross-functional launches, run all three in parallel via multi-role-review and have the orchestrator synthesise across them.
+
+> "Run **multi-role-review** on the LedgerStack v2 launch. Run `pre-release-test-pass`, `pre-launch-security-audit`, and `pre-launch-marketing-audit` in parallel; synthesise into a unified launch recommendation."
+
+### 6. Adapt Hornero to your own project
+
+Templates in `templates/` give you starting points to drop into any repo:
+
+- `templates/CLAUDE.md.template` — a starter `CLAUDE.md` referencing Hornero roles and skills.
+- `templates/AGENTS.md` — a starter agent definitions file.
+- `templates/settings.json` — a starter Claude Code settings file with sensible permissions.
+
+Adapt them to your project; the values that need editing are marked `<like this>`.
+
+---
+
+## What's in the box
+
+Six of seven role personas have full first-draft skills. Each role's skills follow the same anatomy (Purpose, Key Concepts, Application, Examples, Common Pitfalls, References) and cite from `sources.md` (no LLM-confabulated frameworks — `scripts/validate-skill.sh` enforces this).
+
+| Role | Component skills | Workflow skill |
+|---|---|---|
+| **software-engineer** | `adr`, `rfc`, `refactor-plan` | `tdd-discipline` |
+| **tester** | `test-plan`, `exploratory-charter`, `regression-test` | `pre-release-test-pass` |
+| **designer** | `state-audit`, `accessibility-audit`, `heuristic-review` | `design-review` |
+| **security-expert** | `threat-model`, `security-review`, `llm-risk-assessment` | `pre-launch-security-audit` |
+| **marketing-expert** | `positioning-canvas`, `strategic-narrative`, `launch-brief` | `pre-launch-marketing-audit` |
+| **product-manager** | `prd`, `jobs-to-be-done`, `positioning-statement`, `okrs`, `discovery-interview-prep` | — |
+| **data-scientist** | scaffolded; skills forthcoming | — |
+
+Cross-role skills:
+
+- `spec-the-problem` — translate solution-shaped tasks to problem-shape before implementing.
+- `multi-role-review` — the orchestrator-worker protocol.
+- `extract-lesson` — turn session surprises into harness deltas.
+- `harness-check` — audit your repo's AI-coding scaffolding.
+- `context-reset-check` — diagnose context fighting itself.
+
+Each role's `ROLE.md` defines the role's mindset, broad-pass + deep-dive heuristics, what it does *not* review, anti-patterns, and handoffs to other roles. Each `sources.md` caps the bibliography at ~10 anchors plus a "see also" — the cap is deliberate; long bibliographies drift toward LLM synthesis.
+
+---
+
+## Reading order for a new teammate
+
+1. This README — what Hornero is and how to use it.
+2. [`methodology.md`](methodology.md) — the two-layer synthesis (harness compounding + multi-agent collaboration).
+3. [`playbooks/onboarding.md`](playbooks/onboarding.md) — a 30-minute hands-on walkthrough.
+4. [`playbooks/role-cheatsheet.md`](playbooks/role-cheatsheet.md) — 1-page quick reference.
+5. The `roles/<role>/ROLE.md` for the role most relevant to your work.
+
+For deeper material on orchestration: `playbooks/orchestration-heuristics.md` (when to use 1 vs 4 vs 7 roles), `playbooks/multi-role-review.md` (plain-language companion to the skill), `playbooks/feedback-ritual.md` (weekly extraction cadence).
+
+---
+
 ## Source articles
 
 The methodology draws on two:
 
 - **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/) — governs how the harness compounds (five principles).
-- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — governs how roles collaborate as a team (orchestrator-worker pattern).
+- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — governs how roles collaborate (orchestrator-worker pattern).
 
 See `methodology.md` for the full synthesis.
 
-## Quick start
-
-```bash
-git clone <this-repo>
-cd hornero
-./install.sh          # copies skills into your ~/.claude
-```
-
-Then open `playbooks/onboarding.md`.
+---
 
 ## Status
 
