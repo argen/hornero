@@ -258,7 +258,7 @@ See `methodology.md` for the full synthesis.
 - [ ] **Non-engineer reach** — a designer or marketer reaches productive use in <30 min using `playbooks/onboarding.md` alone.
 
 ### Polish
-- [ ] **License** — pick MIT (or similar) and add `LICENSE` file. Currently README says "MIT (forthcoming)."
+- [x] **License** — MIT, with explicit carve-out noting that incorporated frameworks remain the IP of their named authors.
 - [ ] **`ATTRIBUTION.md` completeness** — review against all skill files; ensure every cited author appears.
 - [x] **`scripts/catalog.sh`** — generates `CATALOG.md` from role + skill frontmatter; powers the dispatcher protocol in `CLAUDE.md`.
 
@@ -287,7 +287,7 @@ install.sh              # Copies skills + agents into ~/.claude
 
 ## License
 
-MIT (forthcoming).
+[MIT](LICENSE). The MIT license covers Hornero's synthesis, structure, and prose. Frameworks and vocabularies incorporated from named authors (see each role's `sources.md` and [`ATTRIBUTION.md`](ATTRIBUTION.md)) remain the intellectual property of their respective authors and publishers.
 
 ## Acknowledgements
 
