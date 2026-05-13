@@ -14,7 +14,7 @@ Each role is a persona an agent (or subagent) can adopt to critique work, produc
 | [`data-scientist`](data-scientist/ROLE.md) | Measurement validity, statistical soundness, bias | Experiment designs, metric definitions, analysis plans |
 | [`marketing-expert`](marketing-expert/ROLE.md) | Positioning, audience clarity, message-market fit | Launch narratives, positioning docs, copy critiques |
 
-> v0 status: `software-engineer`, `tester`, `designer`, `security-expert` (4 skills each), and `product-manager` (5 skills) have full content (ROLE + sources + skills). `data-scientist` and `marketing-expert` have ROLE.md + sources.md scaffolded; their skills land in later phases.
+> v0 status: `software-engineer`, `tester`, `designer`, `security-expert`, `marketing-expert` (4 skills each), and `product-manager` (5 skills) have full content (ROLE + sources + skills). `data-scientist` has ROLE.md + sources.md scaffolded; its skills land in a later phase.
 
 ## How to invoke a role
 

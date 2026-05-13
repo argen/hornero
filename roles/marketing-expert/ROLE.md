@@ -81,14 +81,15 @@ If a marketing review surfaces concerns in those areas, flag them as "consult <r
 
 When invoked to produce, the role generates:
 
-- **Positioning canvases** — Dunford-style. Skill: `positioning-canvas` (phase 4+).
-- **Strategic narratives** — Raskin 5-part structure. Skill: `strategic-narrative` (phase 4+).
-- **Launch briefs** — audience + positioning + narrative + channel sequence + measurement. Skill: `launch-brief` (phase 4+).
-- **Copy critiques** — structured against Ogilvy + Wiebe principles. Skill: `copy-critique` (phase 4+).
-- **Channel evaluations** — channel-by-channel fit analysis with realistic KPIs. Skill: `channel-evaluation` (phase 4+).
-- **Voice-of-customer mining plans** — Wiebe methodology applied to a specific product. Skill: `voc-mining` (phase 4+).
+- **Positioning canvases** — Dunford 5-component canvas. Skill: [`positioning-canvas`](skills/positioning-canvas/SKILL.md).
+- **Strategic narratives** — Raskin 5-part shift → winners/losers → promised-land → capabilities → evidence. Skill: [`strategic-narrative`](skills/strategic-narrative/SKILL.md).
+- **Launch briefs** — audience + positioning + narrative + channel sequence + KPIs with attribution honesty. Skill: [`launch-brief`](skills/launch-brief/SKILL.md).
+- **Pre-launch marketing audits** — orchestrates the above into a launch Go/Hold/No-Go (mirrors tester pre-release-test-pass and security pre-launch-security-audit). Skill: [`pre-launch-marketing-audit`](skills/pre-launch-marketing-audit/SKILL.md).
+- **Copy critiques** — structured against Ogilvy + Wiebe principles. Skill: `copy-critique` (forward-reference).
+- **Channel evaluations** — channel-by-channel fit analysis with realistic KPIs. Skill: `channel-evaluation` (forward-reference).
+- **Voice-of-customer mining plans** — Wiebe methodology applied to a specific product. Skill: `voc-mining` (forward-reference).
 
-> v0 status: ROLE.md + sources.md only. Producer skills ship in phase 4+.
+> v0 status: 4 skills shipped as first drafts (`positioning-canvas`, `strategic-narrative`, `launch-brief`, `pre-launch-marketing-audit`). The skills lean strategic/CMO-level; tactical copy and channel skills are deliberately deferred. Forward-references await later phases.
 
 ## Triggers — when to invoke this role
 
@@ -131,18 +132,18 @@ When invoked to produce, the role generates:
 
 ## Skills index
 
-> v0 status: ROLE.md + sources.md only. Skills below ship in phase 4+.
+### Component (artifacts) — shipped (v0 drafts)
+- [`positioning-canvas`](skills/positioning-canvas/SKILL.md) — Dunford 5-component canvas; the load-bearing CMO artifact
+- [`strategic-narrative`](skills/strategic-narrative/SKILL.md) — Raskin 5-part shift / winners-losers / promised-land / capabilities / evidence
+- [`launch-brief`](skills/launch-brief/SKILL.md) — full launch plan with channel sequencing + attribution honesty (Sharp, Ritson, Hoffman)
 
-### Component (artifacts)
-- `positioning-canvas` — Dunford-style positioning artifact
-- `strategic-narrative` — Raskin 5-part deck narrative
-- `launch-brief` — full launch plan template
-- `copy-critique` — structured copy review
+### Workflow (multi-step) — shipped (v0 drafts)
+- [`pre-launch-marketing-audit`](skills/pre-launch-marketing-audit/SKILL.md) — orchestrates the three components into a launch Go/Hold/No-Go (mirrors tester's pre-release-test-pass and security's pre-launch-security-audit)
 
-### Interactive (guided flows)
-- `positioning-builder` — guided positioning-canvas flow
-- `narrative-arc-builder` — guided strategic-narrative flow
-
-### Workflow (multi-step)
-- `pre-launch-marketing-audit` — positioning + narrative + copy + channel + measurement
-- `repositioning-cycle` — diagnostic + restated positioning + rolled out across surfaces
+### Forward-references (not yet shipped)
+- `copy-critique` (component) — structured copy review (Ogilvy + Wiebe)
+- `channel-evaluation` (component) — channel-by-channel fit analysis
+- `voc-mining` (component) — voice-of-customer mining plan (Wiebe)
+- `positioning-builder` (interactive) — guided positioning-canvas flow
+- `narrative-arc-builder` (interactive) — guided strategic-narrative flow
+- `repositioning-cycle` (workflow) — diagnostic + restated positioning + rollout across surfaces
