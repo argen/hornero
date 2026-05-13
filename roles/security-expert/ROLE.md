@@ -82,14 +82,15 @@ If a security review surfaces concerns in those areas, flag them as "consult <ro
 
 When invoked to produce, the role generates:
 
-- **Threat models** — STRIDE + DFD + Shostack's four questions. Skill: `threat-model` (phase 3+).
-- **Security review reports** — structured findings against OWASP/ASVS. Skill: `security-review` (phase 3+).
-- **Hardening checklists** — context-specific control inventories. Skill: `hardening-checklist` (phase 3+).
-- **Incident response runbooks** — pre-staged response procedures. Skill: `ir-runbook` (phase 3+).
-- **AI-system risk assessments** — LLM-specific threat surfaces. Skill: `llm-risk-assessment` (phase 3+).
-- **Disclosure communications** — internal and external advisories. Skill: `disclosure-comm` (phase 3+).
+- **Threat models** — STRIDE + DFD + Shostack's four questions. Skill: [`threat-model`](skills/threat-model/SKILL.md).
+- **Security review reports** — structured findings against OWASP/ASVS. Skill: [`security-review`](skills/security-review/SKILL.md).
+- **AI-system risk assessments** — LLM-specific threat surfaces (OWASP LLM Top 10 + lethal-trifecta analysis). Skill: [`llm-risk-assessment`](skills/llm-risk-assessment/SKILL.md).
+- **Pre-launch security audits** — orchestrates the above + control-readiness for a launch decision. Skill: [`pre-launch-security-audit`](skills/pre-launch-security-audit/SKILL.md).
+- **Hardening checklists** — context-specific control inventories. Skill: `hardening-checklist` (forward-reference).
+- **Incident response runbooks** — pre-staged response procedures. Skill: `ir-runbook` (forward-reference).
+- **Disclosure communications** — internal and external advisories. Skill: `disclosure-comm` (forward-reference).
 
-> v0 status: ROLE.md + sources.md only. Producer skills ship in phase 3+.
+> v0 status: 4 skills shipped as first drafts (`threat-model`, `security-review`, `llm-risk-assessment`, `pre-launch-security-audit`). Forward-references await later phases.
 
 ## Triggers — when to invoke this role
 
@@ -133,18 +134,17 @@ When invoked to produce, the role generates:
 
 ## Skills index
 
-> v0 status: ROLE.md + sources.md only. Skills below ship in phase 3+.
+### Component (artifacts) — shipped (v0 drafts)
+- [`threat-model`](skills/threat-model/SKILL.md) — STRIDE + DFD + Shostack's four questions
+- [`security-review`](skills/security-review/SKILL.md) — OWASP Top 10 / ASVS / CWE-mapped findings with reproductions
+- [`llm-risk-assessment`](skills/llm-risk-assessment/SKILL.md) — OWASP LLM Top 10 + Willison's lethal-trifecta analysis
 
-### Component (artifacts)
-- `threat-model` — STRIDE + DFD + four-questions
-- `security-review` — structured findings report
-- `hardening-checklist` — control inventory for a given context
-- `llm-risk-assessment` — OWASP LLM Top 10 mapping
+### Workflow (multi-step) — shipped (v0 drafts)
+- [`pre-launch-security-audit`](skills/pre-launch-security-audit/SKILL.md) — orchestrates the components into a launch Go/Hold/No-Go (mirrors tester's pre-release-test-pass)
 
-### Interactive (guided flows)
-- `stride-walkthrough` — adaptive STRIDE pass
-- `auth-flow-review` — guided authentication/authorization audit
-
-### Workflow (multi-step)
-- `pre-launch-security-audit` — threat model + review + checklist
-- `incident-response` — runbook + disclosure + post-mortem
+### Forward-references (not yet shipped)
+- `hardening-checklist` (component) — context-specific control inventory
+- `stride-walkthrough` (interactive) — adaptive STRIDE pass
+- `auth-flow-review` (interactive) — guided authentication/authorization audit
+- `incident-response` (workflow) — runbook + disclosure + post-mortem
+- `disclosure-comm` (component) — internal + external advisory

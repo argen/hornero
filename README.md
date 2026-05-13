@@ -43,7 +43,7 @@ Then open `playbooks/onboarding.md`.
 
 ## Status
 
-**v0 — under construction.** The **software-engineer**, **tester**, **designer**, and **product-manager** roles have ROLE + sources + first-draft skills. The remaining three roles (security-expert, data-scientist, marketing-expert) have ROLE.md + sources.md scaffolded; their skills land in later phases. Cross-role process skills (`spec-the-problem`, `multi-role-review`, `extract-lesson`, `harness-check`, `context-reset-check`) are shipped.
+**v0 — under construction.** Five roles (**software-engineer**, **tester**, **designer**, **security-expert**, **product-manager**) have ROLE + sources + first-draft skills. The remaining two roles (data-scientist, marketing-expert) have ROLE.md + sources.md scaffolded; their skills land in later phases. Cross-role process skills (`spec-the-problem`, `multi-role-review`, `extract-lesson`, `harness-check`, `context-reset-check`) are shipped.
 
 ## Repo structure
 
