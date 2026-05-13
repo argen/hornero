@@ -1,0 +1,26 @@
+{
+  "_comment": "Hornero recommended Claude Code settings. Copy into ~/.claude/settings.json or merge with your existing file. The 'hooks.Stop' entry is the feedback-loop trigger — it pings the agent to consider /extract-lesson at session end.",
+
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "skipAutoPermissionPrompt": true,
+  "effortLevel": "high",
+  "model": "sonnet",
+
+  "hooks": {
+    "Stop": [
+      {
+        "command": "echo 'Session ending. Consider /extract-lesson if anything was surprising or worth capturing.'"
+      }
+    ]
+  },
+
+  "_notes": [
+    "permissions.defaultMode: 'auto' lets the harness auto-approve known-safe tools.",
+    "skipAutoPermissionPrompt: true suppresses prompts for operations already in the allow list.",
+    "effortLevel: 'high' biases the model toward more thorough output (more tokens, better quality).",
+    "model: 'sonnet' is the default for new tasks; switch to opus for planning / haiku for trivial edits.",
+    "The Stop hook prints a reminder at session end. Replace with an actual command (e.g., open a feedback note) when you adopt the feedback-ritual playbook."
+  ]
+}

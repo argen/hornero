@@ -1,0 +1,66 @@
+# CLAUDE.md — <project name>
+
+> **Template.** Per-project standing instructions for Claude Code. This file
+> is read at the start of every session in this repo. Keep it short
+> (≤150 lines). Detailed conventions belong in skill files; this file
+> is for what the agent must know up front.
+>
+> Pairs with the team-wide methodology in [Hornero](https://github.com/<your-org>/hornero).
+
+## Project context
+
+<2-3 sentences. Why does this project exist? Who uses it? What's the current focus?>
+
+## Model selection (project-specific)
+
+<Tailor to project. Default starter:>
+
+- **Opus** — planning, architecture, debugging gnarly issues
+- **Sonnet** — standard implementation, refactors, feature work
+- **Haiku** — small edits, renames, quick lookups
+- **Sub-agents** — default to Haiku for Explore, Sonnet for implementation, Opus for review
+
+## Defaults
+
+<What the agent should assume unless told otherwise.>
+
+- Working directory: `<path>`
+- Default branch: `main`
+- Test command: `<command>`
+- Lint command: `<command>`
+- Type check: `<command>`
+
+## Always
+
+- Practice strict Red/Green TDD on behavior changes (see `~/.claude/skills/<tdd-skill>/SKILL.md`)
+- Branch from clean `main`; commit on a feature branch
+- Run tests after non-trivial changes
+- Invoke `multi-role-review` before merging anything cross-functional
+
+## Never
+
+- Commit directly to `main`
+- Skip hooks (`--no-verify`)
+- Force-push without explicit ask
+- Add files outside the repo conventions (see `AGENTS.md`)
+- Touch `.env`, secrets, or credential files
+- Run destructive git ops without confirmation
+
+## When the user says
+
+- **"Ship it"** — commit on the feature branch, push, open PR. Do not merge.
+- **"Quick fix"** — single small change, skip the multi-role review.
+- **"Plan it"** — produce a plan in `.claude/plans/`, do not implement until approved.
+- **"Review this"** — invoke `multi-role-review` with relevant roles.
+
+## Stack-specific reminders
+
+<Anything that bites the agent regularly in this stack. Each line should reference a real past incident, not abstract advice.>
+
+- <e.g., "iOS builds must be packaged (.ipa); do not `cargo tauri ios dev` to a phone — see project memory `feedback_ios_physical_device_deploy.md`">
+
+## Links
+
+- Team methodology: [Hornero](https://github.com/<your-org>/hornero)
+- Roles invoked most in this project: `<role>`, `<role>`, `<role>`
+- Most-used skills: `<skill>`, `<skill>`, `<skill>`

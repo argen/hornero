@@ -87,7 +87,7 @@ When invoked to produce, the role generates:
 - **Jobs-to-be-Done statements** — Christensen + Ulwick. Skill: `jobs-to-be-done` (phase 4).
 - **OKRs** — Wodtke's *Radical Focus*. Skill: `okrs` (phase 4).
 
-> v0 status: ROLE.md + sources.md only. Producer skills ship in phase 4 (porting + re-authoring from Product-Manager-Skills + expanding sources).
+> v0 status: 5 producer skills shipped as first drafts in phase 4 (`prd`, `jobs-to-be-done`, `positioning-statement`, `discovery-interview-prep`, `okrs`). Remaining skills (success-metrics, prioritization-advisor, problem-framing-canvas, prd-development workflow, product-strategy-session workflow) are forward-references awaiting future phases. Editorial review on the 5 shipped drafts is recommended before production use.
 
 ## Triggers — when to invoke this role
 
@@ -133,18 +133,18 @@ When invoked to produce, the role generates:
 
 > v0 status: skills shipped in phase 4. Listed here as a forward index.
 
-### Component (artifacts)
-- `prd` — Product Requirements Doc
-- `positioning-statement` — Moore template
-- `jobs-to-be-done` — JTBD statement
-- `okrs` — quarterly OKR set
-- `success-metrics` — metric + counter-metric pair
+### Component (artifacts) — shipped (v0 drafts)
+- [`prd`](skills/prd/SKILL.md) — Product Requirements Doc
+- [`positioning-statement`](skills/positioning-statement/SKILL.md) — Moore + Dunford template
+- [`jobs-to-be-done`](skills/jobs-to-be-done/SKILL.md) — JTBD statement
+- [`okrs`](skills/okrs/SKILL.md) — quarterly OKR set (Wodtke)
 
-### Interactive (guided flows)
-- `discovery-interview-prep` — adaptive interview-guide generator
-- `prioritization-advisor` — RICE / LNO / Confidence Meter chooser
-- `problem-framing-canvas` — problem statement builder
+### Interactive (guided flows) — shipped (v0 drafts)
+- [`discovery-interview-prep`](skills/discovery-interview-prep/SKILL.md) — Torres + Moesta interview guide
 
-### Workflow (multi-step)
-- `prd-development` — discovery → framing → PRD → success criteria
-- `product-strategy-session` — orchestrated discovery → positioning → OKRs
+### Forward-references (not yet shipped)
+- `success-metrics` (component) — metric + counter-metric pair
+- `prioritization-advisor` (interactive) — RICE / LNO / Confidence Meter chooser
+- `problem-framing-canvas` (interactive) — problem statement builder
+- `prd-development` (workflow) — discovery → framing → PRD → success criteria
+- `product-strategy-session` (workflow) — orchestrated discovery → positioning → OKRs
