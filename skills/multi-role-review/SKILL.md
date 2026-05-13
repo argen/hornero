@@ -120,6 +120,13 @@ Out of scope: {what this role should NOT review — name the other roles that ow
 
 Spawn all role subagents in a **single message** with multiple tool calls. Each subagent gets its own delegation block. No serial dispatch unless Step 2 surfaced a genuine dependency.
 
+**Two dispatch shapes.** Both are valid; pick per environment:
+
+1. **Named subagent** (when Hornero's `agents/<role>-reviewer.md` files are installed under `~/.claude/agents/`): spawn via the Agent tool with `subagent_type: "{role}-reviewer"`. The role context is already in the subagent's system prompt; you supply only the delegation block above. Faster, leaner, less duplication.
+2. **Generic subagent + explicit role brief** (fallback when reviewer subagents aren't installed): spawn via the Agent tool with `subagent_type: "general-purpose"` and pass the delegation block as the prompt body. The subagent starts without `CLAUDE.md` / `CATALOG.md`, so the explicit `Adopt the {role} role from roles/{role}/ROLE.md` line is load-bearing.
+
+In either case the delegation block's five required fields (scope, output format, sources, success criteria, out-of-scope) stand. Reviewer subagents are read-only by design — they will not edit files; if the orchestration needs writes, the lead agent does them.
+
 ### Step 4 — Collect artifacts
 
 Wait for all subagents to complete. Read the `tmp/<role>-review-<slug>.md` files — not the subagent return messages. The artifact is the source of truth.

@@ -204,6 +204,12 @@ Cross-role skills:
 
 Each role's `ROLE.md` defines the role's mindset, broad-pass + deep-dive heuristics, what it does *not* review, anti-patterns, and handoffs to other roles. Each `sources.md` caps the bibliography at ~10 anchors plus a "see also" — the cap is deliberate; long bibliographies drift toward LLM synthesis.
 
+### Subagent definitions
+
+`agents/` ships seven Claude Code reviewer subagent definitions — one per role (`software-engineer-reviewer`, `product-manager-reviewer`, `designer-reviewer`, `tester-reviewer`, `security-expert-reviewer`, `marketing-expert-reviewer`, `data-scientist-reviewer`). Each is a self-contained system prompt (the role's mindset, heuristics, anti-patterns, output discipline, sources) — they don't need to read `ROLE.md` at runtime.
+
+`install.sh` copies them to `~/.claude/agents/`. Once installed, the orchestrator (or `multi-role-review`) can spawn them by name via the Agent tool (`subagent_type: "tester-reviewer"`) — no need to brief them on the role from scratch each time. They're read-only (Read, Grep, Glob, Bash, WebFetch — no Edit/Write).
+
 ---
 
 ## Reading order for a new teammate
