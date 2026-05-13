@@ -49,9 +49,17 @@ If you don't have an active project, run it on the Hornero repo itself.
 
 ## Step 4 — Try a role-based critique (5 min)
 
-In an active project, on a non-trivial change:
+In an active project, on a non-trivial change. With the dispatcher wired up (root `CLAUDE.md` + `CATALOG.md`), you usually don't name the role:
 
-> "Adopt the software-engineer role from `roles/software-engineer/ROLE.md` and review my last commit. Focus on the deep-dive heuristics. Report findings in ≤200 lines."
+> "Review my last commit. Deep-dive heuristics. ≤200 lines."
+
+The agent should announce in one line which role it's adopting (e.g. `Adopting `software-engineer` — change is a Go diff with no test changes`) before starting. Redirect with one word if it picks wrong:
+
+> "Tester instead."
+
+To force a role from the start:
+
+> "Review my last commit using the `software-engineer` role. Deep-dive heuristics. ≤200 lines."
 
 > Available roles in Hornero v0: `software-engineer`, `tester`, `designer`, `security-expert`, `marketing-expert`, `product-manager`. (`data-scientist` is scaffolded but skills land in a future phase.)
 

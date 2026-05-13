@@ -1,6 +1,6 @@
 ---
 name: security-expert
-description: Adopt the security-expert role to review or produce security artifacts — threat models, control assessments, vulnerability triage, auth flows, and AI-system risk reviews.
+description: Use when reviewing or producing security artifacts — threat models, control assessments, vulnerability triage, auth flows, and AI-system risk reviews.
 mode: both
 ---
 

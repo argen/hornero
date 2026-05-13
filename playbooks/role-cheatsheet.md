@@ -43,11 +43,20 @@ One-page quick reference for invoking Hornero roles. For depth, read the specifi
 
 ## Invocation patterns
 
-### Single role
-> "Adopt the [role] role from `roles/[role]/ROLE.md` and review this [artifact]. Focus on [specific concern]. Report in ≤200 lines."
+In a Hornero-equipped session the **dispatcher** (see [`../CLAUDE.md`](../CLAUDE.md)) usually picks the role from `CATALOG.md` based on your prompt. You only force a choice when you want to override the dispatcher.
+
+### Single role (dispatcher picks)
+> "Review this [artifact] — focus on [specific concern]. ≤200 lines."
+
+The agent declares which role it's adopting in one line before starting. Redirect with one word ("designer instead").
+
+### Single role (force the choice)
+> "Use the [role] role to review this [artifact]. Focus on [specific concern]. ≤200 lines."
 
 ### Multiple roles via skill
 > "Run multi-role-review on [artifact]. Use [role1], [role2], [role3]."
+
+(The dispatcher should auto-escalate to multi-role-review when two or more roles' triggers fire strongly on the same prompt.)
 
 ### With context (better)
 > "Run multi-role-review on [artifact]. Use [role1] (focus: X), [role2] (focus: Y), [role3] (focus: Z). Context: [why this matters]."
@@ -60,7 +69,7 @@ Each role works in two modes:
 - **Producer** — creates an artifact (PRD, threat model, test plan, etc.) from a problem statement.
 
 Reviewer mode: "Review this RFC from the security lens."
-Producer mode: "Adopt the security-expert role and produce a threat model for this feature."
+Producer mode: "Produce a threat model for this feature." (Dispatcher picks `security-expert` / `threat-model`.)
 
 ## Cost-vs-value calibration
 

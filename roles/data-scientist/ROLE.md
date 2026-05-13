@@ -1,6 +1,6 @@
 ---
 name: data-scientist
-description: Adopt the data-scientist role to review or produce data artifacts — experiment designs, metric definitions, causal analyses, model evaluations, and ML-system audits.
+description: Use when reviewing or producing data artifacts — experiment designs, metric definitions, causal analyses, model evaluations, and ML-system audits.
 mode: both
 ---
 

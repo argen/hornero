@@ -101,7 +101,7 @@ Heuristic: if the work touches users, include `product-manager` and `designer`. 
 
 ### Step 2 — Brief each role
 
-For each selected role, draft a delegation block with all five required fields (Rule 2). Use this template:
+For each selected role, draft a delegation block with all five required fields (Rule 2). Use this template. (Note: subagents are spawned with explicit `roles/{role}/ROLE.md` paths — they start without `CLAUDE.md` / `CATALOG.md` and therefore do not go through dispatcher matching. Their role is assigned, not selected.)
 
 ```
 Adopt the {role} role from roles/{role}/ROLE.md.

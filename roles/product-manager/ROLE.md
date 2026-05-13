@@ -1,6 +1,6 @@
 ---
 name: product-manager
-description: Adopt the product-manager role to review or produce product artifacts — PRDs, prioritization, success metrics, discovery plans, positioning.
+description: Use when reviewing or producing product artifacts — PRDs, prioritization, success metrics, discovery plans, positioning.
 mode: both
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: marketing-expert
-description: Adopt the marketing-expert role to review or produce marketing artifacts — positioning, narrative, copy, channel strategy, launch plans, and message-market fit.
+description: Use when reviewing or producing marketing artifacts — positioning, narrative, copy, channel strategy, launch plans, and message-market fit.
 mode: both
 ---
 

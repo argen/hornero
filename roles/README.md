@@ -18,15 +18,25 @@ Each role is a persona an agent (or subagent) can adopt to critique work, produc
 
 ## How to invoke a role
 
-### Single role
+In a Hornero-equipped session (one where `CLAUDE.md` is loaded and `CATALOG.md` is up to date), you usually don't name the role at all — the **dispatcher** in [`../CLAUDE.md`](../CLAUDE.md) matches your prompt against role triggers and announces the role it's adopting in one line before doing the work. See the dispatcher section of the root README for the protocol.
 
-When work would benefit from one specific lens:
+### Single role (dispatcher)
 
-> "Adopt the product-manager role from `roles/product-manager/ROLE.md` and review this PRD draft. Focus on problem fit and success criteria. Report findings in ≤200 lines."
+When work would benefit from one specific lens, describe the task; let the dispatcher pick:
+
+> "Review this PRD draft — focus on problem fit and success criteria. ≤200 lines."
+
+The agent should announce e.g. `Adopting `product-manager` — the artifact is a PRD draft` before starting. Override with one word ("designer instead") if it picks wrong.
+
+### Forcing a specific role
+
+If you want to bypass dispatch and name the role yourself:
+
+> "Use the `product-manager` role to review this PRD draft."
 
 ### Multiple roles
 
-When a decision is cross-functional, use the `multi-role-review` skill:
+When a decision is cross-functional, the dispatcher should auto-escalate to `multi-role-review`. To force it:
 
 > "Run multi-role-review on this RFC with product-manager, security-expert, and software-engineer roles."
 

@@ -11,13 +11,13 @@
 
 | Role | When to invoke |
 |---|---|
-| `data-scientist` | Adopt the data-scientist role to review or produce data artifacts — experiment designs, metric definitions, causal analyses, model evaluations, and ML-system audits. |
-| `designer` | Adopt the designer role to review or produce design artifacts — interaction flows, visual hierarchy, accessibility, design systems, and ethical implications. |
-| `marketing-expert` | Adopt the marketing-expert role to review or produce marketing artifacts — positioning, narrative, copy, channel strategy, launch plans, and message-market fit. |
-| `product-manager` | Adopt the product-manager role to review or produce product artifacts — PRDs, prioritization, success metrics, discovery plans, positioning. |
-| `security-expert` | Adopt the security-expert role to review or produce security artifacts — threat models, control assessments, vulnerability triage, auth flows, and AI-system risk reviews. |
-| `software-engineer` | Adopt the software-engineer role to review or produce engineering artifacts — code changes, ADRs, RFCs, refactor plans, TDD-driven implementations. |
-| `tester` | Adopt the tester role to review or produce testing artifacts — test plans, exploratory charters, coverage assessments, property-based suites, and pipeline strategy. |
+| `data-scientist` | Use when reviewing or producing data artifacts — experiment designs, metric definitions, causal analyses, model evaluations, and ML-system audits. |
+| `designer` | Use when reviewing or producing design artifacts — interaction flows, visual hierarchy, accessibility, design systems, and ethical implications. |
+| `marketing-expert` | Use when reviewing or producing marketing artifacts — positioning, narrative, copy, channel strategy, launch plans, and message-market fit. |
+| `product-manager` | Use when reviewing or producing product artifacts — PRDs, prioritization, success metrics, discovery plans, positioning. |
+| `security-expert` | Use when reviewing or producing security artifacts — threat models, control assessments, vulnerability triage, auth flows, and AI-system risk reviews. |
+| `software-engineer` | Use when reviewing or producing engineering artifacts — code changes, ADRs, RFCs, refactor plans, TDD-driven implementations. |
+| `tester` | Use when reviewing or producing testing artifacts — test plans, exploratory charters, coverage assessments, property-based suites, and pipeline strategy. |
 
 ## Cross-role skills
 

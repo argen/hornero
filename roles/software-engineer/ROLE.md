@@ -1,6 +1,6 @@
 ---
 name: software-engineer
-description: Adopt the software-engineer role to review or produce engineering artifacts — code changes, ADRs, RFCs, refactor plans, TDD-driven implementations.
+description: Use when reviewing or producing engineering artifacts — code changes, ADRs, RFCs, refactor plans, TDD-driven implementations.
 mode: both
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: tester
-description: Adopt the tester role to review or produce testing artifacts — test plans, exploratory charters, coverage assessments, property-based suites, and pipeline strategy.
+description: Use when reviewing or producing testing artifacts — test plans, exploratory charters, coverage assessments, property-based suites, and pipeline strategy.
 mode: both
 ---
 

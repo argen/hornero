@@ -1,6 +1,6 @@
 ---
 name: designer
-description: Adopt the designer role to review or produce design artifacts — interaction flows, visual hierarchy, accessibility, design systems, and ethical implications.
+description: Use when reviewing or producing design artifacts — interaction flows, visual hierarchy, accessibility, design systems, and ethical implications.
 mode: both
 ---
 
