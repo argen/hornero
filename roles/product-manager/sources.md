@@ -82,6 +82,7 @@ The curated bibliography for the product-manager role. Skills cite from this lis
 - **Ken Norton** — *Bring the Donuts*; ex-Google Ventures PM mentor.
 - **Bob Moesta** — *Demand-Side Sales* (2020); JTBD in practice; switch interview technique.
 - **Rich Mironov** — *The Art of Product Management* (2008); enterprise PM realism.
+- **Chip Heath & Dan Heath** — *Decisive: How to Make Better Choices in Life and Work* (2013); the WRAP framework (Widen options, Reality-test, Attain distance, Prepare to be wrong). Used in [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md) for the decision-recommendation shape.
 
 ## Incorporated synthesis
 

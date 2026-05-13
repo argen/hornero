@@ -259,7 +259,7 @@ See `methodology.md` for the full synthesis.
 
 ### Polish
 - [x] **License** — MIT, with explicit carve-out noting that incorporated frameworks remain the IP of their named authors.
-- [ ] **`ATTRIBUTION.md` completeness** — review against all skill files; ensure every cited author appears.
+- [x] **`ATTRIBUTION.md` completeness** — swept against the 29 shipped skills + all 7 `sources.md` files; phase tags removed; anchors and see-also split; missing names added (Mironov, Heath brothers, Humble & Farley, Nygard, Feathers, Pettichord, Halvar Flake, Hernán & Robins, Westreich & Greenland, VanderWeele & Ding, Deng et al., Goodhart, Campbell). The corresponding `sources.md` files updated where the cited author wasn't already present.
 - [x] **`scripts/catalog.sh`** — generates `CATALOG.md` from role + skill frontmatter; powers the dispatcher protocol in `CLAUDE.md`.
 
 ### Open for post-v1

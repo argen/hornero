@@ -79,7 +79,12 @@ The curated bibliography for the data-scientist role. Skills cite from this list
 - **Sebastian Raschka** — *Machine Learning with PyTorch and Scikit-Learn*; teaching reference.
 - **Allen Downey** — *Think Stats*, *Think Bayes* — accessible statistics textbooks.
 - **Galit Shmueli** — "To Explain or to Predict?" (2010) — explanatory vs predictive modeling distinction.
-- **Donald Rubin** — Rubin causal model (potential outcomes framework); complement to Pearl.
+- **Donald Rubin** — Rubin causal model (potential outcomes framework); complement to Pearl. Cited in [`causal-dag`](skills/causal-dag/SKILL.md) and [`experiment-design`](skills/experiment-design/SKILL.md) (SUTVA).
+- **Miguel Hernán & James Robins** — *Causal Inference: What If* (2020); working-epidemiology practitioner reference for causal inference from observational data. Cited in [`causal-dag`](skills/causal-dag/SKILL.md).
+- **Daniel Westreich & Sander Greenland** — "The Table 2 Fallacy" (2013); discipline against interpreting regression coefficients as multiple causal estimates. Cited in [`causal-dag`](skills/causal-dag/SKILL.md).
+- **Tyler VanderWeele & Peng Ding** — "Sensitivity Analysis in Observational Research: introducing the E-value" (2017); quantifying robustness to unobserved confounders. Cited in [`causal-dag`](skills/causal-dag/SKILL.md).
+- **Alex Deng, Ya Xu, Ron Kohavi & Toby Walker** — CUPED (Controlled-experiment Using Pre-Experiment Data, 2013); variance reduction in online experiments. Cited in [`experiment-design`](skills/experiment-design/SKILL.md).
+- **Charles Goodhart & Donald Campbell** — Goodhart's law (1975) / Campbell's law (1976); paired proxy-corruption-under-optimisation formulations from the social-science measurement literature. Cited in [`metric-definition`](skills/metric-definition/SKILL.md).
 - **Google PAIR** — People + AI Research; human-AI interaction guidelines.
 - **HELM / Stanford CRFM** — Holistic Evaluation of Language Models; LLM benchmarking methodology.
 
