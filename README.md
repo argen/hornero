@@ -254,7 +254,7 @@ See `methodology.md` for the full synthesis.
 
 ### Verification (per plan §Verification)
 - [ ] **20-sample eval** of `multi-role-review` against representative tasks; score on source-citation rate, finding distinctness, conflict surfacing, actionability. Target: ≥0.8 mean before declaring v1.
-- [ ] **Clean-install test** — fresh machine, clone, `install.sh`, complete a role critique in <15 min.
+- [~] **Clean-install test** — `scripts/smoke-check.sh` ships as the scripting half (validates 35 SKILL.md anatomy + 7 ROLE.md + 7 agent definitions + CATALOG drift + install dry-run count + full reinstall against `~/.claude`). 8 checks; runs in ~5s. The fresh-machine human-timing test (clone → install → first critique in <15 min) still needs running once on a clean machine.
 - [ ] **Non-engineer reach** — a designer or marketer reaches productive use in <30 min using `playbooks/onboarding.md` alone.
 
 ### Polish
@@ -278,7 +278,7 @@ agents/                 # Optional Claude Code subagent wrappers
 templates/              # AGENTS.md, CLAUDE.md, settings.json drop-in templates
 playbooks/              # Human-readable workflow guides
 research/               # Distilled book notes per role
-scripts/                # validate-skill.sh, catalog.sh
+scripts/                # validate-skill.sh, catalog.sh, smoke-check.sh
 examples/               # Annotated sample sessions
 methodology.md          # The two-layer synthesis
 ATTRIBUTION.md          # Credits to incorporated experts
