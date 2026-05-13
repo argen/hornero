@@ -56,6 +56,7 @@
 
 | Skill | Type | When to invoke |
 |---|---|---|
+| `cross-functional-orchestration` | workflow | Use when a PM needs to coordinate cross-functional work — a launch, a contested decision, a roadmap call, a strategic question — by framing it as a customer job, dispatching the right role mix, and synthesising into a product decision. |
 | `discovery-interview-prep` | interactive | Use to plan a discovery interview — produces an interview guide grounded in Teresa Torres' continuous-discovery methodology and Bob Moesta's switch-interview technique. |
 | `jobs-to-be-done` | component | Use to articulate why a customer hires a product — the functional, emotional, and social job they're trying to get done. Anchored in Clayton Christensen's JTBD theory. |
 | `okrs` | component | Use to draft or critique quarterly OKRs — Objectives + Key Results — grounded in Christina Wodtke's radical-focus methodology. |

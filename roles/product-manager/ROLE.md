@@ -86,8 +86,9 @@ When invoked to produce, the role generates:
 - **Prioritization frameworks** — RICE / Shreyas LNO / Itamar's Confidence Meter. Skill: `prioritization-advisor` (phase 4).
 - **Jobs-to-be-Done statements** — Christensen + Ulwick. Skill: `jobs-to-be-done` (phase 4).
 - **OKRs** — Wodtke's *Radical Focus*. Skill: `okrs` (phase 4).
+- **Cross-functional orchestrations** — frame the question as a customer job, triage the role mix, compose with `multi-role-review`, synthesise into a decision recommendation. Skill: [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md).
 
-> v0 status: 5 producer skills shipped as first drafts in phase 4 (`prd`, `jobs-to-be-done`, `positioning-statement`, `discovery-interview-prep`, `okrs`). Remaining skills (success-metrics, prioritization-advisor, problem-framing-canvas, prd-development workflow, product-strategy-session workflow) are forward-references awaiting future phases. Editorial review on the 5 shipped drafts is recommended before production use.
+> v0 status: 6 producer skills shipped as first drafts (`prd`, `jobs-to-be-done`, `positioning-statement`, `discovery-interview-prep`, `okrs`, `cross-functional-orchestration`). Remaining skills (success-metrics, prioritization-advisor, problem-framing-canvas, prd-development, product-strategy-session) are forward-references awaiting future phases. Editorial review on the shipped drafts is recommended before production use.
 
 ## Triggers — when to invoke this role
 
@@ -141,6 +142,9 @@ When invoked to produce, the role generates:
 
 ### Interactive (guided flows) — shipped (v0 drafts)
 - [`discovery-interview-prep`](skills/discovery-interview-prep/SKILL.md) — Torres + Moesta interview guide
+
+### Workflow (multi-step) — shipped (v0 drafts)
+- [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md) — PM-led orchestration: frame as customer job, triage role mix, compose with `multi-role-review`, synthesise into a decision (Cagan, Christensen, Doshi, Heath)
 
 ### Forward-references (not yet shipped)
 - `success-metrics` (component) — metric + counter-metric pair

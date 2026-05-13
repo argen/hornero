@@ -108,7 +108,7 @@ If the artifact name is ambiguous ("write a plan"), the agent will ask which kin
 
 > "Use the `security-expert` / `threat-model` skill to produce a threat model for ..."
 
-Component skills currently shipped (24 across six roles): see the [What's in the box](#whats-in-the-box) section below, or the live one-liner index in [`CATALOG.md`](CATALOG.md).
+Component and workflow skills currently shipped (25 across six roles): see the [What's in the box](#whats-in-the-box) section below, or the live one-liner index in [`CATALOG.md`](CATALOG.md).
 
 ### 3. Run a cross-role process skill
 
@@ -191,7 +191,7 @@ Six of seven role personas have full first-draft skills. Each role's skills foll
 | **designer** | `state-audit`, `accessibility-audit`, `heuristic-review` | `design-review` |
 | **security-expert** | `threat-model`, `security-review`, `llm-risk-assessment` | `pre-launch-security-audit` |
 | **marketing-expert** | `positioning-canvas`, `strategic-narrative`, `launch-brief` | `pre-launch-marketing-audit` |
-| **product-manager** | `prd`, `jobs-to-be-done`, `positioning-statement`, `okrs`, `discovery-interview-prep` | — |
+| **product-manager** | `prd`, `jobs-to-be-done`, `positioning-statement`, `okrs`, `discovery-interview-prep` | `cross-functional-orchestration` |
 | **data-scientist** | scaffolded; skills forthcoming | — |
 
 Cross-role skills:
@@ -237,7 +237,7 @@ See `methodology.md` for the full synthesis.
 
 ### Content
 - [ ] **data-scientist role** — 3 component + 1 workflow skill to match the other six roles. Likely candidates: `experiment-design`, `metric-definition`, `analysis-plan`, and a workflow (`pre-launch-measurement-audit` to round out the four-role launch-sibling set).
-- [ ] **product-manager workflow skill** — every other complete role has one; PM has 5 component/interactive skills but no orchestrating workflow. Candidate: `prd-development` or `product-strategy-session` (both already named as forward-references in `roles/product-manager/ROLE.md`).
+- [x] **product-manager workflow skill** — shipped as [`cross-functional-orchestration`](roles/product-manager/skills/cross-functional-orchestration/SKILL.md). Composes `multi-role-review` with PM framing (customer-job triage in front, outcomes-shaped decision synthesis behind), so the PM can act as the cross-functional orchestrator when the integrating thread is the customer job.
 - [ ] **First editorial pass** on the 24 shipped skill drafts. Drafts read as drafts; a sweep to tighten examples, prune restatement, and verify every framework citation is precise enough that a reader could trace it to the source page.
 
 ### Templates and onboarding
