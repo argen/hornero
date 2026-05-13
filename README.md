@@ -247,8 +247,8 @@ See `methodology.md` for the full synthesis.
 - [ ] **First editorial pass** on the 24 shipped skill drafts. Drafts read as drafts; a sweep to tighten examples, prune restatement, and verify every framework citation is precise enough that a reader could trace it to the source page.
 
 ### Templates and onboarding
-- [ ] **`templates/CLAUDE.md.template`** review against the shipped roles — currently references some pre-shipped role names.
-- [ ] **`templates/AGENTS.md`** review and confirmation it reflects the current cross-role + role-based skill set.
+- [x] **`templates/CLAUDE.md.template`** review — TDD-skill path made concrete; PM-orchestrator pattern referenced for cross-functional decisions; named reviewer subagents listed for downstream teams to know what's callable by name.
+- [x] **`templates/AGENTS.md`** review — Hornero-vs-project `install.sh` clarified; full role roster + descriptions added to the multi-role-review section; "When in doubt" updated with `CATALOG.md` and named-subagent paths.
 - [x] **`examples/sample-session.md`** refresh — two annotated sessions: a dispatcher-led 4-role review on a small feature (engineer + tester + designer + PM + data-scientist), and a PM-orchestrated launch composing the four pre-launch sibling workflows in parallel.
 - [ ] **`research/` folder** — currently empty; the plan called for distilled book notes per role. Optional for v1 if `sources.md` is doing enough work.
 

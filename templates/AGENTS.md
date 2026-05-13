@@ -17,11 +17,11 @@
 
 ## Local development
 
-<Concrete commands that work on a fresh clone after `install.sh`.>
+<Concrete commands that work on a fresh clone. Note: Hornero's `install.sh` lives in the Hornero repo, not here — it installs Hornero's skills and reviewer subagents into `~/.claude/`. This project's setup is below.>
 
 ```bash
-# Setup
-./install.sh
+# Setup (this project)
+<command>
 
 # Run tests (fast subset)
 <command>
@@ -60,7 +60,19 @@ If any of the above is slow or unreliable, say so explicitly — agents need to 
 
 ## Multi-role review
 
-For non-trivial changes, invoke `multi-role-review` (from Hornero) before merging. Roles to consider for this project:
+For non-trivial changes, the dispatcher (see this project's `CLAUDE.md`) will usually escalate to `multi-role-review` automatically. For launches or product-led cross-functional decisions, the PM-orchestrator (`product-manager` / `cross-functional-orchestration`) is the better fit — it composes `multi-role-review` with customer-job framing and outcomes-shaped synthesis.
+
+Available roles in Hornero (all seven ship reviewer subagents in `~/.claude/agents/`):
+
+- `software-engineer` — code, RFCs, ADRs, refactors, TDD
+- `product-manager` — PRDs, prioritisation, success metrics, positioning, JTBD
+- `designer` — interaction, states, accessibility, platform conventions
+- `tester` — risk-driven test plans, exploratory charters, regression tests, pre-release pass
+- `security-expert` — threat models, security reviews, LLM-risk, pre-launch security audit
+- `marketing-expert` — positioning, narrative, launch briefs (CMO altitude)
+- `data-scientist` — metric definitions, experiments, causal claims, pre-launch measurement audit
+
+Roles invoked most in this project:
 
 - <role 1> — for <when>
 - <role 2> — for <when>
@@ -87,6 +99,8 @@ For non-trivial changes, invoke `multi-role-review` (from Hornero) before mergin
 
 ## When in doubt
 
-1. Read the relevant skill: `~/.claude/skills/<skill>/SKILL.md`
-2. Ask the user
-3. Don't guess
+1. Scan `<path-to-hornero>/CATALOG.md` — it indexes every shipped role and skill.
+2. Read the relevant skill: `~/.claude/skills/<skill>/SKILL.md` (role skills are prefixed: `~/.claude/skills/<role>-<skill>/SKILL.md`).
+3. For a structured critique, invoke a named reviewer subagent: `~/.claude/agents/<role>-reviewer.md`.
+4. Ask the user.
+5. Don't guess.

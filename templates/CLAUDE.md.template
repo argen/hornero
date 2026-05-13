@@ -56,10 +56,11 @@ Full protocol in `<path-to-hornero>/CLAUDE.md`.
 
 ## Always
 
-- Practice strict Red/Green TDD on behavior changes (see `~/.claude/skills/<tdd-skill>/SKILL.md`)
+- Practice strict Red/Green TDD on behaviour changes (see `~/.claude/skills/software-engineer-tdd-discipline/SKILL.md`)
 - Branch from clean `main`; commit on a feature branch
 - Run tests after non-trivial changes
 - Invoke `multi-role-review` before merging anything cross-functional
+- For launches or product-led cross-functional decisions, prefer `product-manager` / `cross-functional-orchestration` — it composes `multi-role-review` with PM framing (customer-job triage + outcomes-shaped synthesis)
 
 ## Never
 
@@ -82,6 +83,20 @@ Full protocol in `<path-to-hornero>/CLAUDE.md`.
 <Anything that bites the agent regularly in this stack. Each line should reference a real past incident, not abstract advice.>
 
 - <e.g., "iOS builds must be packaged (.ipa); do not `cargo tauri ios dev` to a phone — see project memory `feedback_ios_physical_device_deploy.md`">
+
+## Hornero subagents available
+
+If Hornero's `install.sh` has been run, these read-only reviewer subagents are callable by name via the Agent tool (`subagent_type: "<name>"`), pre-loaded with the role's mindset / heuristics / sources:
+
+- `software-engineer-reviewer`
+- `product-manager-reviewer`
+- `designer-reviewer`
+- `tester-reviewer`
+- `security-expert-reviewer`
+- `marketing-expert-reviewer`
+- `data-scientist-reviewer`
+
+The dispatcher will prefer named subagents over generic + explicit role briefs when both are available.
 
 ## Links
 
