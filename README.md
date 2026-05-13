@@ -201,6 +201,34 @@ See `methodology.md` for the full synthesis.
 
 **v0 — under construction.** Six roles (**software-engineer**, **tester**, **designer**, **security-expert**, **marketing-expert**, **product-manager**) have ROLE + sources + first-draft skills. The remaining role (data-scientist) has ROLE.md + sources.md scaffolded; its skills land in a later phase. Cross-role process skills (`spec-the-problem`, `multi-role-review`, `extract-lesson`, `harness-check`, `context-reset-check`) are shipped.
 
+## Roadmap — what's remaining before v1
+
+### Content
+- [ ] **data-scientist role** — 3 component + 1 workflow skill to match the other six roles. Likely candidates: `experiment-design`, `metric-definition`, `analysis-plan`, and a workflow (`pre-launch-measurement-audit` to round out the four-role launch-sibling set).
+- [ ] **product-manager workflow skill** — every other complete role has one; PM has 5 component/interactive skills but no orchestrating workflow. Candidate: `prd-development` or `product-strategy-session` (both already named as forward-references in `roles/product-manager/ROLE.md`).
+- [ ] **First editorial pass** on the 24 shipped skill drafts. Drafts read as drafts; a sweep to tighten examples, prune restatement, and verify every framework citation is precise enough that a reader could trace it to the source page.
+
+### Templates and onboarding
+- [ ] **`templates/CLAUDE.md.template`** review against the shipped roles — currently references some pre-shipped role names.
+- [ ] **`templates/AGENTS.md`** review and confirmation it reflects the current cross-role + role-based skill set.
+- [ ] **`examples/sample-session.md`** refresh — current example was written before the role skills shipped; should now demonstrate a real multi-role-review with engineer + tester + security on a concrete artifact.
+- [ ] **`research/` folder** — currently empty; the plan called for distilled book notes per role. Optional for v1 if `sources.md` is doing enough work.
+
+### Verification (per plan §Verification)
+- [ ] **20-sample eval** of `multi-role-review` against representative tasks; score on source-citation rate, finding distinctness, conflict surfacing, actionability. Target: ≥0.8 mean before declaring v1.
+- [ ] **Clean-install test** — fresh machine, clone, `install.sh`, complete a role critique in <15 min.
+- [ ] **Non-engineer reach** — a designer or marketer reaches productive use in <30 min using `playbooks/onboarding.md` alone.
+
+### Polish
+- [ ] **License** — pick MIT (or similar) and add `LICENSE` file. Currently README says "MIT (forthcoming)."
+- [ ] **`ATTRIBUTION.md` completeness** — review against all skill files; ensure every cited author appears.
+- [ ] **`scripts/catalog.sh`** — referenced in the repo structure but not yet implemented; would produce a printable skill catalogue.
+
+### Open for post-v1
+- Forward-reference skills inside each role (interactive flows like `tour-selector` for tester, `inclusion-walkthrough` for designer, `auth-flow-review` for security). 13 forward-references named across the shipped roles.
+- A Claude Code marketplace plugin distribution path.
+- Publish as `npx hornero init` for one-step setup in any repo.
+
 ## Repo structure
 
 ```
