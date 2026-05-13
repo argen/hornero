@@ -78,14 +78,15 @@ If a test review surfaces concerns in those areas, flag them as "consult <role>"
 
 When invoked to produce, the role generates:
 
-- **Test plans** — risk-driven, mapped to HTSM dimensions. Skill: `test-plan` (phase 2+).
-- **Exploratory test charters** — Hendrickson-style charters with a mission, areas to explore, and a time-box. Skill: `exploratory-charter` (phase 2+).
-- **Property specifications** — for property-based testing in Hypothesis, fast-check, ScalaCheck, etc. Skill: `property-spec` (phase 2+).
-- **Test pyramid audits** — current distribution + recommended rebalance. Skill: `test-distribution` (phase 2+).
-- **Regression triage** — bug analysis + protective test recommendations. Skill: `regression-triage` (phase 2+).
-- **Specifications by example** — example-driven scenarios that double as acceptance tests. Skill: `specification-by-example` (phase 2+).
+- **Test plans** — risk-driven, mapped to HTSM dimensions. Skill: [`test-plan`](skills/test-plan/SKILL.md).
+- **Exploratory test charters** — Hendrickson-style charters with a mission, areas to explore, and a time-box. Skill: [`exploratory-charter`](skills/exploratory-charter/SKILL.md).
+- **Regression tests** — failing tests that reproduce a reported bug and remain as a guard. Skill: [`regression-test`](skills/regression-test/SKILL.md).
+- **Pre-release passes** — risk re-assessment + targeted exploration + suite audit + Go/Hold/No-Go recommendation. Skill: [`pre-release-test-pass`](skills/pre-release-test-pass/SKILL.md).
+- **Property specifications** — for property-based testing in Hypothesis, fast-check, ScalaCheck, etc. Skill: `property-spec` (forward-reference).
+- **Test pyramid audits** — current distribution + recommended rebalance. Skill: `test-distribution` (forward-reference).
+- **Specifications by example** — example-driven scenarios that double as acceptance tests. Skill: `specification-by-example` (forward-reference).
 
-> v0 status: ROLE.md + sources.md only. Producer skills ship in phase 2+.
+> v0 status: 4 skills shipped as first drafts (`test-plan`, `exploratory-charter`, `regression-test`, `pre-release-test-pass`). Forward-references await later phases.
 
 ## Triggers — when to invoke this role
 
@@ -128,19 +129,18 @@ When invoked to produce, the role generates:
 
 ## Skills index
 
-> v0 status: ROLE.md + sources.md only. Skills below ship in phase 2+.
+### Component (artifacts) — shipped (v0 drafts)
+- [`test-plan`](skills/test-plan/SKILL.md) — risk-driven plan mapped to HTSM (Bach/Bolton, Kaner)
+- [`exploratory-charter`](skills/exploratory-charter/SKILL.md) — Hendrickson-style charter with mission, areas, time-box
+- [`regression-test`](skills/regression-test/SKILL.md) — failing test that reproduces a reported bug (Beck, Feathers)
 
-### Component (artifacts)
-- `test-plan` — risk-driven plan mapped to HTSM
-- `exploratory-charter` — Hendrickson-style charter
-- `property-spec` — property-based testing specification
-- `regression-test` — failing test that reproduces a reported bug
+### Workflow (multi-step) — shipped (v0 drafts)
+- [`pre-release-test-pass`](skills/pre-release-test-pass/SKILL.md) — risk assessment + targeted exploration + automated suite review (SBTM, Humble/Farley)
 
-### Interactive (guided flows)
-- `test-strategy-builder` — adaptive flow that asks about risk and produces a plan
-- `tour-selector` — chooses appropriate Hendrickson tours given context
-
-### Workflow (multi-step)
-- `pre-release-test-pass` — risk assessment + targeted exploration + automated suite review
-- `flaky-test-investigation` — flake classification + root-cause workflow
-- `test-distribution-audit` — pyramid/trophy assessment + rebalance plan
+### Forward-references (not yet shipped)
+- `property-spec` (component) — property-based testing specification (Hughes)
+- `specification-by-example` (component) — Adzic-style domain-language scenarios
+- `test-strategy-builder` (interactive) — adaptive flow that asks about risk and produces a plan
+- `tour-selector` (interactive) — chooses appropriate Hendrickson tours given context
+- `flaky-test-investigation` (workflow) — flake classification + root-cause workflow
+- `test-distribution-audit` (workflow) — pyramid/trophy assessment + rebalance plan
