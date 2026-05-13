@@ -5,7 +5,7 @@ intent: |
   A tester-led workflow that consumes the test plan, runs targeted
   exploratory charters against the highest-risk surfaces, audits what
   the automated suite did and did not tell us, and produces an
-  explicit go / hold / no-go recommendation with evidence. The
+  explicit Go / Fix-then-go / Hold recommendation with evidence. The
   workflow exists to resist three release-time failure modes:
   green-pipeline-is-enough, exploratory-as-afterthought, and gut-feel
   sign-off.
@@ -36,7 +36,7 @@ Run a structured pass before a release candidate ships, producing:
 1. **A re-assessed risk inventory** — what we now believe to be true about the release's risk surface, updated from the test plan.
 2. **Exploratory evidence** — one or more charters against the highest-risk surfaces, with notes and bugs.
 3. **An automated-suite readout** — what the suite told us, what it didn't, what's flaky.
-4. **A release-readiness recommendation** — Go / Hold / No-Go with evidence.
+4. **A release-readiness recommendation** — Go / Fix-then-go / Hold with evidence.
 
 A pre-release test pass is not "run the suite and look for red." Suites pass for the wrong reasons; suites miss the bug nobody knew to look for. The pass is the structured human investigation that complements automation at the moment when stakes are highest.
 
@@ -79,7 +79,7 @@ A "green CI run" is necessary, not sufficient. The pass reviews:
 
 ### Recommendation, with evidence
 
-The output of the pass is a single recommendation — Go / Hold / No-Go — supported by the artifacts produced. The tester defends the recommendation, the team can override it (with their reasoning recorded), but the recommendation is the tester's professional output, not a vote-counting exercise.
+The output of the pass is a single recommendation — Go / Fix-then-go / Hold — supported by the artifacts produced. Sibling alignment: `pre-launch-security-audit`, `pre-launch-marketing-audit`, and `pre-launch-measurement-audit` use the same recommendation shape so the PM-orchestrator can compose all four. The tester defends the recommendation; the team can override it (with reasoning recorded); but the recommendation is the tester's professional output, not a vote-counting exercise.
 
 ### Blameless
 
@@ -160,7 +160,7 @@ The lead tester writes a single-page release-readiness recommendation:
 - **Lead tester:** <name>
 - **Date:** <YYYY-MM-DD>
 - **Release candidate:** <SHA / version>
-- **Recommendation:** GO | HOLD | NO-GO
+- **Recommendation:** GO | FIX-THEN-GO | HOLD
 
 ## Summary
 
@@ -221,7 +221,7 @@ The recommendation is circulated; stakeholders can override with their own reaso
 - Warnings: BUG-1301 (KWD rounding direction — wrong, but small audience), BUG-1303/1304 (receipt comms — embarrassing, not revenue).
 - Follow-ups: receipt copy needs automated regression coverage (file as test-plan update); KWD rounding rule needs finance sign-off; promo-flow concurrency needs a property test.
 
-**Step 6 — Recommendation: HOLD.** GO once BUG-1302 + BUG-1305 fix and the suite re-runs green; warnings tracked but not blocking; follow-ups owned by the payments team. Circulated 10:42; head of payments accepts. Re-run cleared at 16:20; release went out Wednesday morning as planned.
+**Step 6 — Recommendation: FIX-THEN-GO.** GO once BUG-1302 + BUG-1305 fix and the suite re-runs green; warnings tracked but not blocking; follow-ups owned by the payments team. Circulated 10:42; head of payments accepts. Re-run cleared at 16:20; release went out Wednesday morning as planned.
 
 Note what this looks like to a stakeholder: a specific recommendation, specific blockers, a clear condition under which the recommendation flips. The tester is not pleading; they are reporting.
 
@@ -274,11 +274,11 @@ Failures: no risk re-assessment; no targeted exploration; no suite readout disci
 
 ### Pitfall 5 — No condition for change
 
-**Symptom:** Recommendation is HOLD; no specific condition under which it flips to GO.
+**Symptom:** Recommendation is FIX-THEN-GO or HOLD; no specific condition under which it flips to GO.
 
 **Consequence:** The pass becomes a blocker without an exit ramp. The team escalates politically rather than fixing.
 
-**Fix:** HOLD recommendations name specific blockers and a flip condition ("GO once BUG-1302 + BUG-1305 are fixed and the suite re-runs green").
+**Fix:** FIX-THEN-GO recommendations name specific blockers and a flip condition ("GO once BUG-1302 + BUG-1305 are fixed and the suite re-runs green"). HOLD recommendations name the deeper issue and what would need to change for FIX-THEN-GO to become available — usually a redesign rather than a fix.
 
 ### Pitfall 6 — Pass theatre
 

@@ -260,8 +260,9 @@ Out of scope: UI presentation of SSO flow (designer); product implications
 - **Anthropic Engineering** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — the source for all eight rules in Key Concepts.
 - **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/) — harness principles; "Spec problems, not solutions" is the foundation of Rule 2.
 - **Related Hornero skills:**
-  - `skills/spec-the-problem/SKILL.md` (phase 3) — runs before multi-role-review to ensure the task itself is well-specified
-  - `skills/extract-lesson/SKILL.md` (phase 3) — runs after, captures recurring delegation mistakes
+  - [`skills/spec-the-problem`](../spec-the-problem/SKILL.md) — runs before multi-role-review to ensure the task itself is well-specified
+  - [`skills/extract-lesson`](../extract-lesson/SKILL.md) — runs after, captures recurring delegation mistakes
+  - [`roles/product-manager/skills/cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — composes this skill with PM framing (customer-job triage + outcomes-shaped synthesis) for cross-functional decisions where the integrating thread is the customer job
 - **All role ROLE.md files** — the delegation references each role's `ROLE.md` + `sources.md`.
 
 ## Skills index entry
