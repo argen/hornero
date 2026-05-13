@@ -34,6 +34,15 @@
 
 ## Role skills
 
+### data-scientist
+
+| Skill | Type | When to invoke |
+|---|---|---|
+| `causal-dag` | component | Use when a team is making a causal claim from observational data — to draw the directed acyclic graph of assumed causes, surface confounders and backdoor paths, and decide which adjustment strategy (or experiment) the claim actually needs. |
+| `experiment-design` | component | Use when a team is designing an A/B test or controlled experiment — to fix the OEC, guardrails, MDE, sample size, randomization unit, SRM check, and stopping rule before traffic is allocated. |
+| `metric-definition` | component | Use when a team is defining a new metric or auditing an existing one — to nail down the one-sentence definition, the unit of analysis, the counter-metric, the gaming surface, and the ownership. |
+| `pre-launch-measurement-audit` | workflow | Use when a launch is approaching cut and the team needs a disciplined data-science pass — metric stack audit, experiment-design check, causal-claim sanity check, instrumentation readiness — producing a Go / Fix-then-go / Hold recommendation. |
+
 ### designer
 
 | Skill | Type | When to invoke |

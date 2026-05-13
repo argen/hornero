@@ -132,19 +132,19 @@ When invoked to produce, the role generates:
 
 ## Skills index
 
-> v0 status: ROLE.md + sources.md only. Skills below ship in phase 3+.
+> v0 status: 3 component + 1 workflow skill shipped as first drafts.
 
-### Component (artifacts)
-- `experiment-design` — hypothesis + MDE + duration + SRM plan
-- `metric-definition` — full metric spec with counter-metric
-- `causal-dag` — Pearl-style diagram
-- `model-evaluation` — baseline + holdout + monitoring plan
-- `llm-eval-spec` — automated + human + adversarial eval
+### Component (artifacts) — shipped (v0 drafts)
+- [`metric-definition`](skills/metric-definition/SKILL.md) — one-sentence definition + counter-metric + gaming surface + owner (Kohavi, Kozyrkov, Goodhart)
+- [`experiment-design`](skills/experiment-design/SKILL.md) — OEC + guardrails + MDE + SRM + pre-registered analysis (Kohavi, Gelman)
+- [`causal-dag`](skills/causal-dag/SKILL.md) — Pearl-style DAG with backdoor analysis and adjustment-set selection (Pearl, Hernán/Robins)
 
-### Interactive (guided flows)
-- `analysis-readout-builder` — adaptive readout structure
-- `metric-counter-metric-pair` — guided pairing flow
+### Workflow (multi-step) — shipped (v0 drafts)
+- [`pre-launch-measurement-audit`](skills/pre-launch-measurement-audit/SKILL.md) — metric stack + experiment + causal claims + instrumentation audit producing Go/Fix-then-go/Hold (sibling to tester/security/marketing pre-launch workflows)
 
-### Workflow (multi-step)
-- `pre-launch-experiment-review` — design + SRM + analysis-plan + readout
-- `model-deployment-audit` — eval + system review + monitoring + rollback plan
+### Forward-references (not yet shipped)
+- `model-evaluation` (component) — baseline + holdout + monitoring plan
+- `llm-eval-spec` (component) — automated + human + adversarial eval
+- `analysis-readout-builder` (interactive) — adaptive readout structure
+- `metric-counter-metric-pair` (interactive) — guided pairing flow
+- `model-deployment-audit` (workflow) — eval + system review + monitoring + rollback plan

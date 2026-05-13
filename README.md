@@ -108,7 +108,7 @@ If the artifact name is ambiguous ("write a plan"), the agent will ask which kin
 
 > "Use the `security-expert` / `threat-model` skill to produce a threat model for ..."
 
-Component and workflow skills currently shipped (25 across six roles): see the [What's in the box](#whats-in-the-box) section below, or the live one-liner index in [`CATALOG.md`](CATALOG.md).
+Component and workflow skills currently shipped (29 across all seven roles): see the [What's in the box](#whats-in-the-box) section below, or the live one-liner index in [`CATALOG.md`](CATALOG.md).
 
 ### 3. Run a cross-role process skill
 
@@ -182,7 +182,7 @@ Adapt them to your project; the values that need editing are marked `<like this>
 
 ## What's in the box
 
-Six of seven role personas have full first-draft skills. Each role's skills follow the same anatomy (Purpose, Key Concepts, Application, Examples, Common Pitfalls, References) and cite from `sources.md` (no LLM-confabulated frameworks — `scripts/validate-skill.sh` enforces this).
+All seven role personas have full first-draft skills. Each role's skills follow the same anatomy (Purpose, Key Concepts, Application, Examples, Common Pitfalls, References) and cite from `sources.md` (no LLM-confabulated frameworks — `scripts/validate-skill.sh` enforces this).
 
 | Role | Component skills | Workflow skill |
 |---|---|---|
@@ -192,7 +192,7 @@ Six of seven role personas have full first-draft skills. Each role's skills foll
 | **security-expert** | `threat-model`, `security-review`, `llm-risk-assessment` | `pre-launch-security-audit` |
 | **marketing-expert** | `positioning-canvas`, `strategic-narrative`, `launch-brief` | `pre-launch-marketing-audit` |
 | **product-manager** | `prd`, `jobs-to-be-done`, `positioning-statement`, `okrs`, `discovery-interview-prep` | `cross-functional-orchestration` |
-| **data-scientist** | scaffolded; skills forthcoming | — |
+| **data-scientist** | `metric-definition`, `experiment-design`, `causal-dag` | `pre-launch-measurement-audit` |
 
 Cross-role skills:
 
@@ -242,7 +242,7 @@ See `methodology.md` for the full synthesis.
 ## Roadmap — what's remaining before v1
 
 ### Content
-- [ ] **data-scientist role** — 3 component + 1 workflow skill to match the other six roles. Likely candidates: `experiment-design`, `metric-definition`, `analysis-plan`, and a workflow (`pre-launch-measurement-audit` to round out the four-role launch-sibling set).
+- [x] **data-scientist role** — shipped: `metric-definition`, `experiment-design`, `causal-dag` (component) + `pre-launch-measurement-audit` (workflow, sibling to tester/security/marketing pre-launch audits). Four roles now ship a `pre-launch-*` workflow that the PM's `cross-functional-orchestration` can compose in parallel for a launch.
 - [x] **product-manager workflow skill** — shipped as [`cross-functional-orchestration`](roles/product-manager/skills/cross-functional-orchestration/SKILL.md). Composes `multi-role-review` with PM framing (customer-job triage in front, outcomes-shaped decision synthesis behind), so the PM can act as the cross-functional orchestrator when the integrating thread is the customer job.
 - [ ] **First editorial pass** on the 24 shipped skill drafts. Drafts read as drafts; a sweep to tighten examples, prune restatement, and verify every framework citation is precise enough that a reader could trace it to the source page.
 
