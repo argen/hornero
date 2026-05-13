@@ -48,17 +48,21 @@ for file in "$@"; do
     fi
   done
 
-  # Non-empty References
-  if awk '/^## References$/,/^## /' "$file" | tail -n +2 | grep -qE '\S'; then
-    :
-  else
+  # Extract content of a named "## " section (between its header and the next "## " header or EOF)
+  section_content() {
+    local sec="$1"; local f="$2"
+    awk -v sec="$sec" '
+      $0 == sec { in_sec = 1; next }
+      in_sec && /^## / { exit }
+      in_sec { print }
+    ' "$f"
+  }
+
+  if ! section_content "## References" "$file" | grep -qE '\S'; then
     echo "  ✗ References section is empty"; FAIL=1
   fi
 
-  # Non-empty Common Pitfalls
-  if awk '/^## Common Pitfalls$/,/^## /' "$file" | tail -n +2 | grep -qE '\S'; then
-    :
-  else
+  if ! section_content "## Common Pitfalls" "$file" | grep -qE '\S'; then
     echo "  ✗ Common Pitfalls section is empty"; FAIL=1
   fi
 
