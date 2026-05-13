@@ -7,6 +7,30 @@
 >
 > Pairs with the team-wide methodology in [Hornero](https://github.com/<your-org>/hornero).
 
+## Role-and-skill dispatcher (Hornero)
+
+Hornero ships roles and skills under `<path-to-hornero>/roles/` and
+`<path-to-hornero>/skills/`, indexed by `<path-to-hornero>/CATALOG.md`.
+
+When a prompt arrives:
+
+1. Scan `<path-to-hornero>/CATALOG.md` — a one-line-per-entry index of every
+   shipped role and skill.
+2. Match the prompt against role triggers and skill `description:`/`scenarios:`
+   frontmatter fields. Explicit naming by the user always wins.
+3. **Declare the choice in one line** before doing the work, e.g.
+   `Adopting `tester` / `regression-test` — prompt names a shipped bug.`
+   The user can redirect with a single word.
+4. Load the chosen `roles/<role>/ROLE.md` and `skills/<skill>/SKILL.md`.
+   Don't load every skill up front.
+5. If two or more roles match strongly, escalate to `skills/multi-role-review`
+   instead of guessing. If nothing matches, say so — don't fabricate a skill.
+
+The dispatcher does NOT fire for trivial edits (typos, renames, formatting)
+or when the user explicitly disables it ("just answer directly").
+
+Full protocol in `<path-to-hornero>/CLAUDE.md`.
+
 ## Project context
 
 <2-3 sentences. Why does this project exist? Who uses it? What's the current focus?>

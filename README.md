@@ -51,32 +51,64 @@ To remove: `./install.sh --uninstall`.
 
 ---
 
+## The dispatcher
+
+You should not have to memorise which role or skill to invoke. Hornero ships a **dispatcher protocol** that matches your prompt against a one-line catalog and adopts the right role + skill for you.
+
+How it works:
+
+1. **`CLAUDE.md` at the repo root** tells Claude to scan **`CATALOG.md`** before responding.
+2. The agent matches your prompt against role triggers and skill descriptions.
+3. **It declares its choice in one line** — your correction point — *before* doing the work.
+4. If two or more roles match strongly, it escalates to `multi-role-review` instead of guessing.
+
+To use it from your own project, copy [`templates/CLAUDE.md.template`](templates/CLAUDE.md.template) (or the dispatcher section of [`CLAUDE.md`](CLAUDE.md)) into your project's `CLAUDE.md`. To use it inside Hornero itself, the dispatcher is already wired up.
+
+You can still invoke roles or skills explicitly when you want to — explicit naming always wins over auto-dispatch.
+
+Regenerate `CATALOG.md` after adding or renaming any role or skill:
+
+```bash
+./scripts/catalog.sh
+```
+
+---
+
 ## How to use
 
-Six concrete patterns. Each one is a prompt you type into Claude Code.
+Six concrete patterns. With the dispatcher in place, most prompts are short — you describe the task, the agent adopts the role.
 
 ### 1. Invoke a single role to review something
 
 Use when you want one expert lens on a piece of work — a diff, a draft, a plan.
 
-> "Adopt the **software-engineer** role from `~/Sites/hornero/roles/software-engineer/ROLE.md` and review my last commit. Walk the broad pass first, then drill into the highest-severity concern. Report findings in ≤200 lines."
+> "Review my last commit as a tester."
 
-Notice:
-- The role file is referenced by path so the agent loads its mindset, heuristics, and anti-patterns.
-- The agent works broad-then-deep, citing named sources from `sources.md`.
-- Out-of-scope concerns get flagged as "consult <other role>" rather than adjudicated.
+or just:
 
-Other roles: `product-manager`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist` (forthcoming).
+> "Review my last commit."
+
+(The dispatcher will score against engineer / tester / security / designer triggers and either pick the strongest or escalate to `multi-role-review`. It declares its choice in one line before starting, so you can redirect with one word.)
+
+To force a specific role:
+
+> "Review my last commit. Use the `software-engineer` role; broad pass then drill into the highest-severity concern; ≤200 lines."
+
+Other roles available: `product-manager`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist` (forthcoming).
 
 ### 2. Invoke a role to produce an artifact
 
 Use when you need a specific deliverable: a PRD, an ADR, a threat model, a positioning canvas, a launch brief, a test plan, etc.
 
-> "Adopt the **security-expert** role and produce a **threat-model** for the new permissions service. Use `~/Sites/hornero/roles/security-expert/skills/threat-model/SKILL.md` as the production guide. Pre-reads: `<RFC link>`, `<DFD link>`."
+> "Produce a threat model for the new permissions service. Pre-reads: `<RFC link>`, `<DFD link>`."
 
-The skill walks the role through its production sequence (e.g., for `threat-model`: scope → DFD → adversaries → STRIDE walk → controls → Shostack's Q4).
+The dispatcher matches "threat model" to the `security-expert` / `threat-model` skill and walks its production sequence (for `threat-model`: scope → DFD → adversaries → STRIDE walk → controls → Shostack's Q4).
 
-Component skills currently shipped (24 across six roles): see the [What's in the box](#whats-in-the-box) section below.
+If the artifact name is ambiguous ("write a plan"), the agent will ask which kind. If you want to force the choice:
+
+> "Use the `security-expert` / `threat-model` skill to produce a threat model for ..."
+
+Component skills currently shipped (24 across six roles): see the [What's in the box](#whats-in-the-box) section below, or the live one-liner index in [`CATALOG.md`](CATALOG.md).
 
 ### 3. Run a cross-role process skill
 
@@ -222,7 +254,7 @@ See `methodology.md` for the full synthesis.
 ### Polish
 - [ ] **License** — pick MIT (or similar) and add `LICENSE` file. Currently README says "MIT (forthcoming)."
 - [ ] **`ATTRIBUTION.md` completeness** — review against all skill files; ensure every cited author appears.
-- [ ] **`scripts/catalog.sh`** — referenced in the repo structure but not yet implemented; would produce a printable skill catalogue.
+- [x] **`scripts/catalog.sh`** — generates `CATALOG.md` from role + skill frontmatter; powers the dispatcher protocol in `CLAUDE.md`.
 
 ### Open for post-v1
 - Forward-reference skills inside each role (interactive flows like `tour-selector` for tester, `inclusion-walkthrough` for designer, `auth-flow-review` for security). 13 forward-references named across the shipped roles.
@@ -232,6 +264,8 @@ See `methodology.md` for the full synthesis.
 ## Repo structure
 
 ```
+CLAUDE.md               # Dispatcher protocol — also the file teams copy/adapt
+CATALOG.md              # Generated one-liner index (powers the dispatcher)
 roles/                  # One folder per role — ROLE.md, sources.md, skills/
 skills/                 # Cross-role process skills (spec-the-problem, extract-lesson, multi-role-review, ...)
 agents/                 # Optional Claude Code subagent wrappers
