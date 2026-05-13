@@ -77,16 +77,14 @@ If a design review surfaces concerns in those areas, flag them as "consult <role
 
 When invoked to produce, the role generates:
 
-- **Heuristic reviews** — structured pass against Nielsen's 10. Skill: `heuristic-review` (phase 2+).
-- **State audits** — empty/loading/error/partial/success inventory for a flow. Skill: `state-audit` (phase 2+).
-- **Accessibility audits** — WCAG conformance + inclusive-design extensions. Skill: `accessibility-audit` (phase 2+).
-- **Personas** — goal-directed personas per Cooper. Skill: `persona` (phase 2+).
-- **Design critiques** — structured critique of a comp or prototype. Skill: `design-critique` (phase 2+).
-- **Design system contributions** — new component proposals against the atomic taxonomy. Skill: `component-proposal` (phase 2+).
+- **Heuristic reviews** — structured pass against Nielsen's 10. Skill: [`heuristic-review`](skills/heuristic-review/SKILL.md).
+- **State audits** — empty/loading/error/partial/success inventory for a flow. Skill: [`state-audit`](skills/state-audit/SKILL.md).
+- **Accessibility audits** — WCAG conformance + inclusive-design extensions. Skill: [`accessibility-audit`](skills/accessibility-audit/SKILL.md).
+- **Design reviews** — multi-step pre-merge / pre-launch design + UX + a11y + platform-capability pass with live exercise. Skill: [`design-review`](skills/design-review/SKILL.md) (workflow; ports `~/.claude/skills/design-review/`).
+- **Personas** — goal-directed personas per Cooper. Skill: `persona` (forward-reference).
+- **Design system contributions** — new component proposals against the atomic taxonomy. Skill: `component-proposal` (forward-reference).
 
-> v0 status: ROLE.md + sources.md only. Producer skills ship in phase 2+.
-
-The existing `~/.claude/skills/design-review/` skill is the seed for `design-critique` and will be ported with frontmatter alignment.
+> v0 status: 4 skills shipped as first drafts (`state-audit`, `accessibility-audit`, `heuristic-review`, `design-review`). Forward-references await later phases.
 
 ## Triggers — when to invoke this role
 
@@ -129,19 +127,16 @@ The existing `~/.claude/skills/design-review/` skill is the seed for `design-cri
 
 ## Skills index
 
-> v0 status: ROLE.md + sources.md only. Skills below ship in phase 2+.
+### Component (artifacts) — shipped (v0 drafts)
+- [`state-audit`](skills/state-audit/SKILL.md) — empty/loading/error/partial/success inventory (Norman, Nielsen heuristic 1)
+- [`accessibility-audit`](skills/accessibility-audit/SKILL.md) — WCAG 2.2 + Kat Holmes inclusive-design audit
+- [`heuristic-review`](skills/heuristic-review/SKILL.md) — Nielsen 10-heuristic pass with severity discipline
 
-### Component (artifacts)
-- `heuristic-review` — Nielsen 10-heuristic pass
-- `accessibility-audit` — WCAG + inclusive-design audit
-- `state-audit` — empty/loading/error/partial/success inventory
-- `persona` — Cooper goal-directed persona
-- `design-critique` — structured critique of a comp/prototype (ports existing `~/.claude/skills/design-review/`)
+### Workflow (multi-step) — shipped (v0 drafts)
+- [`design-review`](skills/design-review/SKILL.md) — pre-merge / pre-launch design + UX + a11y + platform-capability pass with live exercise (ports `~/.claude/skills/design-review/`)
 
-### Interactive (guided flows)
-- `design-review` — adaptive design-critique flow
-- `inclusion-walkthrough` — guided pass for permanent/temporary/situational constraints
-
-### Workflow (multi-step)
-- `pre-launch-design-audit` — heuristic + accessibility + state audit + critique
-- `component-proposal` — new design-system component lifecycle
+### Forward-references (not yet shipped)
+- `persona` (component) — Cooper goal-directed persona
+- `inclusion-walkthrough` (interactive) — guided pass for permanent / temporary / situational constraints
+- `component-proposal` (workflow) — new design-system component lifecycle (Frost / atomic)
+- `pre-launch-design-audit` (workflow) — heuristic + accessibility + state audit + critique orchestrated for higher-stakes launches than design-review covers
