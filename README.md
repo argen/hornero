@@ -249,7 +249,7 @@ See `methodology.md` for the full synthesis.
 ### Templates and onboarding
 - [ ] **`templates/CLAUDE.md.template`** review against the shipped roles — currently references some pre-shipped role names.
 - [ ] **`templates/AGENTS.md`** review and confirmation it reflects the current cross-role + role-based skill set.
-- [ ] **`examples/sample-session.md`** refresh — current example was written before the role skills shipped; should now demonstrate a real multi-role-review with engineer + tester + security on a concrete artifact.
+- [x] **`examples/sample-session.md`** refresh — two annotated sessions: a dispatcher-led 4-role review on a small feature (engineer + tester + designer + PM + data-scientist), and a PM-orchestrated launch composing the four pre-launch sibling workflows in parallel.
 - [ ] **`research/` folder** — currently empty; the plan called for distilled book notes per role. Optional for v1 if `sources.md` is doing enough work.
 
 ### Verification (per plan §Verification)
