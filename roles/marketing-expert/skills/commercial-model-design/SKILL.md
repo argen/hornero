@@ -28,26 +28,21 @@ estimated_time: 4-8 hours (full skill including unit-economics modeling handoff 
 
 Produce the commercial model for a specific segment: the composed system of
 pricing model, packaging, sales motion, expansion mechanics, and the unit
-economics that result from those choices together.
+economics that result.
 
-Commercial model design is larger than pricing. Pricing is one of five
-components; choosing the right price points while getting the sales motion
-wrong (or leaving the expansion mechanic undefined) produces a broken system
-that compounds its problems as it scales. Ramanujam's central claim in
-*Monetizing Innovation* is that most "product failures" are actually commercial
-failures — the product was built without understanding which parts buyers would
-pay for, and the commercial system was never designed to extract that value.
+Commercial model design is larger than pricing — pricing is one of five
+components, and choosing right price points with a wrong sales motion or
+undefined expansion produces a system that breaks at scale. Ramanujam's claim
+in *Monetizing Innovation*: most "product failures" are commercial failures.
 
-Commercial model design is smaller than revenue architecture. The PM's
+Smaller than revenue architecture: the PM's
 [`revenue-architecture`](../../../product-manager/skills/revenue-architecture/SKILL.md)
-skill maps the full product growth system across all segments — funnel,
-activation, retention, expansion, churn — as a connected graph. Commercial
-model design is the per-segment input that feeds into that system: for this
-segment, how does the commercial machine work end-to-end?
+maps the full cross-segment growth graph; commercial model design is the
+per-segment input that feeds it.
 
-The artifact answers: for this segment, which pricing model archetype, which
-packaging logic, which sales motion, which expansion mechanic — and do these
-five components reinforce each other, or does one break the others?
+The artifact answers: for this segment, which pricing archetype, packaging
+logic, sales motion, expansion mechanic — and do the five components reinforce
+each other, or does one break the others?
 
 ## Key Concepts
 
@@ -86,142 +81,108 @@ which is not a commercial model.
 
 ### Pricing model archetypes — when each fits
 
-Ramanujam (*Monetizing Innovation*) frames pricing model choice as a function
-of how buyers perceive value — its cadence, predictability, and distribution
-across the customer base:
+Ramanujam (*Monetizing Innovation*) frames archetype choice by how buyers
+perceive value — cadence, predictability, distribution across the base:
 
-- **Subscription (fixed recurring).** Buyers pay a flat rate per period,
-  typically per-seat or per-account. Fits when value accrues continuously,
-  buyer WTP for predictability is high, and usage is relatively uniform.
-  Strong match for compliance tools, productivity software, communication
-  platforms. Predictable ARR; expansion limited to seat adds unless a second
-  mechanic is layered.
+- **Subscription (fixed recurring).** Flat rate per period, typically per-seat
+  or per-account. Fits when value accrues continuously, WTP for predictability
+  is high, and usage is uniform. Predictable ARR; expansion limited to seat
+  adds unless a second mechanic is layered.
 
-- **Usage-based.** Buyers pay for consumption — API calls, compute hours,
-  data volume, messages sent. Fits when value scales with usage, buyer WTP
-  distribution is wide (small to large customers on the same model), and the
-  unit of usage is clear and measurable. Strong match for infrastructure,
-  observability, data pipelines. Revenue variance is high; expansion is
-  organic; new-customer friction is low. Requires a usage floor or minimum
-  commitment to protect gross margin.
+- **Usage-based.** Pay for consumption (API calls, compute, data volume).
+  Fits when value scales with use, WTP distribution is wide, and the unit is
+  clear and measurable. Strong for infrastructure, observability, data
+  pipelines. High revenue variance; organic expansion; low new-customer
+  friction. Needs a usage floor to protect margin.
 
-- **Outcome-based.** Buyers pay as a function of results delivered — percentage
-  of revenue generated, cost savings achieved, successful transactions processed.
-  Fits when outcomes are measurable, attributable, and large relative to the
-  fee. Highest WTP ceiling; hardest to sell (buyer and seller must agree on
-  what counts); gross margin volatile. More common in services adjacencies than
-  pure SaaS; growing in AI-native products where output value is legible.
+- **Outcome-based.** Pay as a function of results — % of revenue generated,
+  cost savings, successful transactions. Fits when outcomes are measurable,
+  attributable, and large relative to fee. Highest WTP ceiling; hardest to
+  sell (must agree on what counts); margin volatile. Growing in AI-native
+  products where output value is legible.
 
-- **Freemium.** A permanently free tier as the product-led growth engine.
-  Fits when WTP distribution is bimodal (a large segment of zero-WTP users who
-  generate referral and product awareness, and a segment willing to pay for
-  advanced features), free usage has near-zero marginal cost, and the upgrade
-  path is clear. Ramanujam's WTP-distribution test: most B2B products fail
-  this test — the free tier costs real money to serve and the zero-WTP segment
-  does not convert. Freemium because competitors have freemium is a pitfall.
+- **Freemium.** Permanently free tier as PLG engine. Fits when WTP
+  distribution is bimodal and free usage has near-zero marginal cost.
+  Ramanujam's WTP-distribution test: most B2B freemium fails it — free costs
+  real money, zero-WTP doesn't convert. Freemium because competitors have it
+  is a pitfall.
 
-- **Transaction / event-based.** Buyers pay per transaction or event — per
-  document processed, per hire made, per contract signed. Fits when value
-  events are discrete, buyers are episodic or unpredictable in volume, and
-  subscription framing would feel unfair for low-usage periods. Common in
-  workflow automation, legal tech, HR tech.
+- **Transaction / event-based.** Pay per discrete event (per document, per
+  hire, per contract). Fits when value events are discrete, buyer volume is
+  episodic, and subscription framing would feel unfair in low-usage periods.
 
-- **Hybrid.** Platform subscription plus usage-based consumption, or per-seat
-  subscription plus outcome-based uplift. Fits when the product serves both
-  predictable baseline use and variable peak use, or when the base product and
-  an adjacent capability have different value-perception shapes. More complex
-  to sell; forces the buyer to understand two pricing shapes simultaneously.
+- **Hybrid.** Platform subscription + usage, or per-seat + outcome uplift.
+  Fits dual-shape value (predictable baseline + variable peak). More complex
+  to sell; the buyer must understand two pricing shapes at once.
 
 ### Packaging logic — four gating strategies
 
-Packaging is the decision of which features go in which tier and what triggers
-the upgrade. Each gating strategy carries positioning implications (Dunford):
+Which features per tier; what triggers upgrade. Each strategy carries
+positioning implications (Dunford):
 
-- **Usage-volume gating.** Tiers defined by how much of the core product the
-  buyer can consume — API calls, seats, storage, records. Signals that the
-  product's core value scales with use; upsell is natural expansion. Risk:
-  usage limits can feel punitive; buyers plan around them rather than through
-  them.
+- **Usage-volume gating.** Tiers by consumption (API calls, seats, storage).
+  Upsell as natural expansion. Risk: limits can feel punitive; buyers plan
+  around them.
 
-- **Feature gating.** Tiers defined by which capabilities are accessible —
-  SSO, audit logs, advanced analytics, custom integrations. The lower tier
-  establishes value; the upper tier serves the whole-product requirements of
-  the early-majority buyer (Moore). Risk: the gated features must be genuinely
-  valued by the upgrade segment; gating features the buyer considers table
-  stakes creates resentment.
+- **Feature gating.** Tiers by capability (SSO, audit logs, advanced
+  analytics). Upper tier serves early-majority whole-product needs (Moore).
+  Risk: gating buyer-table-stakes features creates resentment.
 
-- **Support-tier gating.** Tiers defined by SLA, response time, dedicated CSM,
-  implementation support. Common in enterprise packaging. Signals that the
-  upper tier is for high-dependency buyers. Risk: if support costs are not
-  modeled, the enterprise tier subsidizes cost rather than creating margin.
+- **Support-tier gating.** Tiers by SLA / response time / dedicated CSM /
+  implementation. Common in enterprise. Risk: unmodeled support cost makes
+  the enterprise tier subsidize cost rather than create margin.
 
-- **Integration gating.** Tiers defined by which ecosystem integrations are
-  available — data warehouse connectors, HRIS integrations, SFDC native sync.
-  Signals that the upper tier is for operationally mature buyers. Strong in
-  data infrastructure products where integration depth is the whole-product
-  requirement.
+- **Integration gating.** Tiers by ecosystem depth (data-warehouse connectors,
+  HRIS, SFDC native). Strong in data infrastructure where integration depth
+  is the whole product.
 
 ### Sales motion taxonomy and Moore's adoption-lifecycle mapping
 
-Sales motion choice is segment-specific. Geoffrey Moore (*Crossing the Chasm*)
-maps buyer adoption phase to how buyers evaluate risk and require assurance:
+Sales motion is segment-specific. Moore (*Crossing the Chasm*) maps buyer
+adoption phase to how buyers evaluate risk:
 
-- **Self-serve / product-led growth.** Buyer discovers, evaluates, and purchases
-  without sales contact. Fits low-ACV products ($0-$5K), technically sophisticated
-  buyers who prefer self-discovery, and early-adopter segments where novelty is
-  an attraction. Gross margin friendly; scales without headcount.
+- **Self-serve / PLG.** No sales contact. Fits <$5K ACV, technically
+  sophisticated buyers, early-adopter segments. Margin-friendly; scales without
+  headcount.
 
-- **Inside-sales (inbound + outbound SDR + AE).** Discovery and close via
-  structured telephone and video process; no in-person. Fits $10K-$200K ACV,
-  buyers who require demos and procurement support but not executive-level
-  engagement. The dominant motion for early-majority B2B SaaS. Moore: the
-  early majority needs reference stories and risk reduction; inside-sales can
-  deliver these without field economics.
+- **Inside-sales (inbound + outbound SDR + AE).** Phone/video, no in-person.
+  Fits $10K–$200K ACV — the dominant motion for early-majority B2B SaaS.
+  Moore: pragmatists need reference stories and risk reduction; inside-sales
+  can deliver these without field economics.
 
-- **Field-sales (enterprise AE + SE + executive sponsor).** In-person, multi-
-  stakeholder, long-cycle. Fits $150K+ ACV, procurement committees, legal and
-  security review, multi-year contracts. Required when the buyer's risk profile
-  demands executive assurance. Cost-to-acquire is high; deal economics must
-  support it. Moore: late majority and some early majority in highly regulated
-  industries; the buyer wants to see evidence the vendor will be around.
+- **Field-sales (enterprise AE + SE + sponsor).** In-person, multi-stakeholder,
+  long-cycle. Fits $150K+ ACV, procurement committees, multi-year contracts.
+  Required when the buyer demands executive assurance; deal economics must
+  support the cost.
 
-- **Partner-led / channel.** Distribution via VARs, system integrators, ISV
-  marketplace. Fits when the buyer already trusts a channel partner's
-  recommendation, when international expansion requires local relationships,
-  or when the product plugs into a platform the partner already owns. Gross
-  margin shared; leverage high if the channel is activated. Notoriously hard
-  to activate in practice.
+- **Partner-led / channel.** VARs, SIs, ISV marketplace. Fits when buyers
+  already trust a channel partner, international expansion needs local
+  relationships, or the product plugs into a partner's platform. Margin
+  shared; notoriously hard to activate.
 
-- **Community-led.** Word-of-mouth and organic champion activation within a
-  practitioner community — developer communities, finance communities, HR
-  communities. Fits early-adopter segments in dense professional communities.
-  Not a substitute for a sales motion; a pipeline accelerant layered onto one.
+- **Community-led.** Practitioner-community word-of-mouth. A pipeline
+  accelerant on top of a sales motion, not a substitute for one.
 
 ### Expansion mechanics — four types
 
-Expansion is where B2B SaaS unit economics are made or broken. Net dollar
-retention above 110% means the installed base grows without new acquisition;
-below 100% means churn exceeds expansion and the company leaks value at scale:
+Where B2B SaaS unit economics are made or broken. NDR >110% = base grows
+without new acquisition; NDR <100% = churn exceeds expansion and the company
+leaks at scale.
 
-- **Seat expansion.** Revenue grows as buyer adds users. Predictable; buyer
-  controls it; aligns incentive (more users = more value delivered). Works
-  when the product is genuinely used across a growing team. Ceiling: the
-  buyer's organization size.
+- **Seat expansion.** Revenue grows with users added. Predictable; ceiling is
+  organization size. Aligns incentive (more users = more value delivered).
 
-- **Usage expansion.** Revenue grows as the buyer does more with the product.
-  Organic in usage-based pricing; requires intentional triggers in subscription
-  models. No ceiling in principle; volatile in downturns (buyers cut usage
-  before cutting seats). Strong gross-margin profile if marginal costs are
-  low at scale.
+- **Usage expansion.** Revenue grows as the buyer does more. Organic in
+  usage-based pricing; needs intentional triggers in subscription models. No
+  ceiling in principle; volatile in downturns (buyers cut usage before seats).
 
-- **Module expansion.** Revenue grows as buyer adopts additional product lines
-  within the same vendor. Requires a product portfolio; the land product opens
-  the door; subsequent modules cross-sell. Depends on buyer trust and on the
-  portfolio being genuinely complementary.
+- **Module expansion.** Adoption of additional product lines from the same
+  vendor. Requires a portfolio; land product opens the door; cross-sell
+  follows.
 
-- **Multi-product expansion.** Revenue grows via a platform model — the product
-  becomes infrastructure and third-party applications or partner add-ons expand
-  its value. Long lead time; high LTV ceiling; requires platform investment.
+- **Multi-product expansion.** Platform model — third-party apps / partner
+  add-ons expand value. Long lead time; high LTV ceiling; platform investment
+  required.
 
 ### Unit economics primitives
 
@@ -513,33 +474,22 @@ assumption with no historical data; validate in the first two quarters.
 mid-market firms (10-49 partners). Two distinct commercial models are under
 consideration; this example shows how the design process surfaces the refusal.
 
-**The pricing model debate:** The team is considering three options: (a) per-seat
-subscription, (b) usage-based billing per document processed, (c) outcome-based
-billing as a percentage of matter revenue where the product accelerates matter
-close.
+**Pricing model debate:** Three options on the table — per-seat subscription,
+usage-based per document, outcome-based as % of matter revenue. Ramanujam WTP-
+distribution test against the managing-partner buyer profile:
 
-Running the Ramanujam WTP-distribution test for each option against the buyer
-profile (managing partner at a 20-partner firm):
+- *Per-seat subscription.* WTP for cost predictability is high — legal firms
+  budget annually; variable costs complicate partner compensation. Subscription
+  matches the buyer's financial operating model.
+- *Usage-based.* Creates variance the buyer explicitly rejects ("I need to know
+  what this costs at the start of the year"). Fails the WTP test. The team was
+  attracted because usage-based is the current SaaS-architecture default —
+  pricing's version of "freemium because everyone has freemium."
+- *Outcome-based.* Attributing matter revenue to software is contested; partners
+  don't accept external attribution of their origination. Rules out.
 
-- *Per-seat subscription.* The managing partner's WTP for *cost predictability*
-  is high. Legal firms budget annually; variable costs create accounting complexity
-  and partner-compensation complications. Subscription matches the buyer's financial
-  operating model.
-- *Usage-based.* Usage-based billing creates variance in the cost center. The buyer
-  explicitly said in discovery: "I need to know what this costs at the start of the
-  year." Usage-based fails the WTP test for this buyer profile. The team had been
-  attracted to usage-based because it is the current architectural default in SaaS
-  tooling — this is the "freemium because everyone has freemium" failure mode applied
-  to pricing architecture. The WTP evidence rules it out.
-- *Outcome-based.* Attributing matter revenue to a software tool is contested in
-  legal; partners do not accept external attribution of their origination. Outcome-
-  based billing would require agreement on a methodology the buyer will not sign.
-  Rules out for this segment.
-
-**Decision: per-seat subscription.** Not because subscription is the default, but
-because WTP-distribution evidence rules out the alternatives for this specific buyer.
-The refusal is load-bearing: a team that adopted usage-based billing for this segment
-because it is architecturally fashionable would have built a broken commercial model.
+**Decision: per-seat subscription** — not as the default, but because WTP
+evidence rules out the alternatives. The refusal is load-bearing.
 
 **Packaging (feature gating by firm tier):**
 - *Solo / small* (<10 partners): Core matter management + document automation.

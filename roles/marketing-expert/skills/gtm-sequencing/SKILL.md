@@ -34,77 +34,53 @@ sequence of adjacent segments to attack after the beachhead is won, and — equa
 — the segments that are deliberately deferred and why.
 
 Listing the segments you could pursue is not strategy. Naming the order, with explicit
-reasoning and observable transition triggers, is. Most B2B product teams fail not because
-they lacked segment options but because they tried to pursue too many simultaneously, ran
-out of resource before achieving escape velocity in any of them, and crossed a chasm they
-didn't see coming.
+reasoning and observable transition triggers, is. Moore's chasm — the gap between early
+adopters who buy on vision and the early majority who buy on proven references — halts
+most products permanently; the beachhead is the segment where you win enough to build
+the reference base that carries you across.
 
-Geoffrey Moore (*Crossing the Chasm*) identified the structural break: the gap between early
-adopters (who buy on vision and tolerance for incomplete solutions) and the early majority
-(who buy on proven reference accounts and complete solutions) is wide enough to halt most
-technology products permanently. The beachhead is the specific segment where you win enough
-to build the reference base that carries you across.
-
-**Cross-role link.** The positioning-canvas skill (`roles/marketing-expert/skills/positioning-canvas/SKILL.md`)
-produces the "who-cares-most" segment — this is the first candidate beachhead. The PM's
-bet-portfolio (`roles/product-manager/skills/bet-portfolio/SKILL.md`) frames which
-job-to-be-done is the current company bet. GTM sequencing sits between them: it takes those
-inputs and converts them into a sequenced, criteria-verified, time-bound GTM plan.
+**Cross-role link.** [`positioning-canvas`](../positioning-canvas/SKILL.md) produces the
+"who-cares-most" segment (first beachhead candidate); the PM's
+[`bet-portfolio`](../../../product-manager/skills/bet-portfolio/SKILL.md) frames the
+current company bet. GTM sequencing converts those inputs into a sequenced,
+criteria-verified, time-bound plan.
 
 ## Key Concepts
 
 ### The technology-adoption lifecycle
 
-Moore's technology-adoption lifecycle (derived from Everett Rogers's diffusion research)
-divides a market into five distinct populations, each with different buying motivations:
+Moore's lifecycle (from Rogers's diffusion research) divides the market into five
+populations with distinct buying motivations:
 
-- **Innovators** (~2.5% of the market). Buy technology for its own sake; tolerate
-  incompleteness and bugs; are motivated by novelty and the chance to influence the product.
-  They are not a beachhead — they don't buy the way the early majority buys, and their
-  reference accounts don't move pragmatists.
-- **Early adopters** (~13.5%). Buy on vision: they can see how a disruptive capability
-  solves a strategic problem and are willing to assemble the missing pieces themselves. They
-  are relationship-driven, not reference-driven. Their reference accounts influence other
-  early adopters, not the mainstream.
-- **Early majority / pragmatists** (~34%). Buy on proof. They need reference accounts from
-  companies like theirs, complete solutions (integrations, support, certifications), and low
-  personal risk. They follow each other, not early adopters. This is the mass market.
-- **Late majority / conservatives** (~34%). Buy on price and simplicity. They want
-  commodity-safe choices — the industry standard. They follow the early majority.
-- **Laggards** (~16%). Buy only when there is no alternative; often forced by compliance
-  or end-of-life of the prior solution.
+- **Innovators** (~2.5%). Buy tech for its own sake; tolerate incompleteness. Not a
+  beachhead — they don't buy the way the early majority buys.
+- **Early adopters** (~13.5%). Buy on vision; assemble missing pieces themselves.
+  Relationship-driven; their references influence other early adopters, not pragmatists.
+- **Early majority / pragmatists** (~34%). Buy on proof. Require peer references,
+  complete solutions, low personal risk. The mass market.
+- **Late majority / conservatives** (~34%). Buy on price and commodity-safety.
+- **Laggards** (~16%). Buy only when forced (compliance, end-of-life).
 
 **The chasm** is the gap between early adopters and the early majority. Early adopters
-tolerate a visionary incomplete solution; pragmatists will not act without a complete
-solution and peer references. A product that has sold well to early adopters does not
-automatically sell to pragmatists. This is the failure mode Moore documents extensively:
-the product appears to be growing, early-adopter revenue looks encouraging, and then growth
-stalls because pragmatists won't buy without references from people like themselves.
+tolerate visionary incomplete solutions; pragmatists won't act without complete ones
+and peer references. Early-adopter revenue looks encouraging, then growth stalls
+because pragmatists don't follow innovators — they follow each other.
 
 ### The bowling-alley pattern
 
-Moore (*Inside the Tornado*, 1995): the pragmatist market is not one undifferentiated mass.
-It is composed of vertical segment niches, each with its own reference networks. Pragmatists
-in one vertical follow each other; they don't follow pragmatists in adjacent verticals.
+Moore (*Inside the Tornado*, 1995): the pragmatist market is composed of vertical niches
+with separate reference networks. Win one segment fully (the lead pin); use its references
+and product completeness to topple the next.
 
-The bowling-alley pattern: win one segment completely (the lead pin), then use that segment's
-references and product completeness as the force to topple the next pin, and so on. Each
-successive segment is easier than starting cold because the prior win gives you reference
-accounts, a complete-product blueprint, and sales-cycle velocity.
+Shape: **beachhead → bowling-alley → tornado → Main Street**.
 
-The shape: **beachhead segment → bowling-alley sequence → tornado (mainstream acceleration)**
-→ **Main Street (commodity)**.
-
-- **Beachhead:** One specific segment, fully won. Revenue may be modest. The win matters
-  because it produces the reference accounts and product completeness that pragmatists in
-  adjacent segments require.
-- **Bowling alley:** Sequential segment expansion. Each segment selected because the
-  prior segment's wins are credible there. Not simultaneous expansion — sequential.
-- **Tornado:** When the product category tips into mainstream adoption, the constraint
-  becomes distribution, not segment fit. Broad-reach marketing (Sharp) becomes affordable
-  and effective. Mass market.
-- **Main Street:** Market maturity, commoditization pressure, pricing erosion. Not GTM
-  sequencing territory — that is product and pricing strategy.
+- **Beachhead:** One segment fully won. Revenue may be modest; the win matters because
+  it produces references and product completeness adjacent pragmatists require.
+- **Bowling alley:** Sequential segment expansion. Each next segment selected because the
+  prior win is credible there. Not simultaneous.
+- **Tornado:** Category tips into mainstream; constraint becomes distribution, not segment
+  fit. Broad-reach marketing (Sharp) now pays.
+- **Main Street:** Maturity / commoditization. Not sequencing territory.
 
 ### The whole product requirement
 
@@ -152,68 +128,46 @@ beachhead selection. A viable beachhead segment must satisfy all six:
 
 ### Slootman on commercial velocity at the beachhead
 
-Frank Slootman (*Amp It Up*, 2022) adds the operator's discipline: segment selection is not
-just about fit — it is about the commercial velocity the segment enables. A beachhead that
-fits Aulet's criteria but produces a 12-month sales cycle, high churn, and low expansion
-revenue is a poor beachhead even if it's technically winnable.
+Frank Slootman (*Amp It Up*, 2022): segment selection isn't just fit — it's the commercial
+velocity the segment enables. A beachhead with 12-month cycles, high churn, and low
+expansion is a poor beachhead even if technically winnable. The beachhead should produce
+**land-and-expand economics**: modest initial ACV, but expansion from the beachhead base
+adds material revenue before the second-segment attack.
 
-Slootman's frame: the beachhead should produce **land-and-expand economics**. Initial ACV
-may be modest; expansion from the beachhead customer base (more seats, more modules, more
-use cases within the same account) should add material revenue before you need to attack
-the second segment.
-
-The "sales-led vs. marketing-led GTM" debate (common at Series A) is, per Slootman, a false
-dichotomy during the beachhead phase. Both are required in sequence: sales-led to win the
-first reference accounts and learn the segment's buying process; marketing-led to scale
-distribution once the sales playbook is proven. Attempting marketing-led scale before the
-sales playbook exists wastes budget. Staying sales-led after the playbook exists leaves
-growth on the table.
+The "sales-led vs. marketing-led" debate is a false dichotomy in the beachhead phase. Both
+in sequence: sales-led to win first references and learn the buying process; marketing-led
+to scale distribution once the playbook is proven. Marketing-led before the playbook exists
+wastes budget; staying sales-led after leaves growth on the table.
 
 ### Sharp on mental availability and the timing of broad reach
 
-Byron Sharp (*How Brands Grow*, 2010): brand growth comes from penetration (reaching more
-buyers in the category) rather than from loyalty (extracting more from existing buyers).
-Mental availability — being thought of in buying situations by the widest possible set of
-category buyers — is built through reach, frequency, and consistent distinctive assets over
-time.
+Byron Sharp (*How Brands Grow*, 2010): growth comes from penetration, not loyalty. Mental
+availability — being thought of in buying situations — is built through reach and
+consistent distinctive assets over time.
 
-In GTM sequencing terms: broad-reach mental availability investment is the right move when
-the product is in tornado or early Main Street phase — you can afford to reach the full
-category, and the category is large enough that diffuse reach pays off. During the
-beachhead and bowling-alley phases, broad-reach spend is too expensive and too slow per
-sale. The constraint is reference-account density within specific segments, not share of
-voice across the category. Sharp's prescription is for later-stage GTM; forcing it during
-the beachhead phase is a common cash-burn mistake.
+In sequencing terms: broad-reach is right in tornado / Main Street, when the category is
+large enough that diffuse reach pays off. During beachhead and bowling-alley, the
+constraint is reference-account density within specific segments, not share of voice across
+the category. Forcing broad-reach early is a common cash-burn mistake.
 
 ### The second segment is harder than the first
 
-First-segment lessons transfer less than teams expect. Three structural reasons:
+First-segment lessons transfer less than teams expect:
 
-- **Whole product changes.** The second segment's pragmatists have a different integration
-  stack, a different compliance profile, and a different support model. The whole product
-  built for segment one is usually incomplete for segment two.
-- **Reference accounts don't transfer.** Pragmatists check references from their peers.
-  A reference from a segment-one company does not carry weight with a segment-two buyer.
-- **Sales motion changes.** The buyer persona, the economic decision-maker, the objection
-  set, and the success criteria often differ between segments. The sales playbook must be
-  rebuilt, not reused.
+- **Whole product changes.** Different integration stack, compliance profile, support model.
+- **Reference accounts don't transfer.** Pragmatists check peer references, and peers are
+  segment-bounded.
+- **Sales motion changes.** Buyer persona, economic decision-maker, objections, success
+  criteria often differ.
 
-Acknowledging this in advance — budgeting for a second beachhead investment, not just an
-"expansion" — is the difference between a sequencing plan that survives contact with reality
-and one that doesn't.
+Budget for a second beachhead investment, not an "expansion" of the first.
 
 ### Three distinct GTM postures
 
-The skill produces plans in one of three postures, at different lifecycle stages:
-
-1. **Beachhead phase.** One segment, fully won. Sales-led; whole-product investment;
-   reference-account density. Metric: full segment penetration and net-dollar retention,
-   not pipeline volume.
-2. **Bowling-alley phase.** Sequential segment expansion. Playbook transfer where it works,
-   rebuild where it doesn't. The beachhead references do the selling into the next segment.
-3. **Broad-market launch (tornado / Main Street).** Broad-reach marketing becomes the
-   right move. Distribution, channel partnerships, physical availability. Sharp's mental
-   availability model applies. This posture is premature before the bowling alley is won.
+1. **Beachhead phase.** One segment, sales-led, reference-density metric.
+2. **Bowling-alley phase.** Sequential expansion; rebuild what doesn't transfer.
+3. **Broad-market (tornado / Main Street).** Broad-reach marketing; premature before the
+   bowling alley is won.
 
 ## Application
 
