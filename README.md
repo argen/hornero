@@ -22,6 +22,8 @@
 
 ## Quick Start
 
+> **Not a developer?** [`playbooks/non-engineer-quickstart.md`](playbooks/non-engineer-quickstart.md) is a friendlier on-ramp for designers, PMs, marketers, and data scientists — same 30-minute window, with examples that match your work.
+
 Clone the repo and open it with your AI coding tool of choice. No installer required.
 
 ```bash
@@ -51,7 +53,7 @@ For launches, contested decisions, and any cross-functional work — invoke the 
 /orchestrate Plan the LedgerStack v2 launch — is it ready?
 ```
 
-Under the hood: `cross-functional-orchestration` skill → `multi-role-review` → parallel dispatch of (typically) tester, security-expert, marketing-expert, data-scientist running their `pre-launch-*` sibling workflows → PM-shaped synthesis (outcomes, success criteria, alternative considered, revisit condition).
+What you get back is a *product decision* — outcomes, success criteria, the alternative the PM considered, the revisit condition — not a pile of role reports. The PM picks the expert lenses the work actually needs, runs them in parallel, and synthesises into a single launch-readiness recommendation. ([Inside view of how that works.](roles/product-manager/skills/cross-functional-orchestration/SKILL.md))
 
 ### Run a multi-role review directly
 
@@ -85,9 +87,13 @@ For reviewer tasks, this spawns the role's reviewer subagent. For producer tasks
 
 Slash commands are shortcuts, not the only way in. The dispatcher in [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) matches plain prompts against role triggers and skill descriptions, then **declares its choice in one line** before starting:
 
-> "Review my last commit." → *Adopting `software-engineer` / reviewer mode — broad pass then deepest concern; ≤200 lines.*
+> "Critique my homepage hero — is the positioning sharp or generic?" → *Adopting `marketing-expert` / reviewer mode — artifact is copy with a positioning claim; broad pass first.*
 
-You can redirect with one word.
+> "Run a heuristic review on this checkout screen." → *Adopting `designer` / `heuristic-review` — Nielsen heuristics broad pass, then severity-rank the top three.*
+
+> "Review my last commit. ≤200 lines." → *Adopting `software-engineer` / reviewer mode — broad pass then deepest concern.*
+
+You can redirect with one word ("designer instead", "marketing instead").
 
 ---
 
@@ -129,6 +135,7 @@ Values that need editing are marked `<like this>`.
 
 - [`methodology.md`](methodology.md) — the two-layer synthesis: harness compounding (Chris MDP) + multi-agent orchestration (Anthropic's research system).
 - [`playbooks/onboarding.md`](playbooks/onboarding.md) — 30-minute hands-on walkthrough.
+- [`playbooks/non-engineer-quickstart.md`](playbooks/non-engineer-quickstart.md) — same goal, friendlier on-ramp for designers, PMs, marketers, data scientists.
 - [`playbooks/role-cheatsheet.md`](playbooks/role-cheatsheet.md) — 1-page quick reference: when to invoke each role.
 - [`playbooks/orchestration-heuristics.md`](playbooks/orchestration-heuristics.md) — when to invoke 1 vs 4 vs 7 roles; parallel vs sequential dispatch.
 - [`playbooks/multi-role-review.md`](playbooks/multi-role-review.md) — plain-language companion to the skill.
