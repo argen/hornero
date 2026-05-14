@@ -21,13 +21,13 @@ If you're an agent about to adopt the software-engineer role on a non-trivial ta
 | John Ousterhout | ✓ [`ousterhout-philosophy-of-software-design.md`](ousterhout-philosophy-of-software-design.md) | `rfc`, `adr`, design discussions in reviews |
 | Sandi Metz | ✓ [`metz-wrong-abstraction.md`](metz-wrong-abstraction.md) | `refactor-plan`, code-review |
 | Google SRE | ✓ [`google-sre-book.md`](google-sre-book.md) | reliability discussions in reviews |
-| Fred Brooks | — | estimation, scope-negotiation |
-| Eric Evans | — | `rfc`, domain-modeling |
-| Will Larson | — | `rfc`, engineering-strategy |
-| Tanya Reilly | — | `rfc`, design-doc craft |
-| Gergely Orosz | — | engineering-practice |
+| Fred Brooks | ✓ [`brooks-mythical-man-month.md`](brooks-mythical-man-month.md) | `adr`, `rfc`, estimation, scope-negotiation |
+| Eric Evans | ✓ [`evans-domain-driven-design.md`](evans-domain-driven-design.md) | `rfc`, `adr`, `refactor-plan`, domain-modeling |
+| Will Larson | ✓ [`larson-engineering-strategy.md`](larson-engineering-strategy.md) | `rfc`, engineering-strategy |
+| Tanya Reilly | ✓ [`reilly-staff-engineers-path.md`](reilly-staff-engineers-path.md) | `rfc`, design-doc craft |
+| Gergely Orosz | ✓ [`orosz-pragmatic-engineer.md`](orosz-pragmatic-engineer.md) | engineering-practice, calibration |
 
-The 5 unstarted notes (Brooks, Evans, Larson, Reilly, Orosz) will follow when an active task requires the methodology to draw on them more heavily.
+All 10 anchor notes are now shipped. The software-engineer role has full first-pass coverage of its bibliography.
 
 ## See also
 

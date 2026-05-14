@@ -4,7 +4,7 @@ Per-role distilled notes from the anchor works in each role's `sources.md`. The 
 
 These notes are **not** a replacement for the source works — they're a working memory for the methodology. If a teammate hasn't read Beck or Fowler, the note tells them what's load-bearing in the role's skills and where to go deep next.
 
-> **Status:** seed shipped + first follow-on round (v0.7). Software-engineer has 5 of its 10 anchor notes. The other 6 roles now each have *two* shipped notes: the top-priority anchor (Cagan, Norman, Bach/Bolton, Shostack, Dunford, Kohavi) plus the role's #2-priority anchor (Torres for PM, Nielsen for designer, Hendrickson for tester, OWASP for security, Sharp for marketing, Pearl for data-scientist). Two notes per non-engineer role is the v0.7 readiness bar: enough to demonstrate the cross-role critique frames each role brings to a `multi-role-review`. Remaining notes per role follow when active work warrants them; the structure is the point, coverage compounds.
+> **Status:** v1 coverage shipped (v0.9). All seven roles now have a note for **every anchor** in their `sources.md` main list. The notes range from 35-48 lines each, follow the eight-section format below, and cross-reference each role's actual SKILL.md files (relative-path links). See-also entries in each `sources.md` are not anchored at note-depth — those follow when active work warrants them.
 
 ## Structure
 
@@ -63,12 +63,12 @@ Each note follows this shape:
 
 | Role | Notes shipped | Anchors total |
 |---|---|---|
-| software-engineer | 5 | 10 |
-| product-manager | 2 | 11 |
-| designer | 2 | 11 |
-| tester | 2 | 10 |
-| security-expert | 2 | 10 |
-| data-scientist | 2 | 10 |
-| marketing-expert | 2 | 10 |
+| software-engineer | 10 | 10 |
+| product-manager | 11 | 11 |
+| designer | 11 | 11 |
+| tester | 10 | 10 |
+| security-expert | 10 | 10 |
+| data-scientist | 10 | 10 |
+| marketing-expert | 10 | 10 |
 
 Each role's README links to its shipped notes and lists what's outstanding.
