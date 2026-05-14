@@ -35,8 +35,9 @@ When a prompt arrives:
 The dispatcher does NOT fire for trivial edits (typos, renames, formatting)
 or when the user explicitly disables it ("just answer directly").
 
-Full protocol in `<path-to-hornero>/CLAUDE.md` (or `<path-to-hornero>/AGENTS.md`
-for Codex projects — the two stay in sync).
+Full protocol in `<path-to-hornero>/DISPATCHER.md` — host-agnostic, loaded
+on demand by both Claude Code (`<path-to-hornero>/CLAUDE.md`) and Codex
+(`<path-to-hornero>/AGENTS.md`).
 
 ## Project context
 
