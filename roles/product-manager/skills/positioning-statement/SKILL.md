@@ -191,6 +191,6 @@ This positioning is also doing strategic work: it explicitly *narrows* the audie
 - **Bob Moesta** — JTBD-driven understanding of the customer for the "who" slot.
 - **Andy Raskin** — strategic narrative; positioning feeds the narrative's "promised land" beat.
 - **Related Hornero skills:**
-  - `roles/product-manager/skills/jobs-to-be-done/SKILL.md` — JTBD identifies the customer and the alternatives that feed positioning.
-  - `roles/marketing-expert/skills/positioning-canvas/SKILL.md` (phase 4+) — Dunford-style positioning canvas as a more detailed cousin.
-  - `roles/marketing-expert/skills/strategic-narrative/SKILL.md` (phase 4+) — uses positioning as input.
+  - [`jobs-to-be-done`](../jobs-to-be-done/SKILL.md) — JTBD identifies the customer and the alternatives that feed positioning.
+  - [`roles/marketing-expert/skills/positioning-canvas`](../../../marketing-expert/skills/positioning-canvas/SKILL.md) — Dunford-style positioning canvas as a more detailed cousin.
+  - [`roles/marketing-expert/skills/strategic-narrative`](../../../marketing-expert/skills/strategic-narrative/SKILL.md) — uses positioning as input.

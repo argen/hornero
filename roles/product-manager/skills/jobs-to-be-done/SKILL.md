@@ -216,6 +216,7 @@ This JTBD changes no downstream decision. It's vanity. Reject and re-do.
 - **Tony Ulwick** — *What Customers Want*; Outcome-Driven Innovation (more quantitative cousin of JTBD).
 - **Joanna Wiebe** — voice-of-customer mining methodology (see marketing-expert role).
 - **Related Hornero skills:**
-  - `roles/product-manager/skills/prd/SKILL.md` — JTBD feeds the PRD's Problem section.
-  - `roles/product-manager/skills/positioning-statement/SKILL.md` — JTBD feeds positioning's "for [target] who [need]" line.
-  - `roles/marketing-expert/skills/positioning-canvas/SKILL.md` (phase 4+) — JTBD's "competitive alternatives" feeds the positioning canvas.
+  - [`prd`](../prd/SKILL.md) — JTBD feeds the PRD's Problem section.
+  - [`positioning-statement`](../positioning-statement/SKILL.md) — JTBD feeds positioning's "for [target] who [need]" line.
+  - [`roles/marketing-expert/skills/positioning-canvas`](../../../marketing-expert/skills/positioning-canvas/SKILL.md) — JTBD's "competitive alternatives" feeds the positioning canvas.
+  - [`roles/product-manager/skills/cross-functional-orchestration`](../cross-functional-orchestration/SKILL.md) — the PM-orchestrator's Step 1 frames the customer job using this skill's vocabulary.

@@ -81,7 +81,13 @@ confirm_overwrite() {
   local target="$1"
   [[ ! -e "$target" ]] && return 0
   [[ $FORCE -eq 1 ]] && return 0
-  read -r -p "  Overwrite ${target}? [y/N] " ans </dev/tty
+  [[ $DRY_RUN -eq 1 ]] && return 0  # dry-run simulates yes; never prompts
+  local ans=""
+  if ! read -r -p "  Overwrite ${target}? [y/N] " ans </dev/tty 2>/dev/null; then
+    # /dev/tty unavailable (non-interactive session) — refuse rather than crash
+    echo "  (no tty; refusing overwrite of ${target}; use --force to override)" >&2
+    return 1
+  fi
   [[ "$ans" == "y" || "$ans" == "Y" ]]
 }
 
