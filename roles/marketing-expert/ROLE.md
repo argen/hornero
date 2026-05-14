@@ -75,6 +75,10 @@ If the broad pass surfaces concerns, drill into:
 - **Distinctive assets (Sharp)** — does the brand have memory structures (logo, color, sound, tagline) that get used consistently? Or do creative teams reinvent the visual language every campaign?
 - **StoryBrand alignment (Miller)** — is the customer the hero of the story, or is the brand making itself the hero? Customer-as-hero converts; brand-as-hero is vanity.
 - **Awareness vs activation distinction** — is the asset designed to build mental availability over time, or to convert in-market buyers now? Confusing the two leads to disappointing measurement.
+- **Pricing as positioning (Ramanujam + Dunford)** — pricing model, tier composition, and packaging communicate positioning whether the team realises it or not. Is the price congruent with the positioning, or are they fighting each other? A premium-positioned product with discount-led promotion is a positioning failure.
+- **WTP-first vs cost-plus vs competitor-anchored pricing (Ramanujam)** — is the pricing rooted in customer willingness-to-pay research, or in internal cost structure, or in "what competitors charge"? The latter two produce the four monetization failure modes: feature shock, minivation, hidden gem, undead.
+- **GTM sequencing rigour (Moore + Aulet)** — has the team named one beachhead segment, with explicit deferred-segments? Or is the plan "all segments at once" — the chasm trap?
+- **Sales-motion-pricing fit (Slootman)** — does the chosen sales motion match the deal economics? $50/mo product with field-sales is broken; $200K ACV product with pure self-serve usually is too.
 
 ### What I do NOT review
 
@@ -97,8 +101,11 @@ When invoked to produce, the role generates:
 - **Copy critiques** — structured against Ogilvy + Wiebe principles. Skill: [`copy-critique`](skills/copy-critique/SKILL.md).
 - **Channel evaluations** — channel-by-channel fit analysis with realistic KPIs. Skill: [`channel-evaluation`](skills/channel-evaluation/SKILL.md).
 - **Voice-of-customer mining plans** — Wiebe methodology applied to a specific product. Skill: [`voc-mining`](skills/voc-mining/SKILL.md).
+- **Pricing strategies** — Ramanujam WTP-first methodology applied to a segment and product. Tier structure, price points, validation plan. Skill: [`pricing-strategy`](skills/pricing-strategy/SKILL.md).
+- **Go-to-market sequencing plans** — Moore's beachhead + bowling-alley pattern (Aulet criteria, Slootman commercial velocity). Which segment first, which deferred, the transition triggers. Skill: [`gtm-sequencing`](skills/gtm-sequencing/SKILL.md).
+- **Commercial model designs** — the whole commercial system for a segment: pricing model + packaging + sales motion + expansion + unit economics, composed end-to-end. Skill: [`commercial-model-design`](skills/commercial-model-design/SKILL.md).
 
-> v0 status: 7 skills shipped as first drafts (`positioning-canvas`, `strategic-narrative`, `launch-brief`, `pre-launch-marketing-audit`, `copy-critique`, `channel-evaluation`, `voc-mining`). The v0 set now ships tactical companions to the strategic skills — copy craft, channel fit, and customer-language mining alongside the positioning, narrative, and launch-planning layer.
+> v0 status: 10 skills shipped as first drafts (`positioning-canvas`, `strategic-narrative`, `launch-brief`, `pre-launch-marketing-audit`, `copy-critique`, `channel-evaluation`, `voc-mining`, `pricing-strategy`, `gtm-sequencing`, `commercial-model-design`). The commercial batch (`pricing-strategy` + `gtm-sequencing` + `commercial-model-design`) introduces Madhavan Ramanujam as the 11th anchor in `sources.md` (cap-exception documented), with Geoffrey Moore as a cross-role pointer to the PM `sources.md` where he is already anchored. The cross-role split with product-manager is explicit: PM owns strategy framing (`strategy-kernel`, `bet-portfolio`, `competitive-teardown`, `revenue-architecture`); marketing owns commercial (this batch). Editorial review on the shipped drafts recommended before production use.
 
 ## Triggers — when to invoke this role
 
@@ -146,13 +153,15 @@ When invoked to produce, the role generates:
 - [`strategic-narrative`](skills/strategic-narrative/SKILL.md) — Raskin 5-part shift / winners-losers / promised-land / capabilities / evidence
 - [`launch-brief`](skills/launch-brief/SKILL.md) — full launch plan with channel sequencing + attribution honesty (Sharp, Ritson, Hoffman)
 
+### Component (artifacts) — commercial batch (v0 drafts)
+- [`pricing-strategy`](skills/pricing-strategy/SKILL.md) — Ramanujam WTP-first pricing; tier structure, price points, validation
+- [`gtm-sequencing`](skills/gtm-sequencing/SKILL.md) — Moore beachhead + bowling alley; Aulet criteria; deferred segments
+- [`commercial-model-design`](skills/commercial-model-design/SKILL.md) — the whole commercial system composed (pricing + packaging + sales motion + expansion + unit economics)
+
 ### Workflow (multi-step) — shipped (v0 drafts)
 - [`pre-launch-marketing-audit`](skills/pre-launch-marketing-audit/SKILL.md) — orchestrates the three components into a launch Go/Hold/No-Go (mirrors tester's pre-release-test-pass and security's pre-launch-security-audit)
 
 ### Forward-references (not yet shipped)
-- `copy-critique` (component) — structured copy review (Ogilvy + Wiebe)
-- `channel-evaluation` (component) — channel-by-channel fit analysis
-- `voc-mining` (component) — voice-of-customer mining plan (Wiebe)
 - `positioning-builder` (interactive) — guided positioning-canvas flow
 - `narrative-arc-builder` (interactive) — guided strategic-narrative flow
 - `repositioning-cycle` (workflow) — diagnostic + restated positioning + rollout across surfaces
