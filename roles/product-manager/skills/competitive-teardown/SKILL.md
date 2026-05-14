@@ -57,93 +57,73 @@ and the bets) with external evidence.
 
 ### Christensen's disruption lens
 
-Clayton Christensen (*The Innovator's Dilemma*, 1997; *Competing Against Luck*, 2016) gives
-the first structural question: is this competitor **disruptive** or **sustaining**?
+Christensen (*The Innovator's Dilemma*, 1997; *Competing Against Luck*, 2016): is this
+competitor **disruptive** or **sustaining**?
 
-- A **sustaining** competitor improves along the dimensions existing customers already value.
-  They play the same game; the strategic response is direct: match, exceed, or out-segment.
-- A **disruptive** competitor enters at the low end (or a non-consuming segment) with a
-  worse product on traditional metrics but a different cost structure, a different business
-  model, or a different job being served. The strategic response is different — direct
-  competition at the disrupting competitor's price point usually destroys margin while
-  failing to address the segment they're winning.
+- A **sustaining** competitor improves on dimensions existing customers value. Same game;
+  response is direct — match, exceed, or out-segment.
+- A **disruptive** competitor enters at the low end (or a non-consuming segment), worse on
+  traditional metrics but with a different cost structure, business model, or job served.
+  Direct competition at their price point destroys margin without addressing the segment
+  they're winning.
 
-Getting this classification wrong leads to the wrong response. Most PMs default to treating
-every competitor as sustaining (feature-comparison, roadmap race) even when the entrant is
-structurally disruptive. Christensen's diagnostic: if the competitor is worse on the
-attributes your current customers care about but winning a segment you're not serving, it
-is disruptive. If they're better on those attributes, it is sustaining.
+Diagnostic: if they're worse on the attributes your customers care about but winning a
+segment you're not serving, it's disruptive. PMs default to treating every competitor as
+sustaining (feature comparisons, roadmap races) — often wrong when the entrant is
+structurally disruptive.
 
 ### Moore's segment fit
 
-Geoffrey Moore (*Crossing the Chasm*, 1991 rev. 2014) frames competition as segment-level
-rather than product-level. A competitor that wins **innovators** and **early adopters** is
-not automatically competing with a product winning **pragmatists** — they may be serving
-the same nominal category while playing in non-overlapping segments of the adoption curve.
+Moore (*Crossing the Chasm*, 1991 rev. 2014) frames competition as segment-level, not
+product-level. A competitor winning **innovators** / **early adopters** is not
+automatically competing with a product winning **pragmatists** — same category, different
+adoption-curve segments.
 
-The strategic question is whether segments overlap *now* and whether they will overlap as
-either product matures. A disruptive entrant in the innovator segment today is a pragmatist
-segment threat in 18-24 months if their product crosses the chasm. A sustaining competitor
-in the pragmatist segment is a ceiling threat, not a floor threat.
-
-Segment classification shapes the urgency and nature of the strategic response.
+The strategic question is whether segments overlap *now* and whether they will as either
+product matures. A disruptive entrant in the innovator segment is a pragmatist-segment
+threat in 18-24 months if they cross the chasm.
 
 ### Rumelt's diagnosis input
 
-Richard Rumelt (*Good Strategy / Bad Strategy*, 2011) holds that strategy begins with a
-**diagnosis** — a simplification of reality that names the crux of the challenge and makes
-clear what kind of response is required. A teardown without implications that change the
-diagnosis is reportage, not strategy.
+Rumelt (*Good Strategy / Bad Strategy*, 2011): strategy begins with **diagnosis** — naming
+the crux of the challenge. A teardown without implications that change the diagnosis is
+reportage, not strategy.
 
-The teardown's Strategic Implications section must answer: what does this competitor's
-posture **force us to confront** in our own diagnosis? This is distinct from "what did we
-learn" — the implications must name a challenge the product now faces that was previously
-understated, or confirm that an existing challenge is more acute than assumed.
-
-Rumelt's fluff diagnostic applies here: an implication that restates the obvious in
-strategic-sounding language ("we should continue to differentiate") changes no decision.
-Each implication must be actionable: build, refuse to build, or watch.
+Strategic Implications must answer: what does this competitor's posture **force us to
+confront**? Rumelt's fluff diagnostic applies — "we should continue to differentiate"
+changes no decision. Each implication must be actionable: build, refuse, or watch.
 
 ### JTBD-based comparison
 
-Christensen and Bob Moesta's Jobs-to-be-Done framing (*Competing Against Luck*, 2016):
-the right comparison unit is the **job being hired for**, not the feature set.
+Christensen and Moesta (*Competing Against Luck*, 2016): the right comparison unit is the
+**job being hired for**, not the feature set.
 
-- A competitor with a different feature set may be hired for the **same job** by the same
-  segment — this is the most dangerous competitive configuration (they solve the same
-  problem differently, and either could win).
-- A competitor with a similar feature set may be hired for a **different job** by a different
-  segment — this may be less threatening than it appears (feature overlap ≠ job overlap).
+- Different feature set, **same job**, same segment → most dangerous configuration.
+- Similar feature set, **different job**, different segment → may be less threatening than
+  feature overlap suggests.
 
-The teardown's JTBD comparison draws from the `jobs-to-be-done` skill's vocabulary.
-If a JTBD artifact already exists for your product, use it as the comparison anchor.
+Use the [`jobs-to-be-done`](../jobs-to-be-done/SKILL.md) vocabulary; anchor on existing
+JTBD artifact if one exists.
 
 ### Switching costs — both directions
 
-Switching-cost asymmetry is where strategic advantage often compounds, yet teardowns
-routinely cover only one direction.
+Asymmetry compounds advantage; teardowns routinely cover only one direction.
 
-- **Costs to switch *to* the competitor** — from our product: data migration, retraining,
-  contract lock-in, integration rebuilds, switching anxiety.
-- **Costs to switch *from* the competitor** — back to us or to anyone: same categories,
-  but shaped by the competitor's architecture, pricing model, and ecosystem depth.
+- **To the competitor (from us):** data migration, retraining, lock-in, integration
+  rebuilds, switching anxiety.
+- **From the competitor (to us or anyone):** same categories, shaped by their architecture
+  and pricing model.
 
-A competitor with high exit friction (annual contracts, proprietary data formats, deep
-integrations) compounds their installed-base advantage over time. A competitor with low
-exit friction relies on continuous re-winning — which is strategically different. If we
-have lower entry friction but higher exit friction than the competitor, our acquisition is
-harder but our retention is stickier — and vice versa.
+High exit friction (annual contracts, proprietary formats, deep integrations) compounds
+installed-base advantage. Low exit friction relies on continuous re-winning — strategically
+different.
 
 ### Cutler's systems framing
 
-John Cutler (Amplitude / The Beautiful Mess) frames competitors as **systems** — product +
-pricing + GTM + support + ecosystem — not as feature lists. A teardown of only the product
-surface misses the pricing-model asymmetry, the GTM motion that reaches a different buyer,
-the ecosystem lock-in that maintains retention, or the support moat that justifies premium.
-
-The systems lens also resists the feature-comparison trap (Cagan: feature comparison is not
-competitive analysis). A competitor's integrations directory may be their real moat; their
-product surface is just the visible part.
+Cutler (Amplitude / The Beautiful Mess): competitors are **systems** (product + pricing +
+GTM + support + ecosystem), not feature lists. A product-surface-only teardown misses
+pricing-model asymmetry, GTM-motion reach, ecosystem lock-in, support moat. Resists Cagan's
+feature-comparison trap — the integrations directory may be the real moat.
 
 ## Application
 

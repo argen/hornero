@@ -49,67 +49,53 @@ A launch brief without measurement design is wishful thinking. A launch brief wi
 
 ### Sharp's distinction: penetration vs. loyalty; mental vs. physical availability
 
-Byron Sharp (*How Brands Grow*, Ehrenberg-Bass Institute): brand growth comes mostly from **penetration** (reaching more buyers in the category) rather than **loyalty** (extracting more from existing buyers). Two distinct disciplines support penetration:
+Byron Sharp (*How Brands Grow*, Ehrenberg-Bass): brand growth comes mostly from **penetration** (reaching more category buyers), not **loyalty** (extracting more from existing). Two supporting disciplines:
 
-- **Mental availability.** The brand is thought of in buying situations. Built by reach, distinctive assets, and consistent exposure over time.
-- **Physical availability.** The brand is easy to find and buy when the buying situation arises. Built by distribution, channel presence, and friction reduction.
+- **Mental availability.** Thought of in buying situations. Built by reach, distinctive assets, consistent exposure over time.
+- **Physical availability.** Easy to find and buy in the buying situation. Built by distribution, channel presence, friction reduction.
 
-The launch brief sequences activities against both. Awareness work builds mental availability (slow, compounding); activation work converts in-market buyers (fast, measurable). Confusing these is the dominant marketing-measurement failure mode.
+The brief sequences activities against both. Awareness builds mental availability (slow, compounding); activation converts in-market buyers (fast, measurable). Confusing these is the dominant marketing-measurement failure mode.
 
 ### Awareness vs. activation distinction
 
-- **Awareness work** builds mental availability over time. Hard to attribute directly; KPI is reach, frequency, and recall of distinctive assets. Sharp's research: measurable returns appear over quarters, not weeks.
-- **Activation work** converts in-market buyers now. Easier to attribute; KPI is lead generation, signup, demo, pipeline. Returns appear in weeks.
+- **Awareness work** builds mental availability over quarters. Hard to attribute; KPI is reach, frequency, distinctive-asset recall.
+- **Activation work** converts in-market buyers now, over weeks. Easier to attribute; KPI is signup, demo, pipeline.
 
-A launch brief that uses awareness-shape spend (broad-reach, brand-building) and measures with activation KPIs (last-click conversion) will report failure regardless of whether the work succeeded. The brief states which mode each activity is in.
+Awareness-shape spend measured by activation KPIs (last-click) reports failure regardless of whether the work succeeded. The brief states the mode of each activity.
 
 ### Ritson's strategic-then-tactical sequence
 
-Mark Ritson's diagnostic discipline: marketing decisions cascade from diagnosis → strategy → tactics. Most launches skip diagnosis and start at tactics ("let's run an ad campaign"). The brief enforces order:
+Ritson: marketing cascades diagnosis → strategy → tactics. Most launches skip diagnosis and start at tactics ("let's run an ad campaign"). The brief enforces order:
 
-- **Diagnosis** — who's buying, why, what they're comparing to, what triggers buying. (Largely settled by the positioning canvas; the brief inherits.)
-- **Strategy** — where to play (segments / channels) and how to win (the wedge into those segments).
-- **Tactics** — specific channels, assets, sequences, dates, owners.
+- **Diagnosis** — who's buying, why, comparing what to, on what trigger. (Inherited from positioning canvas.)
+- **Strategy** — where to play; how to win (the wedge).
+- **Tactics** — channels, assets, sequence, dates, owners.
 
-The brief contains all three; if any is missing, the brief is premature.
+All three present; missing any one means premature.
 
 ### Hoffman on evidence-based channel choice
 
-Bob Hoffman ("The Ad Contrarian"): channel performance is heavily context-dependent. The channel mix that worked at a previous company will not necessarily work here. Industry fashion ("everyone's doing X") is the worst input. The brief states the *evidence* behind each channel choice:
-
-- Existing analytics from prior campaigns / similar segments.
-- Public benchmarks for the channel in the audience's category.
-- Test learnings from pre-launch experiments.
-- Customer-acquisition pattern from peer companies (where reachable through advisors / case studies).
-
-Channels chosen without evidence get marked as exploratory and treated with smaller budgets and clearer learning goals.
+Hoffman ("The Ad Contrarian"): channel performance is context-dependent. Industry fashion ("everyone's doing X") is the worst input. State the *evidence* behind each channel — prior analytics, public benchmarks, pre-launch test results, peer-company acquisition patterns. Channels without evidence: small budget, exploratory, clear learning goal.
 
 ### Attribution honesty
 
-Marketing attribution data is noisier and more biased than dashboards admit:
+Attribution is noisier than dashboards admit:
 
 - **Last-click** under-attributes awareness work.
 - **First-click** under-attributes activation work.
-- **Multi-touch** is configurable enough that the "right" answer is essentially the modeler's choice.
-- **MMM (Marketing Mix Modeling)** improves directionally but has lag and variance.
-- **Self-report** (e.g., "How did you hear about us?") captures top-of-mind, not full path.
+- **Multi-touch** is configurable enough that the "right" answer is the modeler's choice.
+- **MMM** improves directionally; has lag and variance.
+- **Self-report** captures top-of-mind, not full path.
 
-The brief states which method is used, which biases apply, and reports KPIs as **ranges with assumptions**, not point estimates. "Launch generated 800-1,200 pipeline opportunities (CRM-attributed, last-click, with a ±25% confidence interval reflecting cross-channel attribution noise)" is honest; "Launch generated 1,047 pipeline opportunities" is not.
+The brief states method, biases, and reports KPIs as **ranges with assumptions**. "800-1,200 pipeline opportunities (CRM last-click, ±25%)" is honest; "1,047 pipeline opportunities" is not.
 
 ### Distinctive assets compound; novelty doesn't
 
-Sharp on distinctive assets: brand logos, colors, sounds, taglines, characters that get used consistently over time build memory structures buyers recognise. Every campaign that reinvents the visual language wastes the prior campaign's accumulation. The launch brief states which distinctive assets are deployed and confirms consistency with prior work.
+Sharp: distinctive assets (logos, colors, taglines, characters) used consistently build memory structures. Each reinvention wastes prior accumulation. The brief states which assets are deployed and confirms continuity with prior work.
 
 ### Out-of-scope is load-bearing
 
-Most launches over-scope. The brief names:
-
-- Segments the launch is *not* targeting (even though they have the problem).
-- Channels the launch is *not* using (even though they're available).
-- Geographies the launch is *not* covering (even though there's appetite).
-- Outcomes the launch is *not* trying to deliver (e.g., "this launch is for mental availability; pipeline is a downstream effect we'll measure at +90 days, not at +14 days").
-
-Pre-empting scope creep is the difference between launches that ship on time and launches that ship "next quarter, just one more channel."
+Most launches over-scope. Name segments not targeted, channels not used, geographies not covered, outcomes not promised (e.g., "this is for mental availability; pipeline is a downstream effect at T+90, not T+14"). Pre-empting scope creep is the difference between launches that ship and launches that slip "just one more channel."
 
 ## Application
 
