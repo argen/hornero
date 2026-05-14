@@ -86,11 +86,11 @@ When invoked to produce, the role generates:
 - **Security review reports** — structured findings against OWASP/ASVS. Skill: [`security-review`](skills/security-review/SKILL.md).
 - **AI-system risk assessments** — LLM-specific threat surfaces (OWASP LLM Top 10 + lethal-trifecta analysis). Skill: [`llm-risk-assessment`](skills/llm-risk-assessment/SKILL.md).
 - **Pre-launch security audits** — orchestrates the above + control-readiness for a launch decision. Skill: [`pre-launch-security-audit`](skills/pre-launch-security-audit/SKILL.md).
-- **Hardening checklists** — context-specific control inventories. Skill: `hardening-checklist` (forward-reference).
-- **Incident response runbooks** — pre-staged response procedures. Skill: `ir-runbook` (forward-reference).
-- **Disclosure communications** — internal and external advisories. Skill: `disclosure-comm` (forward-reference).
+- **Hardening checklists** — context-specific control inventories. Skill: [`hardening-checklist`](skills/hardening-checklist/SKILL.md).
+- **Incident response runbooks** — pre-staged response procedures. Skill: [`ir-runbook`](skills/ir-runbook/SKILL.md).
+- **Disclosure communications** — internal and external advisories. Skill: [`disclosure-comm`](skills/disclosure-comm/SKILL.md).
 
-> v0 status: 4 skills shipped as first drafts (`threat-model`, `security-review`, `llm-risk-assessment`, `pre-launch-security-audit`). Forward-references await later phases.
+> v0 status: 7 skills shipped as first drafts (`threat-model`, `security-review`, `llm-risk-assessment`, `pre-launch-security-audit`, `hardening-checklist`, `ir-runbook`, `disclosure-comm`).
 
 ## Triggers — when to invoke this role
 

@@ -48,18 +48,23 @@
 | Skill | Type | When to invoke |
 |---|---|---|
 | `accessibility-audit` | component | Use when a designer needs to audit a UI surface against WCAG 2.2 conformance and inclusive-design principles — not as a compliance tickbox but as a usability check for the full audience. |
+| `component-proposal` | component | Use when a designer needs to propose a new design-system component or modify an existing one — establishing where it sits in the atomic hierarchy, what gap it fills, what variants and states it needs, and whether it already exists under a different name. |
 | `design-review` | workflow | Use when a UI or feature change is about to be reported as complete — runs a structured design + UX + accessibility + platform-capability pass on a diff or surface and produces a Go / Fix-then-go / Hold recommendation with specific findings. |
 | `heuristic-review` | component | Use when a designer needs to evaluate a UI surface against Jakob Nielsen's 10 usability heuristics — applied with judgement, not as a tickbox — to surface usability defects before user testing or after a contested design critique. |
+| `persona` | component | Use when a designer needs to produce a goal-directed persona (Cooper methodology) — a specific, scenario-bound representation of a target user grounded in research, not invented to justify a decision already made. |
 | `state-audit` | component | Use when a designer needs to inventory every state an interactive surface must support — empty, loading, error, partial, success, and edge — before declaring the design or build complete. |
 
 ### marketing-expert
 
 | Skill | Type | When to invoke |
 |---|---|---|
+| `channel-evaluation` | component | Use when a marketing team is deciding whether to add, scale, or cut a channel — to evaluate fit against the product, the audience, and the team's actual capacity before committing budget. Produces a channel readiness scorecard. |
+| `copy-critique` | component | Use when marketing copy on any surface — homepage hero, ad, onboarding email, sales-deck slide — needs a structured critique before shipping. Catches vague claims, feature-not-benefit writing, adjective stacking, company-language in customer-facing surfaces, and generic-AI-aesthetic copy. |
 | `launch-brief` | component | Use when a CMO or head of marketing needs to plan a product launch — translating positioning and narrative into audience-channel-sequence-measurement with attribution honesty. |
 | `positioning-canvas` | component | Use when a CMO, head of marketing, or founder needs to define or sharpen positioning — the strategic answer to "who is this for, what's the competitive alternative, and why us, specifically" — before any campaign or copy work begins. |
 | `pre-launch-marketing-audit` | workflow | Use when a launch is approaching cut and a CMO needs a disciplined pass over positioning, narrative, the launch brief, channel readiness, and measurement design — producing a Go / Fix-then-go / Hold recommendation. |
 | `strategic-narrative` | component | Use when a CMO, founder, or head of marketing needs to author the company's strategic narrative — the 5-part story used in keynotes, investor decks, sales pitches, all-hands, and the home page — that converts positioning into a story buyers actually remember. |
+| `voc-mining` | component | Use when a marketing team needs to mine voice-of-customer data to produce copy patterns, positioning inputs, and category-entry-point evidence — before writing copy, refining positioning, or briefing a VOC-informed creative sprint. |
 
 ### product-manager
 
@@ -71,11 +76,17 @@
 | `okrs` | component | Use to draft or critique quarterly OKRs — Objectives + Key Results — grounded in Christina Wodtke's radical-focus methodology. |
 | `positioning-statement` | component | Use to draft or critique a positioning statement using Geoffrey Moore's template, sharpened by April Dunford's framing. |
 | `prd` | component | Use when a product manager needs to produce or critique a PRD — to anchor a feature in a problem statement, expose solution-shaped thinking before it ossifies, pair every success metric with a counter-metric, and name what's deliberately out of scope. |
+| `prioritization-advisor` | interactive | Use to triage a backlog or set of options into Do-Now / Defer / Discard — applying LNO, ICE-with-confidence, and the four-risks lens to produce a ranked list with explicit reasoning and rank-change conditions. |
+| `problem-framing-canvas` | interactive | Use before drafting a PRD to produce a structured problem statement — who has it, what triggers it, what happens if unsolved, what alternatives exist, what success looks like for the customer. |
+| `success-metrics` | component | Use before instrumentation to define what good looks like — primary metric, counter-metric, guardrails, and leading indicators — for a feature, launch, or quarter. |
 
 ### security-expert
 
 | Skill | Type | When to invoke |
 |---|---|---|
+| `disclosure-comm` | component | Use when a security event requires an internal or external disclosure communication — vulnerability disclosure to a vendor or the public, a customer-facing incident notification, or a regulator filing. Owned by security with input from comms, not the reverse. |
+| `hardening-checklist` | component | Use when a service or system needs a context-specific control inventory — what security controls should be in place, mapped against the actual attack surface and assets, at ASVS levels with NIST 800-53 and ATT&CK mitigations overlay. |
+| `ir-runbook` | component | Use before an incident — not during — to produce a pre-staged incident-response runbook for a specific incident class (credential leak, public exploit in a dependency, suspected data exfiltration, supply-chain compromise). |
 | `llm-risk-assessment` | component | Use when a system uses an LLM in a way that touches user input, sensitive data, or tools that can act on the world — to enumerate LLM-specific risks before launch. |
 | `pre-launch-security-audit` | workflow | Use when a feature or system is approaching launch and the team needs a disciplined security pass — threat-model refresh, focused review, control-readiness check — producing a Go / Fix-then-go / Hold recommendation. |
 | `security-review` | component | Use when a code change, feature, or system needs a structured security review producing findings mapped to OWASP Top 10 / ASVS, each with a reproduction, severity, and remediation. |
@@ -96,6 +107,9 @@
 |---|---|---|
 | `exploratory-charter` | component | Use when a tester needs to plan or conduct a structured exploratory test session — a time-boxed, mission-driven investigation of an area to surface bugs and unknown unknowns. |
 | `pre-release-test-pass` | workflow | Use when a release candidate is approaching cut and the team needs a disciplined multi-step pass — risk re-assessment, targeted exploration, automated-suite review, and a release-readiness recommendation. |
+| `property-spec` | component | Use when a tester needs to write a property-based test specification — naming the invariants that should hold across many inputs and expressing them in Hypothesis, fast-check, ScalaCheck, or QuickCheck. |
 | `regression-test` | component | Use when a bug has been reported and the team needs to produce a failing test that reproduces it before the fix lands — the test is the guard against the bug coming back. |
+| `specification-by-example` | component | Use when a team needs to write example-driven scenarios that double as acceptance tests — concrete, executable, readable by non-technical stakeholders, derived from acceptance criteria not bug reports. |
+| `test-distribution` | component | Use when a team needs to audit the current distribution of their test suite across the pyramid (unit / integration / E2E) and receive a reasoned rebalance recommendation. |
 | `test-plan` | component | Use when a tester needs to produce or critique a test plan — a risk-driven document that names what's at stake, how it will be tested, and what coverage is deliberately deferred. |
 

@@ -81,10 +81,10 @@ When invoked to produce, the role generates:
 - **State audits** — empty/loading/error/partial/success inventory for a flow. Skill: [`state-audit`](skills/state-audit/SKILL.md).
 - **Accessibility audits** — WCAG conformance + inclusive-design extensions. Skill: [`accessibility-audit`](skills/accessibility-audit/SKILL.md).
 - **Design reviews** — multi-step pre-merge / pre-launch design + UX + a11y + platform-capability pass with live exercise. Skill: [`design-review`](skills/design-review/SKILL.md) (workflow; ports `~/.claude/skills/design-review/`).
-- **Personas** — goal-directed personas per Cooper. Skill: `persona` (forward-reference).
-- **Design system contributions** — new component proposals against the atomic taxonomy. Skill: `component-proposal` (forward-reference).
+- **Personas** — goal-directed personas per Cooper. Skill: [`persona`](skills/persona/SKILL.md).
+- **Design system contributions** — new component proposals against the atomic taxonomy. Skill: [`component-proposal`](skills/component-proposal/SKILL.md).
 
-> v0 status: 4 skills shipped as first drafts (`state-audit`, `accessibility-audit`, `heuristic-review`, `design-review`). Forward-references await later phases.
+> v0 status: 6 skills shipped as first drafts (`state-audit`, `accessibility-audit`, `heuristic-review`, `design-review`, `persona`, `component-proposal`).
 
 ## Triggers — when to invoke this role
 

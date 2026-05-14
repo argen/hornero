@@ -85,11 +85,11 @@ When invoked to produce, the role generates:
 - **Strategic narratives** — Raskin 5-part shift → winners/losers → promised-land → capabilities → evidence. Skill: [`strategic-narrative`](skills/strategic-narrative/SKILL.md).
 - **Launch briefs** — audience + positioning + narrative + channel sequence + KPIs with attribution honesty. Skill: [`launch-brief`](skills/launch-brief/SKILL.md).
 - **Pre-launch marketing audits** — orchestrates the above into a launch Go/Hold/No-Go (mirrors tester pre-release-test-pass and security pre-launch-security-audit). Skill: [`pre-launch-marketing-audit`](skills/pre-launch-marketing-audit/SKILL.md).
-- **Copy critiques** — structured against Ogilvy + Wiebe principles. Skill: `copy-critique` (forward-reference).
-- **Channel evaluations** — channel-by-channel fit analysis with realistic KPIs. Skill: `channel-evaluation` (forward-reference).
-- **Voice-of-customer mining plans** — Wiebe methodology applied to a specific product. Skill: `voc-mining` (forward-reference).
+- **Copy critiques** — structured against Ogilvy + Wiebe principles. Skill: [`copy-critique`](skills/copy-critique/SKILL.md).
+- **Channel evaluations** — channel-by-channel fit analysis with realistic KPIs. Skill: [`channel-evaluation`](skills/channel-evaluation/SKILL.md).
+- **Voice-of-customer mining plans** — Wiebe methodology applied to a specific product. Skill: [`voc-mining`](skills/voc-mining/SKILL.md).
 
-> v0 status: 4 skills shipped as first drafts (`positioning-canvas`, `strategic-narrative`, `launch-brief`, `pre-launch-marketing-audit`). The skills lean strategic/CMO-level; tactical copy and channel skills are deliberately deferred. Forward-references await later phases.
+> v0 status: 7 skills shipped as first drafts (`positioning-canvas`, `strategic-narrative`, `launch-brief`, `pre-launch-marketing-audit`, `copy-critique`, `channel-evaluation`, `voc-mining`). The v0 set now ships tactical companions to the strategic skills — copy craft, channel fit, and customer-language mining alongside the positioning, narrative, and launch-planning layer.
 
 ## Triggers — when to invoke this role
 
