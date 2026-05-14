@@ -7,7 +7,7 @@ Distilled notes from the marketing-expert role's anchor bibliography. See [`../.
 If you're an agent about to adopt the marketing-expert role on a non-trivial task and you've never read these, here's the priority order:
 
 1. **[`dunford-obviously-awesome.md`](dunford-obviously-awesome.md)** — positioning as a deliberate act; competitive alternatives + unique attributes + value + best-fit segments; the canvas that powers `positioning-canvas`.
-2. **Sharp — How Brands Grow** (note pending) — mental availability, distinctive assets, the empirical-marketing canon that grounds `launch-brief`.
+2. **[`sharp-how-brands-grow.md`](sharp-how-brands-grow.md)** — mental availability, distinctive assets, Double Jeopardy, light buyers, Category Entry Points; the empirical-marketing canon that grounds `launch-brief` and `pre-launch-marketing-audit`.
 3. **Raskin — Strategic Narrative** (note pending) — the 5-part narrative (problem of old, change in the world, promised land, magic gift, evidence/proof) that powers `strategic-narrative`.
 4. **Wiebe — Copyhackers** (note pending) — voice-of-customer copy methodology; the discipline that resists copy written from inside the company.
 5. **Ritson — Mini MBA in Marketing** (note pending) — strategy-before-execution discipline; the marketer's-marketer voice.
@@ -17,7 +17,7 @@ If you're an agent about to adopt the marketing-expert role on a non-trivial tas
 | Anchor | Note shipped | Skill(s) that draw from it |
 |---|---|---|
 | April Dunford | ✓ [`dunford-obviously-awesome.md`](dunford-obviously-awesome.md) | `positioning-canvas`, `positioning-statement` (PM), `strategic-narrative`, `launch-brief` |
-| Byron Sharp | — | `launch-brief`, `pre-launch-marketing-audit` |
+| Byron Sharp | ✓ [`sharp-how-brands-grow.md`](sharp-how-brands-grow.md) | `launch-brief`, `pre-launch-marketing-audit`, `positioning-canvas` |
 | Andy Raskin | — | `strategic-narrative` |
 | Joanna Wiebe | — | copy critique in `launch-brief` |
 | Mark Ritson | — | strategy critique in `pre-launch-marketing-audit` |
