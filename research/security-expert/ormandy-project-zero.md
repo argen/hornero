@@ -1,0 +1,40 @@
+# Tavis Ormandy / Google Project Zero — distilled
+
+> **Google Project Zero** public research blog (googleprojectzero.blogspot.com); Tavis Ormandy's individual bug reports and disclosure practice. Project Zero, founded in 2014, is a team of full-time vulnerability researchers at Google tasked with finding zero-day vulnerabilities in any widely-deployed software — Microsoft, Apple, Adobe, open-source libraries — and disclosing them on a strict 90-day timeline regardless of patch status. Ormandy is its most prolific and most-studied individual researcher. The methodology draws from Project Zero not for its findings (which are specific vulnerabilities) but for its *research practice*: how an adversarial mindset is applied systematically to code you did not write and do not have to maintain.
+
+## Why it matters for AI-coding
+
+AI security review tends toward checklist completion. An AI reviewer walks the OWASP Top 10, checks whether the obvious boxes are ticked, and reports "no critical issues found." This is the security-review equivalent of a test suite that only covers the happy path. Project Zero's practice is adversarial-mindset-first: the researcher starts from "assume this is vulnerable; how?" rather than "is this vulnerable?" — and systematically constructs exploitation paths rather than looking for matches to a known pattern list.
+
+Ormandy has found vulnerabilities in code that had been audited, deployed, and trusted for years — Symantec antivirus engines, Windows font parsers, ksba library — because he applied an adversarial frame rather than a defensive-posture check. The security review skill's stance — "a finding without a reproduction is unfalsifiable" and "tool output is evidence, not findings" — is directly shaped by Project Zero's practice of demanding working proof-of-concept for every reported issue.
+
+## Key concepts the role pulls from
+
+- **Adversarial-mindset-first, not checklist-first.** Project Zero researchers start from "what would I do to exploit this?" rather than "does this match known vulnerability patterns?" This is the complement to OWASP's catalogue approach: OWASP tells you what patterns to look for; Project Zero's practice tells you how to think when the vulnerability doesn't match a known pattern. The `security-review` skill's Step 2 (map the attack surface) and Step 4 (investigate each likely category) are both more effective when driven by adversarial framing than by pattern matching.
+- **Reproduction-first disclosure.** Every Project Zero report includes a working proof-of-concept or a clear reproduction path. No "this could be vulnerable" without showing it. This norm is the direct source of the `security-review` skill's rule: every finding requires a reproduction sufficient for engineering to verify. A finding without a reproduction is opinion; a finding with a reproduction is evidence. Ormandy's practice established this as the bar; the skill enforces it.
+- **90-day disclosure deadline as incentive structure.** Project Zero's policy: report to the vendor, set a 90-day clock, disclose publicly when the clock expires regardless of patch status (with a 14-day grace period if a patch is imminent). The incentive structure creates urgency: vendors who don't fix in 90 days face public disclosure. For security engineers, this is the operational model for managing un-fixed findings: set a deadline; escalate when it passes; don't leave findings in perpetual "in progress" state. The `security-review` skill's "re-review conditions" and "owner + status" fields reflect the same discipline.
+- **Fuzzing and symbolic execution as systematic discovery tools.** Ormandy's research makes heavy use of fuzzing (AFL, libFuzzer, and custom fuzzers) to find input-handling bugs at scale. The insight: manual code reading finds logic bugs; fuzzing finds parser and input-handling bugs systematically by exploring input space. For the security review, this translates to a practical recommendation: any parsing, deserialization, or format-handling code warrants fuzzing as part of the deep investigation, not just code reading.
+- **Attack surface in unexpected places.** Project Zero has repeatedly found critical vulnerabilities in security software itself — antivirus engines, VPNs, password managers. The lesson for the methodology: code that handles untrusted input (file parsers, protocol handlers, email filters, image decoders) carries disproportionate attack surface regardless of what the code is *for*. The `security-review` attack-surface mapping step should flag any code that parses or deserialises external content as high-priority, independent of its function label.
+- **Variant analysis after initial find.** When Project Zero finds a vulnerability in one place, they systematically look for the same weakness pattern across related code paths (the same pattern in adjacent libraries, sibling functions, or alternative code paths). This variant analysis is the class-level-fix discipline from the security side: one SQL-injection finding should trigger a scan for the same pattern across the codebase, not a fix limited to the one surface. The `security-review` skill's note about class-level remediation is grounded here.
+
+## What to actually read (1-hour budget)
+
+- **Project Zero blog** — read two or three full bug reports. The blog posts typically include: the affected surface, the vulnerability class, the root cause, the proof-of-concept, and the timeline. The structure is the template. "Project Zero: The Story of Symantec's Bug" and "Attacking the Qualcomm WLAN" are commonly cited for their thorough methodology exposition.
+- **"Bugs Should Not Be Bugs"** (Ormandy's 2022 essay on Chrome's memory-safety effort) — a concise argument for why class-level fixes outperform individual patch accumulation. (~15 min)
+- The Project Zero **"Year in Review"** posts summarise research methodology across the team. One of these per year of active research covers the methodology well. (~15 min each)
+
+## What to skip
+
+- Individual CVE details in the Project Zero tracker unless the specific vulnerability class is directly relevant to the system under review. The methodology value is in the research practice, not the specific bugs found.
+- Ormandy's Twitter / X posts — technically rich but ephemeral. The blog posts are the durable record.
+
+## How this anchors role skills
+
+- [`security-review`](../../roles/security-expert/skills/security-review/SKILL.md) — reproduction-first discipline; attack-surface mapping starting from "what handles untrusted input?"; variant analysis after initial findings; the "tool output is evidence, not findings" principle.
+- [`pre-launch-security-audit`](../../roles/security-expert/skills/pre-launch-security-audit/SKILL.md) — adversarial-mindset-first pass as a distinct step before the OWASP-walk; fuzzing recommendation for parser/deserialiser surfaces.
+- [`threat-model`](../../roles/security-expert/skills/threat-model/SKILL.md) — the "attack surface in unexpected places" lesson informs which elements of the DFD get elevated attention: parsers, protocol handlers, serialisation code, anything that processes external content.
+- [`llm-risk-assessment`](../../roles/security-expert/skills/llm-risk-assessment/SKILL.md) — the adversarial-mindset-first posture is directly applicable to LLM prompt injection: approach the system prompt as an attacker, not as a defender who already assumes the system works correctly.
+
+## Cross-role connection
+
+Project Zero's adversarial-mindset approach is the security-specific instantiation of the tester's exploratory charter. Both begin from the same posture: "assume there are problems; systematically find them" — not "assume the system is correct; verify it." The tester's charter asks "what do I want to learn about this area?" before starting; the Project Zero researcher asks "how would I exploit this?" Both resist the checklist failure mode. When the security role and tester role run parallel reviews, their methodological starting points are more similar than either is to a compliance audit.

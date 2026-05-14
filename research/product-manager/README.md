@@ -8,9 +8,9 @@ If you're an agent about to adopt the product-manager role on a non-trivial task
 
 1. **[`cagan-inspired-empowered.md`](cagan-inspired-empowered.md)** — the modern PM-role canon; the four big risks; outcomes-over-outputs framing. Underwrites every PM skill.
 2. **[`torres-continuous-discovery.md`](torres-continuous-discovery.md)** — the discovery cadence; Opportunity Solution Tree; the working PM's weekly customer-touchpoint discipline.
-3. **Wodtke — Radical Focus** (note pending) — the OKR practice that actually works; underwrites the `okrs` skill.
-4. **Christensen — Competing Against Luck** (note pending) — the JTBD origin; powers `jobs-to-be-done` and the marketing-side `positioning-canvas`.
-5. **Doshi — high-quality decisions** (note pending) — Type-1/Type-2 framing; LNO triage; the sharpest contemporary voice on PM decision quality.
+3. **[`wodtke-radical-focus.md`](wodtke-radical-focus.md)** — the OKR practice that actually works; underwrites the `okrs` skill.
+4. **[`christensen-jobs-to-be-done.md`](christensen-jobs-to-be-done.md)** — the JTBD origin; powers `jobs-to-be-done` and the marketing-side `positioning-canvas`.
+5. **[`doshi-decision-quality.md`](doshi-decision-quality.md)** — Type-1/Type-2 framing; LNO triage; the sharpest contemporary voice on PM decision quality.
 
 ## Status
 
@@ -18,15 +18,15 @@ If you're an agent about to adopt the product-manager role on a non-trivial task
 |---|---|---|
 | Marty Cagan | ✓ [`cagan-inspired-empowered.md`](cagan-inspired-empowered.md) | `prd`, `cross-functional-orchestration`, `discovery-interview-prep` |
 | Teresa Torres | ✓ [`torres-continuous-discovery.md`](torres-continuous-discovery.md) | `discovery-interview-prep`, `prd`, `cross-functional-orchestration` |
-| Christina Wodtke | — | `okrs` |
-| Clayton Christensen | — | `jobs-to-be-done`, marketing `positioning-canvas` |
-| Shreyas Doshi | — | `cross-functional-orchestration`, engineer `rfc` |
-| Melissa Perri | — | `prd`, organisational-design discussions |
-| Martin Eriksson | — | role-clarification, stakeholder-management |
-| John Cutler | — | metric / systems framing |
-| Jeff Patton | — | story-mapping, release-planning |
-| Itamar Gilad | — | evidence-weighting, idea-triage |
-| Geoffrey Moore | — | `positioning-statement` |
+| Christina Wodtke | ✓ [`wodtke-radical-focus.md`](wodtke-radical-focus.md) | `okrs`, `cross-functional-orchestration` |
+| Clayton Christensen | ✓ [`christensen-jobs-to-be-done.md`](christensen-jobs-to-be-done.md) | `jobs-to-be-done`, `cross-functional-orchestration`, marketing `positioning-canvas` |
+| Shreyas Doshi | ✓ [`doshi-decision-quality.md`](doshi-decision-quality.md) | `cross-functional-orchestration`, `okrs` |
+| Melissa Perri | ✓ [`perri-escaping-build-trap.md`](perri-escaping-build-trap.md) | `prd`, `cross-functional-orchestration`, `okrs` |
+| Martin Eriksson | ✓ [`eriksson-pm-venn.md`](eriksson-pm-venn.md) | `cross-functional-orchestration`, `prd`, role-clarification |
+| John Cutler | ✓ [`cutler-systems-thinking-pm.md`](cutler-systems-thinking-pm.md) | `prd`, `cross-functional-orchestration` |
+| Jeff Patton | ✓ [`patton-user-story-mapping.md`](patton-user-story-mapping.md) | `prd`, `discovery-interview-prep`, `cross-functional-orchestration` |
+| Itamar Gilad | ✓ [`gilad-evidence-guided.md`](gilad-evidence-guided.md) | `prd`, `okrs`, `cross-functional-orchestration` |
+| Geoffrey Moore | ✓ [`moore-crossing-the-chasm.md`](moore-crossing-the-chasm.md) | `positioning-statement`, `cross-functional-orchestration`, `prd` |
 
 ## See also
 
