@@ -138,12 +138,13 @@ DRY_LOG=/tmp/hornero-dry.log
 
 expected_skills=$(find skills roles -name SKILL.md -type f | wc -l | tr -d ' ')
 expected_agents=$(find agents -maxdepth 1 -name '*.md' -type f | wc -l | tr -d ' ')
-expected_total=$((expected_skills + expected_agents))
+expected_commands=$(find .claude/commands -maxdepth 1 -name '*.md' -type f 2>/dev/null | wc -l | tr -d ' ')
+expected_total=$((expected_skills + expected_agents + expected_commands))
 
 actual_total=$(grep -c "would install:" "$DRY_LOG" || true)
 
 if [[ "$expected_total" == "$actual_total" ]]; then
-  ok "install.sh --dry-run reports $actual_total files (matches $expected_skills skills + $expected_agents agents)"
+  ok "install.sh --dry-run reports $actual_total files (matches $expected_skills skills + $expected_agents agents + $expected_commands commands)"
 else
   bad "install.sh --dry-run mismatch: expected $expected_total, got $actual_total (see $DRY_LOG)"
 fi
