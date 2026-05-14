@@ -62,6 +62,7 @@ If the broad pass surfaces concerns, drill into:
 - **Build trap test** (Perri) — are we measuring features shipped or outcomes moved?
 - **OST coverage** (Torres) — does the proposed work map to a known opportunity, or did it skip discovery?
 - **The PM Venn** (Eriksson) — is the work balanced across Tech, Business, UX? Is one corner getting starved?
+- **Rumelt diagnosis test** — does the strategy artifact contain an actual *diagnosis* of the situation (the crux, one named central challenge), a *guiding policy* (the posture), and *coherent actions* (steps that reinforce each other) — or is it Rumelt's "bad strategy": fluff (jargon-restatement of the obvious), failure to face the challenge, goals-mistaken-for-strategy, blue-sky objectives? Apply when reviewing strategy docs, bet portfolios, kernel drafts, and competitive teardowns.
 
 ### What I do NOT review
 
@@ -88,9 +89,14 @@ When invoked to produce, the role generates:
 - **OKRs** — Wodtke's *Radical Focus*. Skill: `okrs` (phase 4).
 - **Success metric stacks** — primary metric + counter-metric + guardrails + leading indicators. Skill: [`success-metrics`](skills/success-metrics/SKILL.md).
 - **Problem-framing canvases** — solution-free problem statement before a PRD is drafted. Skill: [`problem-framing-canvas`](skills/problem-framing-canvas/SKILL.md).
+- **Strategy kernels** — Rumelt-style diagnosis + guiding policy + coherent actions; the posture-shaped strategy artifact distinct from PRDs (feature-shaped) and OKRs (outcome-shaped). Skill: [`strategy-kernel`](skills/strategy-kernel/SKILL.md).
+- **Bet portfolios** — 3-7 explicit strategic bets with assumptions, confidence-weighted evidence, kill criteria, and revisit cadence. Skill: [`bet-portfolio`](skills/bet-portfolio/SKILL.md).
+- **Interview syntheses** — per-interview snapshots, theme rollups, OST updates, and a quote bank from raw discovery interviews (Torres post-interview discipline). Skill: [`interview-synthesis`](skills/interview-synthesis/SKILL.md).
+- **Competitive teardowns** — structured analysis of a competitor's product, segments, jobs-hired-for, switching costs, and strategic implications. Skill: [`competitive-teardown`](skills/competitive-teardown/SKILL.md).
+- **Revenue architectures** — funnel + activation + retention + expansion + churn mapped as a single system; bottleneck identification; leverage analysis. Skill: [`revenue-architecture`](skills/revenue-architecture/SKILL.md).
 - **Cross-functional orchestrations** — frame the question as a customer job, triage the role mix, compose with `multi-role-review`, synthesise into a decision recommendation. Skill: [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md).
 
-> v0 status: 9 producer skills shipped as first drafts (`prd`, `jobs-to-be-done`, `positioning-statement`, `discovery-interview-prep`, `okrs`, `cross-functional-orchestration`, `success-metrics`, `prioritization-advisor`, `problem-framing-canvas`). The originally-listed forward-references `prd-development` and `product-strategy-session` have been removed — they overlap with existing skills (`prd` already produces the PRD; `cross-functional-orchestration` already orchestrates strategy sessions). Editorial review on the shipped drafts is recommended before production use.
+> v0 status: 14 producer skills shipped as first drafts (`prd`, `jobs-to-be-done`, `positioning-statement`, `discovery-interview-prep`, `okrs`, `cross-functional-orchestration`, `success-metrics`, `prioritization-advisor`, `problem-framing-canvas`, `strategy-kernel`, `bet-portfolio`, `interview-synthesis`, `competitive-teardown`, `revenue-architecture`). The originally-listed forward-references `prd-development` and `product-strategy-session` have been removed — they overlap with existing skills (`prd` already produces the PRD; `cross-functional-orchestration` already orchestrates strategy sessions). The strategy-and-research batch (`strategy-kernel` + `bet-portfolio` + `interview-synthesis` + `competitive-teardown` + `revenue-architecture`) introduces Rumelt as the 12th anchor in `sources.md`; commercial skills (`pricing-strategy`, `gtm-sequencing`) are deliberately deferred to a future marketing-expert batch per the cross-role boundary decision. Editorial review on the shipped drafts is recommended before production use.
 
 ## Triggers — when to invoke this role
 

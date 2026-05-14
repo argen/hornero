@@ -74,6 +74,14 @@ The curated bibliography for the product-manager role. Skills cite from this lis
 - **Why he matters:** Adoption curve still drives go-to-market sequencing for tech products; positioning template is the industry default.
 - Used in: positioning-statement, gtm-sequencing skills.
 
+### Richard Rumelt — UCLA Anderson
+- *Good Strategy / Bad Strategy: The Difference and Why It Matters* (2011)
+- *The Crux: How Leaders Become Strategists* (2022)
+- Three-part **strategy kernel**: diagnosis (the crux of the situation, simplified to its essential challenge) + guiding policy (the overall approach to overcoming the obstacles named in the diagnosis) + coherent actions (specific resource-allocation steps that operationalise the guiding policy and reinforce each other).
+- **Bad strategy diagnostics:** fluff (abstract restatement of the obvious dressed in jargon), failure to face the challenge, mistaking goals for strategy, blue-sky objectives (long lists of aspirations with no plan).
+- **Why he matters:** The canonical practitioner voice on what strategy actually *is* (and isn't). Sharp diagnostic for strategy-shaped artifacts that contain no diagnosis. Distinct from Cagan (who covers product strategy at the team/role level) — Rumelt is the higher-altitude posture-shaping discipline that PMs need when authoring or critiquing product-strategy docs, bet portfolios, and competitive postures.
+- Used in: strategy-kernel, bet-portfolio, competitive-teardown skills; also surfaces in the PM reviewer's Deep-dive heuristics as the "Rumelt diagnosis test."
+
 ## See also
 
 - **Lenny Rachitsky** — [lennysnewsletter.com](https://www.lennysnewsletter.com/) — working-PM canon; growth/B2B benchmarks.
@@ -104,3 +112,5 @@ Where Hornero ports frameworks from [Product-Manager-Skills](https://github.com/
 This list is capped at ~10 anchors plus a "see also." If a new entry is proposed, an existing entry must be demoted or removed — the cap exists to force prioritization. If the list grows past 15 anchors, the role is too broad and should be split.
 
 The reason this cap matters: skills that cite from a 50-entry bibliography drift toward LLM-generated synthesis. A tight cap forces concrete sourcing.
+
+**Cap exception (12 anchors).** The list currently runs to 12 anchors rather than the stated ~10. This is deliberate: Rumelt was added because strategy is a load-bearing theme with no prior coverage, and Eriksson was kept (rather than demoted to see-also) because the PM Venn is uniquely load-bearing in the reviewer's "is the work balanced across Tech / Business / UX?" heuristic. Each of the other 10 anchors is also uniquely load-bearing in shipped skills. The cap-as-discipline still holds — demotion remains the default response to a 13th anchor proposal. The exception is documented so the rule's intent (force prioritization, prevent bibliography sprawl) stays visible.
