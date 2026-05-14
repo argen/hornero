@@ -69,6 +69,16 @@ The curated bibliography for the marketing-expert role. Skills cite from this li
 - **Why he matters:** Accessible, widely-adopted narrative framework for brand messaging; especially strong for small-team marketing without specialist staff.
 - Used in: brand-narrative, website-messaging skills.
 
+### Madhavan Ramanujam — Simon-Kucher & Partners
+- *Monetizing Innovation: How Smart Companies Design the Product Around the Price* (2016, with Georg Tacke)
+- *Mastering Price Innovation* (2024)
+- The **WTP-first** thesis: research willingness-to-pay *before* product specification, not after launch. Most "innovation failures" are pricing failures dressed up as product failures.
+- **Four monetization failure modes:** *feature shock* (over-engineered, customers won't pay for the bundle), *minivation* (under-engineered, value left on the table), *hidden gem* (a feature customers would pay for, buried), *undead* (a product that should never have shipped).
+- **Pricing model archetypes:** subscription, usage-based, outcome-based, freemium, dynamic, tiered — chosen as a function of value-perception cadence and willingness-to-pay distribution shape, not by industry fashion.
+- **Willingness-to-pay research methodology:** customer interview-based WTP discovery, conjoint analysis, the van Westendorp price-sensitivity meter, segmented willingness curves.
+- **Why he matters:** The canonical practitioner voice on pricing-as-product-decision. Distinct from cost-plus pricing (accounting tradition) and gut-feel pricing (founder tradition). Sharpest critique of "ship first, price later" — the default failure mode for B2B SaaS founders. Anchors the commercial-marketing batch the way Rumelt anchors the PM strategy batch: a load-bearing theme with no prior coverage.
+- Used in: pricing-strategy, commercial-model-design, gtm-sequencing skills.
+
 ## See also
 
 - **Eugene Schwartz** — *Breakthrough Advertising* (1966) — the "five awareness levels" framework for matching message to audience readiness.
@@ -78,13 +88,18 @@ The curated bibliography for the marketing-expert role. Skills cite from this li
 - **Peep Laja & Wynter** — message testing and ICP research methodology.
 - **Ann Handley** — *Everybody Writes* (2014) — practical content/copy guidance.
 - **Claude Hopkins** — *Scientific Advertising* (1923) — testing-driven advertising; historical reference.
+- **Geoffrey Moore** — anchored in the product-manager role's [`sources.md`](../product-manager/sources.md). *Crossing the Chasm* (1991, rev. 2014) and the technology-adoption-lifecycle / bowling-alley GTM sequencing model are central to the [`gtm-sequencing`](skills/gtm-sequencing/SKILL.md) skill. Cross-role pointer rather than duplicate anchor — Moore is load-bearing for both roles, but the marketing surface (segment sequencing, beachhead choice) leans on the PM-anchored definition.
+- **Frank Slootman** — *Amp It Up* (2022); operator's view on enterprise commercial discipline, sales-led versus marketing-led GTM. Cited in `gtm-sequencing` for the enterprise commercial-velocity angle.
+- **Bill Aulet** — *Disciplined Entrepreneurship* (2013, rev. 2024); the 24-step methodology including beachhead-market selection and pricing-framework choice. Cited in `commercial-model-design` for the structured beachhead-to-commercial-model bridge.
 
 ## Curation notes
 
-Cap is ~10 anchors plus "see also." Adding a new anchor requires demoting an existing one.
+Cap is ~10 anchors plus "see also." Adding a new anchor requires demoting an existing one — or, when a load-bearing theme has no coverage, documenting a cap exception (next paragraph).
 
-The marketing role spans positioning, brand, performance, narrative, copy, and strategy. Anchor selection covers each pillar: Dunford (positioning), Levitt (market definition), Ogilvy (advertising craft), Sharp (evidence-based growth), Raskin (narrative), Sutherland (behavioral), Hoffman (skepticism), Wiebe (conversion copy), Ritson (strategic planning), Miller (small-team narrative).
+The marketing role spans positioning, brand, performance, narrative, copy, and strategy. Anchor selection covers each pillar: Dunford (positioning), Levitt (market definition), Ogilvy (advertising craft), Sharp (evidence-based growth), Raskin (narrative), Sutherland (behavioral), Hoffman (skepticism), Wiebe (conversion copy), Ritson (strategic planning), Miller (small-team narrative), Ramanujam (commercial / pricing).
+
+**Cap exception (11 anchors).** The list now runs to 11 anchors rather than the stated ~10. This is deliberate: Ramanujam was added when the commercial skill batch (`pricing-strategy`, `gtm-sequencing`, `commercial-model-design`) shipped, because commercial / pricing was a load-bearing theme with no prior coverage. Each of the other 10 anchors is uniquely load-bearing in shipped skills. The cap-as-discipline still holds — demotion remains the default response to a 12th anchor proposal. The exception is documented so the rule's intent (force prioritization, prevent bibliography sprawl) stays visible. This mirrors the PM `sources.md` cap-exception (Rumelt) decided during the strategy batch.
 
 Notable gap by design: no martech / attribution tool authors. Tools change fast; tools are not frameworks of thought. Skills can mention tools; they shouldn't drive the conceptual scaffolding.
 
-JTBD overlaps with product-manager role; Bob Moesta appears in both "see also" lists deliberately. Positioning (Dunford, Moore) bridges the two roles.
+JTBD overlaps with product-manager role; Bob Moesta appears in both "see also" lists deliberately. Positioning (Dunford, Moore) bridges the two roles; Moore is anchored on the PM side and referenced cross-role here.
