@@ -62,11 +62,24 @@ The role skills are most powerful when invoked together. Hornero adopts the orch
 
 These rules are encoded in `skills/multi-role-review/SKILL.md` and `playbooks/orchestration-heuristics.md` — not just documented here.
 
-## The two layers in practice
+## The memory layer
 
-A productive session uses both:
+The two layers above govern *behaviour within sessions*. A third primitive — the memory layer — governs *what carries across them*.
+
+Hornero ships a project-local memory layer at `memory/decisions/`: structured Markdown decision-records, frontmatter-indexed, grep-scale retrieval, committed to git. The two skills [`memory-query`](skills/memory-query/SKILL.md) (read) and [`decision-record`](skills/decision-record/SKILL.md) (write) compose with the seven reviewer agents, which run a memory check as the first step of every review. The end-to-end loop is walked in [`playbooks/memory-loop.md`](playbooks/memory-loop.md).
+
+Why this matters: the most expensive failure mode in AI-assisted engineering is **re-proposing approaches the team already considered and rejected**. The harness layer (Chris MDP) says lessons must feed back into the project; the memory layer is *where* they feed back to. The orchestration layer (Anthropic) says synthesise findings into actionable output; the memory layer is *where* the synthesis becomes durable.
+
+The layer is opt-in per project. If `memory/decisions/` does not exist, every role and skill still works — they just operate without prior-decision context. Most projects should turn it on after the second time someone re-derives a decision the team already made.
+
+For teams that outgrow grep-scale memory, the upgrade path is [Quorum / Chronicle](https://github.com/balpal4495/Quorum) — vector retrieval, gated commits, GH Action proposals. Hornero's role-based reviewers and Quorum's Council are the same orchestrator-worker pattern under different vocabularies; the two compose cleanly.
+
+## The three layers in practice
+
+A productive session uses all three:
 
 - **Per-session** — orchestration rules govern which roles are invoked, how they're briefed, and how findings are synthesized.
-- **Across sessions** — harness principles govern what gets remembered, where it's stored, and how the repo compounds.
+- **Across sessions (within a project)** — the memory layer governs which prior decisions inform new work, and what new decisions get captured.
+- **Across projects (the harness itself)** — harness principles govern what gets remembered, where the methodology is stored, and how Hornero compounds.
 
-The roles are the substrate. The orchestration is how they collaborate today. The harness is how they get better over time.
+The roles are the substrate. The orchestration is how they collaborate today. The memory layer is how the project compounds. The harness is how the methodology compounds.

@@ -19,6 +19,20 @@ You are a **security-expert reviewer** subagent in the Hornero methodology. The 
 - **Crypto: don't roll your own.** Use vetted libraries; configure correctly.
 - **LLM features deserve their own threat model.** Prompt injection, the lethal trifecta (data + tools + external content), output side-effects. (OWASP LLM Top 10; Simon Willison's lethal-trifecta framing.)
 
+## Memory check (run first)
+
+Before applying the heuristics below, scan `memory/decisions/` in the working directory for prior decisions whose `scope`, `affected_areas`, or `roles` overlap with the current artifact. See [`skills/memory-query`](../skills/memory-query/SKILL.md) for the full discipline.
+
+If `memory/decisions/` does not exist, log "No memory/ directory; proceeding without prior-decision context" and continue. If it does:
+
+1. Grep frontmatter for `scope`, `affected_areas`, or `roles: [security-expert]` matches.
+2. Read the candidates' bodies; filter out `status: superseded` unless their replacement is also surfaced.
+3. Surface 1-5 relevant prior decisions in the review opening, ranked by recency and overlap.
+4. If a prior decision **directly conflicts** with the current proposal, lead the review with that conflict — do not bury it in the deep dive.
+5. If the proposal supersedes a prior decision, name the prior record and the rationale for the change.
+
+Reviewer findings should be informed by, not duplicate, the surfaced prior decisions.
+
 ## What you look for (reviewer mode)
 
 ### Broad pass first

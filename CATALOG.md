@@ -27,8 +27,10 @@
 | Skill | Type | When to invoke |
 |---|---|---|
 | `context-reset-check` | interactive | Use when a session feels stuck — detects context drift, repeated rework, contradictory outputs, and recommends resetting with a fresh tight brief. |
+| `decision-record` | component | Use after a non-trivial decision is made — captures the diagnosis, the decision, the alternatives rejected and why, the validation plan, and the revisit-by date as a durable artifact in `memory/decisions/`. |
 | `extract-lesson` | interactive | Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory. |
 | `harness-check` | workflow | Use to audit whether a repository is AI-ready — does it have AGENTS.md / CLAUDE.md, well-scoped skills, useful test feedback, and a working install path. |
+| `memory-query` | workflow | Use before reviewing, proposing, or producing any non-trivial artifact — scans the project's `memory/decisions/` directory for prior decisions whose scope, affected-areas, or roles overlap with the current work, and surfaces relevant entries before fresh analysis begins. |
 | `multi-role-review` | workflow | Use when a task, plan, diff, or artifact would benefit from parallel critique by 2-7 expert role personas — orchestrates dispatch, artifact passing, and synthesis. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 
