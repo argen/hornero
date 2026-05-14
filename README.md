@@ -1,16 +1,16 @@
 # Hornero
 
 ```
-                       .--""--.
-                     .'        '.
-                    /   o     __ \
-                   |          \  ||
-                    \          | /
-                     '.______ _'.'
-                          |||
-                      ====+++====
+                            .--.
+                          .'    \__
+                         (  o      >
+                          \       /
+                           '.___,'
+                             ||
+                             ||
+                         ===========
 
-       patient layers · durable structure
+              patient layers · durable structure
 ```
 
 > A shareable AI-coding methodology with expert-infused, role-based skills.
