@@ -110,7 +110,7 @@ Roles invoked most in this project:
 
 1. Scan `<path-to-hornero>/CATALOG.md` — it indexes every shipped role and skill.
 2. Read the relevant skill: `~/.claude/skills/<skill>/SKILL.md` (role skills are prefixed: `~/.claude/skills/<role>-<skill>/SKILL.md`). Or read it directly from `<path-to-hornero>/roles/<role>/skills/<skill>/SKILL.md`.
-3. For a structured critique, invoke a named reviewer subagent (Claude Code): `~/.claude/agents/<role>-reviewer.md`. Under Codex, read the reviewer file as system-prompt context instead.
+3. For a structured critique, invoke a named reviewer subagent (Claude Code): `~/.claude/agents/<role>-reviewer.md`. Under Codex, either read the reviewer file as system-prompt context or fan reviewers out as parallel subprocesses via `<path-to-hornero>/scripts/codex-parallel-review.sh <artifact> [roles...]`.
 4. Try a slash command — `/orchestrate`, `/review`, `/role <name>`, `/kickoff`, `/catalog`.
 5. Ask the user.
 6. Don't guess.
