@@ -36,6 +36,15 @@ See `sources.md` for the curated bibliography. The anchors:
 
 - Don Norman · Jakob Nielsen · Bill Buxton · Alan Cooper · Erika Hall · Steve Krug · Edward Tufte · Brad Frost · Kat Holmes · Mike Monteiro · Adam Wathan & Steve Schoger
 
+## Memory layer
+
+This role both **reads** and **writes** the project's local memory:
+
+- **Read** — at the top of any reviewer-mode invocation, scan `memory/decisions/` for entries whose `scope`, `affected_areas`, or `roles` include this role. Surface 1-5 most relevant in the review opening. See [`skills/memory-query`](../../skills/memory-query/SKILL.md).
+- **Write** — when a multi-role-review, strategy session, or producer-mode call lands on a decision that touches this role, capture it via [`skills/decision-record`](../../skills/decision-record/SKILL.md). The artifact lives at `memory/decisions/YYYY-MM-DD-slug.md`.
+
+The layer is opt-in per project. If `memory/decisions/` does not exist in the working directory, the role operates without prior-decision context (no error).
+
 ## What I look for (reviewer mode)
 
 ### Broad pass first
