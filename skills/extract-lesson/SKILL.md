@@ -1,6 +1,6 @@
 ---
 name: extract-lesson
-description: Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, or CLAUDE.md.
+description: Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory.
 intent: |
   Implements Chris MDP's feedback-loop discipline. Closes the gap between
   "we learned something" and "the harness now reflects what we learned."
@@ -43,14 +43,15 @@ Most session content is noise from a feedback perspective: routine tool calls, n
 
 ### Update target taxonomy
 
-A lesson can land in one of five places. Choosing correctly is most of the work:
+A lesson can land in one of six places. Choosing correctly is most of the work:
 
 | Target | When |
 |---|---|
 | **Role file** (`roles/<role>/ROLE.md`) | The lesson is about how a role should think, what it should look for, or its anti-patterns |
 | **Role sources** (`roles/<role>/sources.md`) | The lesson surfaces a missing expert / framework anchor |
 | **Skill file** (`skills/.../SKILL.md`) | The lesson is about how a process should run (delegation, dispatch, synthesis) |
-| **CLAUDE.md** | The lesson is project-wide or harness-wide, transcending any one role or skill |
+| **CLAUDE.md** | The lesson is harness-wide for Claude Code sessions, transcending any one role or skill |
+| **AGENTS.md** | The lesson is harness-wide for Codex sessions. Mirror to CLAUDE.md when the lesson is dispatcher-wide — the two files stay in sync. |
 | **Project memory** (`~/.claude/projects/*/memory/`) | The lesson is specific to one project and shouldn't pollute the shared methodology |
 
 ### Confirmation before apply
@@ -88,7 +89,7 @@ Keep:
 
 For each surviving candidate, decide which target file should receive it (using the taxonomy above).
 
-If the candidate could land in multiple targets, prefer the most local one — a skill change beats a role change beats a CLAUDE.md change. The harness compounds best when lessons are placed where they're consulted.
+If the candidate could land in multiple targets, prefer the most local one — a skill change beats a role change beats a `CLAUDE.md` / `AGENTS.md` change (and when a lesson does land at the dispatcher layer, edit both `CLAUDE.md` and `AGENTS.md` together). The harness compounds best when lessons are placed where they're consulted.
 
 ### Step 4 — Draft the proposal
 

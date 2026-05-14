@@ -36,7 +36,7 @@ Chris MDP's first principle ([Coding with AI](https://www.chrismdp.com/coding-wi
 
 A productive harness has the following components present and working. The audit checks each:
 
-1. **Standing instructions** — AGENTS.md or CLAUDE.md at the repo root. Articulates project conventions, model selection, git workflow, testing discipline. Read at every session start.
+1. **Standing instructions** — `AGENTS.md` and/or `CLAUDE.md` at the repo root. Articulates project conventions, model selection, git workflow, testing discipline. Read at every session start. In Hornero-style repos both files are expected and kept in sync (the two dispatcher protocols mirror each other); in simpler repos either is sufficient. A divergent dual-host pair is itself a Friction finding.
 2. **Skill files** — repo-local or imported skill library that the agent can invoke. Codifies durable behaviors (review, refactor, debug patterns).
 3. **Test feedback** — running tests is fast and informative. Failures indicate real problems; flakiness is bounded.
 4. **Type and lint feedback** — fast type checks and linters. Errors are actionable; warnings aren't ignored.

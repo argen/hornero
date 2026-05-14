@@ -29,7 +29,7 @@ The curated bibliography for the designer role. Skills cite from this list. New 
 - Used in: persona, goal-directed-design, interaction-patterns skills.
 
 ### Erika Hall — Mule Design
-- *Just Enough Research* (2013)
+- *Just Enough Research* (2013, rev. 2019)
 - *Conversational Design* (2018)
 - **Why she matters:** Practical research methods for teams that can't afford a research department; the design-as-conversation framing for chat/voice/AI surfaces.
 - Used in: research-plan, conversational-flow skills.
@@ -80,6 +80,7 @@ The curated bibliography for the designer role. Skills cite from this list. New 
 - **Material Design** — Google's platform standard; pattern reference.
 - **WCAG 2.2** — Web Content Accessibility Guidelines; the regulatory floor, not the ceiling.
 - **Refactoring UI** — already in anchors; also a website with ongoing tactical posts.
+- **Heydon Pickering** — *Inclusive Components* (2018) and *Inclusive Design Patterns* (2016) — pattern library for accessible component design; the practical companion to Holmes' inclusion framing.
 
 ## Curation notes
 

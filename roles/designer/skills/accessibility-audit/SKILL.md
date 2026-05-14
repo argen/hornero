@@ -340,4 +340,4 @@ Failures: no scope; no tools beyond axe (which catches a fraction of real issues
   - [`heuristic-review`](../heuristic-review/SKILL.md) — Nielsen-10 review intersects with WCAG at heuristics 1, 3, 7, 9; the audits complement.
   - [`design-review`](../design-review/SKILL.md) — the workflow that runs this audit as one of its passes.
   - `roles/tester/skills/test-plan/SKILL.md` — accessibility findings feed the test plan's Operations and Platform HTSM rows.
-  - `roles/security-expert/` (forthcoming) — accessibility and security overlap on consent, disclosure, and authentication-bypass surfaces.
+  - `roles/security-expert/` — accessibility and security overlap on consent, disclosure, and authentication-bypass surfaces.

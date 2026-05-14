@@ -202,7 +202,7 @@ The plan lives as long as the area lives, with periodic refresh. When a producti
 |---|------|------------|-----------|------------|
 | 1 | Rate-limiter releases retried tokens twice in network-partition scenarios | Paid customers over-billed up to 2x order total; trust loss; refund cost | M (we partition ~monthly in prod) | Property test on token-release idempotence (all retry paths); integration test of partition recovery; production alert on duplicate-token-id rate |
 | 2 | Concurrent updates to shared cart from two devices cause line-item loss | Lost sale; missing order; CS ticket | M | Integration test of two-writer scenario; pessimistic-lock contract test; load test at 100 concurrent updates/cart |
-| 3 | Daylight-saving rollover in scheduled order-cleanup job double-deletes orders | Up to 1 hour of orders deleted twice from queue (idempotency saves us); customer support load | L (twice yearly) | Time-based test running the job across 2025-11-02 02:30 boundary in fake clock; idempotency assertion on delete-op |
+| 3 | Daylight-saving rollover in scheduled order-cleanup job double-deletes orders | Up to 1 hour of orders deleted twice from queue (idempotency saves us); customer support load | L (twice yearly) | Time-based test running the job across 2026-11-01 02:30 boundary in fake clock; idempotency assertion on delete-op |
 | 4 | Postgres replica lag during checkout causes "your cart is empty" errors | Cart-abandonment spike; revenue loss | H during deploys | Contract test of read-after-write with replica delay; production alert on replica-lag threshold |
 ```
 
@@ -216,7 +216,7 @@ Each risk is concrete, has a falsifiable mitigation, and ties to a real failure 
 - **Time:**
   - Concurrent updates: integration test with 10 concurrent writers per cart.
   - Replica lag: contract test asserting read-after-write within 500ms.
-  - DST rollover: time-mocked job run across 2025-11-02 boundary (US TZ) and 2026-03-29 (EU TZ).
+  - DST rollover: time-mocked job run across 2026-11-01 boundary (US TZ) and 2027-03-28 (EU TZ).
   - Leap second: explicitly NOT covered; we accept up to 1s drift in scheduled jobs.
   - Long-running session: 24h-aged cart still checkout-able (manual exploratory + nightly synthetic).
 ```
