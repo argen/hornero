@@ -27,7 +27,7 @@
 | Skill | Type | When to invoke |
 |---|---|---|
 | `context-reset-check` | interactive | Use when a session feels stuck — detects context drift, repeated rework, contradictory outputs, and recommends resetting with a fresh tight brief. |
-| `extract-lesson` | interactive | Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, or CLAUDE.md. |
+| `extract-lesson` | interactive | Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory. |
 | `harness-check` | workflow | Use to audit whether a repository is AI-ready — does it have AGENTS.md / CLAUDE.md, well-scoped skills, useful test feedback, and a working install path. |
 | `multi-role-review` | workflow | Use when a task, plan, diff, or artifact would benefit from parallel critique by 2-7 expert role personas — orchestrates dispatch, artifact passing, and synthesis. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
@@ -48,7 +48,7 @@
 | Skill | Type | When to invoke |
 |---|---|---|
 | `accessibility-audit` | component | Use when a designer needs to audit a UI surface against WCAG 2.2 conformance and inclusive-design principles — not as a compliance tickbox but as a usability check for the full audience. |
-| `design-review` | workflow | Use when a UI or feature change is about to be reported as complete — runs a structured design + UX + accessibility + platform-capability pass on a diff or surface and produces a Go / Fix-Then-Go / Hold recommendation with specific findings. |
+| `design-review` | workflow | Use when a UI or feature change is about to be reported as complete — runs a structured design + UX + accessibility + platform-capability pass on a diff or surface and produces a Go / Fix-then-go / Hold recommendation with specific findings. |
 | `heuristic-review` | component | Use when a designer needs to evaluate a UI surface against Jakob Nielsen's 10 usability heuristics — applied with judgement, not as a tickbox — to surface usability defects before user testing or after a contested design critique. |
 | `state-audit` | component | Use when a designer needs to inventory every state an interactive surface must support — empty, loading, error, partial, success, and edge — before declaring the design or build complete. |
 
@@ -70,7 +70,7 @@
 | `jobs-to-be-done` | component | Use to articulate why a customer hires a product — the functional, emotional, and social job they're trying to get done. Anchored in Clayton Christensen's JTBD theory. |
 | `okrs` | component | Use to draft or critique quarterly OKRs — Objectives + Key Results — grounded in Christina Wodtke's radical-focus methodology. |
 | `positioning-statement` | component | Use to draft or critique a positioning statement using Geoffrey Moore's template, sharpened by April Dunford's framing. |
-| `prd` | component | Use when a product manager needs to produce or critique a Product Requirements Document — a problem-driven, outcomes-focused spec for a feature or product change. |
+| `prd` | component | Use when a product manager needs to produce or critique a PRD — to anchor a feature in a problem statement, expose solution-shaped thinking before it ossifies, pair every success metric with a counter-metric, and name what's deliberately out of scope. |
 
 ### security-expert
 
@@ -87,7 +87,7 @@
 |---|---|---|
 | `adr` | component | Use when an engineering team needs to record an architectural decision — the context, the options considered, the choice, and the consequences — in a lightweight, durable artifact. |
 | `refactor-plan` | component | Use when an engineer needs to plan a non-trivial refactor — a structural code change that preserves behaviour — with an explicit safety net, sequence, and rollback path. |
-| `rfc` | component | Use when an engineering team needs to propose a non-trivial technical change — new system, significant refactor, cross-team contract — and wants written debate before commitment. |
+| `rfc` | component | Use when an engineering team needs to propose a non-trivial technical change — new system, significant refactor, cross-team contract — and wants written debate before commitment, producing a traceable record of what was proposed, what was considered, and what was decided. |
 | `tdd-discipline` | workflow | Use when implementing a behaviour change (feature or bug fix) and you want each step driven by a failing test — red, green, refactor — with each phase respected, not collapsed. |
 
 ### tester

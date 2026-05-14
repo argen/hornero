@@ -107,6 +107,8 @@ Before drafting, the CMO / head of marketing assembles:
 
 If this evidence is missing, the first phase is gathering it. Drafting positioning without evidence produces positioning the market doesn't recognise.
 
+> **Reviewer mode on a draft canvas.** When this skill is invoked to *review* an existing draft canvas (rather than produce one from scratch), proceed directly to Step 3 — the validation checks apply to any draft regardless of its evidence base. "Evidence missing or thin" then becomes one of the review's findings, not a precondition for starting the review. A fresh PMM critiquing an early draft does not need to commission 15-30 interviews before the skill is useful.
+
 ### Step 2 — Draft the canvas
 
 ```markdown

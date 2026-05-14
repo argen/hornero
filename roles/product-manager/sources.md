@@ -83,6 +83,12 @@ The curated bibliography for the product-manager role. Skills cite from this lis
 - **Bob Moesta** — *Demand-Side Sales* (2020); JTBD in practice; switch interview technique.
 - **Rich Mironov** — *The Art of Product Management* (2008); enterprise PM realism.
 - **Chip Heath & Dan Heath** — *Decisive: How to Make Better Choices in Life and Work* (2013); the WRAP framework (Widen options, Reality-test, Attain distance, Prepare to be wrong). Used in [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md) for the decision-recommendation shape.
+- **April Dunford** — *Obviously Awesome* (2019); *Sales Pitch* (2023). Positioning-as-deliberate-act; the canvas methodology adopted by the marketing role. Cited in `positioning-statement` (Moore template sharpened by Dunford) and across the marketing role's `positioning-canvas`.
+- **Andy Raskin** — strategic-narrative methodology (the 5-part story used in keynotes, decks, sales pitches, all-hands). Cited in `positioning-statement` and across the marketing role's `strategic-narrative`.
+- **John Doerr** — *Measure What Matters* (2018); the most-circulated OKR primer (Intel → Google lineage). Cited in `okrs` as supplementary context to Wodtke's working methodology.
+- **Andy Grove** — *High Output Management* (1983); origin of the OKR system at Intel. Cited in `okrs` as historical anchor.
+- **Rob Fitzpatrick** — *The Mom Test* (2014); discovery-interview anti-patterns (asking questions that flatter the asker). Cited in `discovery-interview-prep` alongside Torres and Moesta.
+- **Theodore Levitt** — "Marketing Myopia" (HBR, 1960); the customer-doesn't-want-a-drill-they-want-a-hole framing that pre-dates and seeds JTBD. Cited in `jobs-to-be-done` as lineage.
 
 ## Incorporated synthesis
 

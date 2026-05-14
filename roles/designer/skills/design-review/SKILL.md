@@ -1,6 +1,6 @@
 ---
 name: design-review
-description: Use when a UI or feature change is about to be reported as complete — runs a structured design + UX + accessibility + platform-capability pass on a diff or surface and produces a Go / Fix-Then-Go / Hold recommendation with specific findings.
+description: Use when a UI or feature change is about to be reported as complete — runs a structured design + UX + accessibility + platform-capability pass on a diff or surface and produces a Go / Fix-then-go / Hold recommendation with specific findings.
 intent: |
   A workflow skill that orchestrates the designer role's component
   skills — state-audit, accessibility-audit, heuristic-review — and

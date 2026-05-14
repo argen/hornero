@@ -24,7 +24,7 @@ estimated_time: 2-4 hours (focused system); 1-2 days (multi-agent or tool-rich s
 
 # LLM risk assessment
 
-> v0 draft. Grounded in OWASP's [LLM Top 10 (2025)](https://genai.owasp.org/llm-top-10/), NIST's [AI Risk Management Framework (AI RMF 1.0, 2023)](https://www.nist.gov/itl/ai-risk-management-framework), Simon Willison's writing on prompt injection and the "lethal trifecta," and Anthropic's published threat-model patterns for tool-using agents.
+> v0 draft. Grounded in OWASP's [LLM Top 10 (2025)](https://genai.owasp.org/llm-top-10/), NIST's [AI Risk Management Framework (AI RMF 1.0, 2023)](https://www.nist.gov/itl/ai-risk-management-framework), and the practitioner literature on prompt injection (Willison, Greshake et al.) and agentic-system threat modelling (Anthropic, Microsoft AI Red Team). Full citations in References.
 
 ## Purpose
 

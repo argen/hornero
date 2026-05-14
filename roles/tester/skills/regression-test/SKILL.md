@@ -173,7 +173,7 @@ For high-severity bugs:
 - The [`test-plan`](../test-plan/SKILL.md) for this area gains a row in its Risks table reflecting what was missed.
 - The post-mortem (if there is one) names this test as a follow-up action and points to it.
 
-This is the feedback-loop discipline of Chris MDP's "Coding with AI" — each bug becomes a permanent piece of the harness.
+This is the feedback-loop discipline from Chris MDP's "Coding with AI" (see `roles/tester/sources.md` and `methodology.md`) — each bug becomes a permanent piece of the harness.
 
 ## Examples
 

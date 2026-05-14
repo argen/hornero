@@ -299,4 +299,4 @@ Failures: Context is vacuous; Decision has no specificity (LISTEN/NOTIFY? logica
 - **Related Hornero skills:**
   - [`rfc`](../rfc/SKILL.md) — for decisions large enough to need full proposal-and-debate, write an RFC first; the resulting decision becomes an ADR.
   - [`refactor-plan`](../refactor-plan/SKILL.md) — when an ADR commits to a refactor, the plan lives there.
-  - `skills/extract-lesson/SKILL.md` — when an ADR's consequences prove wrong in practice, the lesson feeds back here.
+  - [`extract-lesson`](../../../../skills/extract-lesson/SKILL.md) — when an ADR's consequences prove wrong in practice, the lesson feeds back here.

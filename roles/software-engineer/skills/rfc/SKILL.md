@@ -1,6 +1,6 @@
 ---
 name: rfc
-description: Use when an engineering team needs to propose a non-trivial technical change — new system, significant refactor, cross-team contract — and wants written debate before commitment.
+description: Use when an engineering team needs to propose a non-trivial technical change — new system, significant refactor, cross-team contract — and wants written debate before commitment, producing a traceable record of what was proposed, what was considered, and what was decided.
 intent: |
   Produces or evaluates an RFC (Request for Comments) — a technical design
   document that frames a problem, presents a proposed approach with
@@ -309,10 +309,10 @@ Failures: "plugin system" is unjustified scope-creep; "Type-1 because we want ad
 - **Will Larson** — *An Elegant Puzzle* (2019); *Staff Engineer* (2021); essays on [lethain.com](https://lethain.com/) covering engineering strategy and decision-making practice. See `roles/software-engineer/sources.md`.
 - **Tanya Reilly** — *The Staff Engineer's Path* (2022); design-document craft, especially audience and narrative.
 - **John Ousterhout** — *A Philosophy of Software Design* (2nd ed. 2021), ch. 16 ("Design It Twice"); design-as-writing argument.
-- **Shreyas Doshi** — Type-1 vs Type-2 decision framing (Bezos lineage); applied to engineering RFCs.
+- **Shreyas Doshi** — Type-1 vs Type-2 decision framing (Bezos lineage); applied to engineering RFCs. See `roles/product-manager/sources.md` (Doshi is anchored on the PM side; the framing crosses cleanly into engineering decision-making).
 - **Industry references** — Google's internal "design doc" tradition (publicly described in *Software Engineering at Google*, Winters, Manshreck, Wright, 2020); IETF's [RFC 7322](https://www.rfc-editor.org/rfc/rfc7322) for naming/section discipline (adopted loosely, not as a hard rule).
 - **Related Hornero skills:**
   - [`adr`](../adr/SKILL.md) — for the lapidary record of a decision the RFC produces.
   - [`refactor-plan`](../refactor-plan/SKILL.md) — for the in-flight plan when an RFC commits to refactoring existing code.
-  - `roles/product-manager/skills/prd/SKILL.md` — pair with a PRD for user-facing changes; RFC handles the technical half.
-  - `skills/multi-role-review/SKILL.md` — for RFCs touching multiple domains (UX, security, data); orchestrates the cross-role review.
+  - [`prd`](../../../product-manager/skills/prd/SKILL.md) — pair with a PRD for user-facing changes; RFC handles the technical half.
+  - [`multi-role-review`](../../../../skills/multi-role-review/SKILL.md) — for RFCs touching multiple domains (UX, security, data); orchestrates the cross-role review.

@@ -342,7 +342,7 @@ Failures: tickbox mode; no surface citations; no reproductions; no severity; "ne
 - **Jakob Nielsen** — ["How to Conduct a Heuristic Evaluation"](https://www.nngroup.com/articles/how-to-conduct-a-heuristic-evaluation/) (NN/g); severity rating scale; reviewer-count economics.
 - **Don Norman** — *The Design of Everyday Things* (rev. ed. 2013); the design principles underlying the heuristics. See `roles/designer/sources.md`.
 - **Steve Krug** — *Don't Make Me Think* (3rd ed. 2014); the practical voice on what "recognition over recall" means in practice.
-- **Erika Hall** — *Just Enough Research* (2nd ed. 2019); on calibrating heuristic review against actual user research.
+- **Erika Hall** — *Just Enough Research* (2013, rev. 2019); on calibrating heuristic review against actual user research. See `roles/designer/sources.md`.
 - **Related Hornero skills:**
   - [`state-audit`](../state-audit/SKILL.md) — heuristic 1 (status visibility) is structurally addressed by the state inventory.
   - [`accessibility-audit`](../accessibility-audit/SKILL.md) — heuristics 1, 3, 7, 9 intersect with WCAG; the audits complement.

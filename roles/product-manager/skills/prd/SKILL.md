@@ -1,6 +1,6 @@
 ---
 name: prd
-description: Use when a product manager needs to produce or critique a Product Requirements Document — a problem-driven, outcomes-focused spec for a feature or product change.
+description: Use when a product manager needs to produce or critique a PRD — to anchor a feature in a problem statement, expose solution-shaped thinking before it ossifies, pair every success metric with a counter-metric, and name what's deliberately out of scope.
 intent: |
   Produces or evaluates a PRD that resists the build-trap. The PRD is
   problem-driven (not solution-driven), outcome-focused (not output-focused),

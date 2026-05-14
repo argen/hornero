@@ -204,10 +204,13 @@ The orchestrator's output is the DAG, the adjustment set if any, the chosen path
        |      \
        v       v
    user_role -> feature_use -> activation_week1 -> retention_30d
-       ^                ^
-       |                |
-     tenure ------------+
+       |  ^             ^
+       |  |             |
+       |  tenure --------+
+       +-------------------------> retention_30d
 ```
+
+(`user_role → retention_30d` is the direct edge that opens backdoor path 3 below: admins are intrinsically more retentive regardless of feature use.)
 
 **Backdoor paths from feature_use to retention_30d:**
 

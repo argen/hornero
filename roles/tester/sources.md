@@ -9,12 +9,12 @@ The curated bibliography for the tester role. Skills cite from this list. New fr
 - Heuristic Test Strategy Model (HTSM)
 - *Lessons Learned in Software Testing* (2001, with Cem Kaner and Bret Pettichord)
 - **Why they matter:** RST is the leading context-driven testing methodology; HTSM is the canonical heuristic framework for what to test and how to think about coverage. Sharp critics of certification-driven test theatre.
-- Used in: test-strategy, heuristic-test-pass, exploratory-charter skills.
+- Used in: test-strategy, exploratory-charter skills.
 
 ### Elisabeth Hendrickson
 - *Explore It! Reduce Risk and Increase Confidence with Exploratory Testing* (2013)
 - **Why she matters:** The clearest practitioner guide to structured exploratory testing; "test charters" as the unit of exploration; nines of touring heuristics (feature tour, claims tour, configuration tour, etc.).
-- Used in: exploratory-charter, touring-heuristics skills.
+- Used in: exploratory-charter skills.
 
 ### Lisa Crispin & Janet Gregory
 - *Agile Testing* (2009)
@@ -76,6 +76,7 @@ The curated bibliography for the tester role. Skills cite from this list. New fr
 - **Alan Page** — *How We Test Software at Microsoft* (2008, with Ken Johnston and Bj Rollison) — historical reference for big-org test engineering.
 - **Google Testing Blog** — engineering-practice patterns from a high-volume context.
 - **Bret Pettichord** — co-author of *Lessons Learned in Software Testing*; voice on test management.
+- **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/); the feedback-loop discipline that makes each shipped regression test a permanent piece of the harness. Cited in `regression-test`. (Also anchored in `roles/software-engineer/sources.md` and in the repo-level `methodology.md`.)
 
 ## Curation notes
 
