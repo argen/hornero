@@ -4,7 +4,7 @@ Per-role distilled notes from the anchor works in each role's `sources.md`. The 
 
 These notes are **not** a replacement for the source works — they're a working memory for the methodology. If a teammate hasn't read Beck or Fowler, the note tells them what's load-bearing in the role's skills and where to go deep next.
 
-> **Status:** seed shipped (v0.6). Software-engineer has 5 of its 10 anchor notes. The other 6 roles now have a *top-priority* anchor note each (Cagan for PM, Norman for designer, Bach/Bolton for tester, Shostack for security, Dunford for marketing, Kohavi for data-scientist) — the same anchor a working teammate would be told to read *first* before adopting the role. The remaining notes per role follow the same pattern when active work warrants them; the structure is the point, coverage compounds.
+> **Status:** seed shipped + first follow-on round (v0.7). Software-engineer has 5 of its 10 anchor notes. The other 6 roles now each have *two* shipped notes: the top-priority anchor (Cagan, Norman, Bach/Bolton, Shostack, Dunford, Kohavi) plus the role's #2-priority anchor (Torres for PM, Nielsen for designer, Hendrickson for tester, OWASP for security, Sharp for marketing, Pearl for data-scientist). Two notes per non-engineer role is the v0.7 readiness bar: enough to demonstrate the cross-role critique frames each role brings to a `multi-role-review`. Remaining notes per role follow when active work warrants them; the structure is the point, coverage compounds.
 
 ## Structure
 
@@ -64,11 +64,11 @@ Each note follows this shape:
 | Role | Notes shipped | Anchors total |
 |---|---|---|
 | software-engineer | 5 | 10 |
-| product-manager | 1 | 11 |
-| designer | 1 | 11 |
-| tester | 1 | 10 |
-| security-expert | 1 | 10 |
-| data-scientist | 1 | 10 |
-| marketing-expert | 1 | 10 |
+| product-manager | 2 | 11 |
+| designer | 2 | 11 |
+| tester | 2 | 10 |
+| security-expert | 2 | 10 |
+| data-scientist | 2 | 10 |
+| marketing-expert | 2 | 10 |
 
 Each role's README links to its shipped notes and lists what's outstanding.
