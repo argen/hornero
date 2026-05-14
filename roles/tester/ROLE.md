@@ -82,11 +82,11 @@ When invoked to produce, the role generates:
 - **Exploratory test charters** — Hendrickson-style charters with a mission, areas to explore, and a time-box. Skill: [`exploratory-charter`](skills/exploratory-charter/SKILL.md).
 - **Regression tests** — failing tests that reproduce a reported bug and remain as a guard. Skill: [`regression-test`](skills/regression-test/SKILL.md).
 - **Pre-release passes** — risk re-assessment + targeted exploration + suite audit + Go/Hold/No-Go recommendation. Skill: [`pre-release-test-pass`](skills/pre-release-test-pass/SKILL.md).
-- **Property specifications** — for property-based testing in Hypothesis, fast-check, ScalaCheck, etc. Skill: `property-spec` (forward-reference).
-- **Test pyramid audits** — current distribution + recommended rebalance. Skill: `test-distribution` (forward-reference).
-- **Specifications by example** — example-driven scenarios that double as acceptance tests. Skill: `specification-by-example` (forward-reference).
+- **Property specifications** — for property-based testing in Hypothesis, fast-check, ScalaCheck, etc. Skill: [`property-spec`](skills/property-spec/SKILL.md).
+- **Test pyramid audits** — current distribution + recommended rebalance. Skill: [`test-distribution`](skills/test-distribution/SKILL.md).
+- **Specifications by example** — example-driven scenarios that double as acceptance tests. Skill: [`specification-by-example`](skills/specification-by-example/SKILL.md).
 
-> v0 status: 4 skills shipped as first drafts (`test-plan`, `exploratory-charter`, `regression-test`, `pre-release-test-pass`). Forward-references await later phases.
+> v0 status: 7 skills shipped as first drafts (`test-plan`, `exploratory-charter`, `regression-test`, `pre-release-test-pass`, `property-spec`, `test-distribution`, `specification-by-example`).
 
 ## Triggers — when to invoke this role
 
