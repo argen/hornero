@@ -2,7 +2,7 @@
 
 A repeatable way to measure whether `multi-role-review` is producing useful output, not just plausible output.
 
-> **Status:** scaffold shipped (v0.5). Rubric, scoring script, and 8 starter tasks are present. Running the full 20-sample evaluation is a follow-up — needs human-judgement scoring on the four rubric dimensions.
+> **Status:** scaffold complete (v0.7). Rubric, scoring script, and the full **20-task suite** are shipped. Running the campaign is the remaining work — needs human-judgement scoring on the four rubric dimensions per [`rubric.md`](rubric.md). The 20 tasks deliberately span all 7 roles, the 2-role through 5-role mixes, the PM-orchestrator path (task 04) and the tester-orchestrated workflow path (task 15), and the three threat-model shapes (LLM-feature, third-party integration, multi-region architecture).
 
 ## Why this exists
 
@@ -83,7 +83,34 @@ cp <artifact-source> evals/runs/<task-slug>/artifact.md  # or link
    - What "good" looks like for *this* task (1-3 sentences — the things a real reviewer would want to see surfaced)
 3. Run and score as above.
 
-The 8 starter tasks under [`tasks/`](tasks/) are seeds; expand toward 20 representative tasks before declaring v1.
+The 20 tasks under [`tasks/`](tasks/) are the v1 suite. They are not closed for additions — when a real artifact shape isn't represented (a new role-mix pattern, a different artifact type), add it. But the suite as shipped is intended to be sufficient to declare ≥0.8 across 20 runs.
+
+### Task suite coverage (20 tasks)
+
+| # | Slug | Shape | Roles | Notes |
+|---|---|---|---|---|
+| 01 | `engineer-pr-payments-migration` | Engineering PR | engineer + security + tester | webhook migration |
+| 02 | `prd-cohort-duplicate` | PRD critique | PM + DS + engineer | |
+| 03 | `rfc-cache-invalidation` | RFC | engineer + security + PM | |
+| 04 | `launch-plan-ledgerstack` | Launch readiness | PM-orchestrator (4 siblings) | exercises `cross-functional-orchestration` |
+| 05 | `threat-model-llm-feature` | Threat model | security + engineer | LLM-specific |
+| 06 | `dashboard-redesign-spec` | Dashboard redesign | designer + PM + DS | |
+| 07 | `experiment-readout-pricing` | A/B readout | DS + PM | post-run |
+| 08 | `positioning-canvas-draft` | Positioning canvas | marketing + PM | early-stage SaaS |
+| 09 | `test-plan-checkout-cart` | Test plan critique | tester + engineer + PM | HTSM gaps seeded |
+| 10 | `accessibility-audit-onboarding` | A11y audit | designer + tester + engineer | WCAG 2.2 |
+| 11 | `refactor-plan-payment-rails` | Refactor plan | engineer + tester + security | Fowler/Metz lens |
+| 12 | `metric-definition-activation` | Metric definition | DS + PM + engineer | Goodhart seeded |
+| 13 | `prd-search-relevance` | PRD (solution-shaped) | PM + DS + designer | spec-the-problem test |
+| 14 | `strategic-narrative-startup` | Strategic narrative | marketing + PM | Raskin 5-part |
+| 15 | `pre-release-test-pass-mobile` | Pre-release workflow | tester-orchestrated (4 inputs) | exercises `pre-release-test-pass` |
+| 16 | `causal-claim-retention` | Causal claim | DS + PM | observational vs experiment |
+| 17 | `rfc-multi-region-architecture` | RFC (upper-bound mix) | engineer + PM + security + DS + tester | 5-role |
+| 18 | `positioning-statement-platform-pivot` | Positioning statement | PM + marketing | Moore template + Dunford |
+| 19 | `experiment-design-pricing` | Experiment design | DS + PM + engineer | Kohavi pre-allocation |
+| 20 | `threat-model-third-party-integration` | Threat model | security + engineer + PM | non-LLM, OAuth + write |
+
+When aggregating: distinguish the **single-orchestrator cohort** (most tasks, default invocation) from the **workflow-composition cohort** (tasks 04 and 15, plus the 5-role task 17 as a separate-but-related case). Each cohort gives a different signal — workflow composition tests whether the orchestrator-of-orchestrators path works; single-orchestrator tests the base case. The v1 ≥0.8 target applies across the full 20, but the cohorts should be reported separately so any cohort-specific weakness is visible.
 
 ## Files
 
