@@ -70,14 +70,19 @@
 
 | Skill | Type | When to invoke |
 |---|---|---|
+| `bet-portfolio` | component | Use to make the implicit bets in a product strategy explicit — typically 3-7 bets, each with assumption, evidence weight, kill criterion, and revisit cadence. |
+| `competitive-teardown` | component | Use when a PM needs to convert "we should look at competitor X" into a defensible position on what to build, refuse to build, and watch — structured analysis of a competitor's product, positioning, packaging, switching costs, and observable strategy. |
 | `cross-functional-orchestration` | workflow | Use when a PM needs to coordinate cross-functional work — a launch, a contested decision, a roadmap call, a strategic question — by framing it as a customer job, dispatching the right role mix, and synthesising into a product decision. |
 | `discovery-interview-prep` | interactive | Use to plan a discovery interview — produces an interview guide grounded in Teresa Torres' continuous-discovery methodology and Bob Moesta's switch-interview technique. |
+| `interview-synthesis` | interactive | Use after discovery interviews to produce per-interview snapshots, theme rollups, OST updates, and a quote bank — the post-call discipline that makes the continuous-discovery cadence compound. |
 | `jobs-to-be-done` | component | Use to articulate why a customer hires a product — the functional, emotional, and social job they're trying to get done. Anchored in Clayton Christensen's JTBD theory. |
 | `okrs` | component | Use to draft or critique quarterly OKRs — Objectives + Key Results — grounded in Christina Wodtke's radical-focus methodology. |
 | `positioning-statement` | component | Use to draft or critique a positioning statement using Geoffrey Moore's template, sharpened by April Dunford's framing. |
 | `prd` | component | Use when a product manager needs to produce or critique a PRD — to anchor a feature in a problem statement, expose solution-shaped thinking before it ossifies, pair every success metric with a counter-metric, and name what's deliberately out of scope. |
 | `prioritization-advisor` | interactive | Use to triage a backlog or set of options into Do-Now / Defer / Discard — applying LNO, ICE-with-confidence, and the four-risks lens to produce a ranked list with explicit reasoning and rank-change conditions. |
 | `problem-framing-canvas` | interactive | Use before drafting a PRD to produce a structured problem statement — who has it, what triggers it, what happens if unsolved, what alternatives exist, what success looks like for the customer. |
+| `revenue-architecture` | workflow | Use when the PM needs to map the full product growth system — funnel, activation, retention, expansion, churn — as a connected graph, identify the bottleneck stage, and surface which levers move the system vs which produce only local lift. |
+| `strategy-kernel` | component | Use when a PM needs to produce or critique a strategy artifact — to name the central obstacle (diagnosis), articulate the posture for overcoming it (guiding policy), and confirm the actions reinforce each other rather than sitting as an independent initiative list (coherent actions). |
 | `success-metrics` | component | Use before instrumentation to define what good looks like — primary metric, counter-metric, guardrails, and leading indicators — for a feature, launch, or quarter. |
 
 ### security-expert
