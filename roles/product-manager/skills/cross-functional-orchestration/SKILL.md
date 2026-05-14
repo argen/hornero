@@ -115,12 +115,13 @@ The subagents run in parallel and return condensed findings via the standard `tm
 
 ### Step 4 — Synthesise through the PM lens (15-30 minutes)
 
-Read the role findings. Then write a synthesis that does four things `multi-role-review`'s generic synthesis doesn't:
+Read the role findings. Then write a synthesis that does five things `multi-role-review`'s generic synthesis doesn't:
 
 1. **Map findings to the customer job.** Each finding either advances, blocks, or is orthogonal to the job. Orthogonal findings get filed; they're not synthesis material.
 2. **Surface trade-offs in product language.** Not "engineering wants a 3-week refactor and design wants a new component," but "if we ship in 2 weeks we delay the engineering refactor by a quarter, and we ship the existing component pattern users already understand." The PM translates each function's vocabulary into the customer-job frame.
 3. **Identify the single decision** the orchestration is forcing. Not 7 sub-decisions — the one decision that, once made, unblocks the rest.
 4. **Name the alternative explicitly.** Heath brothers' Widen Your Options: any decision recommendation is sharpened by naming the alternative considered and the reason it was set aside. "We're not [alternative] because [reason]."
+5. **Carry citations forward.** When summarising each sibling's finding, name 1-2 load-bearing citations from that role's review — the framework, author, OWASP code, NIST control, or named source they leaned on. The PM-synthesised decision is *defensible* only when its grounding is visible; without citations the synthesis reads as PM judgement asserting authority over expert findings, and the decision becomes unreviewable after the meeting. Rule of thumb: one named source per sibling, surfaced inline in the synthesis paragraph (preferred) or in a "Grounding" line at the foot of the decision recommendation (acceptable fallback). This requirement was added after the v0 eval pilot (`evals/PILOT-REPORT.md`) caught a citation washout in PM-orchestrator synthesis — distinct from `multi-role-review`'s plain synthesis where citations sit closer to the findings.
 
 Output: a synthesis section ≤1 page that a non-PM stakeholder can read in 3 minutes and act on.
 
@@ -145,9 +146,11 @@ Write the recommendation in this shape:
 - <role / person>: <what they do next>
 
 **Open questions:** <each owned by a name with a deadline; none if there are none>
+
+**Grounding:** <one line per sibling — the load-bearing source they cited. e.g., "Security: OWASP ASVS V2.9.1 (timing-safe comparison); Tester: Hendrickson's Money tour; Marketing: Dunford positioning canvas; Data-science: Kohavi SRM check.">
 ```
 
-This shape encodes Doshi's decision-quality discipline (the reasoning is recorded so the decision can be assessed independently of outcome) and Heath brothers' WRAP framework (Widen options, Reality-test, Attain distance, Prepare to be wrong → the "revisit condition" line is "prepare to be wrong" made operational).
+This shape encodes Doshi's decision-quality discipline (the reasoning is recorded so the decision can be assessed independently of outcome) and Heath brothers' WRAP framework (Widen options, Reality-test, Attain distance, Prepare to be wrong → the "revisit condition" line is "prepare to be wrong" made operational). The Grounding line is the citation-carry-forward discipline made operational — without it, the orchestrator-of-orchestrators synthesis tends to compress citations out of the decision artifact (eval pilot finding, task 04: cite-rate 0.0 with 1.0 on every other dimension).
 
 ### Step 6 — File and follow up (5-10 minutes)
 
@@ -282,6 +285,16 @@ Failures: no framed customer job; all 7 roles dispatched (no triage); synthesis 
 **Consequence:** Stakeholders read 7 sections and can't tell what to do. The PM's value-add disappears; orchestration becomes a Google Doc with seven heads.
 
 **Fix:** Synthesis maps each finding to the customer-job frame, identifies the single forcing decision, and names the alternative. If the synthesis is shorter than the inputs, you're doing it right.
+
+### Pitfall 3b — Citation washout in synthesis
+
+**Symptom:** The synthesis names findings, owners, and decisions but contains zero named sources, frameworks, or expert citations — even when the underlying sibling readouts cited extensively.
+
+**Consequence:** The decision becomes unreviewable after the meeting. A stakeholder reading the synthesis a quarter later can't tell whether the security claim is grounded in OWASP, the measurement claim in Kohavi, the positioning claim in Dunford — or whether the PM just asserted them. The orchestration loses its expert grounding the moment the PM writes it up.
+
+**Origin:** This pitfall was identified by the v0 eval pilot (`evals/PILOT-REPORT.md` task 04: source_citation_rate dropped to 0.0 while every other dimension scored 1.0). The decision-shape compression that makes PM-orchestrator synthesis valuable also collapses the citation trail unless the synthesis explicitly carries citations forward.
+
+**Fix:** Step 4 requirement 5 (carry citations forward) and the "Grounding" line in the decision-recommendation template. Rule of thumb: at least one named source per sibling, either inline in the synthesis paragraph or in the Grounding line at the foot of the recommendation. If you cannot name a source for a sibling's load-bearing finding, that sibling's review didn't ground its finding adequately — go back to the sibling, don't paper over the gap.
 
 ### Pitfall 4 — Skipping the framing step
 
