@@ -253,7 +253,7 @@ See `methodology.md` for the full synthesis.
 - [ ] **`research/` folder** — currently empty; the plan called for distilled book notes per role. Optional for v1 if `sources.md` is doing enough work.
 
 ### Verification (per plan §Verification)
-- [ ] **20-sample eval** of `multi-role-review` against representative tasks; score on source-citation rate, finding distinctness, conflict surfacing, actionability. Target: ≥0.8 mean before declaring v1.
+- [~] **20-sample eval** of `multi-role-review` — scaffolding shipped in `evals/`: rubric, interactive `score.sh` with aggregation, 8 starter tasks (engineer PR, PRD, RFC, PM-orchestrated launch, LLM threat-model, dashboard redesign, observational-causal-claim experiment readout, positioning canvas). The 8 tasks deliberately span all 7 roles, single-orchestrator and PM-orchestrator paths, and the four pre-launch sibling workflow composition. Running the 20 samples is the remaining half — needs human-judged scoring per [`evals/rubric.md`](evals/rubric.md).
 - [~] **Clean-install test** — `scripts/smoke-check.sh` ships as the scripting half (validates 35 SKILL.md anatomy + 7 ROLE.md + 7 agent definitions + CATALOG drift + install dry-run count + full reinstall against `~/.claude`). 8 checks; runs in ~5s. The fresh-machine human-timing test (clone → install → first critique in <15 min) still needs running once on a clean machine.
 - [ ] **Non-engineer reach** — a designer or marketer reaches productive use in <30 min using `playbooks/onboarding.md` alone.
 
@@ -274,14 +274,16 @@ CLAUDE.md               # Dispatcher protocol — also the file teams copy/adapt
 CATALOG.md              # Generated one-liner index (powers the dispatcher)
 roles/                  # One folder per role — ROLE.md, sources.md, skills/
 skills/                 # Cross-role process skills (spec-the-problem, extract-lesson, multi-role-review, ...)
-agents/                 # Optional Claude Code subagent wrappers
+agents/                 # Claude Code reviewer subagent wrappers (one per role)
 templates/              # AGENTS.md, CLAUDE.md, settings.json drop-in templates
 playbooks/              # Human-readable workflow guides
 research/               # Distilled book notes per role
+evals/                  # Rubric, scoring script, sample tasks for multi-role-review eval
 scripts/                # validate-skill.sh, catalog.sh, smoke-check.sh
 examples/               # Annotated sample sessions
 methodology.md          # The two-layer synthesis
 ATTRIBUTION.md          # Credits to incorporated experts
+LICENSE                 # MIT
 install.sh              # Copies skills + agents into ~/.claude
 ```
 

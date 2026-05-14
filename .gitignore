@@ -6,3 +6,7 @@
 node_modules/
 tmp/
 .claude/
+
+# Eval runs — artifacts and scores are workspace-specific
+evals/runs/*
+!evals/runs/.gitkeep
