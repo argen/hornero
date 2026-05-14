@@ -5,7 +5,11 @@
 *.swo
 node_modules/
 tmp/
-.claude/
+.claude/*
+!.claude/commands/
+
+# install.sh manifest — workspace-specific record of installed files
+.hornero-manifest
 
 # Eval runs — artifacts and scores are workspace-specific
 evals/runs/*

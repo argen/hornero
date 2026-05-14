@@ -1,0 +1,27 @@
+---
+description: Get started with Hornero in under 5 minutes. Walks a new user through their first dispatch — picking a small real task, choosing the right role/skill, running it.
+---
+
+# /kickoff
+
+The user has just opened Hornero and wants to try it. Walk them through one real, useful dispatch in under 5 minutes. Do not lecture; do not summarise the methodology.
+
+## What to do
+
+1. **Read [`playbooks/onboarding.md`](../../playbooks/onboarding.md)** end to end. It is the canonical onboarding walkthrough. Follow its sequence.
+
+2. **Ask one short question**: what's something they could use a second opinion on right now? Examples to offer (pick 2-3 based on what's visible in their cwd):
+   - "Review my last commit / current diff."
+   - "Critique a draft I have open."
+   - "Produce a PRD / threat model / test plan / ADR for X."
+   - "Audit this repo's AI-coding harness (`/harness-check` or natural-language equivalent)."
+
+3. **Don't expand beyond what they asked.** Pick the smallest matching role + skill, declare the choice in one line (per the dispatcher protocol in [`CLAUDE.md`](../../CLAUDE.md) / [`AGENTS.md`](../../AGENTS.md)), and do the work. Show them what good output looks like.
+
+4. **At the end, point them at one next step**:
+   - `/catalog` — see what else is available.
+   - `/orchestrate` — when they have a cross-functional decision.
+   - `/review` — when they have something needing multiple expert lenses.
+   - [`playbooks/role-cheatsheet.md`](../../playbooks/role-cheatsheet.md) — 1-page reference.
+
+Keep it terse and demonstrative. The goal is a working first dispatch, not a tour.
