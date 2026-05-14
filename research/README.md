@@ -4,7 +4,7 @@ Per-role distilled notes from the anchor works in each role's `sources.md`. The 
 
 These notes are **not** a replacement for the source works — they're a working memory for the methodology. If a teammate hasn't read Beck or Fowler, the note tells them what's load-bearing in the role's skills and where to go deep next.
 
-> **Status:** seed shipped (v0.5). Software-engineer has 5 of its 10 anchor notes; the other 6 roles' notes follow the same pattern. The structure is the point at this stage; coverage will grow as skills get used and lessons accumulate.
+> **Status:** seed shipped (v0.6). Software-engineer has 5 of its 10 anchor notes. The other 6 roles now have a *top-priority* anchor note each (Cagan for PM, Norman for designer, Bach/Bolton for tester, Shostack for security, Dunford for marketing, Kohavi for data-scientist) — the same anchor a working teammate would be told to read *first* before adopting the role. The remaining notes per role follow the same pattern when active work warrants them; the structure is the point, coverage compounds.
 
 ## Structure
 
@@ -64,11 +64,11 @@ Each note follows this shape:
 | Role | Notes shipped | Anchors total |
 |---|---|---|
 | software-engineer | 5 | 10 |
-| product-manager | 0 | 11 |
-| designer | 0 | 11 |
-| tester | 0 | 10 |
-| security-expert | 0 | 10 |
-| data-scientist | 0 | 10 |
-| marketing-expert | 0 | 10 |
+| product-manager | 1 | 11 |
+| designer | 1 | 11 |
+| tester | 1 | 10 |
+| security-expert | 1 | 10 |
+| data-scientist | 1 | 10 |
+| marketing-expert | 1 | 10 |
 
 Each role's README links to its shipped notes and lists what's outstanding.
