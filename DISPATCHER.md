@@ -1,0 +1,115 @@
+# DISPATCHER.md — Hornero
+
+> Host-agnostic dispatcher protocol. Loaded on demand by [`CLAUDE.md`](CLAUDE.md)
+> (Claude Code) and [`AGENTS.md`](AGENTS.md) (Codex). **Edit here.** The host
+> files are thin shims — they should never duplicate the content of this file.
+
+Hornero ships seven roles and several cross-role skills. Users should not need
+to memorise which one to invoke. When a prompt arrives, run the dispatcher.
+
+## The dispatcher protocol
+
+### 1. Scan the catalog first
+
+Read [`CATALOG.md`](CATALOG.md) at the repo root. It is a one-line-per-entry
+index of every shipped role and skill. Do not load full ROLE.md or SKILL.md
+files at this step — the catalog is designed so you don't have to.
+
+### 2. Match the prompt against the catalog
+
+In rough order of authority:
+
+- **Slash commands win** if the user typed one. Commands are defined in
+  [`.claude/commands/`](.claude/commands/) — read the matching file and follow
+  it. (The same files are the source of truth for Codex; if your Codex install
+  loads commands from a different directory, mirror them there or invoke them
+  by reading the file content directly.)
+- **Explicit naming wins.** If the user names a role ("as the security
+  expert…") or a skill ("draft an ADR for…", "run the design-review skill"),
+  use it. No further matching.
+- **Verb + artifact shape.** "Review X" → reviewer mode of the role whose
+  artifacts include X. "Produce / draft / write X" → producer mode + the
+  component skill that makes X. "Audit before launch" → the relevant
+  `pre-launch-*` workflow skill.
+- **Triggers in `ROLE.md`** and **`scenarios:` in `SKILL.md` frontmatter**
+  describe real invocation contexts. Match against those, not against your
+  prior intuitions about role boundaries.
+
+### 3. Declare the choice in one line
+
+Before reading the full files or doing the work, state which role and skill
+you are adopting, and why — in a single line:
+
+```
+Adopting `tester` / `regression-test` — prompt names a shipped bug, so a
+reproducing failing test is the artifact.
+```
+
+This is the user's correction point. They can redirect with one word
+("designer instead", "skip the role thing"). Honour it without argument.
+
+### 4. Then load the full files
+
+Only after the declaration:
+
+- `roles/<role>/ROLE.md` — for mindset, heuristics, anti-patterns.
+- `roles/<role>/skills/<skill>/SKILL.md` — for the actual procedure.
+- `roles/<role>/sources.md` — only if you need a citation or to defend a
+  framework choice.
+
+Never load every skill up front. The catalog exists so you don't have to.
+
+### 5. Multi-match → escalate, don't guess
+
+If two or more roles' triggers fire strongly on the same prompt (e.g. "review
+this payments PR" → engineer + tester + security; "plan the launch" → PM +
+marketing + designer), do not pick one and silently drop the others.
+
+- If the integrating thread is a **customer job / product decision**, route to
+  [`/orchestrate`](.claude/commands/orchestrate.md) — the PM as
+  cross-functional orchestrator.
+- Otherwise, route to [`/review`](.claude/commands/review.md) — direct
+  multi-role-review without PM framing. The skill is at
+  [`skills/multi-role-review/SKILL.md`](skills/multi-role-review/SKILL.md).
+
+In either path, fan reviewer subagents out in parallel and synthesise their
+findings yourself. **How** you spawn them is host-specific — see your host's
+session-start file ([`CLAUDE.md`](CLAUDE.md) for the Agent tool,
+[`AGENTS.md`](AGENTS.md) for the `codex exec` script).
+
+### 6. No-match → ask, don't fabricate
+
+If nothing in the catalog matches well, say so:
+
+```
+The catalog doesn't have a strong match for this. Closest are `<a>` and
+`<b>`. Want me to use one of those, or just answer directly?
+```
+
+Do not invent a role or skill name that isn't in `CATALOG.md`. Do not pretend
+a forward-reference skill (one named in `ROLE.md` but not yet shipped) is
+available.
+
+## When the dispatcher does NOT apply
+
+- The user is editing a specific file and wants direct help, not structured
+  critique. Default to a plain answer. Mention "we have a `<skill>` skill if
+  you want the structured pass" only if it genuinely matches.
+- The user explicitly disables dispatch ("just answer", "don't adopt a role",
+  "skip the methodology"). Honour it for the rest of the session unless they
+  re-enable.
+- Trivial edits (typos, renames, formatting) — no role adoption needed.
+
+## Loading hierarchy (cheat sheet)
+
+| File | Always loaded? | When |
+|---|---|---|
+| Host session-start file (`CLAUDE.md` or `AGENTS.md`) | Yes | Session start |
+| `DISPATCHER.md` (this file) | Yes | First dispatch in a session |
+| `CATALOG.md` | Yes | First dispatch scan per prompt |
+| `.claude/commands/<name>.md` | No | When the user types `/<name>` |
+| `roles/<role>/ROLE.md` | No | After role is chosen |
+| `roles/<role>/skills/<skill>/SKILL.md` | No | After skill is chosen |
+| `roles/<role>/sources.md` | No | Only if a citation is needed |
+| `methodology.md` | No | Only if the user asks about Hornero itself |
+| `CONTRIBUTING.md` | No | Only if you're editing roles/skills/catalog |
