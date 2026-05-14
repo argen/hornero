@@ -27,14 +27,31 @@ if [[ "${1:-}" == "--aggregate" || "${1:-}" == "-a" ]]; then
   total_sum=0
   total_count=0
 
+  # Pick parser: jq is robust (handles inline and multi-line nested JSON).
+  # Fall back to grep+sed for environments without jq — mis-parses multi-line
+  # nested score objects.
+  if command -v jq >/dev/null 2>&1; then
+    parser="jq"
+  else
+    parser="grep"
+    echo "(note: jq not found — using best-effort grep parser; install jq for robust parsing)" >&2
+  fi
+
   for score_file in evals/runs/*/score.json; do
     [[ -f "$score_file" ]] || continue
     task=$(basename "$(dirname "$score_file")")
 
-    cite=$(grep -E '"source_citation_rate":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
-    distinct=$(grep -E '"finding_distinctness":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
-    conflict=$(grep -E '"conflict_surfacing":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
-    action=$(grep -E '"actionability":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
+    if [[ "$parser" == "jq" ]]; then
+      cite=$(jq -r '.dimensions.source_citation_rate.score // .dimensions.source_citation_rate' "$score_file")
+      distinct=$(jq -r '.dimensions.finding_distinctness.score // .dimensions.finding_distinctness' "$score_file")
+      conflict=$(jq -r '.dimensions.conflict_surfacing.score // .dimensions.conflict_surfacing' "$score_file")
+      action=$(jq -r '.dimensions.actionability.score // .dimensions.actionability' "$score_file")
+    else
+      cite=$(grep -E '"source_citation_rate":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
+      distinct=$(grep -E '"finding_distinctness":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
+      conflict=$(grep -E '"conflict_surfacing":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
+      action=$(grep -E '"actionability":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
+    fi
     mean=$(awk -v a="$cite" -v b="$distinct" -v c="$conflict" -v d="$action" 'BEGIN{ printf "%.3f", (a+b+c+d)/4 }')
 
     printf "%-40s %8s %8s %8s %8s %8s\n" "$task" "$cite" "$distinct" "$conflict" "$action" "$mean"
