@@ -27,8 +27,7 @@
 Clone the repo and open it with your AI coding tool of choice. No installer required.
 
 ```bash
-git clone <this-repo>
-cd hornero
+git clone git@github.com:argen/hornero.git && cd hornero
 
 # Claude Code:
 claude
