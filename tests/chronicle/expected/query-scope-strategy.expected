@@ -1,0 +1,9 @@
+# Chronicle query
+
+Filters: topic=* scope=strategy role=* status=* keyword=* limit=50
+
+| date | id | status | role | scope | title |
+|---|---|---|---|---|---|
+| 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | validated | product-manager | strategy,positioning | Refuse SMB segment for FY26 |
+
+1 match(es).

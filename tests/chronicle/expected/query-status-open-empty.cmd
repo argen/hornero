@@ -1,0 +1,1 @@
+query --status open

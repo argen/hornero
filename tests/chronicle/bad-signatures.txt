@@ -1,0 +1,11 @@
+# filename<TAB>diagnostic substring that must appear in validator output
+# Lines starting with # are ignored.
+missing-required-field.md	missing required field: decision
+bad-status.md	status (maybe) not in
+bad-confidence.md	confidence (1.5) must be a number in [0, 1]
+bad-role.md	source_role (unicorn-architect) not in
+id-mismatch.md	does not match filename
+missing-section.md	required sections missing or out of order
+unresolved-evidence.md	evidence id (2099-12-31-this-does-not-exist) does not resolve
+unknown-field.md	unknown frontmatter field: mystery_field
+bad-date.md	date must be ISO YYYY-MM-DD

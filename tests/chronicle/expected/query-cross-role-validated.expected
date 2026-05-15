@@ -1,0 +1,9 @@
+# Chronicle query
+
+Filters: topic=* scope=* role=cross-role status=validated keyword=* limit=50
+
+| date | id | status | role | scope | title |
+|---|---|---|---|---|---|
+| 2026-04-22 | 2026-04-22-shadow-column-migration | validated | cross-role | migrations,database | Use shadow-column migration for user_id widening |
+
+1 match(es).

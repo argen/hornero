@@ -1,0 +1,1 @@
+query --role cross-role --status validated

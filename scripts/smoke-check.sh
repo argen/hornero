@@ -327,7 +327,32 @@ if [[ $XREF_FAIL -eq 0 ]]; then
   ok "skill ↔ resource cross-references are consistent"
 fi
 
-# ─── Step 11 (optional): real install + verify ────────────────────────
+# ─── Step 11: chronicle harness (validate + deterministic harness) ────
+step "chronicle: validate + deterministic harness"
+
+if [[ -x ./scripts/chronicle.sh ]]; then
+  if ./scripts/chronicle.sh validate >/tmp/hornero-chronicle-validate.log 2>&1; then
+    ok "$(tail -1 /tmp/hornero-chronicle-validate.log)"
+  else
+    bad "chronicle.sh validate failed (see /tmp/hornero-chronicle-validate.log)"
+    tail -20 /tmp/hornero-chronicle-validate.log >&2
+  fi
+else
+  bad "scripts/chronicle.sh missing or not executable"
+fi
+
+if [[ -x ./scripts/test-chronicle.sh ]]; then
+  if ./scripts/test-chronicle.sh >/tmp/hornero-chronicle-test.log 2>&1; then
+    ok "$(tail -1 /tmp/hornero-chronicle-test.log)"
+  else
+    bad "test-chronicle.sh failed (see /tmp/hornero-chronicle-test.log)"
+    tail -25 /tmp/hornero-chronicle-test.log >&2
+  fi
+else
+  bad "scripts/test-chronicle.sh missing or not executable"
+fi
+
+# ─── Step 12 (optional): real install + verify ────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 
