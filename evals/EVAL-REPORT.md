@@ -1,5 +1,13 @@
 # Eval report — v1 (20 tasks, mean 0.903)
 
+> **Scope note (2026-05-15):** Hornero retracted to PM-only. The 13 non-PM
+> eval tasks and runs have been deleted; only the 7 PM-led tasks remain
+> reproducible (`02, 04, 08, 12, 13, 14, 18`). The full v1 campaign numbers
+> below are retained as historical record of what the methodology produced
+> when 7 roles shipped — they are not reproducible against the current tree.
+> Re-expansion of the role set should re-run the affected tasks, not delete
+> this report.
+
 > **Status:** Full campaign complete. **Mean: 0.903 across n=20** (v1 target ≥ 0.8 met).
 >
 > **Date:** 2026-05-14
