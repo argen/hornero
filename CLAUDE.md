@@ -11,11 +11,14 @@
 
 ## Each session
 
-1. Always have [`CATALOG.md`](CATALOG.md) available.
-2. Follow the dispatcher in [`DISPATCHER.md`](DISPATCHER.md) — that's the
+1. If [`chronicle/SUMMARY.md`](chronicle/SUMMARY.md) exists, read it once for
+   cold-start situational awareness (the digest of committed decisions). See
+   Step 0 of the dispatcher.
+2. Always have [`CATALOG.md`](CATALOG.md) available.
+3. Follow the dispatcher in [`DISPATCHER.md`](DISPATCHER.md) — that's the
    protocol for picking a role/skill, declaring the choice, loading files,
    escalating multi-matches, and refusing no-matches.
-3. For multi-role dispatch (Step 5 of the dispatcher), spawn reviewer
+4. For multi-role dispatch (Step 5 of the dispatcher), spawn reviewer
    subagents per the Claude-specific guidance below.
 
 ## Spawning reviewer subagents under Claude Code

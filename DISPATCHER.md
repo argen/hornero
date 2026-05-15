@@ -17,6 +17,23 @@ which one to invoke. When a prompt arrives, run the dispatcher.
 
 ## The dispatcher protocol
 
+### 0. Chronicle preamble (cold-start situational awareness)
+
+If `chronicle/SUMMARY.md` exists in the working repo, read it once at the
+top of the first dispatch in a session. It is auto-regenerated and kept short
+on purpose — a digest of the project's committed decisions, newest first.
+This is cheap situational awareness: knowing what postures bind, what's been
+refuted, and what's superseded, before any specific work begins.
+
+For scoped recall during the work, invoke
+[`chronicle-recall`](skills/chronicle-recall/SKILL.md) — the read-side skill
+that queries `chronicle/entries/` with deterministic filters. Reviewer
+subagents should run a Chronicle scan as the first step of every review.
+
+If `chronicle/` does not exist, skip the preamble. (Legacy projects may have
+a looser `memory/decisions/` directory consumed by [`memory-query`](skills/memory-query/SKILL.md) —
+honour that too; the two layers can coexist.)
+
 ### 1. Scan the catalog first
 
 Read [`CATALOG.md`](CATALOG.md) at the repo root. It is a one-line-per-entry
@@ -126,10 +143,12 @@ available.
 |---|---|---|
 | Host session-start file (`CLAUDE.md` or `AGENTS.md`) | Yes | Session start |
 | `DISPATCHER.md` (this file) | Yes | First dispatch in a session |
+| `chronicle/SUMMARY.md` | Yes (if present) | First dispatch in a session — cold-start situational awareness |
 | `CATALOG.md` | Yes | First dispatch scan per prompt |
 | `.claude/commands/<name>.md` | No | When the user types `/<name>` |
 | `roles/<role>/ROLE.md` | No | After role is chosen |
 | `roles/<role>/skills/<skill>/SKILL.md` | No | After skill is chosen |
 | `roles/<role>/sources.md` | No | Only if a citation is needed |
+| `chronicle/entries/<id>.md` | No | Loaded on demand by `chronicle-recall` / explicit dereference |
 | `methodology.md` | No | Only if the user asks about Hornero itself |
 | `CONTRIBUTING.md` | No | Only if you're editing roles/skills/catalog |

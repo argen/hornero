@@ -216,6 +216,16 @@ Roles can read and write external systems via MCP. Each system has a `resources/
 
 More resources (Sentry, Grafana, Amplitude, Mixpanel, Stripe) land in follow-up PRs — see [`ROADMAP.md`](ROADMAP.md).
 
+### Chronicle — project-local memory of decisions
+
+Hornero ships a [`chronicle/`](chronicle/) layer: a machine-queryable record of decisions any future session or role can load as situational awareness. It is influenced by [Quorum's Chronicle module](https://github.com/balpal4495/Quorum/tree/main/modules) — same lifecycle (proposals → human-gated commit → byte-stable query), simpler substrate (Markdown-with-strict-frontmatter, deterministic harness, no embedder dependency).
+
+Two new cross-role skills wrap it:
+- [`chronicle-record`](skills/chronicle-record/SKILL.md) — write side. Calls `scripts/chronicle.sh propose` (LLM-free; human commits).
+- [`chronicle-recall`](skills/chronicle-recall/SKILL.md) — read side. Calls `scripts/chronicle.sh query`; output is byte-identical for a given corpus.
+
+A deterministic harness at [`tests/chronicle/`](tests/chronicle/) backs the layer: every schema rule has a planted-flaw fixture, every query has a frozen expected output. `scripts/test-chronicle.sh` runs in `smoke-check.sh` and in the pre-commit hook.
+
 Full one-liner index: [`CATALOG.md`](CATALOG.md).
 
 ---
