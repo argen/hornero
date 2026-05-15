@@ -149,7 +149,42 @@ else
   bad "install.sh --dry-run mismatch: expected $expected_total, got $actual_total (see $DRY_LOG)"
 fi
 
-# ─── Step 7 (optional): real install + verify ─────────────────────────
+# ─── Step 7: plugin-skill symlink integrity ──────────────────────────
+step "plugin skill symlinks (skills/<name> → roles/<role>/skills/<skill>)"
+
+SYM_FAIL=0
+
+# 7a. Every per-role skill must have a top-level symlink at skills/<name>.
+missing_symlinks=0
+for skill_md in roles/*/skills/*/SKILL.md; do
+  skill_name=$(basename "$(dirname "$skill_md")")
+  link="skills/$skill_name"
+  if [[ ! -L "$link" ]]; then
+    bad "missing plugin symlink: $link (run scripts/build-plugin-skills.sh)"
+    missing_symlinks=$((missing_symlinks+1))
+    SYM_FAIL=1
+  elif [[ ! -e "$link" ]]; then
+    bad "dangling plugin symlink: $link → $(readlink "$link")"
+    SYM_FAIL=1
+  fi
+done
+
+# 7b. Every top-level symlink in skills/ must point at a real per-role skill.
+for entry in skills/*; do
+  [[ -L "$entry" ]] || continue
+  if [[ ! -e "$entry" ]]; then
+    bad "dangling plugin symlink: $entry → $(readlink "$entry")"
+    SYM_FAIL=1
+  fi
+done
+
+if [[ $SYM_FAIL -eq 0 ]]; then
+  per_role_count=$(find skills -mindepth 1 -maxdepth 1 -type l | wc -l | tr -d ' ')
+  cross_role_count=$(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+  ok "$per_role_count per-role symlinks + $cross_role_count cross-role dirs all resolve"
+fi
+
+# ─── Step 8 (optional): real install + verify ─────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 

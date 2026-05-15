@@ -68,6 +68,10 @@ yaml_field() {
     echo "|---|---|---|"
     for skill_md in skills/*/SKILL.md; do
       [[ -f "$skill_md" ]] || continue
+      # Skip plugin-loader symlinks pointing at per-role skills — those are
+      # listed under their role's section below.
+      skill_dir=$(dirname "$skill_md")
+      [[ -L "$skill_dir" ]] && continue
       name=$(yaml_field name "$skill_md")
       type=$(yaml_field type "$skill_md")
       desc=$(yaml_field description "$skill_md")

@@ -1,7 +1,7 @@
 {
   "name": "hornero",
-  "description": "Role-and-skill methodology for Claude Code: 7 reviewer subagents, 7 slash commands, 7 cross-role process skills, and a dispatcher protocol that routes prompts to the right role-skill pair. Full per-role skill library (~50 skills) is also shipped and is loaded via install.sh until the directory layout is flattened in a follow-up.",
-  "version": "0.1.0",
+  "description": "Role-and-skill methodology for Claude Code: 7 reviewer subagents, 7 slash commands, and ~60 expert-grounded skills across software-engineer, product-manager, designer, tester, security-expert, marketing-expert, and data-scientist roles. Dispatcher protocol routes prompts to the right role-skill pair; per-role skills are exposed at the plugin-loader's flat `skills/<name>` layout via build-time symlinks.",
+  "version": "0.2.0",
   "author": {
     "name": "Bruno Belcastro",
     "email": "bbelcastro@gmail.com"
