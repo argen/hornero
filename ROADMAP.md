@@ -43,5 +43,11 @@ The repo works as the project itself — clone, `cd`, run Claude Code or Codex. 
 
 ## Open for post-v1
 
-- A Claude Code marketplace plugin distribution path.
+- Marketplace submission for both vendors (manifests already ship — `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`).
 - Publish as `npx hornero init` for one-step setup in any repo.
+
+## Recently shipped (post-v1)
+
+- [x] **Vendor-agnostic plugin parity** — Hornero loads at full fidelity on both Claude Code and Codex from a single source-of-truth. `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` sibling manifests; 7 reviewer subagents available as `agents/<name>.md` (Claude) and auto-generated `.codex/agents/<name>.toml` (Codex) via `scripts/build-codex-agents.sh`; `install.sh --codex` upgraded to install skills + agents + hooks + commands (was: commands only); AGENTS.md reframed around Codex's native subagent primitive instead of script-based fan-out. `codex-parallel-review.sh` kept as legacy fallback. Smoke-check 8/8 covers manifest sync + TOML parse + Markdown↔TOML drift.
+- [x] **Plugin packaging (Claude Code)** — `.claude-plugin/plugin.json` manifest, top-level `skills/<name>/SKILL.md` symlinks (auto-built by `scripts/build-plugin-skills.sh`) covering all 59 skills, plugin-loadable session hooks. PRs #20, #21.
+- [x] **Blog-alignment series** — guardrail hooks, sub-CLAUDE.md layering, codebase MAP template, `/audit` slash command + skill-rot review ritual, DRI/governance adoption playbook. Closes the second-half-of-the-ladder gaps from Anthropic's *How Claude Code Works in Large Codebases*. PRs #18, #19.

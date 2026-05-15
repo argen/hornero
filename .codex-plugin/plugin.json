@@ -1,0 +1,17 @@
+{
+  "name": "hornero",
+  "description": "Role-and-skill methodology for Codex CLI: 7 reviewer subagents, ~60 expert-grounded skills across software-engineer, product-manager, designer, tester, security-expert, marketing-expert, and data-scientist roles, plus a dispatcher protocol that routes prompts to the right role-skill pair. Vendor-agnostic — paired sibling of .claude-plugin/plugin.json for Claude Code.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Bruno Belcastro",
+    "email": "bbelcastro@gmail.com"
+  },
+  "homepage": "https://github.com/argen/hornero",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/argen/hornero"
+  },
+  "license": "MIT",
+  "skills": "./skills",
+  "hooks": "./hooks/hooks.json"
+}

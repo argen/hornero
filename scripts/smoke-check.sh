@@ -184,7 +184,63 @@ if [[ $SYM_FAIL -eq 0 ]]; then
   ok "$per_role_count per-role symlinks + $cross_role_count cross-role dirs all resolve"
 fi
 
-# ─── Step 8 (optional): real install + verify ─────────────────────────
+# ─── Step 8: Codex plugin manifest + agent TOMLs ──────────────────────
+step "Codex plugin parity (.codex-plugin/plugin.json + .codex/agents/*.toml)"
+
+CODEX_FAIL=0
+
+# 8a. .codex-plugin/plugin.json exists and parses as JSON.
+if [[ ! -f .codex-plugin/plugin.json ]]; then
+  bad ".codex-plugin/plugin.json missing"
+  CODEX_FAIL=1
+elif ! python3 -m json.tool .codex-plugin/plugin.json >/dev/null 2>&1; then
+  bad ".codex-plugin/plugin.json is not valid JSON"
+  CODEX_FAIL=1
+fi
+
+# 8b. .codex-plugin name + version match .claude-plugin (stay-in-sync invariant).
+if [[ -f .codex-plugin/plugin.json && -f .claude-plugin/plugin.json ]]; then
+  for field in name version; do
+    claude_val=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json')).get('${field}', ''))" 2>/dev/null)
+    codex_val=$(python3 -c "import json; print(json.load(open('.codex-plugin/plugin.json')).get('${field}', ''))" 2>/dev/null)
+    if [[ "$claude_val" != "$codex_val" ]]; then
+      bad "manifest ${field} drift: .claude-plugin='${claude_val}' .codex-plugin='${codex_val}'"
+      CODEX_FAIL=1
+    fi
+  done
+fi
+
+# 8c. Every agents/*.md has a corresponding .codex/agents/<name>.toml that parses.
+for src in agents/*.md; do
+  [[ -f "$src" ]] || continue
+  [[ "$(basename "$src")" == ".gitkeep" ]] && continue
+  name=$(awk '/^---$/{c++; next} c==1 && /^name:/{sub(/^name:[[:space:]]*/,""); print; exit}' "$src")
+  target=".codex/agents/${name}.toml"
+  if [[ ! -f "$target" ]]; then
+    bad "missing Codex agent: $target (run scripts/build-codex-agents.sh)"
+    CODEX_FAIL=1
+    continue
+  fi
+  if ! python3 -c "import tomllib; tomllib.load(open('${target}','rb'))" >/dev/null 2>&1; then
+    bad "Codex agent TOML fails to parse: $target"
+    CODEX_FAIL=1
+    continue
+  fi
+  # Description in TOML must match description in Markdown frontmatter.
+  md_desc=$(awk '/^---$/{c++; next} c==1 && /^description:/{sub(/^description:[[:space:]]*/,""); print; exit}' "$src")
+  toml_desc=$(python3 -c "import tomllib; print(tomllib.load(open('${target}','rb')).get('description',''))" 2>/dev/null)
+  if [[ "$md_desc" != "$toml_desc" ]]; then
+    bad "description drift: $src ↔ $target (run scripts/build-codex-agents.sh)"
+    CODEX_FAIL=1
+  fi
+done
+
+if [[ $CODEX_FAIL -eq 0 ]]; then
+  agent_count=$(find .codex/agents -maxdepth 1 -name '*.toml' -type f | wc -l | tr -d ' ')
+  ok "manifest valid + in sync; ${agent_count} Codex agent TOMLs parse and match Markdown sources"
+fi
+
+# ─── Step 9 (optional): real install + verify ─────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 

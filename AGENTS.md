@@ -20,18 +20,42 @@
 
 ## Subagents in Codex
 
-Claude Code has a first-class `Agent` tool that spawns reviewer subagents
-from [`agents/<role>-reviewer.md`](agents/) by name. Codex CLI does not
-expose an equivalent primitive, but its non-interactive `codex exec` mode is
-close enough to fan reviewers out as subprocesses. Hornero ships a small
-wrapper that does exactly this — pick the path that matches your context.
+Codex CLI ships a native subagent primitive ([docs](https://developers.openai.com/codex/subagents)).
+Hornero's 7 reviewer subagents are exposed to Codex via TOML files at
+[`.codex/agents/`](.codex/agents/) — generated from the canonical Markdown
+sources in [`agents/`](agents/) by [`scripts/build-codex-agents.sh`](scripts/build-codex-agents.sh).
+Codex discovers them either project-locally (Hornero clone in cwd) or globally
+after `./install.sh --codex`.
 
-### Preferred — `scripts/codex-parallel-review.sh`
+### Native path (preferred)
 
-The script fans out one `codex exec` per role, each briefed with the
-reviewer file + the artifact, run in parallel, with per-role outputs
-collected for synthesis. This is the Codex-side equivalent of Claude's
-parallel-Agent dispatch.
+Spawn reviewers by name in plain English. Codex parses the request, finds the
+matching `.codex/agents/<name>.toml`, and runs each subagent in parallel with
+the read-only sandbox the TOML declares.
+
+```
+Review this PR. Have software-engineer-reviewer and tester-reviewer
+both pass over the diff, then summarise their findings together.
+```
+
+The seven names callable this way:
+
+- `software-engineer-reviewer`
+- `product-manager-reviewer`
+- `designer-reviewer`
+- `tester-reviewer`
+- `security-expert-reviewer`
+- `marketing-expert-reviewer`
+- `data-scientist-reviewer`
+
+Codex's `agents.max_threads` default is 6; cap your fan-out accordingly or
+raise the setting in `~/.codex/config.toml`.
+
+### Legacy fallback — `scripts/codex-parallel-review.sh`
+
+For Codex versions predating native subagents (or environments where `.codex/agents/`
+discovery isn't available), the script-based fan-out still works. It spawns one
+`codex exec` per role, each briefed with the reviewer file + the artifact:
 
 ```sh
 # Default mix (engineer + tester + security) on a PR diff:
@@ -41,46 +65,21 @@ parallel-Agent dispatch.
 ./scripts/codex-parallel-review.sh tmp/launch-plan.md \
   product-manager designer software-engineer tester security-expert \
   marketing-expert data-scientist
-
-# See what would run without invoking codex:
-./scripts/codex-parallel-review.sh --dry-run tmp/pr-1247.diff tester security-expert
 ```
 
-Each invocation runs with `--ephemeral` (no rollout state between roles),
-`--sandbox read-only` (reviewers cannot write to the workspace), and
-`--skip-git-repo-check` (artifacts may live outside a git repo). Outputs
-land in `tmp/codex-reviews/<role>-review-<ts>.md` plus a per-run
-`INDEX-<ts>.md`. Synthesis is left to the orchestrator — read the per-role
-reviews and produce the cross-cutting recommendation.
-
-**Constraints** (read before running large fan-outs):
-
-- All subprocesses share the same OpenAI auth and rate-limit bucket.
-  Heavy parallelism will hit standard API rate limits — 7-role sweeps on
-  long artifacts may need pacing.
-- Each subprocess is genuinely isolated (`--ephemeral`); no cross-reviewer
-  context leakage.
-- The artifact must be a single readable file. For diffs, pre-render with
-  `git diff <base>..HEAD > tmp/pr.diff` and pass the file.
-
-### Sequential simulation
-
-For each role in the chosen mix, read its reviewer file, produce that
-role's findings in an isolated section, then move to the next. Loses
-parallelism; preserves the role's framing and output discipline. Useful
-when `codex exec` isn't available (older Codex install, no API key in
-scope, network-restricted environment).
+Each invocation runs with `--ephemeral`, `--sandbox read-only`, and
+`--skip-git-repo-check`. Outputs land in `tmp/codex-reviews/<role>-review-<ts>.md`
+plus a per-run `INDEX-<ts>.md`.
 
 ### Manual parallelism
 
-Open multiple Codex sessions (one per role), brief each with the reviewer
-file content + the artifact, then synthesise their outputs by hand. Useful
-for interactive exploration where you want to ask follow-up questions per
-reviewer.
+Open multiple Codex sessions (one per role), brief each with the reviewer file
+content + the artifact, then synthesise their outputs by hand. Useful for
+interactive exploration with follow-up questions per reviewer.
 
-The reviewer files in [`agents/`](agents/) are self-contained system
-prompts; they work whether you spawn them via the script, paste them into
-a Codex session, or simulate sequentially.
+The reviewer files in [`agents/`](agents/) and their TOML mirrors in
+[`.codex/agents/`](.codex/agents/) are self-contained system prompts; they
+work whether you spawn them natively, via the script, or by manual paste.
 
 ## Contributor info
 
