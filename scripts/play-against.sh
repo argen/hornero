@@ -12,11 +12,10 @@
 # --check drives interactive Claude via scripts/lib/play-against.expect — it
 # does NOT use `claude -p`. The harness exercises the same path real users hit.
 #
-# Roles: product-manager · designer · software-engineer
-#   (the other four reviewers ship after the assertion shape proves out)
-#
+# Roles: product-manager · designer · software-engineer · tester ·
+       security-expert · marketing-expert · data-scientist
 # Token budget per --check case: ~5k tokens (fixture + invocation + critique).
-# Full --check run: ~17k tokens.
+# Full --check run (7 roles): ~45k tokens.
 
 set -euo pipefail
 
@@ -25,7 +24,7 @@ cd "$ROOT"
 
 EXPECT_DRIVER="${ROOT}/scripts/lib/play-against.expect"
 SENTINEL="###DONE_REVIEW###"
-LEGAL_ROLES=(product-manager designer software-engineer)
+LEGAL_ROLES=(product-manager designer software-engineer tester security-expert marketing-expert data-scientist)
 
 usage() {
   cat <<'EOF'
@@ -36,7 +35,8 @@ Usage:
   ./scripts/play-against.sh --check             Run the seeded-flaw regression
   ./scripts/play-against.sh --help              This message
 
-Roles: product-manager · designer · software-engineer
+Roles: product-manager · designer · software-engineer · tester ·
+       security-expert · marketing-expert · data-scientist
 
 Interactive mode launches `claude` with a pre-seeded prompt — you read the
 critique on screen and stay in the session for follow-ups. --check mode is
@@ -130,26 +130,50 @@ check_mode() {
   echo "↪ play-against.sh --check"
   echo
 
-  echo "[1/3] product-manager-reviewer ← tests/seeded/weak-prd.md"
+  echo "[1/7] product-manager-reviewer ← tests/seeded/weak-prd.md"
   echo "      (planted flaw: activity-metric success criteria, no counter-metric)"
   run_check_one product-manager tests/seeded/weak-prd.md \
     counter-metric gaming Goodhart "activity metric" outcome || fail=1
   echo
 
-  echo "[2/3] designer-reviewer ← tests/seeded/weak-design.md"
+  echo "[2/7] designer-reviewer ← tests/seeded/weak-design.md"
   echo "      (planted flaw: happy-path-only flow — no empty/error/loading states)"
   run_check_one designer tests/seeded/weak-design.md \
     "empty state" "error state" loading "state inventory" "edge case" || fail=1
   echo
 
-  echo "[3/3] software-engineer-reviewer ← tests/seeded/weak-plan.md"
+  echo "[3/7] software-engineer-reviewer ← tests/seeded/weak-plan.md"
   echo "      (planted flaw: in-place NOT NULL migration, no rollback, no concurrency note)"
   run_check_one software-engineer tests/seeded/weak-plan.md \
     rollback reversible concurrent backfill "in place" || fail=1
   echo
 
+  echo "[4/7] tester-reviewer ← tests/seeded/weak-test-plan.md"
+  echo "      (planted flaw: happy-path-only coverage, no risk analysis, no negative cases)"
+  run_check_one tester tests/seeded/weak-test-plan.md \
+    risk "negative" "failure mode" "edge case" boundary "happy path" HTSM || fail=1
+  echo
+
+  echo "[5/7] security-expert-reviewer ← tests/seeded/weak-auth-flow.md"
+  echo "      (planted flaw: user enumeration via 404 on /request; plaintext token storage)"
+  run_check_one security-expert tests/seeded/weak-auth-flow.md \
+    enumeration "threat model" "trust boundary" OWASP "attack surface" "timing" "plaintext" || fail=1
+  echo
+
+  echo "[6/7] marketing-expert-reviewer ← tests/seeded/weak-launch-brief.md"
+  echo "      (planted flaw: no audience, no alternatives, generic 'all-in-one' positioning)"
+  run_check_one marketing-expert tests/seeded/weak-launch-brief.md \
+    positioning "for whom" "who is this for" Dunford alternative category competitive || fail=1
+  echo
+
+  echo "[7/7] data-scientist-reviewer ← tests/seeded/weak-experiment.md"
+  echo "      (planted flaw: no MDE/power calc, peeking enabled, no SRM check, no pre-registration)"
+  run_check_one data-scientist tests/seeded/weak-experiment.md \
+    MDE power peeking "pre-registration" "sample size" "effect size" SRM "multiple testing" || fail=1
+  echo
+
   if [[ $fail -eq 0 ]]; then
-    echo "✓ all 3 role personas caught their seeded flaw"
+    echo "✓ all 7 role personas caught their seeded flaw"
     exit 0
   else
     echo "✗ at least one role failed to push back — see above" >&2
