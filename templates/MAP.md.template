@@ -1,0 +1,69 @@
+# MAP.md — <project name>
+
+> **Codebase map.** One-screen orientation for any agent or human landing
+> in this repo cold. Lists top-level folders with one-line descriptions
+> and owner teams. Linked from root `CLAUDE.md` as the first stop after
+> session-start context.
+>
+> Keep it scannable — if it scrolls more than two screens, the repo is
+> probably ready for module-level `MAP.md` files (one per top-level
+> directory), not a longer root file.
+>
+> Source: Anthropic, ["How Claude Code Works in Large Codebases"](https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start) — *"Build codebase maps for unconventional structures."*
+
+## At a glance
+
+<2-3 sentences. What does this repo do? What problem domain? Where does it
+sit in the broader system landscape (upstream / downstream services)?>
+
+## Top-level folders
+
+| Folder | Purpose | Owner | Notes |
+|---|---|---|---|
+| `<folder>/` | <one-line purpose> | <team or DRI> | <e.g., "TypeScript", "depends on /api"> |
+| `<folder>/` | <one-line purpose> | <team or DRI> | |
+| `<folder>/` | <one-line purpose> | <team or DRI> | |
+
+Generated / vendored / not-our-code folders deserve their own row with the
+note *"do not edit by hand"* — that's the most-asked question of any new
+agent.
+
+## Entry points
+
+The minimum set of files an agent or new teammate should read to be
+productive. Three to five, no more.
+
+- `<path>` — <why this is the entry point>
+- `<path>` — <why>
+
+## Common cross-cutting locations
+
+Where things that affect multiple top-level folders live. Knowing these
+prevents the "I edited the wrong copy" failure mode.
+
+- Shared types / contracts: `<path>`
+- Build / CI config: `<path>`
+- Environment / config: `<path>`
+- Migrations / schemas: `<path>`
+
+## Stack at a glance
+
+- Language(s): <e.g., TypeScript, Python, Rust>
+- Runtime / framework: <e.g., Node 20, FastAPI, Tauri>
+- Test runner: `<command>` (per-module overrides may apply — see sub-`CLAUDE.md`)
+- Lint: `<command>`
+- Type check: `<command>`
+
+## What's NOT here
+
+Things one might expect but live elsewhere. Saves new agents from grep-ing
+for files that don't exist in this repo.
+
+- <e.g., "auth service — separate repo at github.com/<org>/auth">
+- <e.g., "shared design tokens — npm package @<org>/tokens">
+
+## Maintenance
+
+Re-read this file every 3-6 months. Stale maps are worse than no map — an
+agent that trusts an outdated row wastes time chasing a folder that
+moved. Pair with the `claude-md` review cadence.

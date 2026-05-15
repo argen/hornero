@@ -109,7 +109,10 @@ When a session ends, run it. It scans for surprises and proposes durable deltas 
 - [ ] [`playbooks/orchestration-heuristics.md`](orchestration-heuristics.md) — when to use 1 vs 4 vs 7 roles
 - [ ] [`playbooks/multi-role-review.md`](multi-role-review.md) — plain-language companion to the skill
 - [ ] [`playbooks/feedback-ritual.md`](feedback-ritual.md) — weekly extraction cadence
+- [ ] [`playbooks/skill-rot-review.md`](skill-rot-review.md) — quarterly retirement cadence (pairs with [`/audit`](../.claude/commands/audit.md))
+- [ ] [`playbooks/adoption.md`](adoption.md) — DRI, working group, approval process for adopting Hornero in a team
 - [ ] [`playbooks/claude-md-layering.md`](claude-md-layering.md) — when to add a sub-`CLAUDE.md` in a monorepo or multi-service project (uses [`templates/sub-CLAUDE.md.template`](../templates/sub-CLAUDE.md.template))
+- [ ] [`templates/MAP.md.template`](../templates/MAP.md.template) — codebase orientation map for unconventional repo structures
 - [ ] When ready, read your most-relevant `roles/<role>/ROLE.md` in full
 
 ## Troubleshooting

@@ -14,7 +14,7 @@ The user wants to see what's in the box.
    - **Roles** (7) — one line each, with the trigger phrase.
    - **Cross-role process skills** (5) — one line each: `spec-the-problem`, `harness-check`, `multi-role-review`, `extract-lesson`, `context-reset-check`.
    - **Per-role skills** — group by role; one line per skill.
-   - **Slash commands** — `/orchestrate`, `/review`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`.
+   - **Slash commands** — `/orchestrate`, `/review`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`.
 
 3. **End with the invocation hints**:
    - Natural language always works (the dispatcher matches and declares its choice before acting).
