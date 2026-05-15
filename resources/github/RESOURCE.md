@@ -9,8 +9,7 @@ mcp:
   auth_env: [GITHUB_PERSONAL_ACCESS_TOKEN]
   capabilities: [pulls, issues, actions, code_search, releases, codeowners, dependabot]
 object_model: [Repository, PullRequest, Issue, Commit, Workflow, WorkflowRun, Release, Review, Comment, CheckRun]
-used_by:
-  - software-engineer/github-pr-survey
+used_by: []
 fallback: curl
 ---
 
@@ -126,4 +125,4 @@ The fallback path matches MCP capabilities feature-for-feature for read-heavy sk
 - `github-mcp-server` (official) — <https://github.com/github/github-mcp-server>
 - `@modelcontextprotocol/server-github` (community npm) — <https://github.com/modelcontextprotocol/servers/tree/main/src/github>
 - Rate-limit primer — <https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting>
-- Related Hornero skills: `roles/software-engineer/skills/github-pr-survey/SKILL.md`
+- Related Hornero skills: none currently. The previous consumer (`roles/software-engineer/skills/github-pr-survey`) was retired with the software-engineer role and returns on re-expansion.

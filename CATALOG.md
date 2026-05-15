@@ -11,13 +11,7 @@
 
 | Role | When to invoke |
 |---|---|
-| `data-scientist` | Use when reviewing or producing data artifacts — experiment designs, metric definitions, causal analyses, model evaluations, and ML-system audits. |
-| `designer` | Use when reviewing or producing design artifacts — interaction flows, visual hierarchy, accessibility, design systems, and ethical implications. |
-| `marketing-expert` | Use when reviewing or producing marketing artifacts — positioning, narrative, copy, channel strategy, launch plans, and message-market fit. |
 | `product-manager` | Use when reviewing or producing product artifacts — PRDs, prioritization, success metrics, discovery plans, positioning. |
-| `security-expert` | Use when reviewing or producing security artifacts — threat models, control assessments, vulnerability triage, auth flows, and AI-system risk reviews. |
-| `software-engineer` | Use when reviewing or producing engineering artifacts — code changes, ADRs, RFCs, refactor plans, TDD-driven implementations. |
-| `tester` | Use when reviewing or producing testing artifacts — test plans, exploratory charters, coverage assessments, property-based suites, and pipeline strategy. |
 
 ## Cross-role skills
 
@@ -31,7 +25,6 @@
 | `extract-lesson` | interactive | Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory. |
 | `harness-check` | workflow | Use to audit whether a repository is AI-ready — does it have AGENTS.md / CLAUDE.md, well-scoped skills, useful test feedback, and a working install path. |
 | `memory-query` | workflow | Use before reviewing, proposing, or producing any non-trivial artifact — scans the project's `memory/decisions/` directory for prior decisions whose scope, affected-areas, or roles overlap with the current work, and surfaces relevant entries before fresh analysis begins. |
-| `multi-role-review` | workflow | Use when a task, plan, diff, or artifact would benefit from parallel critique by 2-7 expert role personas — orchestrates dispatch, artifact passing, and synthesis. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 
 ## Resources
@@ -42,45 +35,10 @@
 
 | Resource | Status | MCP server | Used by |
 |---|---|---|---|
-| `github` | stable | `github-mcp-server` | 1 skill(s) |
+| `github` | stable | `github-mcp-server` | 0 skill(s) |
 | `linear` | stable | `@modelcontextprotocol/server-linear` | 1 skill(s) |
 
 ## Role skills
-
-### data-scientist
-
-| Skill | Type | When to invoke |
-|---|---|---|
-| `causal-dag` | component | Use when a team is making a causal claim from observational data — to draw the directed acyclic graph of assumed causes, surface confounders and backdoor paths, and decide which adjustment strategy (or experiment) the claim actually needs. |
-| `experiment-design` | component | Use when a team is designing an A/B test or controlled experiment — to fix the OEC, guardrails, MDE, sample size, randomization unit, SRM check, and stopping rule before traffic is allocated. |
-| `metric-definition` | component | Use when a team is defining a new metric or auditing an existing one — to nail down the one-sentence definition, the unit of analysis, the counter-metric, the gaming surface, and the ownership. |
-| `pre-launch-measurement-audit` | workflow | Use when a launch is approaching cut and the team needs a disciplined data-science pass — metric stack audit, experiment-design check, causal-claim sanity check, instrumentation readiness — producing a Go / Fix-then-go / Hold recommendation. |
-
-### designer
-
-| Skill | Type | When to invoke |
-|---|---|---|
-| `accessibility-audit` | component | Use when a designer needs to audit a UI surface against WCAG 2.2 conformance and inclusive-design principles — not as a compliance tickbox but as a usability check for the full audience. |
-| `component-proposal` | component | Use when a designer needs to propose a new design-system component or modify an existing one — establishing where it sits in the atomic hierarchy, what gap it fills, what variants and states it needs, and whether it already exists under a different name. |
-| `design-review` | workflow | Use when a UI or feature change is about to be reported as complete — runs a structured design + UX + accessibility + platform-capability pass on a diff or surface and produces a Go / Fix-then-go / Hold recommendation with specific findings. |
-| `heuristic-review` | component | Use when a designer needs to evaluate a UI surface against Jakob Nielsen's 10 usability heuristics — applied with judgement, not as a tickbox — to surface usability defects before user testing or after a contested design critique. |
-| `persona` | component | Use when a designer needs to produce a goal-directed persona (Cooper methodology) — a specific, scenario-bound representation of a target user grounded in research, not invented to justify a decision already made. |
-| `state-audit` | component | Use when a designer needs to inventory every state an interactive surface must support — empty, loading, error, partial, success, and edge — before declaring the design or build complete. |
-
-### marketing-expert
-
-| Skill | Type | When to invoke |
-|---|---|---|
-| `channel-evaluation` | component | Use when a marketing team is deciding whether to add, scale, or cut a channel — to evaluate fit against the product, the audience, and the team's actual capacity before committing budget. Produces a channel readiness scorecard. |
-| `commercial-model-design` | component | Use when designing the whole commercial system for a B2B product or segment — pricing model + packaging + sales motion + expansion mechanics + unit economics, composed into a system that works end-to-end. Composes pricing-strategy with gtm-sequencing into the per-segment commercial machine. |
-| `copy-critique` | component | Use when marketing copy on any surface — homepage hero, ad, onboarding email, sales-deck slide — needs a structured critique before shipping. Catches vague claims, feature-not-benefit writing, adjective stacking, company-language in customer-facing surfaces, and generic-AI-aesthetic copy. |
-| `gtm-sequencing` | component | Use when a B2B product is choosing its go-to-market segment sequence — which segment to attack first (the beachhead), which to defer, which adjacent segments form the bowling alley after the beachhead is won. Moore-anchored, Aulet-criteria-driven, distinct from launch-brief (tactical) and positioning-canvas (definitional). |
-| `launch-brief` | component | Use when a CMO or head of marketing needs to plan a product launch — translating positioning and narrative into audience-channel-sequence-measurement with attribution honesty. |
-| `positioning-canvas` | component | Use when a CMO, head of marketing, or founder needs to define or sharpen positioning — the strategic answer to "who is this for, what's the competitive alternative, and why us, specifically" — before any campaign or copy work begins. |
-| `pre-launch-marketing-audit` | workflow | Use when a launch is approaching cut and a CMO needs a disciplined pass over positioning, narrative, the launch brief, channel readiness, and measurement design — producing a Go / Fix-then-go / Hold recommendation. |
-| `pricing-strategy` | component | Use when a B2B product is setting or revising its pricing — produces a willingness-to-pay-anchored pricing strategy with tier structure, price points, and validation plan. Ramanujam-anchored, positioning-aware, distinct from cost-plus and competitor-anchored alternatives. |
-| `strategic-narrative` | component | Use when a CMO, founder, or head of marketing needs to author the company's strategic narrative — the 5-part story used in keynotes, investor decks, sales pitches, all-hands, and the home page — that converts positioning into a story buyers actually remember. |
-| `voc-mining` | component | Use when a marketing team needs to mine voice-of-customer data to produce copy patterns, positioning inputs, and category-entry-point evidence — before writing copy, refining positioning, or briefing a VOC-informed creative sprint. |
 
 ### product-manager
 
@@ -101,38 +59,4 @@
 | `revenue-architecture` | workflow | Use when the PM needs to map the full product growth system — funnel, activation, retention, expansion, churn — as a connected graph, identify the bottleneck stage, and surface which levers move the system vs which produce only local lift. |
 | `strategy-kernel` | component | Use when a PM needs to produce or critique a strategy artifact — to name the central obstacle (diagnosis), articulate the posture for overcoming it (guiding policy), and confirm the actions reinforce each other rather than sitting as an independent initiative list (coherent actions). |
 | `success-metrics` | component | Use before instrumentation to define what good looks like — primary metric, counter-metric, guardrails, and leading indicators — for a feature, launch, or quarter. |
-
-### security-expert
-
-| Skill | Type | When to invoke |
-|---|---|---|
-| `disclosure-comm` | component | Use when a security event requires an internal or external disclosure communication — vulnerability disclosure to a vendor or the public, a customer-facing incident notification, or a regulator filing. Owned by security with input from comms, not the reverse. |
-| `hardening-checklist` | component | Use when a service or system needs a context-specific control inventory — what security controls should be in place, mapped against the actual attack surface and assets, at ASVS levels with NIST 800-53 and ATT&CK mitigations overlay. |
-| `ir-runbook` | component | Use before an incident — not during — to produce a pre-staged incident-response runbook for a specific incident class (credential leak, public exploit in a dependency, suspected data exfiltration, supply-chain compromise). |
-| `llm-risk-assessment` | component | Use when a system uses an LLM in a way that touches user input, sensitive data, or tools that can act on the world — to enumerate LLM-specific risks before launch. |
-| `pre-launch-security-audit` | workflow | Use when a feature or system is approaching launch and the team needs a disciplined security pass — threat-model refresh, focused review, control-readiness check — producing a Go / Fix-then-go / Hold recommendation. |
-| `security-review` | component | Use when a code change, feature, or system needs a structured security review producing findings mapped to OWASP Top 10 / ASVS, each with a reproduction, severity, and remediation. |
-| `threat-model` | component | Use when a system, feature, or significant change is being designed and the team needs to enumerate what could go wrong, who would cause it, and what the system does about it — before the design ossifies. |
-
-### software-engineer
-
-| Skill | Type | When to invoke |
-|---|---|---|
-| `adr` | component | Use when an engineering team needs to record an architectural decision — the context, the options considered, the choice, and the consequences — in a lightweight, durable artifact. |
-| `github-pr-survey` | workflow | Use when an engineer needs to size up a PR before reviewing or merging — diff shape, CODEOWNERS coverage, related issues, CI status, review state. Produces a 60-second briefing the reviewer can read before opening the diff. |
-| `refactor-plan` | component | Use when an engineer needs to plan a non-trivial refactor — a structural code change that preserves behaviour — with an explicit safety net, sequence, and rollback path. |
-| `rfc` | component | Use when an engineering team needs to propose a non-trivial technical change — new system, significant refactor, cross-team contract — and wants written debate before commitment, producing a traceable record of what was proposed, what was considered, and what was decided. |
-| `tdd-discipline` | workflow | Use when implementing a behaviour change (feature or bug fix) and you want each step driven by a failing test — red, green, refactor — with each phase respected, not collapsed. |
-
-### tester
-
-| Skill | Type | When to invoke |
-|---|---|---|
-| `exploratory-charter` | component | Use when a tester needs to plan or conduct a structured exploratory test session — a time-boxed, mission-driven investigation of an area to surface bugs and unknown unknowns. |
-| `pre-release-test-pass` | workflow | Use when a release candidate is approaching cut and the team needs a disciplined multi-step pass — risk re-assessment, targeted exploration, automated-suite review, and a release-readiness recommendation. |
-| `property-spec` | component | Use when a tester needs to write a property-based test specification — naming the invariants that should hold across many inputs and expressing them in Hypothesis, fast-check, ScalaCheck, or QuickCheck. |
-| `regression-test` | component | Use when a bug has been reported and the team needs to produce a failing test that reproduces it before the fix lands — the test is the guard against the bug coming back. |
-| `specification-by-example` | component | Use when a team needs to write example-driven scenarios that double as acceptance tests — concrete, executable, readable by non-technical stakeholders, derived from acceptance criteria not bug reports. |
-| `test-distribution` | component | Use when a team needs to audit the current distribution of their test suite across the pyramid (unit / integration / E2E) and receive a reasoned rebalance recommendation. |
-| `test-plan` | component | Use when a tester needs to produce or critique a test plan — a risk-driven document that names what's at stake, how it will be tested, and what coverage is deliberately deferred. |
 
