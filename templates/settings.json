@@ -1,5 +1,5 @@
 {
-  "_comment": "Hornero recommended Claude Code settings. Copy into ~/.claude/settings.json or merge with your existing file. The 'hooks.Stop' entry is the feedback-loop trigger — it pings the agent to consider /extract-lesson at session end.",
+  "_comment": "Hornero recommended Claude Code settings. Copy into your project's .claude/settings.json (or merge with your existing file). The 'hooks' block wires Hornero's scripts into Claude Code lifecycle events — soft by default (warn, don't block); the aggressive variants are commented out for opt-in.",
 
   "permissions": {
     "defaultMode": "auto"
@@ -9,6 +9,20 @@
   "model": "sonnet",
 
   "hooks": {
+    "SessionStart": [
+      {
+        "command": "echo '↪ Hornero session — dispatch by scanning CATALOG.md first, then load only the chosen ROLE.md + SKILL.md.'"
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "_comment": "Soft: after any Edit/Write touching a SKILL.md, lint it. Warning only — never blocks the tool call. Replace <path-to-hornero> with your hornero clone (or drop this hook if Hornero is global via install.sh and you'd rather wire validate-skill into pre-commit).",
+        "matcher": "Edit|Write",
+        "command": "case \"$CLAUDE_TOOL_FILE_PATH\" in *SKILL.md) <path-to-hornero>/scripts/validate-skill.sh \"$CLAUDE_TOOL_FILE_PATH\" || echo '⚠ validate-skill warned — see above. Hook is non-blocking; fix before committing.';; esac"
+      }
+    ],
+
     "Stop": [
       {
         "command": "echo 'Session ending. Consider /extract-lesson if anything was surprising or worth capturing.'"
@@ -16,11 +30,35 @@
     ]
   },
 
+  "_optional_hooks": {
+    "_comment": "Opt-in guardrails. Move into hooks{} above to enable. Each one trades agent ergonomics for stricter invariants — adopt incrementally.",
+
+    "PreToolUse_block_invalid_skill": {
+      "_when": "You want a SKILL.md edit to fail loudly if it violates anatomy (frontmatter missing, sections missing). Aggressive: blocks the tool call.",
+      "matcher": "Edit|Write",
+      "command": "case \"$CLAUDE_TOOL_FILE_PATH\" in *SKILL.md) <path-to-hornero>/scripts/validate-skill.sh \"$CLAUDE_TOOL_FILE_PATH\" || exit 2;; esac"
+    },
+
+    "PostToolUse_auto_catalog_regen": {
+      "_when": "You want CATALOG.md kept in sync automatically after any description-line change. Re-runs catalog.sh and stages the result. Adds latency to every SKILL/ROLE edit.",
+      "matcher": "Edit|Write",
+      "command": "case \"$CLAUDE_TOOL_FILE_PATH\" in *SKILL.md|*ROLE.md) ( cd <path-to-hornero> && ./scripts/catalog.sh > /dev/null && git diff --quiet CATALOG.md || git add CATALOG.md ) ;; esac"
+    },
+
+    "PreCommit_smoke_check": {
+      "_when": "Not a Claude Code hook — a git pre-commit hook. Install with: ln -s ../../scripts/smoke-check.sh .git/hooks/pre-commit. Runs full validate-skill + catalog-drift before any commit.",
+      "command": "ln -sf ../../scripts/smoke-check.sh .git/hooks/pre-commit"
+    }
+  },
+
   "_notes": [
     "permissions.defaultMode: 'auto' lets the harness auto-approve known-safe tools.",
     "skipAutoPermissionPrompt: true suppresses prompts for operations already in the allow list.",
     "effortLevel: 'high' biases the model toward more thorough output (more tokens, better quality).",
     "model: 'sonnet' is the default for new tasks; switch to opus for planning / haiku for trivial edits.",
-    "The Stop hook prints a reminder at session end. Replace with an actual command (e.g., open a feedback note) when you adopt the feedback-ritual playbook."
+    "hooks.SessionStart primes the dispatcher behaviour at every session-start.",
+    "hooks.PostToolUse runs validate-skill.sh after SKILL.md edits and warns on failure. CLAUDE_TOOL_FILE_PATH stands in for whichever env var your Claude Code version exposes for the touched file — verify against the current hook docs before relying on it. If the var is empty the case statement no-ops, so the hook is safe-by-default.",
+    "hooks.Stop reminds the agent to consider /extract-lesson at session end.",
+    "_optional_hooks are commented examples — paste into hooks{} when you want stricter guardrails. Aggressive variants (blocking, auto-regen) trade agent ergonomics for invariants; adopt incrementally."
   ]
 }

@@ -122,3 +122,7 @@ The user's bottleneck is usually the reading, not the spend. Optimize for output
 ### Treating multi-role review as a substitute for engineering judgment
 **Symptom:** Every decision routed through multi-role review.
 **Fix:** Multi-role review supplements judgment for cross-cutting work. It doesn't replace expertise on bounded work.
+
+### Mixing exploration and editing in the same context
+**Symptom:** A reviewer subagent both critiques and edits, or the orchestrator re-explores in the same turn it's writing. Review quality drops; edits drift; both turns end up half-doing each other's job.
+**Fix:** Reviewers are read-only by construction. The orchestrator turn synthesises and writes. If the synthesis surfaces new exploration needs, that's a separate read-only pass — don't bolt it onto the write turn. Anthropic's blog calls this out as a top subagent mistake.

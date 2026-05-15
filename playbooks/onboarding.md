@@ -109,6 +109,7 @@ When a session ends, run it. It scans for surprises and proposes durable deltas 
 - [ ] [`playbooks/orchestration-heuristics.md`](orchestration-heuristics.md) — when to use 1 vs 4 vs 7 roles
 - [ ] [`playbooks/multi-role-review.md`](multi-role-review.md) — plain-language companion to the skill
 - [ ] [`playbooks/feedback-ritual.md`](feedback-ritual.md) — weekly extraction cadence
+- [ ] [`playbooks/claude-md-layering.md`](claude-md-layering.md) — when to add a sub-`CLAUDE.md` in a monorepo or multi-service project (uses [`templates/sub-CLAUDE.md.template`](../templates/sub-CLAUDE.md.template))
 - [ ] When ready, read your most-relevant `roles/<role>/ROLE.md` in full
 
 ## Troubleshooting
