@@ -35,8 +35,15 @@
 
 | Resource | Status | MCP server | Used by |
 |---|---|---|---|
+| `bigquery` | stretch | `mcp-server-bigquery` | 0 skill(s) |
+| `datadog` | stretch | `datadog-mcp-server` | 0 skill(s) |
 | `github` | stable | `github-mcp-server` | 0 skill(s) |
+| `hubspot` | stretch | `hubspot-mcp-server` | 0 skill(s) |
+| `jira` | stretch | `mcp-atlassian (community; Atlassian Remote MCP for OAuth path)` | 0 skill(s) |
 | `linear` | stable | `@modelcontextprotocol/server-linear` | 1 skill(s) |
+| `notion` | stretch | `@notionhq/notion-mcp-server` | 0 skill(s) |
+| `slack` | stretch | `@modelcontextprotocol/server-slack` | 0 skill(s) |
+| `snowflake` | stretch | `mcp-snowflake-server` | 0 skill(s) |
 
 ## Role skills
 

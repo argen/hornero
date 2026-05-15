@@ -205,9 +205,16 @@ Roles can read and write external systems via MCP. Each system has a `resources/
 | Resource | Status | What it covers |
 |---|---|---|
 | [`linear`](resources/linear/RESOURCE.md) | stable | Issue tracker — Issues, Projects, Cycles. Used by `linear-triage`. |
+| [`jira`](resources/jira/RESOURCE.md) | stretch | Atlassian issue tracker — Issues, Epics, Sprints, JQL. Scaffolded for future PM skills (sprint readout, cross-functional triage). |
+| [`bigquery`](resources/bigquery/RESOURCE.md) | stretch | Google's serverless analytics warehouse. Scaffolded for future PM skills around success-metrics validation and cohort analysis. |
+| [`snowflake`](resources/snowflake/RESOURCE.md) | stretch | Snowflake's cloud data warehouse. Scaffolded for the same PM skills as BigQuery, on the Snowflake side. |
+| [`hubspot`](resources/hubspot/RESOURCE.md) | stretch | HubSpot CRM — Contacts, Companies, Deals. Scaffolded for future PM skills around customer-signal triage and revenue-architecture validation. |
+| [`datadog`](resources/datadog/RESOURCE.md) | stretch | Datadog observability — metrics, logs, traces, monitors, SLOs. Scaffolded for future PM skills around launch-impact validation. |
+| [`slack`](resources/slack/RESOURCE.md) | stretch | Slack team comms — channels, messages, threads, search. Scaffolded for future PM skills around customer-signal triage and async-feedback synthesis. |
+| [`notion`](resources/notion/RESOURCE.md) | stretch | Notion docs + databases — pages, properties, queries. Scaffolded for future PM skills around PRD drafting and roadmap-database triage. |
 | [`github`](resources/github/RESOURCE.md) | dormant | PRs, issues, Actions, code search, CODEOWNERS. The consuming skill (`github-pr-survey`) was retired with the software-engineer role; the resource card is kept for re-expansion. |
 
-More resources (JIRA, BigQuery, Snowflake, HubSpot, Sentry, Datadog, Grafana, Slack, Notion) land in follow-up PRs — see [`ROADMAP.md`](ROADMAP.md).
+More resources (Sentry, Grafana, Amplitude, Mixpanel, Stripe) land in follow-up PRs — see [`ROADMAP.md`](ROADMAP.md).
 
 Full one-liner index: [`CATALOG.md`](CATALOG.md).
 
