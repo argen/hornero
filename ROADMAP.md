@@ -45,11 +45,32 @@ The repo works as the project itself — clone, `cd`, run Claude Code or Codex. 
 
 - Marketplace submission for both vendors (manifests already ship — `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`).
 - Publish as `npx hornero init` for one-step setup in any repo.
-- **Resources layer expansion** — `resources/{jira,bigquery,snowflake,hubspot}/` (PR 2) and `resources/{sentry,datadog,grafana,slack,notion}/` plus SessionStart MCP probe + dispatcher resource passthrough (PR 3). See PR 1's plan for the 3-PR stack shape.
+- **Resources layer — PR 2 (v1 expansion)** — build on PR 1 (#24) by adding the remaining v1 resource cards and the first cross-system skills:
+  - New `resources/{jira,bigquery,snowflake,hubspot}/RESOURCE.md` (`status: stable`).
+  - New cross-role skills: `skills/query-issue-tracker/SKILL.md` with `resources: [linear, jira]`; `skills/query-warehouse/SKILL.md` with `resources: [bigquery, snowflake]` (schema discovery, dry-run cost estimate, exploratory SQL with a kill-cost guardrail).
+  - New per-role skills: `roles/product-manager/skills/hubspot-pipeline-readout` (pipeline-stage health, deal velocity, ICP fit); `roles/data-scientist/skills/bigquery-experiment-readout` (pulls assignments + outcomes, runs SRM/MDE checks against data, not a spreadsheet).
+  - Frontmatter opt-in on existing skills: `prd → [linear, jira]`, `decision-record → [github]`, `experiment-design → [bigquery, snowflake]`, `pre-launch-measurement-audit → [bigquery, snowflake, datadog, grafana]`.
+  - `.claude-plugin/plugin.json` gains an `mcpServers` block with every v1 resource marked `optional: true`; `.codex-plugin/plugin.json` stays documentation-only (no Codex-side schema invention).
+  - `install.sh` learns to copy `resources/` to `~/.claude/hornero-resources/` (and `~/.codex/` for `--codex`) + `--list-resources` flag; manifest gains resource paths so `--uninstall` stays clean.
+  - Risk to mitigate: don't over-genericise the cross-system skills — if `## Application` says "if Linear, X; if JIRA, Y" more than twice, split.
+
+- **Resources layer — PR 3 (stretch + dispatcher wiring)** — close the loop so reviewer subagents know what's available:
+  - Stretch resource cards (`status: stretch`, allows `mcp.install: tbd`): `resources/{sentry,datadog,grafana,slack,notion}/RESOURCE.md`.
+  - One stretch consumer skill: `roles/software-engineer/skills/sentry-incident-triage`.
+  - `interview-synthesis` frontmatter opt-in: `resources: [notion]`.
+  - New `scripts/probe-mcp.sh`: reads `~/.claude/settings.json` / `$CLAUDE_PROJECT_DIR/.mcp.json` for *configured* servers (no network at session start), cross-references against `resources/*/RESOURCE.md` slugs, echoes a one-liner of configured-vs-missing.
+  - `hooks/hooks.json` SessionStart wired to the probe.
+  - `DISPATCHER.md` Step 5 amendment: orchestrator turn passes the resources line to each fan-out subagent's invocation prompt — reviewer agents see "Available resources: linear, github" without per-role static edits to `agents/<role>-reviewer.md` or `.codex/agents/<role>-reviewer.toml`.
+  - `templates/{CLAUDE,AGENTS,MAP,sub-CLAUDE}.md.template` gain a `data-sources` convention so downstream projects inherit the pattern.
+  - `smoke-check.sh` Step 12: every stretch resource has a non-empty `## Fallback Without MCP` section.
+
+- **Resources layer — known limitations to address in a follow-up**:
+  - YAML parsing is awk-based in four places (`validate-resource.sh`, `smoke-check.sh` Steps 10a/10b, `catalog.sh` mcp.server extractor). Consolidate into a shared `scripts/lib/yaml.{sh,py}` or shell out to `python3 -c "import yaml"` once — the TOML side already uses Python `tomllib` for precedent.
+  - `used_by:` role-prefix is only validated for file existence, not for role-correctness. A stale prefix that happens to resolve to a real path elsewhere wouldn't fire. Flagged inline in `smoke-check.sh`; revisit when a resource is shared across roles.
 
 ## Recently shipped (post-v1)
 
-- [x] **Resources layer (PR 1 — foundation)** — new top-level `resources/<system>/RESOURCE.md` cards describing external data sources (object model, MCP server, gotchas, fallback). Skills opt in via `resources: [<slug>]` frontmatter. Ships `resources/linear/` + `resources/github/` and two consuming skills (`linear-triage`, `github-pr-survey`); `scripts/validate-resource.sh` enforces anatomy; `smoke-check.sh` gains bidirectional skill↔resource cross-ref. Hornero stays usable when no MCP server is configured (graceful degradation via documented fallback paths).
+- [x] **Resources layer (PR 1 — foundation)** — new top-level `resources/<system>/RESOURCE.md` cards describing external data sources (object model, MCP server, gotchas, fallback). Skills opt in via `resources: [<slug>]` frontmatter. Ships `resources/linear/` + `resources/github/` and two consuming skills (`linear-triage`, `github-pr-survey`); `scripts/validate-resource.sh` enforces anatomy; `smoke-check.sh` gains bidirectional skill↔resource cross-ref. Hornero stays usable when no MCP server is configured (graceful degradation via documented fallback paths). PR #24.
 - [x] **Vendor-agnostic plugin parity** — Hornero loads at full fidelity on both Claude Code and Codex from a single source-of-truth. `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` sibling manifests; 7 reviewer subagents available as `agents/<name>.md` (Claude) and auto-generated `.codex/agents/<name>.toml` (Codex) via `scripts/build-codex-agents.sh`; `install.sh --codex` upgraded to install skills + agents + hooks + commands (was: commands only); AGENTS.md reframed around Codex's native subagent primitive instead of script-based fan-out. `codex-parallel-review.sh` kept as legacy fallback. Smoke-check 8/8 covers manifest sync + TOML parse + Markdown↔TOML drift. PR #23.
 - [x] **Plugin packaging (Claude Code)** — `.claude-plugin/plugin.json` manifest, top-level `skills/<name>/SKILL.md` symlinks (auto-built by `scripts/build-plugin-skills.sh`) covering all 59 skills, plugin-loadable session hooks. PRs #20, #21.
 - [x] **Blog-alignment series** (PRs #18–#19) — audit against Anthropic's *How Claude Code Works in Large Codebases* and close the second-half-of-the-ladder gaps. PR #18: guardrail hooks in `templates/settings.json`, `templates/sub-CLAUDE.md.template` + `playbooks/claude-md-layering.md`, explore/edit separation made explicit in `DISPATCHER.md`. PR #19: `templates/MAP.md.template`, `/audit` slash command + `playbooks/skill-rot-review.md` (quarterly cadence), `playbooks/adoption.md` (DRI + cross-functional working group + approval process).
