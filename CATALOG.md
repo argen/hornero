@@ -34,6 +34,17 @@
 | `multi-role-review` | workflow | Use when a task, plan, diff, or artifact would benefit from parallel critique by 2-7 expert role personas — orchestrates dispatch, artifact passing, and synthesis. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 
+## Resources
+
+> External data sources skills can read or write via MCP. Skills opt in
+> via their `resources:` frontmatter. Stretch entries are not yet
+> wired to a mature MCP server — the fallback prose still works.
+
+| Resource | Status | MCP server | Used by |
+|---|---|---|---|
+| `github` | stable | `github-mcp-server` | 1 skill(s) |
+| `linear` | stable | `@modelcontextprotocol/server-linear` | 1 skill(s) |
+
 ## Role skills
 
 ### data-scientist
@@ -81,6 +92,7 @@
 | `discovery-interview-prep` | interactive | Use to plan a discovery interview — produces an interview guide grounded in Teresa Torres' continuous-discovery methodology and Bob Moesta's switch-interview technique. |
 | `interview-synthesis` | interactive | Use after discovery interviews to produce per-interview snapshots, theme rollups, OST updates, and a quote bank — the post-call discipline that makes the continuous-discovery cadence compound. |
 | `jobs-to-be-done` | component | Use to articulate why a customer hires a product — the functional, emotional, and social job they're trying to get done. Anchored in Clayton Christensen's JTBD theory. |
+| `linear-triage` | workflow | Use when a PM runs the weekly triage pass on a Linear project — re-confirm strategy alignment first, then surface stale work, then trim the cycle scope, so the team's next cycle reflects current strategy with no hidden blockers. |
 | `okrs` | component | Use to draft or critique quarterly OKRs — Objectives + Key Results — grounded in Christina Wodtke's radical-focus methodology. |
 | `positioning-statement` | component | Use to draft or critique a positioning statement using Geoffrey Moore's template, sharpened by April Dunford's framing. |
 | `prd` | component | Use when a product manager needs to produce or critique a PRD — to anchor a feature in a problem statement, expose solution-shaped thinking before it ossifies, pair every success metric with a counter-metric, and name what's deliberately out of scope. |
@@ -107,6 +119,7 @@
 | Skill | Type | When to invoke |
 |---|---|---|
 | `adr` | component | Use when an engineering team needs to record an architectural decision — the context, the options considered, the choice, and the consequences — in a lightweight, durable artifact. |
+| `github-pr-survey` | workflow | Use when an engineer needs to size up a PR before reviewing or merging — diff shape, CODEOWNERS coverage, related issues, CI status, review state. Produces a 60-second briefing the reviewer can read before opening the diff. |
 | `refactor-plan` | component | Use when an engineer needs to plan a non-trivial refactor — a structural code change that preserves behaviour — with an explicit safety net, sequence, and rollback path. |
 | `rfc` | component | Use when an engineering team needs to propose a non-trivial technical change — new system, significant refactor, cross-team contract — and wants written debate before commitment, producing a traceable record of what was proposed, what was considered, and what was decided. |
 | `tdd-discipline` | workflow | Use when implementing a behaviour change (feature or bug fix) and you want each step driven by a failing test — red, green, refactor — with each phase respected, not collapsed. |

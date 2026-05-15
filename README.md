@@ -178,6 +178,17 @@ Cross-role process skills: `spec-the-problem`, `multi-role-review`, `extract-les
 
 Reviewer subagents (one per role) ship in [`agents/`](agents/) and are self-contained system prompts. Under Claude Code they're spawned by name via the Agent tool; under Codex they're read as system-prompt fragments.
 
+### Resources — external data sources (MCP)
+
+Roles can read and write external systems via MCP. Each system has a `resources/<name>/RESOURCE.md` card that describes the object model, the canonical MCP server, common gotchas, and a fallback path for when MCP isn't connected. Skills opt in via `resources: [...]` frontmatter; Hornero stays usable when none are configured (graceful degradation).
+
+| Resource | Status | What it covers |
+|---|---|---|
+| [`linear`](resources/linear/RESOURCE.md) | stable | Issue tracker — Issues, Projects, Cycles. Used by `linear-triage`. |
+| [`github`](resources/github/RESOURCE.md) | stable | PRs, issues, Actions, code search, CODEOWNERS. Used by `github-pr-survey`. |
+
+More resources (JIRA, BigQuery, Snowflake, HubSpot, Sentry, Datadog, Grafana, Slack, Notion) land in follow-up PRs — see [`ROADMAP.md`](ROADMAP.md).
+
 Full one-liner index: [`CATALOG.md`](CATALOG.md).
 
 ---

@@ -36,6 +36,54 @@ load-bearing theme has no prior coverage (Rumelt on PM, Ramanujam on
 marketing-expert are the existing precedents) — document the cap exception in
 `sources.md` itself rather than ignoring it silently.
 
+**Vendor docs do NOT enter `sources.md`.** Linear API docs, GitHub REST docs,
+BigQuery SQL reference, etc. live in the relevant `resources/<system>/RESOURCE.md`
+under its own `## References` section. The role-level `sources.md` stays for
+*frameworks* (people, books, concepts) and preserves the ~10-anchor cap.
+
+## Resource anatomy
+
+External data sources (Linear, JIRA, GitHub, BigQuery, …) are described by
+[`scripts/validate-resource.sh`](scripts/validate-resource.sh)-enforced
+`resources/<system>/RESOURCE.md` files. Anatomy:
+
+- **YAML frontmatter** — `name`, `description`, `type: data-source`, `status`
+  (`stable` / `stretch` / `experimental`) are required. Convention adds `mcp`
+  (server / install / auth_env / capabilities), `object_model`, `used_by`
+  (back-references to skill slugs), and `fallback` (`prose` / `curl` / `sql`
+  / `none`).
+- **Six `##` sections, in order**: Purpose · MCP Server · Object Model ·
+  Common Gotchas · Fallback Without MCP · References. None may be empty.
+- **`status: stable` requires a real `mcp.install`.** Stretch resources may
+  use `install: tbd` while their MCP server matures.
+- **Resources are always cross-role.** A system used by multiple roles
+  shouldn't be duplicated per-role; per-role *workflows* live in skills.
+
+Run the validator on any new or edited `RESOURCE.md` before committing:
+
+```sh
+./scripts/validate-resource.sh resources/<system>/RESOURCE.md
+```
+
+### Skills that depend on a resource
+
+Skills opt in by listing the resource slug in their frontmatter:
+
+```yaml
+resources:
+  - linear
+```
+
+A union list (`resources: [linear, jira]`) means the skill is satisfied
+when *any one* of the listed resources is available — useful for
+system-agnostic skills like `query-issue-tracker`. Single-system skills
+list one entry.
+
+`smoke-check.sh` enforces a bidirectional invariant: every `resources:`
+slug in a skill resolves to a real `RESOURCE.md`, and every `used_by:`
+back-reference in a `RESOURCE.md` resolves to a real `SKILL.md`. Keep
+both sides in sync when adding or renaming.
+
 ## Regenerating the catalog
 
 [`scripts/catalog.sh`](scripts/catalog.sh) rebuilds `CATALOG.md` from
@@ -81,10 +129,11 @@ does.
 
 ```sh
 ./scripts/validate-skill.sh        # if you touched any SKILL.md
+./scripts/validate-resource.sh     # if you touched any RESOURCE.md
 ./scripts/build-plugin-skills.sh   # if you added or renamed a per-role skill
 ./scripts/build-codex-agents.sh    # if you touched any agents/*.md
 ./scripts/catalog.sh               # if you touched any frontmatter
-./scripts/smoke-check.sh           # always — confirms counts, symlinks, sync, and parses
+./scripts/smoke-check.sh           # always — confirms counts, symlinks, sync, and cross-refs
 ```
 
 PR descriptions should name the user-facing change in one line, then list the
