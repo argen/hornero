@@ -43,6 +43,8 @@ on demand by both Claude Code (`<path-to-hornero>/CLAUDE.md`) and Codex
 
 <2-3 sentences. Why does this project exist? Who uses it? What's the current focus?>
 
+For repo orientation (top-level folders, entry points, stack at a glance), see `MAP.md`. Copy `<path-to-hornero>/templates/MAP.md.template` into your repo root if you don't have one yet — recommended for any non-trivial codebase.
+
 ## Model selection (project-specific)
 
 <Tailor to project. Default starter:>
