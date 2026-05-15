@@ -1,0 +1,50 @@
+# CLAUDE.md — <module / service name>
+
+> **Sub-template.** Per-module standing instructions. Claude Code reads
+> CLAUDE.md files **additively** walking up the tree — this file's content
+> stacks on top of the repo-root `CLAUDE.md`. Keep it short (≤60 lines)
+> and scoped to what differs from root.
+>
+> When to add one: a service, package, or directory has its own test
+> command, lint config, conventions, or domain quirks that the root file
+> would muddy if it tried to cover them. See
+> [`<path-to-hornero>/playbooks/claude-md-layering.md`](<path-to-hornero>/playbooks/claude-md-layering.md)
+> for the layering pattern.
+
+## What lives here
+
+<1-2 sentences. What is this directory's purpose? Who owns it?>
+
+## Local commands
+
+Only commands that differ from the root file. Override root defaults; don't
+restate them.
+
+- Test (this module only): `<command>`
+- Lint (this module only): `<command>`
+- Type check (this module only): `<command>`
+- Dev server / runner: `<command>`
+
+## Local conventions
+
+Anything specific to this module that the root file doesn't capture. Examples:
+
+- File / folder naming patterns that diverge from repo norms
+- Mock-vs-real-fixture policy for tests here
+- Domain glossary terms used in this module's code
+- Public API surface — what's exported vs. internal
+
+## Local stack-specific reminders
+
+Each line should reference a real past incident, not abstract advice.
+
+- <e.g., "Don't touch the generated `proto/*.ts` files — regenerated on every CI run">
+
+## Out of scope
+
+What the root CLAUDE.md covers; do not duplicate here:
+
+- Branch hygiene, commit policy → root
+- Model selection → root
+- Dispatcher / role-and-skill behaviour → root + [`<path-to-hornero>/DISPATCHER.md`]
+- Subagent spawning → root

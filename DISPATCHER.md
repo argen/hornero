@@ -77,6 +77,14 @@ findings yourself. **How** you spawn them is host-specific — see your host's
 session-start file ([`CLAUDE.md`](CLAUDE.md) for the Agent tool,
 [`AGENTS.md`](AGENTS.md) for the `codex exec` script).
 
+**Reviewer subagents are read-only by construction.** They explore, critique,
+and report — they do not edit, commit, or run destructive tools. The
+orchestrator (the turn doing the synthesis) is the writer. Keep the split
+clean: parallel read-only exploration fans out wide for context; the single
+write-mode turn that follows acts on the synthesis. Mixing exploration and
+editing in the same context window pollutes both — review fidelity drops, and
+the editing turn drifts into re-exploring instead of acting.
+
 ### 6. No-match → ask, don't fabricate
 
 If nothing in the catalog matches well, say so:
