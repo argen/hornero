@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  self-breakage-guard:
+    name: validators + smoke-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify tooling
+        run: |
+          # smoke-check Step 8 reads .codex/agents/*.toml via tomllib (3.11+).
+          # ubuntu-latest ships 3.12 as default; this guard catches surprise.
+          python3 --version
+          python3 -c "import tomllib"
+
+      - name: validate-skill.sh
+        run: |
+          SKILLS=()
+          while IFS= read -r f; do SKILLS+=("$f"); done < <(find skills roles -name SKILL.md -type f | sort)
+          ./scripts/validate-skill.sh "${SKILLS[@]}"
+
+      - name: validate-resource.sh
+        run: |
+          if compgen -G "resources/*/RESOURCE.md" > /dev/null; then
+            ./scripts/validate-resource.sh resources/*/RESOURCE.md
+          else
+            echo "no resources shipped yet — skipping"
+          fi
+
+      - name: test-validate-resource.sh (validator unit tests)
+        run: ./scripts/test-validate-resource.sh
+
+      - name: smoke-check.sh
+        run: ./scripts/smoke-check.sh

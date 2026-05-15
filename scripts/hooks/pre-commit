@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Hornero pre-commit hook — opt-in via scripts/install-git-hooks.sh.
+#
+# Runs the same validators CI runs, so a commit can't break the catalog or
+# frontmatter contracts locally. Symlink into .git/hooks/pre-commit; do not
+# vendor a copy. CI remains the authoritative gate.
+
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+echo "↪ hornero pre-commit"
+
+SKILLS=()
+while IFS= read -r f; do SKILLS+=("$f"); done < <(find skills roles -name SKILL.md -type f | sort)
+./scripts/validate-skill.sh "${SKILLS[@]}" >/dev/null
+
+if compgen -G "resources/*/RESOURCE.md" > /dev/null; then
+  ./scripts/validate-resource.sh resources/*/RESOURCE.md >/dev/null
+fi
+
+./scripts/test-validate-resource.sh >/dev/null
+./scripts/smoke-check.sh >/dev/null
+
+echo "  ✓ validators + smoke-check passed"
