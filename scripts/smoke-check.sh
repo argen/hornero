@@ -70,7 +70,8 @@ for role_md in roles/*/ROLE.md; do
     fi
   done
 done
-[[ $ROLE_FAIL -eq 0 ]] && ok "all 7 ROLE.md files have name + description + mode"
+role_count=$(find roles -mindepth 2 -maxdepth 2 -name ROLE.md -type f | wc -l | tr -d ' ')
+[[ $ROLE_FAIL -eq 0 ]] && ok "all $role_count ROLE.md files have name + description + mode"
 
 # ─── Step 3: every agents/<role>-reviewer.md has the required fields ─
 step "agents/ subagent frontmatter check"
@@ -293,7 +294,7 @@ done < <(find skills roles -name SKILL.md -type f ! -path "skills/*/RESOURCE.md"
 #      Parses both YAML shapes (inline `used_by: [a, b]` and block list `- a\n- b`).
 #      Known limitation: only verifies the file path resolves; does not catch the
 #      case where a stale `<role>/` prefix happens to coincide with another real
-#      skill path (this lands on a tester-reviewer follow-up).
+#      skill path.
 if [[ -d resources ]]; then
   while IFS= read -r res_md; do
     fm=$(awk '/^---$/{c++; next} c==1' "$res_md")

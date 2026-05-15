@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # codex-parallel-review.sh — fan out Hornero reviewer subagents as parallel Codex CLI processes.
 #
+# Status: **dormant fan-out.** Hornero currently ships PM-only, so the script
+# degenerates to a single `codex exec` against product-manager-reviewer. The
+# structure (parallel indexed PIDs, per-role stderr capture, INDEX file) is
+# retained so re-expansion of the role set is a matter of growing VALID_ROLES
+# back to its previous list.
+#
 # Claude Code spawns reviewer subagents in parallel via its first-class `Agent`
 # tool. Codex CLI does not expose an equivalent primitive at parity, but its
 # non-interactive `codex exec` mode is good enough to fan reviewers out as
@@ -17,16 +23,11 @@
 #   ./scripts/codex-parallel-review.sh -h
 #
 # Examples:
-#   # Review a PR diff with the default mix (engineer + tester + security)
-#   ./scripts/codex-parallel-review.sh tmp/pr-1247.diff software-engineer tester security-expert
-#
-#   # Full sweep across all 7 reviewers
-#   ./scripts/codex-parallel-review.sh tmp/launch-plan.md \
-#     product-manager designer software-engineer tester security-expert \
-#     marketing-expert data-scientist
+#   # Review a PRD with the only role currently shipped
+#   ./scripts/codex-parallel-review.sh tmp/prd-search.md product-manager
 #
 #   # See what would run without actually invoking codex
-#   ./scripts/codex-parallel-review.sh --dry-run tmp/pr-1247.diff software-engineer tester
+#   ./scripts/codex-parallel-review.sh --dry-run tmp/prd-search.md product-manager
 #
 # Outputs:
 #   tmp/codex-reviews/<role>-review-<timestamp>.md     # final assistant message per role
@@ -50,8 +51,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-DEFAULT_ROLES=(software-engineer tester security-expert)
-VALID_ROLES=(software-engineer tester designer security-expert marketing-expert product-manager data-scientist)
+DEFAULT_ROLES=(product-manager)
+VALID_ROLES=(product-manager)
 
 DRY_RUN=0
 ARTIFACT=""

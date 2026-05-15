@@ -12,11 +12,9 @@
 # --check drives interactive Claude via scripts/lib/play-against.expect — it
 # does NOT use `claude -p`. The harness exercises the same path real users hit.
 #
-# Roles available for interactive critique: product-manager · designer ·
-#   software-engineer · tester · security-expert · marketing-expert · data-scientist
-# Regression scope (v1): product-manager only. Other roles are exercised
-# manually in interactive mode; seeded fixtures may be added per role if a
-# specific regression motivates the token cost.
+# Roles available: product-manager only (Hornero currently ships PM-only).
+# The multi-role legal-role list is preserved in version control history;
+# re-expansion of the role set will require extending LEGAL_ROLES here.
 
 set -euo pipefail
 
@@ -25,7 +23,7 @@ cd "$ROOT"
 
 EXPECT_DRIVER="${ROOT}/scripts/lib/play-against.expect"
 SENTINEL="###DONE_REVIEW###"
-LEGAL_ROLES=(product-manager designer software-engineer tester security-expert marketing-expert data-scientist)
+LEGAL_ROLES=(product-manager)
 
 usage() {
   cat <<'EOF'
@@ -36,12 +34,11 @@ Usage:
   ./scripts/play-against.sh --check             Run the PM seeded-flaw regression
   ./scripts/play-against.sh --help              This message
 
-Roles: product-manager · designer · software-engineer · tester ·
-       security-expert · marketing-expert · data-scientist
+Roles: product-manager (only role currently shipped)
 
 Interactive mode launches `claude` with a pre-seeded prompt — you read the
 critique on screen and stay in the session for follow-ups. --check mode is
-non-interactive (driven by `expect`) and currently covers product-manager only.
+non-interactive (driven by `expect`) and covers product-manager only.
 EOF
 }
 
