@@ -17,10 +17,10 @@
 #
 # What gets installed where:
 #   Claude target: skills (cross-role + per-role) → ~/.claude/skills/
-#                  reviewer agents              → ~/.claude/agents/
+#                  reviewer agent              → ~/.claude/agents/
 #                  slash commands               → ~/.claude/commands/
 #   Codex target:  skills (flat plugin layout)   → ~/.codex/skills/
-#                  reviewer agents (TOML)       → ~/.codex/agents/
+#                  reviewer agent (TOML)       → ~/.codex/agents/
 #                  session hooks                → ~/.codex/hooks.json
 #                  slash commands               → ~/.codex/prompts/
 #                  (AGENTS.md is read from the current working directory;
@@ -194,7 +194,7 @@ if want_claude; then
   done < <(find "${REPO_DIR}/roles" -path "*/skills/*/SKILL.md" -print0 2>/dev/null)
 
   echo
-  echo "Claude — reviewer agents:"
+  echo "Claude — reviewer agent:"
   if [[ -d "${REPO_DIR}/agents" ]]; then
     for f in "${REPO_DIR}/agents"/*.md; do
       [[ -f "$f" ]] || continue
@@ -232,7 +232,7 @@ if want_codex; then
   done < <(find "${REPO_DIR}/roles" -path "*/skills/*/SKILL.md" -type f -print0 2>/dev/null)
 
   echo
-  echo "Codex — reviewer agents (TOML → ${CODEX_DIR}/agents/):"
+  echo "Codex — reviewer agent (TOML → ${CODEX_DIR}/agents/):"
   if [[ -d "${REPO_DIR}/.codex/agents" ]]; then
     for f in "${REPO_DIR}/.codex/agents"/*.toml; do
       [[ -f "$f" ]] || continue
@@ -291,7 +291,7 @@ fi
 echo
 echo "Next steps:"
 echo "  1. Open playbooks/onboarding.md  (or run /kickoff in your AI tool)"
-echo "  2. Try a real task — e.g. /orchestrate, /review, or /role <name>"
+echo "  2. Try a real task — e.g. /kickoff, /orchestrate (dormant multi-role), or /role product-manager <task>"
 echo "  3. Run /harness-check on your current repo"
 echo
 [[ $DRY_RUN -eq 1 ]] && echo "(dry run — nothing was written)"

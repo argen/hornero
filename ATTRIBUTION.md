@@ -5,7 +5,7 @@ Hornero incorporates frameworks, heuristics, and practices from many experts. Wh
 ## Source articles
 
 - **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/) — the harness principles in `methodology.md`.
-- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — the orchestration principles in `methodology.md` and `skills/multi-role-review/`.
+- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — the orchestration principles in `methodology.md` (currently dormant — the `multi-role-review` skill that previously embodied them was retired with the non-PM roles).
 
 ## Adjacent repositories
 
@@ -23,41 +23,15 @@ See also: Lenny Rachitsky · Tony Ulwick · Roman Pichler · Ken Norton · Bob M
 
 Synthesised content from Dean Peters' [Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills) is credited in-skill where ported.
 
-### Software engineer (`roles/software-engineer/sources.md`)
+### Retired roles — history preserved in git
 
-Anchors: Kent Beck · Martin Fowler · John Ousterhout · Fred Brooks · Eric Evans · Sandi Metz · Google SRE Team · Will Larson · Tanya Reilly · Gergely Orosz.
-
-See also: Camille Fournier · Dan North · Hillel Wayne · Joel Spolsky · Thoughtworks Technology Radar · Chris MDP · Simon Willison · Jez Humble & David Farley · Michael Nygard · Michael Feathers.
-
-### Designer (`roles/designer/sources.md`)
-
-Anchors: Don Norman · Jakob Nielsen · Bill Buxton · Alan Cooper · Erika Hall · Steve Krug · Edward Tufte · Brad Frost · Kat Holmes · Mike Monteiro · Adam Wathan & Steve Schoger (Refactoring UI).
-
-See also: Dieter Rams · Julie Zhuo · Frank Chimero · Josh Clark · Microsoft Inclusive Design Toolkit · Apple Human Interface Guidelines · Material Design · WCAG 2.2.
-
-### Tester (`roles/tester/sources.md`)
-
-Anchors: James Bach & Michael Bolton · Elisabeth Hendrickson · Lisa Crispin & Janet Gregory · Cem Kaner · Gojko Adzic · Kent Beck · Jez Humble & David Farley · John Hughes · Maaret Pyhäjärvi · Mike Cohn.
-
-See also: Brian Marick · Jonathan Kohl · Alan Page · Google Testing Blog · Bret Pettichord.
-
-### Security expert (`roles/security-expert/sources.md`)
-
-Anchors: OWASP · NIST · Adam Shostack · Bruce Schneier · MITRE · Troy Hunt · Kim Zetter · Tavis Ormandy & Google Project Zero · Matt Green · Google BeyondCorp.
-
-See also: Daniel Miessler · Chris Wysopal · Phil Zimmermann · Window Snyder · Mudge (Peiter Zatko) · Halvar Flake · MITRE ATLAS.
-
-### Data scientist (`roles/data-scientist/sources.md`)
-
-Anchors: Judea Pearl · Ron Kohavi · Hadley Wickham · Andrew Gelman & Richard McElreath · Cassie Kozyrkov · D. Sculley et al. · Daniel Kahneman · Cathy O'Neil · Andrej Karpathy · Wes McKinney.
-
-See also: Hilary Mason · DJ Patil · Andrew Ng · Sebastian Raschka · Allen Downey · Galit Shmueli · Donald Rubin · Miguel Hernán & James Robins · Daniel Westreich & Sander Greenland · Tyler VanderWeele & Peng Ding · Alex Deng, Ya Xu, Ron Kohavi & Toby Walker (CUPED) · Charles Goodhart & Donald Campbell (the laws) · Google PAIR · HELM / Stanford CRFM.
-
-### Marketing expert (`roles/marketing-expert/sources.md`)
-
-Anchors: April Dunford · Theodore Levitt · David Ogilvy · Byron Sharp · Andy Raskin · Rory Sutherland · Bob Hoffman · Joanna Wiebe · Mark Ritson · Donald Miller.
-
-See also: Eugene Schwartz · Philip Kotler · Lenny Rachitsky · Bob Moesta · Peep Laja & Wynter · Ann Handley · Claude Hopkins.
+The six non-PM roles (software-engineer, designer, tester, security-expert,
+marketing-expert, data-scientist) were retired in 2026-05 when Hornero
+retracted to PM-only. Their `sources.md` bibliographies (Beck, Fowler,
+Ousterhout, Norman, Nielsen, Cooper, Bach/Bolton, Hendrickson, OWASP, Shostack,
+Pearl, Kohavi, Dunford, Sharp, Raskin, and others) remain in git history and
+will return alongside their roles on re-expansion. See [`ROADMAP.md`](ROADMAP.md)
+for the re-expansion plan.
 
 ## How attribution works in skills
 

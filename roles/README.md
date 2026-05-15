@@ -2,19 +2,13 @@
 
 Each role is a persona an agent (or subagent) can adopt to critique work, produce role-specific artifacts, or contribute to a multi-role review.
 
-## The seven seed roles
+## The shipped role today
 
 | Role | Reviewer focus | Producer artifacts |
 |---|---|---|
-| [`software-engineer`](software-engineer/ROLE.md) | Correctness, idioms, dead code, tests, security basics | Implementation plans, code, test cases |
-| [`product-manager`](product-manager/ROLE.md) | Problem fit, scope, user value, success criteria | PRDs, prioritization, success metrics |
-| [`designer`](designer/ROLE.md) | UX flow, accessibility, platform conventions, missing states | UI specs, interaction patterns, design critiques |
-| [`tester`](tester/ROLE.md) | Coverage, edge cases, test pyramid, flakiness risks | Test plans, regression suites, exploratory test charters |
-| [`security-expert`](security-expert/ROLE.md) | Threat surface, auth, data handling, dependencies | Threat models, security reviews, hardening checklists |
-| [`data-scientist`](data-scientist/ROLE.md) | Measurement validity, statistical soundness, bias | Experiment designs, metric definitions, analysis plans |
-| [`marketing-expert`](marketing-expert/ROLE.md) | Positioning, audience clarity, message-market fit | Launch narratives, positioning docs, copy critiques |
+| [`product-manager`](product-manager/ROLE.md) | Problem fit, scope, user value, success criteria, strategic posture | PRDs, JTBD, positioning, OKRs, strategy kernel, bet portfolio, success metrics, prioritization, problem framing, interview synthesis, competitive teardown, revenue architecture, linear triage, cross-functional orchestration |
 
-> v0 status: all seven roles ship full content (ROLE + sources + skills). `software-engineer`, `tester`, `designer`, `security-expert`, `marketing-expert`, `data-scientist` ship 4 skills each (3 component + 1 workflow). `product-manager` ships 6 skills (the original 5 component / interactive + the `cross-functional-orchestration` workflow that lets PM act as the PM-framed orchestrator on cross-functional work).
+> **Currently PM-only.** The six retired roles (`software-engineer`, `tester`, `designer`, `security-expert`, `marketing-expert`, `data-scientist`) shipped in v0 (4 skills each = 24 skills) and are preserved in git history. Re-expansion is a content drop-in per [`../CONTRIBUTING.md`](../CONTRIBUTING.md) § *Restoring a retired role*.
 
 ## How to invoke a role
 
@@ -34,19 +28,9 @@ If you want to bypass dispatch and name the role yourself:
 
 > "Use the `product-manager` role to review this PRD draft."
 
-### Multiple roles
+### Multiple roles *(dormant)*
 
-When a decision is cross-functional, the dispatcher should auto-escalate to `multi-role-review`. To force it:
-
-> "Run multi-role-review on this RFC with product-manager, security-expert, and software-engineer roles."
-
-The orchestrator (the lead agent) will:
-1. Decompose the task per role
-2. Spawn role subagents in parallel
-3. Collect their condensed findings
-4. Synthesize into a unified report
-
-See [`../skills/multi-role-review/SKILL.md`](../skills/multi-role-review/SKILL.md) (shipping in phase 2) for the full protocol.
+When a decision is cross-functional, the dispatcher previously auto-escalated to `multi-role-review`. With one role currently shipped, that path resolves to a single PM lens; the `multi-role-review` skill was retired alongside the non-PM roles and returns on re-expansion.
 
 ### Producer vs reviewer mode
 

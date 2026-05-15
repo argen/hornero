@@ -39,7 +39,12 @@ The job becomes training the agent and teaching colleagues, not reviewing every 
 
 **In Hornero:** the repo is the training material. Every role file teaches the agent how to think from that role's perspective. Every skill teaches one durable competence.
 
-## Layer 2 — Multi-agent orchestration (Anthropic)
+## Layer 2 — Multi-agent orchestration (Anthropic) — *currently dormant*
+
+> **Scope note:** Hornero currently ships **one role** (`product-manager`).
+> The orchestrator-worker pattern documented in this section is preserved
+> as the design target for re-expansion — when additional roles are restored
+> under `roles/`, the rules below take effect again without further change.
 
 The role skills are most powerful when invoked together. Hornero adopts the orchestrator-worker pattern, sharpened for role-based critique and production.
 
@@ -60,13 +65,13 @@ The role skills are most powerful when invoked together. Hornero adopts the orch
 7. **Failure-mode guardrails** — max 7 role subagents per invocation; no nested spawning; synthesis within 1 turn of last finding.
 8. **Heuristics over rigid rules** — instill judgment about when to escalate, drop, or handle conflict; don't prescribe fixed sequences.
 
-These rules are encoded in `skills/multi-role-review/SKILL.md` and `playbooks/orchestration-heuristics.md` — not just documented here.
+These rules are encoded in `playbooks/orchestration-heuristics.md` — not just documented here. (The `multi-role-review` skill that previously held the canonical encoding was retired alongside the non-PM roles; the playbook is the surviving reference until re-expansion.)
 
 ## The memory layer
 
 The two layers above govern *behaviour within sessions*. A third primitive — the memory layer — governs *what carries across them*.
 
-Hornero ships a project-local memory layer at `memory/decisions/`: structured Markdown decision-records, frontmatter-indexed, grep-scale retrieval, committed to git. The two skills [`memory-query`](skills/memory-query/SKILL.md) (read) and [`decision-record`](skills/decision-record/SKILL.md) (write) compose with the seven reviewer agents, which run a memory check as the first step of every review. The end-to-end loop is walked in [`playbooks/memory-loop.md`](playbooks/memory-loop.md).
+Hornero ships a project-local memory layer at `memory/decisions/`: structured Markdown decision-records, frontmatter-indexed, grep-scale retrieval, committed to git. The two skills [`memory-query`](skills/memory-query/SKILL.md) (read) and [`decision-record`](skills/decision-record/SKILL.md) (write) compose with the reviewer agent (currently `product-manager-reviewer`), which runs a memory check as the first step of every review. The end-to-end loop is walked in [`playbooks/memory-loop.md`](playbooks/memory-loop.md).
 
 Why this matters: the most expensive failure mode in AI-assisted engineering is **re-proposing approaches the team already considered and rejected**. The harness layer (Chris MDP) says lessons must feed back into the project; the memory layer is *where* they feed back to. The orchestration layer (Anthropic) says synthesise findings into actionable output; the memory layer is *where* the synthesis becomes durable.
 

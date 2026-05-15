@@ -1,6 +1,6 @@
 {
   "name": "hornero",
-  "description": "Role-and-skill methodology for Codex CLI: 7 reviewer subagents, ~60 expert-grounded skills across software-engineer, product-manager, designer, tester, security-expert, marketing-expert, and data-scientist roles, plus a dispatcher protocol that routes prompts to the right role-skill pair. Vendor-agnostic — paired sibling of .claude-plugin/plugin.json for Claude Code.",
+  "description": "Role-and-skill methodology for Codex CLI: PM reviewer subagent, 21 expert-grounded skills (15 product-management skills + 6 cross-role process skills), plus a dispatcher protocol scaffolded for re-expansion to multiple roles. Vendor-agnostic — paired sibling of .claude-plugin/plugin.json for Claude Code.",
   "version": "0.2.0",
   "author": {
     "name": "Bruno Belcastro",

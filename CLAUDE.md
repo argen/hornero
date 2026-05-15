@@ -22,15 +22,14 @@
 
 Claude Code exposes a first-class `Agent` tool. Reviewer subagents are
 defined in [`agents/<role>-reviewer.md`](agents/) and are callable by name
-via the Agent tool's `subagent_type`:
+via the Agent tool's `subagent_type`.
 
-- `software-engineer-reviewer`
+Hornero currently ships **one** reviewer subagent:
+
 - `product-manager-reviewer`
-- `designer-reviewer`
-- `tester-reviewer`
-- `security-expert-reviewer`
-- `marketing-expert-reviewer`
-- `data-scientist-reviewer`
+
+The multi-role dispatcher mechanics below are preserved for re-expansion;
+today every "fan out" step resolves to a single PM call.
 
 **Always spawn in parallel** when the chosen dispatcher path is multi-role —
 one message, multiple Agent tool calls. Synthesise the per-agent reports in

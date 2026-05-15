@@ -32,14 +32,38 @@ role's `sources.md`. Cite the author / book / concept, not "general industry
 practice".
 
 Soft cap: **~10 anchors per role**. Exceeding the cap is allowed when a new
-load-bearing theme has no prior coverage (Rumelt on PM, Ramanujam on
-marketing-expert are the existing precedents) — document the cap exception in
-`sources.md` itself rather than ignoring it silently.
+load-bearing theme has no prior coverage (Rumelt on PM is the existing
+precedent) — document the cap exception in `sources.md` itself rather than
+ignoring it silently.
 
 **Vendor docs do NOT enter `sources.md`.** Linear API docs, GitHub REST docs,
 BigQuery SQL reference, etc. live in the relevant `resources/<system>/RESOURCE.md`
 under its own `## References` section. The role-level `sources.md` stays for
 *frameworks* (people, books, concepts) and preserves the ~10-anchor cap.
+
+## Restoring a retired role
+
+Hornero currently ships PM-only. Re-adding one of the six retired roles
+(`software-engineer`, `tester`, `designer`, `security-expert`,
+`marketing-expert`, `data-scientist`) is a content drop-in:
+
+1. Recover `roles/<role>/` from git history (or author it fresh).
+2. Recover `agents/<role>-reviewer.md` likewise.
+3. Run, in this order:
+   ```sh
+   ./scripts/build-plugin-skills.sh     # adds skills/<name> symlinks
+   ./scripts/build-codex-agents.sh      # generates .codex/agents/<name>.toml
+   ./scripts/catalog.sh                 # regenerates CATALOG.md
+   ./scripts/smoke-check.sh             # confirms counts and frontmatter
+   ```
+4. If this is the **second** non-PM role landing, also restore the
+   `multi-role-review` skill, `/review` slash command, and
+   `playbooks/multi-role-review.md` from history — parallel critique becomes
+   useful again at ≥2 lenses.
+5. Update `LEGAL_ROLES` in [`scripts/play-against.sh`](scripts/play-against.sh)
+   and `VALID_ROLES` / `DEFAULT_ROLES` in
+   [`scripts/codex-parallel-review.sh`](scripts/codex-parallel-review.sh) to
+   include the restored role.
 
 ## Resource anatomy
 

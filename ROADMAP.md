@@ -4,9 +4,32 @@ Where Hornero is, and what's remaining before v1.
 
 ## Status
 
-**v0 — under construction.** All seven roles (**software-engineer**, **tester**, **designer**, **security-expert**, **marketing-expert**, **product-manager**, **data-scientist**) ship `ROLE.md` + `sources.md` + first-draft skills. Cross-role process skills (`spec-the-problem`, `multi-role-review`, `extract-lesson`, `harness-check`, `context-reset-check`) are shipped. Seven reviewer subagent definitions (one per role) ship in [`agents/`](agents/). A small slash-command surface (`/orchestrate`, `/review`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`) ships in [`.claude/commands/`](.claude/commands/).
+**v1 — PM-only.** Hornero retracted in 2026-05 from seven roles to one (`product-manager`). 15 PM skills + 6 cross-role process skills (`spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`) ship today. The PM reviewer subagent ships in [`agents/`](agents/). A six-command slash surface (`/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`) ships in [`.claude/commands/`](.claude/commands/). The `/review` command and the `multi-role-review` skill were retired alongside the non-PM roles; the path is dormant pending re-expansion.
 
-The repo works as the project itself — clone, `cd`, run Claude Code or Codex. `install.sh` is optional, for users who want Hornero's skills and agents available globally across all projects.
+The dispatcher protocol, orchestration rules, dual-host (Claude + Codex) plugin manifests, and reviewer-subagent fan-out structure are preserved as **dormant scaffolding** — re-expansion is a content drop-in against the same harness. The retired roles' history is preserved in git.
+
+The repo works as the project itself — clone, `cd`, run Claude Code or Codex. `install.sh` is optional, for users who want Hornero's skill and agent available globally across all projects.
+
+## Re-expansion plan (the only live track right now)
+
+Restore roles in this order, one PR each, lightest first:
+
+1. **software-engineer** — `adr`, `rfc`, `refactor-plan`, `tdd-discipline`. Re-enables /orchestrate fan-out against code-shaped decisions.
+2. **tester** — `test-plan`, `regression-test`, `exploratory-charter`, `pre-release-test-pass`. Re-enables the seeded-flaw harness for non-PM persona.
+3. **designer** — `state-audit`, `accessibility-audit`, `heuristic-review`, `design-review`. Re-enables the design-lens critique path.
+4. **security-expert** — `threat-model`, `security-review`, `llm-risk-assessment`, `pre-launch-security-audit`. Re-enables pre-launch composition.
+5. **marketing-expert** — `positioning-canvas`, `strategic-narrative`, `launch-brief`, `pre-launch-marketing-audit`. Restores GTM coverage.
+6. **data-scientist** — `metric-definition`, `experiment-design`, `causal-dag`, `pre-launch-measurement-audit`. Closes the pre-launch quad.
+
+Each role is restored by adding `roles/<role>/`, `agents/<role>-reviewer.md`, then running `scripts/build-plugin-skills.sh` + `scripts/build-codex-agents.sh` + `scripts/catalog.sh`. The `multi-role-review` skill, `/review` command, and `multi-role-review` playbook are restored when the second non-PM role lands (parallel critique needs ≥2 lenses to be meaningful).
+
+## Historical record — v0 (all seven roles shipped)
+
+> Everything below this banner reflects the v0 era when seven roles shipped.
+> It is preserved as the as-built audit trail of what each retired role
+> contained — useful when re-expanding because each `[x]` checkmark names
+> the artifact to restore. Numbers, citation lists, and per-role skill
+> counts here describe the pre-retraction tree, not the current one.
 
 ## Remaining before v1
 

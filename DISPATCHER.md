@@ -4,8 +4,16 @@
 > (Claude Code) and [`AGENTS.md`](AGENTS.md) (Codex). **Edit here.** The host
 > files are thin shims — they should never duplicate the content of this file.
 
-Hornero ships seven roles and several cross-role skills. Users should not need
-to memorise which one to invoke. When a prompt arrives, run the dispatcher.
+Hornero ships **one role today** (`product-manager`) plus six cross-role
+skills. The dispatcher protocol below is the design target — it was authored
+when seven roles shipped and is retained verbatim so that re-expansion (more
+roles back under `roles/`, more reviewers back under `agents/`) is a
+content-only change, not a protocol rewrite.
+
+Until then, every multi-match / parallel-fan-out path degrades gracefully:
+the only role available is PM, so steps 2–5 below resolve to "use
+product-manager + the matching PM skill". Users should not need to memorise
+which one to invoke. When a prompt arrives, run the dispatcher.
 
 ## The dispatcher protocol
 
@@ -41,8 +49,8 @@ Before reading the full files or doing the work, state which role and skill
 you are adopting, and why — in a single line:
 
 ```
-Adopting `tester` / `regression-test` — prompt names a shipped bug, so a
-reproducing failing test is the artifact.
+Adopting `product-manager` / `prd` — prompt asks for a problem-driven spec
+of a feature change, so a PRD is the artifact.
 ```
 
 This is the user's correction point. They can redirect with one word
@@ -68,14 +76,18 @@ marketing + designer), do not pick one and silently drop the others.
 - If the integrating thread is a **customer job / product decision**, route to
   [`/orchestrate`](.claude/commands/orchestrate.md) — the PM as
   cross-functional orchestrator.
-- Otherwise, route to [`/review`](.claude/commands/review.md) — direct
-  multi-role-review without PM framing. The skill is at
-  [`skills/multi-role-review/SKILL.md`](skills/multi-role-review/SKILL.md).
+- Otherwise, the dispatcher would route to direct multi-role-review without
+  PM framing. **That path is dormant** while Hornero ships PM-only — the
+  `/review` command and the `multi-role-review` skill have been retired
+  pending re-expansion. Use `/orchestrate` instead and let the PM run the
+  available role (itself); re-expansion will restore the non-PM-framed path.
 
 In either path, fan reviewer subagents out in parallel and synthesise their
 findings yourself. **How** you spawn them is host-specific — see your host's
 session-start file ([`CLAUDE.md`](CLAUDE.md) for the Agent tool,
-[`AGENTS.md`](AGENTS.md) for the `codex exec` script).
+[`AGENTS.md`](AGENTS.md) for the `codex exec` script). With only one role
+shipped today the fan-out degenerates to a single PM reviewer; the structure
+of the call site is preserved for re-expansion.
 
 **Reviewer subagents are read-only by construction.** They explore, critique,
 and report — they do not edit, commit, or run destructive tools. The

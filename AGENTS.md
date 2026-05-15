@@ -21,50 +21,44 @@
 ## Subagents in Codex
 
 Codex CLI ships a native subagent primitive ([docs](https://developers.openai.com/codex/subagents)).
-Hornero's 7 reviewer subagents are exposed to Codex via TOML files at
+Hornero's reviewer subagent is exposed to Codex via a TOML file at
 [`.codex/agents/`](.codex/agents/) — generated from the canonical Markdown
-sources in [`agents/`](agents/) by [`scripts/build-codex-agents.sh`](scripts/build-codex-agents.sh).
-Codex discovers them either project-locally (Hornero clone in cwd) or globally
+source in [`agents/`](agents/) by [`scripts/build-codex-agents.sh`](scripts/build-codex-agents.sh).
+Codex discovers it either project-locally (Hornero clone in cwd) or globally
 after `./install.sh --codex`.
+
+Hornero currently ships **one** reviewer subagent
+(`product-manager-reviewer`). The fan-out / multi-thread paths below are
+preserved for re-expansion; today they resolve to a single PM call.
 
 ### Native path (preferred)
 
-Spawn reviewers by name in plain English. Codex parses the request, finds the
-matching `.codex/agents/<name>.toml`, and runs each subagent in parallel with
-the read-only sandbox the TOML declares.
+Spawn the reviewer by name in plain English. Codex parses the request, finds
+the matching `.codex/agents/<name>.toml`, and runs the subagent in the
+read-only sandbox the TOML declares.
 
 ```
-Review this PR. Have software-engineer-reviewer and tester-reviewer
-both pass over the diff, then summarise their findings together.
+Have product-manager-reviewer pass over this PRD draft.
 ```
 
-The seven names callable this way:
+The name callable this way:
 
-- `software-engineer-reviewer`
 - `product-manager-reviewer`
-- `designer-reviewer`
-- `tester-reviewer`
-- `security-expert-reviewer`
-- `marketing-expert-reviewer`
-- `data-scientist-reviewer`
 
-Codex's `agents.max_threads` default is 6; cap your fan-out accordingly or
-raise the setting in `~/.codex/config.toml`.
+Codex's `agents.max_threads` default is 6; the cap matters once additional
+reviewers are restored.
 
 ### Legacy fallback — `scripts/codex-parallel-review.sh`
 
 For Codex versions predating native subagents (or environments where `.codex/agents/`
 discovery isn't available), the script-based fan-out still works. It spawns one
-`codex exec` per role, each briefed with the reviewer file + the artifact:
+`codex exec` per role, each briefed with the reviewer file + the artifact. With
+only one role shipped the fan-out is a single subprocess; the script's parallel
+indexed-PIDs structure is retained so re-expansion is a one-line edit.
 
 ```sh
-# Default mix (engineer + tester + security) on a PR diff:
-./scripts/codex-parallel-review.sh tmp/pr-1247.diff
-
-# Full sweep across all 7 reviewers:
-./scripts/codex-parallel-review.sh tmp/launch-plan.md \
-  product-manager designer software-engineer tester security-expert \
-  marketing-expert data-scientist
+# Review a PRD with the only role currently shipped:
+./scripts/codex-parallel-review.sh tmp/prd-search.md product-manager
 ```
 
 Each invocation runs with `--ephemeral`, `--sandbox read-only`, and
