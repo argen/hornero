@@ -14,13 +14,13 @@ Hornero's version of this loop is intentionally markdown-only: structured Markdo
 |---|---|---|
 | [`skills/memory-query`](../skills/memory-query/SKILL.md) | Read | Scan `memory/decisions/` before reviewing or producing. Surface 1-5 relevant prior decisions. |
 | [`skills/decision-record`](../skills/decision-record/SKILL.md) | Write | After a decision lands, capture diagnosis + decision + rejected alternatives + validation + revisit-by. |
-| Reviewer agents (all 7) | Read (preamble) | Every reviewer agent runs `memory-query` as its first step. |
+| Reviewer agent (`product-manager-reviewer` today; more on re-expansion) | Read (preamble) | The reviewer agent runs `memory-query` as its first step. |
 
 ## The loop, in eight steps
 
 ### 1. A new piece of work arrives
 
-A PR, an RFC, a PRD, a launch question, a roadmap call — anything that would normally trigger a Hornero role or `multi-role-review`.
+A PRD draft, a positioning ask, a launch question, a roadmap call, a prioritisation debate — anything that would normally trigger the PM role. (On re-expansion: also engineering RFCs, design reviews, threat models, etc.)
 
 ### 2. Memory check (reviewer-preamble)
 
@@ -44,7 +44,7 @@ The role's standard heuristics apply. The memory check informs the work; it does
 
 ### 5. Synthesise the outcome
 
-If the work was a `multi-role-review` or `cross-functional-orchestration`, synthesise the role findings into a recommendation. If the work produced a new decision (cross-functional, posture-shaping, alternative-rejecting), proceed to step 6. If it produced a feature spec or a critique, no decision-record is needed.
+If the work was a `cross-functional-orchestration` (or a multi-role review, once re-expansion restores that), synthesise the role findings into a recommendation. If the work produced a new decision (cross-functional, posture-shaping, alternative-rejecting), proceed to step 6. If it produced a feature spec or a critique, no decision-record is needed.
 
 ### 6. Decide whether to write
 
@@ -56,9 +56,9 @@ A decision warrants a `decision-record` when **all** of the following hold:
 
 A decision **does not** warrant a record when:
 
-- It's a routine implementation choice already covered by code/ADR.
+- It's a routine implementation choice already covered by code.
 - It's a feature spec (use [`skills-prd`](../roles/product-manager/skills/prd/SKILL.md) instead).
-- It's an architectural call (use [`skills-adr`](../roles/software-engineer/skills/adr/SKILL.md) instead).
+- It's an architectural call (would use an ADR — the `adr` skill is currently dormant alongside the software-engineer role).
 
 Records are for *cross-role* decisions and *strategy postures* — the calls that ADR / PRD scopes don't cover.
 
@@ -73,49 +73,57 @@ Invoke `decision-record`. Produce `memory/decisions/YYYY-MM-DD-slug.md` with:
 
 `memory/decisions/` is committed to git like any other source artifact. The corpus survives sessions, teammates, and turnover. The next session — whoever runs it — starts with this context.
 
-## Worked example — the shadow-column migration
+## Worked example — the activation-metric pivot
 
-A real-world example showing the full loop.
+A real-world example showing the full loop, PM-shaped.
 
 ### What happened
 
-A PR proposes adding a NOT NULL column to a 50M-row `users` table. The PR shows a single migration: `ALTER TABLE users ADD COLUMN signup_source TEXT NOT NULL DEFAULT 'unknown';`
+A PRD draft proposes "weekly active users (WAU)" as the success metric for a new onboarding flow. The draft argues WAU will rise from 38% to 55% within one quarter.
 
 ### Step 2-3 (memory check + conflict)
 
-The software-engineer reviewer agent runs `memory-query` first.
+The `product-manager-reviewer` agent runs `memory-query` first.
 
 ```
-> Memory check: scanning memory/decisions/ for {database, migration, users-table, schema-change} ...
+> Memory check: scanning memory/decisions/ for {success-metric, activation, onboarding, WAU} ...
 
-Found 0 matching records. This is genuinely new territory.
+Found 1 matching record: 2026-02-12-activation-not-engagement (status: committed, revisit_after: 2026-08-12).
 ```
 
-No prior decisions surfaced. The reviewer proceeds with a normal review.
+The reviewer leads with the conflict:
+
+> *"Memory check: a 2026-02 decision explicitly rejected WAU as an activation
+> metric because it conflates activation with engagement and incentivises
+> shallow re-entry (gaming risk per Goodhart). The committed posture is
+> 'activation = completed the second meaningful action within 7 days.' Is this
+> PRD a deliberate revisit (then say so + name the new evidence), a
+> supersede, or an oversight?"*
 
 ### Step 4-5 (review + synthesis)
 
-The reviewer flags: exclusive lock on `users` for the duration of the migration. Staging measurement: 4m17s. Auth offline for 4+ minutes. Recommends multi-role-review with security-expert (auth surface) and data-scientist (backfill volume).
-
-Multi-role-review runs. Synthesis: shadow-column pattern (add nullable → backfill → add NOT NULL → swap reads). pg_repack rejected (tooling dependency, no rollback). Naive ALTER rejected (lock duration).
+The PRD author confirms it's an oversight, not a revisit. The reviewer continues the PRD critique against the now-correct metric. Synthesis: switch the success criterion to the committed activation definition; counter-metric (rage-clicks within 7 days) made explicit; the WAU lift target becomes a guardrail metric instead of the primary.
 
 ### Step 6-7 (write the record)
 
-A decision was made; alternatives were considered; future sessions will care. Worth writing.
+This particular session reaffirmed the prior decision rather than producing a new one — no fresh record needed. The prior record's `revisit_after` is checked: still 2026-08-12, still in date. The session updates the existing record's "validated by" line with a pointer to the PRD that just adopted it.
 
-The PM (or orchestrator) invokes `decision-record`. The file `memory/decisions/2026-05-14-shadow-column-migration.md` is created with diagnosis, decision, coherent actions, rejected alternatives, validation plan, revisit-by 2026-08-14.
+(If the session *had* produced a new posture — e.g., "activation = first action only, drop the 7-day window" — that would warrant a fresh `decision-record` with the prior one explicitly superseded.)
 
 ### Step 8 (commit)
 
-The record is committed alongside the migration PR. Both ship together.
+The PRD and the updated `validated-by` pointer ship together.
 
 ### Three months later — the loop pays off
 
-A new engineer joins. Six months in, a different PR proposes pg_repack for a different large-table migration. The software-engineer reviewer runs `memory-query` and surfaces `2026-05-14-shadow-column-migration`:
+A new PM joins. They draft a PRD for a different onboarding experiment using "daily active users" as the success metric. The reviewer runs `memory-query` and surfaces `2026-02-12-activation-not-engagement`:
 
-> *"Memory check: a 2026-05 decision on a similar problem explicitly considered and rejected pg_repack (tooling dependency, no rollback). The rationale may still hold — or your migration is in a different shape. Worth naming explicitly in the PR before review."*
+> *"Memory check: a 2026-02 decision named WAU/DAU-shaped activation metrics as a
+> rejected pattern (gaming risk, no counter-metric). The rationale may still
+> hold — or your case is different. Worth naming explicitly in the PRD before
+> review."*
 
-The new engineer doesn't re-derive the rejection from scratch. They either adopt the prior pattern, or they explain why their case is different — *upstream* of the review, not in response to it.
+The new PM doesn't re-derive the rejection from scratch. They either adopt the prior pattern, or they explain why their case is different — *upstream* of the review, not in response to it.
 
 That's the loop.
 

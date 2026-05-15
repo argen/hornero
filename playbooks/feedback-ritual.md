@@ -50,7 +50,7 @@ Keep the commits small. One commit per logical lesson.
 Look at the rejected and applied proposals together. Are themes recurring?
 
 - "Three weeks in a row I've been correcting the agent on git workflow." → CLAUDE.md needs sharpening, not another lesson.
-- "Two weeks of marketing-expert role producing generic output." → Role's `sources.md` may need an additional anchor; or the role's broad pass is mis-prioritized.
+- "Two weeks of `product-manager` role producing generic PRDs." → Role's `sources.md` may need an additional anchor; or the role's broad pass is mis-prioritized.
 
 Recurring themes are the signal that a *structural* change is needed, not just an incremental lesson.
 

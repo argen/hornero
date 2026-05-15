@@ -1,6 +1,13 @@
 # Multi-role review — practical guide
 
-Plain-language companion to [`skills/multi-role-review/SKILL.md`](../skills/multi-role-review/SKILL.md). Read this if you want to *use* the skill effectively. Read the SKILL.md if you want to understand the mechanism in detail.
+> **Dormant.** Hornero currently ships PM-only — there are not enough roles
+> available for the parallel-critique pattern this playbook describes. The
+> companion `skills/multi-role-review/SKILL.md` was retired alongside the
+> non-PM roles. The playbook is preserved unchanged as the re-expansion
+> reference: when ≥2 non-PM roles are restored, restore the skill from git
+> history and this guide applies again as-is.
+
+Plain-language companion to the retired `skills/multi-role-review/SKILL.md`. Read this if you want to *use* the skill effectively (post re-expansion). Read the historical SKILL.md if you want to understand the mechanism in detail.
 
 ## What it is
 

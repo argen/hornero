@@ -15,22 +15,24 @@ Hornero ships roles and skills under `<path-to-hornero>/roles/` and
 When a prompt arrives:
 
 1. **Slash commands win** if the user typed one. Hornero ships these:
-   `/orchestrate` (PM as cross-functional orchestrator), `/review` (direct
-   multi-role-review), `/role <name> <task>` (single named role), `/kickoff`,
-   `/catalog`, `/extract-lesson`. Definitions in
+   `/orchestrate` (PM as cross-functional orchestrator), `/role <name> <task>`
+   (single named role — `product-manager` is the only role currently shipped),
+   `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`. The `/review` command
+   from the v0-era multi-role surface is currently dormant. Definitions in
    `<path-to-hornero>/.claude/commands/` (or `~/.claude/commands/` if installed).
 2. Scan `<path-to-hornero>/CATALOG.md` — a one-line-per-entry index of every
    shipped role and skill.
 3. Match the prompt against role triggers and skill `description:`/`scenarios:`
    frontmatter fields. Explicit naming by the user always wins.
 4. **Declare the choice in one line** before doing the work, e.g.
-   `Adopting `tester` / `regression-test` — prompt names a shipped bug.`
+   `Adopting `product-manager` / `prd` — prompt asks for a problem-driven spec.`
    The user can redirect with a single word.
 5. Load the chosen `roles/<role>/ROLE.md` and `skills/<skill>/SKILL.md`.
    Don't load every skill up front.
 6. If two or more roles match strongly, escalate — to `/orchestrate` when the
-   integrating thread is a customer job, else to `/review`. If nothing
-   matches, say so — don't fabricate a skill.
+   integrating thread is a customer job. (The non-PM `/review` path is dormant
+   until additional roles are restored — see Hornero's `ROADMAP.md`.) If
+   nothing matches, say so — don't fabricate a skill.
 
 The dispatcher does NOT fire for trivial edits (typos, renames, formatting)
 or when the user explicitly disables it ("just answer directly").
@@ -66,11 +68,10 @@ For repo orientation (top-level folders, entry points, stack at a glance), see `
 
 ## Always
 
-- Practice strict Red/Green TDD on behaviour changes (see `~/.claude/skills/software-engineer-tdd-discipline/SKILL.md`)
+- Practice strict Red/Green TDD on behaviour changes
 - Branch from clean `main`; commit on a feature branch
 - Run tests after non-trivial changes
-- Invoke `/review` before merging anything cross-functional
-- For launches or product-led cross-functional decisions, prefer `/orchestrate` — the PM as cross-functional orchestrator (customer-job triage + outcomes-shaped synthesis)
+- For launches or product-led cross-functional decisions, use `/orchestrate` — the PM as cross-functional orchestrator (customer-job triage + outcomes-shaped synthesis). With Hornero currently PM-only, the fan-out resolves to a single PM lens; the orchestrator structure is preserved for re-expansion.
 
 ## Never
 
@@ -86,7 +87,7 @@ For repo orientation (top-level folders, entry points, stack at a glance), see `
 - **"Ship it"** — commit on the feature branch, push, open PR. Do not merge.
 - **"Quick fix"** — single small change, skip the multi-role review.
 - **"Plan it"** — produce a plan in `.claude/plans/`, do not implement until approved.
-- **"Review this"** — invoke `multi-role-review` with relevant roles.
+- **"Review this"** — invoke `product-manager-reviewer` (the only reviewer currently shipped). When non-PM reviewers are restored, this fans out to a multi-role review.
 
 ## Stack-specific reminders
 
@@ -96,17 +97,13 @@ For repo orientation (top-level folders, entry points, stack at a glance), see `
 
 ## Hornero subagents available
 
-If Hornero is installed (either via the Claude Code plugin path — `claude --plugin-dir <path-to-hornero>` — or via `<path-to-hornero>/install.sh`), these read-only reviewer subagents are callable by name via the Agent tool (`subagent_type: "<name>"`), pre-loaded with the role's mindset / heuristics / sources:
+If Hornero is installed (either via the Claude Code plugin path — `claude --plugin-dir <path-to-hornero>` — or via `<path-to-hornero>/install.sh`), this read-only reviewer subagent is callable by name via the Agent tool (`subagent_type: "product-manager-reviewer"`), pre-loaded with the role's mindset / heuristics / sources:
 
-- `software-engineer-reviewer`
 - `product-manager-reviewer`
-- `designer-reviewer`
-- `tester-reviewer`
-- `security-expert-reviewer`
-- `marketing-expert-reviewer`
-- `data-scientist-reviewer`
 
-The dispatcher will prefer named subagents over generic + explicit role briefs when both are available.
+(Additional reviewers — software-engineer, designer, tester, security-expert, marketing-expert, data-scientist — are retired pending re-expansion. See Hornero's `ROADMAP.md`.)
+
+The dispatcher will prefer the named subagent over a generic + explicit role brief when both are available.
 
 ## Links
 

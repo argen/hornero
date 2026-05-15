@@ -58,28 +58,24 @@ If any of the above is slow or unreliable, say so explicitly — agents need to 
 - E2E tests are reserved for critical-path slices; everything else lives lower in the pyramid
 - Flaky tests are fixed, not retried
 
-## Multi-role review
+## Slash commands and the (currently) one role
 
-For non-trivial changes, the dispatcher will usually escalate to `/review` automatically. For launches or product-led cross-functional decisions, `/orchestrate` is the better fit — it has the PM frame the work as a customer job, pick the role mix, dispatch in parallel, and synthesise into a decision recommendation.
+Hornero currently ships PM-only. The multi-role-review scaffolding remains in place but is dormant; every fan-out resolves to a single PM lens.
 
 Slash commands available (definitions in `<path-to-hornero>/.claude/commands/`):
 
 - `/orchestrate <task>` — PM as cross-functional orchestrator (marquee for launches/cross-functional decisions).
-- `/review <target>` — direct multi-role-review.
 - `/role <name> <task>` — single named role.
 - `/kickoff` — new-user walkthrough.
 - `/catalog` — what Hornero ships.
 - `/extract-lesson` — end-of-session capture.
+- `/audit` — quarterly rot review.
 
-Available roles in Hornero (all seven ship reviewer subagents — Claude Code reads `~/.claude/agents/<role>-reviewer.md`; Codex reads `~/.codex/agents/<role>-reviewer.toml` — both populated by `<path-to-hornero>/install.sh --claude` / `--codex` / `--both`):
+Available role in Hornero:
 
-- `software-engineer` — code, RFCs, ADRs, refactors, TDD
-- `product-manager` — PRDs, prioritisation, success metrics, positioning, JTBD
-- `designer` — interaction, states, accessibility, platform conventions
-- `tester` — risk-driven test plans, exploratory charters, regression tests, pre-release pass
-- `security-expert` — threat models, security reviews, LLM-risk, pre-launch security audit
-- `marketing-expert` — positioning, narrative, launch briefs (CMO altitude)
-- `data-scientist` — metric definitions, experiments, causal claims, pre-launch measurement audit
+- `product-manager` — PRDs, prioritisation, success metrics, positioning, JTBD, strategy kernel, bet portfolio, problem framing, interview synthesis, competitive teardown, OKRs, revenue architecture, linear triage.
+
+(The retired roles — software-engineer, designer, tester, security-expert, marketing-expert, data-scientist — return on re-expansion. See Hornero's `ROADMAP.md`.)
 
 Roles invoked most in this project:
 
@@ -111,7 +107,7 @@ Roles invoked most in this project:
 1. Read `<path-to-hornero>/DISPATCHER.md` — the host-agnostic dispatcher protocol (Steps 1–6, when it does not apply, loading hierarchy).
 2. Scan `<path-to-hornero>/CATALOG.md` — it indexes every shipped role and skill.
 3. Read the relevant skill: `~/.claude/skills/<skill>/SKILL.md` (role skills are prefixed: `~/.claude/skills/<role>-<skill>/SKILL.md`). Or read it directly from `<path-to-hornero>/roles/<role>/skills/<skill>/SKILL.md`.
-4. For a structured critique, invoke a named reviewer subagent — same `<role>-reviewer` name on either host. Claude Code uses the Agent tool (`subagent_type: "tester-reviewer"`); Codex parses natural-language ("have tester-reviewer pass over this commit") and discovers the TOML at `~/.codex/agents/`. For Codex versions predating native subagents, fall back to `<path-to-hornero>/scripts/codex-parallel-review.sh <artifact> [roles...]`.
-5. Try a slash command — `/orchestrate`, `/review`, `/role <name>`, `/kickoff`, `/catalog`.
+4. For a structured critique, invoke the named reviewer subagent — same `product-manager-reviewer` name on either host. Claude Code uses the Agent tool (`subagent_type: "product-manager-reviewer"`); Codex parses natural-language ("have product-manager-reviewer pass over this PRD") and discovers the TOML at `~/.codex/agents/`. For Codex versions predating native subagents, fall back to `<path-to-hornero>/scripts/codex-parallel-review.sh <artifact> product-manager`.
+5. Try a slash command — `/orchestrate`, `/role <name>`, `/kickoff`, `/catalog`.
 6. Ask the user.
 7. Don't guess.

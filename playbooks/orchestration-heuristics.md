@@ -1,5 +1,9 @@
 # Orchestration heuristics
 
+> **Dormant.** Hornero currently ships PM-only, so every dispatch resolves
+> to 1 role. The 1-vs-4-vs-7 heuristics below take effect again on
+> re-expansion; the playbook is preserved as the re-expansion reference.
+
 When to invoke 1 vs 4 vs 7 roles. When to dispatch in parallel vs sequentially. How to keep multi-agent reviews from degenerating into noise.
 
 Grounded in Anthropic's ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — see `methodology.md` for the eight operating rules.

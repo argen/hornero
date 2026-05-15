@@ -60,12 +60,12 @@ Two cadences, set at adoption:
 
 Without these, Hornero accumulates without pruning, and the harness becomes liability rather than leverage.
 
-## Step 6 — Expand role / skill set incrementally
+## Step 6 — Start with PM, restore roles incrementally
 
-Don't try to use all 7 roles on day one. Adopt in waves:
+Hornero currently ships PM-only. Don't restore all six retired roles on day one. Adopt in waves matched to the work the team actually faces:
 
-- **Wave 1 (week 1):** `software-engineer` + `product-manager`. The two roles most engineering orgs already think in.
-- **Wave 2 (week 3):** Add the role that matches the next-most-common work surface — `designer` for UI teams, `data-scientist` for analytics teams, `security-expert` for fintech / health.
+- **Wave 1 (week 1):** `product-manager` only — the role currently shipped. Use it for PRDs, positioning, OKRs, problem framing, cross-functional decision orchestration.
+- **Wave 2 (week 3+):** Restore the role matching the next-most-common work surface — `software-engineer` for code-shaped decisions, `designer` for UI teams, `data-scientist` for analytics teams, `security-expert` for fintech / health. Each is a content drop-in per [`../CONTRIBUTING.md`](../CONTRIBUTING.md) § *Restoring a retired role*.
 - **Wave 3 (week 6+):** Add others as the work warrants. Most teams settle on 3-5 active roles, not all 7.
 
 The dispatcher in `DISPATCHER.md` handles partial role sets — it never assumes every role is wired in.
