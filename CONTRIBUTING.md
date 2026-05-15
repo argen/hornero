@@ -21,6 +21,8 @@ Run the validator on any new or edited `SKILL.md` before committing:
 ./scripts/validate-skill.sh roles/<role>/skills/<skill>/SKILL.md
 ```
 
+**When you edit a reviewer agent** (`agents/<role>-reviewer.md`), re-run `./scripts/build-codex-agents.sh` to regenerate the matching `.codex/agents/<name>.toml` mirror. The Markdown file is the canonical source; the TOML is the format Codex reads natively. `smoke-check.sh` fails loudly if the two drift.
+
 ## Sources discipline
 
 Every framework named in a Key Concepts section must trace to a name in the
@@ -76,9 +78,10 @@ does.
 ## Before opening a PR
 
 ```sh
-./scripts/validate-skill.sh    # if you touched any SKILL.md
-./scripts/catalog.sh           # if you touched any frontmatter
-./scripts/smoke-check.sh       # always — confirms counts add up
+./scripts/validate-skill.sh        # if you touched any SKILL.md
+./scripts/build-codex-agents.sh    # if you touched any agents/*.md
+./scripts/catalog.sh               # if you touched any frontmatter
+./scripts/smoke-check.sh           # always — confirms counts, sync, and parses
 ```
 
 PR descriptions should name the user-facing change in one line, then list the

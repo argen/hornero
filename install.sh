@@ -9,7 +9,7 @@
 # Usage:
 #   ./install.sh                    # Claude Code only (default)
 #   ./install.sh --claude           # Claude Code only (explicit)
-#   ./install.sh --codex            # Codex only (slash commands → ~/.codex/prompts)
+#   ./install.sh --codex            # Codex only — full set (skills + agents + hooks + prompts)
 #   ./install.sh --both             # Claude Code + Codex
 #   ./install.sh --force            # overwrite without asking
 #   ./install.sh --dry-run          # show what would be installed; don't write
@@ -19,7 +19,10 @@
 #   Claude target: skills (cross-role + per-role) → ~/.claude/skills/
 #                  reviewer agents              → ~/.claude/agents/
 #                  slash commands               → ~/.claude/commands/
-#   Codex target:  slash commands               → ~/.codex/prompts/
+#   Codex target:  skills (flat plugin layout)   → ~/.codex/skills/
+#                  reviewer agents (TOML)       → ~/.codex/agents/
+#                  session hooks                → ~/.codex/hooks.json
+#                  slash commands               → ~/.codex/prompts/
 #                  (AGENTS.md is read from the current working directory;
 #                   no install step needed for the dispatcher itself.)
 
@@ -158,6 +161,22 @@ install_codex_command() {
   copy_file "$src" "${CODEX_DIR}/prompts/${fname}" "codex command: ${fname}"
 }
 
+install_codex_skill() {
+  local src="$1" name="$2"
+  copy_file "$src" "${CODEX_DIR}/skills/${name}/SKILL.md" "codex skill: ${name}"
+}
+
+install_codex_agent() {
+  local src="$1"
+  local fname; fname=$(basename "$src")
+  copy_file "$src" "${CODEX_DIR}/agents/${fname}" "codex agent: ${fname}"
+}
+
+install_codex_hooks() {
+  local src="$1"
+  copy_file "$src" "${CODEX_DIR}/hooks.json" "codex hooks"
+}
+
 # ---------- Claude install ----------
 if want_claude; then
   echo "Claude — cross-role skills:"
@@ -196,6 +215,40 @@ fi
 # ---------- Codex install ----------
 if want_codex; then
   echo
+  echo "Codex — cross-role skills (→ ${CODEX_DIR}/skills/):"
+  while IFS= read -r -d '' file; do
+    name=$(basename "$(dirname "$file")")
+    install_codex_skill "$file" "$name"
+  done < <(find "${REPO_DIR}/skills" -maxdepth 2 -name "SKILL.md" -type f -print0 2>/dev/null)
+
+  echo
+  echo "Codex — per-role skills (flat plugin layout):"
+  # Iterate per-role skills via their canonical roles/ path; install with flat
+  # names (matching the .codex-plugin/plugin.json skills layout the same way
+  # PR #21's top-level skills/<name>/ symlinks do for Claude).
+  while IFS= read -r -d '' file; do
+    skill=$(basename "$(dirname "$file")")
+    install_codex_skill "$file" "${skill}"
+  done < <(find "${REPO_DIR}/roles" -path "*/skills/*/SKILL.md" -type f -print0 2>/dev/null)
+
+  echo
+  echo "Codex — reviewer agents (TOML → ${CODEX_DIR}/agents/):"
+  if [[ -d "${REPO_DIR}/.codex/agents" ]]; then
+    for f in "${REPO_DIR}/.codex/agents"/*.toml; do
+      [[ -f "$f" ]] || continue
+      install_codex_agent "$f"
+    done
+  else
+    echo "  ✗ ${REPO_DIR}/.codex/agents not found — run ./scripts/build-codex-agents.sh first" >&2
+  fi
+
+  echo
+  echo "Codex — session hooks (→ ${CODEX_DIR}/hooks.json):"
+  if [[ -f "${REPO_DIR}/hooks/hooks.json" ]]; then
+    install_codex_hooks "${REPO_DIR}/hooks/hooks.json"
+  fi
+
+  echo
   echo "Codex — slash commands (→ ${CODEX_DIR}/prompts/):"
   if [[ -d "${REPO_DIR}/.claude/commands" ]]; then
     for f in "${REPO_DIR}/.claude/commands"/*.md; do
@@ -203,6 +256,7 @@ if want_codex; then
       install_codex_command "$f"
     done
   fi
+
   echo
   echo "  Note: AGENTS.md is read by Codex from the current working directory."
   echo "  If you want Hornero's dispatcher protocol active in every project,"

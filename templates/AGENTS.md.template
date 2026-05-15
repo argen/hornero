@@ -71,7 +71,7 @@ Slash commands available (definitions in `<path-to-hornero>/.claude/commands/`):
 - `/catalog` — what Hornero ships.
 - `/extract-lesson` — end-of-session capture.
 
-Available roles in Hornero (all seven ship reviewer subagents in `~/.claude/agents/` when Hornero's `install.sh` has been run):
+Available roles in Hornero (all seven ship reviewer subagents — Claude Code reads `~/.claude/agents/<role>-reviewer.md`; Codex reads `~/.codex/agents/<role>-reviewer.toml` — both populated by `<path-to-hornero>/install.sh --claude` / `--codex` / `--both`):
 
 - `software-engineer` — code, RFCs, ADRs, refactors, TDD
 - `product-manager` — PRDs, prioritisation, success metrics, positioning, JTBD
@@ -111,7 +111,7 @@ Roles invoked most in this project:
 1. Read `<path-to-hornero>/DISPATCHER.md` — the host-agnostic dispatcher protocol (Steps 1–6, when it does not apply, loading hierarchy).
 2. Scan `<path-to-hornero>/CATALOG.md` — it indexes every shipped role and skill.
 3. Read the relevant skill: `~/.claude/skills/<skill>/SKILL.md` (role skills are prefixed: `~/.claude/skills/<role>-<skill>/SKILL.md`). Or read it directly from `<path-to-hornero>/roles/<role>/skills/<skill>/SKILL.md`.
-4. For a structured critique, invoke a named reviewer subagent (Claude Code): `~/.claude/agents/<role>-reviewer.md`. Under Codex, either read the reviewer file as system-prompt context or fan reviewers out as parallel subprocesses via `<path-to-hornero>/scripts/codex-parallel-review.sh <artifact> [roles...]`.
+4. For a structured critique, invoke a named reviewer subagent — same `<role>-reviewer` name on either host. Claude Code uses the Agent tool (`subagent_type: "tester-reviewer"`); Codex parses natural-language ("have tester-reviewer pass over this commit") and discovers the TOML at `~/.codex/agents/`. For Codex versions predating native subagents, fall back to `<path-to-hornero>/scripts/codex-parallel-review.sh <artifact> [roles...]`.
 5. Try a slash command — `/orchestrate`, `/review`, `/role <name>`, `/kickoff`, `/catalog`.
 6. Ask the user.
 7. Don't guess.
