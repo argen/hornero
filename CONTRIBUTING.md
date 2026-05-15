@@ -21,6 +21,8 @@ Run the validator on any new or edited `SKILL.md` before committing:
 ./scripts/validate-skill.sh roles/<role>/skills/<skill>/SKILL.md
 ```
 
+**When you add a new per-role skill**, also run `./scripts/build-plugin-skills.sh` — it creates the top-level `skills/<name>/` symlink that the Claude Code plugin loader expects. The script is idempotent; safe to re-run any time.
+
 **When you edit a reviewer agent** (`agents/<role>-reviewer.md`), re-run `./scripts/build-codex-agents.sh` to regenerate the matching `.codex/agents/<name>.toml` mirror. The Markdown file is the canonical source; the TOML is the format Codex reads natively. `smoke-check.sh` fails loudly if the two drift.
 
 ## Sources discipline
@@ -79,9 +81,10 @@ does.
 
 ```sh
 ./scripts/validate-skill.sh        # if you touched any SKILL.md
+./scripts/build-plugin-skills.sh   # if you added or renamed a per-role skill
 ./scripts/build-codex-agents.sh    # if you touched any agents/*.md
 ./scripts/catalog.sh               # if you touched any frontmatter
-./scripts/smoke-check.sh           # always — confirms counts, sync, and parses
+./scripts/smoke-check.sh           # always — confirms counts, symlinks, sync, and parses
 ```
 
 PR descriptions should name the user-facing change in one line, then list the
