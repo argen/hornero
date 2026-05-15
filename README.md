@@ -149,6 +149,16 @@ Spawns the named reviewer subagents in parallel, surfaces non-overlapping findin
 
 For reviewer tasks, this spawns the role's reviewer subagent. For producer tasks ("draft a PRD", "produce a threat model"), it adopts the role + the matching component skill.
 
+### Play against a role from the shell
+
+```sh
+./scripts/play-against.sh product-manager docs/my-prd.md
+./scripts/play-against.sh designer        designs/saved-searches.md
+./scripts/play-against.sh software-engineer plans/sessions-migration.md
+```
+
+Opens an interactive `claude` session with a pre-seeded prompt that asks the named `*-reviewer` subagent to be antagonistic — *do not rubber-stamp*. Same script with `--check` runs the seeded-flaw fixtures in [`tests/seeded/`](tests/seeded/) as a regression net for the role personas (driven by `expect`; not `claude -p`). See [`tests/seeded/README.md`](tests/seeded/README.md) for the planted flaws and signature design.
+
 ### Process skills
 
 | Command | When |

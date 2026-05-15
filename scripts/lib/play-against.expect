@@ -1,0 +1,48 @@
+#!/usr/bin/expect -f
+# play-against.expect — drive one interactive Claude Code turn for a role review.
+#
+# Invoked by scripts/play-against.sh in --check mode. Spawns claude, types the
+# prompt, waits for the model to print the ###DONE_REVIEW### sentinel, exits.
+# Stdout is the raw transcript (ANSI codes included); the caller strips and
+# greps for the seeded-flaw signature.
+#
+# Environment:
+#   PROMPT   — the full prompt to send (single user message)
+#   TIMEOUT  — seconds to wait for the sentinel (default 240)
+#
+# Exit codes:
+#   0  sentinel seen — review printed
+#   2  initial claude prompt never appeared
+#   3  sentinel never appeared within TIMEOUT
+
+set prompt $env(PROMPT)
+set timeout_secs 240
+if {[info exists env(TIMEOUT)]} { set timeout_secs $env(TIMEOUT) }
+
+log_user 1
+set timeout $timeout_secs
+
+# Spawn claude in this terminal. No flags — we want the same path real users hit.
+spawn -noecho claude
+
+# Wait for the input prompt to render. The TUI uses "❯" as the input cursor.
+expect {
+    -re "❯"        { }
+    timeout         { send_user "\nexpect: initial Claude prompt never rendered\n"; exit 2 }
+    eof             { send_user "\nexpect: claude exited before prompting\n"; exit 2 }
+}
+
+# Give the TUI a moment to settle, then submit the prompt.
+sleep 1
+send -- "$prompt\r"
+
+# Wait for the sentinel the prompt instructed the model to emit at end-of-turn.
+expect {
+    -re "###DONE_REVIEW###"  { }
+    timeout                  { send_user "\n✗ sentinel ###DONE_REVIEW### never seen in $timeout_secs s\n"; exit 3 }
+    eof                      { send_user "\n✗ claude exited unexpectedly\n"; exit 3 }
+}
+
+# Clean exit.
+send -- "/exit\r"
+expect eof
