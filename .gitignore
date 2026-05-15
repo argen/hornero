@@ -14,3 +14,7 @@ tmp/
 # Eval runs — artifacts and scores are workspace-specific
 evals/runs/*
 !evals/runs/.gitkeep
+
+# Chronicle proposals are workspace-local until human-committed → entries/
+chronicle/proposals/*
+!chronicle/proposals/.gitkeep
