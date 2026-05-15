@@ -42,8 +42,9 @@ Aggressive: gate every skill addition behind multi-role review (cumbersome, but 
 
 The blog explicitly: *"Small team pre-configures tooling so developers experience productivity on day one."* For Hornero, that means:
 
-- `install.sh` run once (or distribute Hornero as a plugin once Phase 1 of the blog-alignment roadmap ships).
-- `templates/settings.json` merged into team members' `~/.claude/settings.json` (hooks pre-wired; see [PR A: hooks](../templates/settings.json)).
+- **Preferred for Claude Code teams: install as a plugin.** `claude --plugin-dir <path-to-hornero>` for local testing; once you've validated, distribute via a marketplace (see [Claude Code plugin marketplaces](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces)). Commands become namespaced (`/hornero:orchestrate`, `/hornero:review`, …).
+- **Alternative — install.sh.** For Codex teams or for global availability across non-plugin sessions, run `<path-to-hornero>/install.sh --claude` / `--codex` / `--both` to copy roles/skills/agents/commands into `~/.claude/`.
+- `templates/settings.json` merged into team members' `~/.claude/settings.json` for opt-in guardrail hooks (validate-skill, catalog-regen, smoke-check) on top of the plugin's built-in session-lifecycle hooks.
 - A `MAP.md` (copy [`templates/MAP.md.template`](../templates/MAP.md.template)) in your repo root, populated with your folder structure.
 - Reviewer subagents (`agents/*-reviewer.md`) visible in the user's Agent tool list.
 - The [`/kickoff`](../.claude/commands/kickoff.md) command working — that's the day-one productivity moment.

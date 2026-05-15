@@ -21,7 +21,7 @@ claude          # or:  codex
 
 That's it. `CLAUDE.md` (for Claude) and `AGENTS.md` (for Codex) live at the repo root. Your AI tool reads them automatically and the dispatcher is now active.
 
-> **Do I need to run `install.sh`?** No. Hornero works as the project itself. `install.sh` is only for users who want the roles, skills, and reviewer subagents available *globally* across every project on their machine. The 30-minute onboarding does not require it.
+> **Do I need to install anything?** No, not for this walkthrough. Hornero works as the project itself. To make roles, skills, and reviewer subagents available *globally* across every project, there are two options: install as a Claude Code plugin (`claude --plugin-dir <path-to-hornero>`, namespaces commands as `/hornero:<name>`) — preferred — or run `./install.sh` which copies into `~/.claude/` and works for both Claude and Codex. The 30-minute onboarding does not require either.
 
 ## Step 2 — Try your first dispatch with `/kickoff` (5 min)
 
@@ -117,7 +117,7 @@ When a session ends, run it. It scans for surprises and proposes durable deltas 
 
 ## Troubleshooting
 
-**The agent doesn't pick up the skill.** The Hornero-as-project flow expects you to be inside the `hornero/` directory when you run `claude` or `codex`. If you're in a different repo and want Hornero available there too, run `./install.sh` once to make the roles, skills, and subagents global.
+**The agent doesn't pick up the skill.** The Hornero-as-project flow expects you to be inside the `hornero/` directory when you run `claude` or `codex`. If you're in a different repo and want Hornero available there too, install it as a Claude Code plugin (`claude --plugin-dir <path-to-hornero>`) or run `./install.sh` once to copy roles/skills/subagents into `~/.claude/` globally.
 
 **Skill output feels generic.** The skill's `description` may not be triggering well. Invoke explicitly: *"Use the `heuristic-review` skill at `roles/designer/skills/heuristic-review/SKILL.md`."*
 

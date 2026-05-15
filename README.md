@@ -144,6 +144,7 @@ For reviewer tasks, this spawns the role's reviewer subagent. For producer tasks
 | `/kickoff` | First time using Hornero — guided dispatch in under 5 minutes. |
 | `/catalog` | See everything Hornero ships (roles, skills, commands). |
 | `/extract-lesson` | End of session — capture surprises as durable updates to roles, skills, or your project's `CLAUDE.md`/`AGENTS.md`. Run habitually or the harness doesn't compound. |
+| `/audit` | Quarterly rot-review — surfaces skills not invoked recently, sources-anchor orphans, and compensatory rules. Pairs with [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md). |
 
 ### Natural language always works
 
@@ -173,7 +174,7 @@ Seven role personas, each grounded in canonical expert sources (not LLM-generate
 | **marketing-expert** | `positioning-canvas`, `strategic-narrative`, `launch-brief` | `pre-launch-marketing-audit` |
 | **data-scientist** | `metric-definition`, `experiment-design`, `causal-dag` | `pre-launch-measurement-audit` |
 
-Cross-role process skills: `spec-the-problem`, `multi-role-review`, `extract-lesson`, `harness-check`, `context-reset-check`.
+Cross-role process skills: `spec-the-problem`, `multi-role-review`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`.
 
 Reviewer subagents (one per role) ship in [`agents/`](agents/) and are self-contained system prompts. Under Claude Code they're spawned by name via the Agent tool; under Codex they're read as system-prompt fragments.
 
@@ -187,7 +188,9 @@ Drop these templates into a new repo and tailor:
 
 - [`templates/CLAUDE.md.template`](templates/CLAUDE.md.template) — starter `CLAUDE.md` referencing Hornero roles, skills, and slash commands.
 - [`templates/AGENTS.md.template`](templates/AGENTS.md.template) — same, for Codex projects.
-- [`templates/settings.json`](templates/settings.json) — Claude Code settings starter with sensible permissions.
+- [`templates/sub-CLAUDE.md.template`](templates/sub-CLAUDE.md.template) — slim ~50-line scaffold for module-level `CLAUDE.md` files in monorepos / multi-service repos. See [`playbooks/claude-md-layering.md`](playbooks/claude-md-layering.md).
+- [`templates/MAP.md.template`](templates/MAP.md.template) — one-screen codebase orientation map (top-level folders, entry points, stack at a glance). Recommended for any non-trivial repo.
+- [`templates/settings.json`](templates/settings.json) — Claude Code settings starter with sensible permissions, session-lifecycle hooks, and opt-in guardrail hooks (validate-skill, catalog-regen, smoke-check).
 
 Values that need editing are marked `<like this>`.
 
@@ -198,10 +201,13 @@ Values that need editing are marked `<like this>`.
 - [`methodology.md`](methodology.md) — the two-layer synthesis: harness compounding (Chris MDP) + multi-agent orchestration (Anthropic's research system).
 - [`playbooks/onboarding.md`](playbooks/onboarding.md) — 30-minute hands-on walkthrough.
 - [`playbooks/non-engineer-quickstart.md`](playbooks/non-engineer-quickstart.md) — same goal, friendlier on-ramp for designers, PMs, marketers, data scientists.
+- [`playbooks/adoption.md`](playbooks/adoption.md) — adopting Hornero in a team: DRI, cross-functional working group, approval bar, infrastructure-before-rollout, cadence setup.
 - [`playbooks/role-cheatsheet.md`](playbooks/role-cheatsheet.md) — 1-page quick reference: when to invoke each role.
 - [`playbooks/orchestration-heuristics.md`](playbooks/orchestration-heuristics.md) — when to invoke 1 vs 4 vs 7 roles; parallel vs sequential dispatch.
 - [`playbooks/multi-role-review.md`](playbooks/multi-role-review.md) — plain-language companion to the skill.
 - [`playbooks/feedback-ritual.md`](playbooks/feedback-ritual.md) — weekly `/extract-lesson` cadence.
+- [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md) — quarterly retirement cadence; the judgment turn that pairs with `/audit`.
+- [`playbooks/claude-md-layering.md`](playbooks/claude-md-layering.md) — when to add a sub-`CLAUDE.md` and what belongs in root vs. sub.
 - [`examples/sample-session.md`](examples/sample-session.md) — two annotated sessions (4-role dispatcher review + PM-orchestrated launch).
 - [`ROADMAP.md`](ROADMAP.md) — status and what's pending before v1.
 - [`ATTRIBUTION.md`](ATTRIBUTION.md) — the expert sources the methodology incorporates.

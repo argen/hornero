@@ -96,7 +96,7 @@ For repo orientation (top-level folders, entry points, stack at a glance), see `
 
 ## Hornero subagents available
 
-If Hornero's `install.sh` has been run, these read-only reviewer subagents are callable by name via the Agent tool (`subagent_type: "<name>"`), pre-loaded with the role's mindset / heuristics / sources:
+If Hornero is installed (either via the Claude Code plugin path — `claude --plugin-dir <path-to-hornero>` — or via `<path-to-hornero>/install.sh`), these read-only reviewer subagents are callable by name via the Agent tool (`subagent_type: "<name>"`), pre-loaded with the role's mindset / heuristics / sources:
 
 - `software-engineer-reviewer`
 - `product-manager-reviewer`
