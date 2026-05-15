@@ -1,0 +1,15 @@
+{
+  "name": "hornero",
+  "description": "Role-and-skill methodology for Claude Code: 7 reviewer subagents, 7 slash commands, 7 cross-role process skills, and a dispatcher protocol that routes prompts to the right role-skill pair. Full per-role skill library (~50 skills) is also shipped and is loaded via install.sh until the directory layout is flattened in a follow-up.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Bruno Belcastro",
+    "email": "bbelcastro@gmail.com"
+  },
+  "homepage": "https://github.com/argen/hornero",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/argen/hornero"
+  },
+  "license": "MIT"
+}

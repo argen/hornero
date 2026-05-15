@@ -1,0 +1,27 @@
+{
+  "_comment": "Hornero plugin hooks. Session lifecycle only — guardrail hooks (validate-skill, catalog-regen, smoke-check) live in templates/settings.json because they reference Hornero scripts that require a path your installation knows about. Add those to your own .claude/settings.json if you want them; this file stays self-contained so the plugin loads cleanly from any host.",
+
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '↪ Hornero plugin loaded. /hornero:catalog to see roles & skills; /hornero:kickoff to run your first dispatch.'"
+          }
+        ]
+      }
+    ],
+
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Session ending. Consider /hornero:extract-lesson if anything was surprising or worth capturing.'"
+          }
+        ]
+      }
+    ]
+  }
+}
