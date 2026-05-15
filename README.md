@@ -99,6 +99,18 @@ If you add a new skill or edit an agent definition, two generators keep the plug
 
 Both are idempotent. `scripts/smoke-check.sh` fails loudly if either gets out of sync.
 
+### CI + local guards
+
+Every PR runs `validate-skill`, `validate-resource`, `test-validate-resource`, and `smoke-check` in GitHub Actions — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml). No secrets, no API credits, no network.
+
+To catch the same breakage locally before push, opt into the pre-commit shim:
+
+```sh
+./scripts/install-git-hooks.sh
+```
+
+It symlinks `scripts/hooks/pre-commit` into `.git/hooks/`. Run with `--remove` to undo. Not auto-installed.
+
 ### Plugin namespace caveat (Claude Code)
 
 Plugin-loaded slash commands are namespaced — `/hornero:orchestrate`, not `/orchestrate`. If you also have `.claude/commands/` in your project, the bare `/orchestrate` continues to work there. Both can coexist; the bare form takes precedence in project-local scope. Codex doesn't namespace.

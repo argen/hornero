@@ -136,5 +136,14 @@ does.
 ./scripts/smoke-check.sh           # always — confirms counts, symlinks, sync, and cross-refs
 ```
 
+These four (`validate-skill`, `validate-resource`, `test-validate-resource`, `smoke-check`) also run in CI on every PR — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml). CI is the authoritative gate. To catch the same breakage **before** push, opt into the local pre-commit shim:
+
+```sh
+./scripts/install-git-hooks.sh     # symlinks scripts/hooks/pre-commit into .git/hooks/
+./scripts/install-git-hooks.sh --remove   # undo
+```
+
+The shim is intentionally not auto-installed by `install.sh` — opt-in respects contributor surprise budget.
+
 PR descriptions should name the user-facing change in one line, then list the
 files touched in plain bullets. No need to recap diffs the reviewer can read.
