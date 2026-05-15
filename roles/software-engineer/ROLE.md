@@ -150,6 +150,7 @@ When invoked to produce, the role generates:
 
 ### Workflow (multi-step processes) — shipped (v0 drafts)
 - [`tdd-discipline`](skills/tdd-discipline/SKILL.md) — red → green → refactor loop (Beck)
+- [`github-pr-survey`](skills/github-pr-survey/SKILL.md) — pre-review PR briefing; reads via the [`github`](../../resources/github/RESOURCE.md) resource (Ousterhout, Cohn, Gee)
 
 ### Forward-references (not yet shipped)
 - `slo-design` (component) — SLI/SLO/error-budget definition (Google SRE)

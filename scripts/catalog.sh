@@ -81,6 +81,41 @@ yaml_field() {
     echo ""
   fi
 
+  if ls resources/*/RESOURCE.md >/dev/null 2>&1; then
+    echo "## Resources"
+    echo ""
+    echo "> External data sources skills can read or write via MCP. Skills opt in"
+    echo "> via their \`resources:\` frontmatter. Stretch entries are not yet"
+    echo "> wired to a mature MCP server — the fallback prose still works."
+    echo ""
+    echo "| Resource | Status | MCP server | Used by |"
+    echo "|---|---|---|---|"
+    for res_md in resources/*/RESOURCE.md; do
+      [[ -f "$res_md" ]] || continue
+      name=$(yaml_field name "$res_md")
+      status=$(yaml_field status "$res_md")
+      [[ -n "$name" ]] || continue
+      mcp_server=$(awk '
+        /^---$/ { sep++; if (sep == 2) exit; next }
+        sep == 1 && /^mcp:[[:space:]]*$/ { in_mcp=1; next }
+        sep == 1 && in_mcp && /^[[:space:]]+server:/ {
+          sub(/^[[:space:]]+server:[[:space:]]*/, ""); gsub(/^"|"$/, ""); print; exit
+        }
+        sep == 1 && in_mcp && /^[^[:space:]]/ { in_mcp=0 }
+      ' "$res_md")
+      [[ -z "$mcp_server" ]] && mcp_server="—"
+      used_by_count=$(awk '
+        /^---$/ { sep++; if (sep == 2) exit; next }
+        sep == 1 && /^used_by:[[:space:]]*$/ { in_block=1; next }
+        sep == 1 && in_block && /^[[:space:]]+-/ { n++; next }
+        sep == 1 && in_block && /^[^[:space:]]/ { in_block=0 }
+        END { print (n ? n : 0) }
+      ' "$res_md")
+      echo "| \`${name}\` | ${status} | \`${mcp_server}\` | ${used_by_count} skill(s) |"
+    done
+    echo ""
+  fi
+
   echo "## Role skills"
   echo ""
   for role_md in roles/*/ROLE.md; do

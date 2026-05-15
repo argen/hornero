@@ -163,3 +163,4 @@ When invoked to produce, the role generates:
 
 ### Workflow (multi-step) — shipped (v0 drafts)
 - [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md) — PM-led orchestration: frame as customer job, triage role mix, compose with `multi-role-review`, synthesise into a decision (Cagan, Christensen, Doshi, Heath)
+- [`linear-triage`](skills/linear-triage/SKILL.md) — weekly Linear project triage; reads/writes via the [`linear`](../../resources/linear/RESOURCE.md) resource (Torres, Perri, Cagan)

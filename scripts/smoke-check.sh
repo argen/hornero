@@ -110,12 +110,15 @@ RESOLVE_FAIL=0
 CATALOG_NAMES=()
 while IFS= read -r line; do CATALOG_NAMES+=("$line"); done < <(grep -E "^\| \`[a-z][a-z0-9-]+\`" CATALOG.md | sed -E 's/^\| `([^`]+)`.*/\1/' | sort -u)
 
-# Build a set of actual skill names from the filesystem (cross-role skills, per-role skills, and role names)
+# Build a set of valid names from the filesystem: cross-role skills, per-role
+# skills, role names, and resources. Anything CATALOG.md references must resolve
+# to one of these.
 FS_NAMES=()
 while IFS= read -r line; do FS_NAMES+=("$line"); done < <(
   find skills -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
   find roles -mindepth 3 -maxdepth 3 -type d -path "*/skills/*" -exec basename {} \;
   find roles -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+  find resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \; 2>/dev/null
 )
 
 for name in "${CATALOG_NAMES[@]}"; do
@@ -240,7 +243,90 @@ if [[ $CODEX_FAIL -eq 0 ]]; then
   ok "manifest valid + in sync; ${agent_count} Codex agent TOMLs parse and match Markdown sources"
 fi
 
-# ─── Step 9 (optional): real install + verify ─────────────────────────
+# ─── Step 9: every RESOURCE.md validates ─────────────────────────────
+step "validate-resource.sh on every resources/*/RESOURCE.md"
+
+RESOURCES=()
+if [[ -d resources ]]; then
+  while IFS= read -r line; do RESOURCES+=("$line"); done < <(find resources -name RESOURCE.md -type f | sort)
+fi
+
+if [[ ${#RESOURCES[@]} -eq 0 ]]; then
+  ok "no resources/ shipped yet — skipping resource validation"
+else
+  echo "  scanning ${#RESOURCES[@]} resource files..."
+  if ./scripts/validate-resource.sh "${RESOURCES[@]}" >/tmp/hornero-validate-resource.log 2>&1; then
+    ok "all ${#RESOURCES[@]} resources passed anatomy lint"
+  else
+    bad "validate-resource.sh failed (see /tmp/hornero-validate-resource.log)"
+    tail -20 /tmp/hornero-validate-resource.log >&2
+  fi
+fi
+
+# ─── Step 10: bidirectional skill ↔ resource cross-reference ─────────
+step "skill resources: ↔ RESOURCE.md used_by: bidirectional cross-ref"
+
+XREF_FAIL=0
+
+# 10a. Every skill `resources:` slug must resolve to a real RESOURCE.md.
+#      Frontmatter shape: `resources:\n  - linear\n  - jira` OR `resources: [linear, jira]`.
+while IFS= read -r skill_md; do
+  fm=$(awk '/^---$/{c++; next} c==1' "$skill_md")
+  # Capture the `resources:` block — either inline list or YAML block scalar.
+  inline=$(echo "$fm" | awk '/^resources:[[:space:]]*\[/{ sub(/^resources:[[:space:]]*\[/,""); sub(/\].*/,""); gsub(/[ \t]/,""); print }')
+  block=$(echo "$fm" | awk '
+    /^resources:[[:space:]]*$/ { in_block=1; next }
+    in_block && /^[[:space:]]+-/ { sub(/^[[:space:]]+-[[:space:]]*/,""); print; next }
+    in_block && /^[^[:space:]]/ { exit }
+  ')
+  slugs=$(printf '%s\n%s\n' "$inline" "$block" | tr ',' '\n' | sed '/^$/d' | sort -u)
+  for slug in $slugs; do
+    if [[ ! -f "resources/${slug}/RESOURCE.md" ]]; then
+      bad "$skill_md cites resources/${slug} but resources/${slug}/RESOURCE.md does not exist"
+      XREF_FAIL=1
+    fi
+  done
+done < <(find skills roles -name SKILL.md -type f ! -path "skills/*/RESOURCE.md")
+
+# 10b. Every RESOURCE.md `used_by:` slug must resolve to a real SKILL.md.
+#      Slug shape: `<role-or-bare>/<skill>` — bare means cross-role at skills/<skill>.
+#      Parses both YAML shapes (inline `used_by: [a, b]` and block list `- a\n- b`).
+#      Known limitation: only verifies the file path resolves; does not catch the
+#      case where a stale `<role>/` prefix happens to coincide with another real
+#      skill path (this lands on a tester-reviewer follow-up).
+if [[ -d resources ]]; then
+  while IFS= read -r res_md; do
+    fm=$(awk '/^---$/{c++; next} c==1' "$res_md")
+    inline=$(echo "$fm" | awk '/^used_by:[[:space:]]*\[/{ sub(/^used_by:[[:space:]]*\[/,""); sub(/\].*/,""); gsub(/[ \t]/,""); print }')
+    block=$(echo "$fm" | awk '
+      /^used_by:[[:space:]]*$/ { in_block=1; next }
+      in_block && /^[[:space:]]+-/ { sub(/^[[:space:]]+-[[:space:]]*/,""); print; next }
+      in_block && /^[^[:space:]]/ { exit }
+    ')
+    refs=$(printf '%s\n%s\n' "$inline" "$block" | tr ',' '\n' | sed '/^$/d')
+    for ref in $refs; do
+      # Strip quotes if present
+      ref="${ref//\"/}"; ref="${ref//\'/}"
+      if [[ "$ref" == */* ]]; then
+        role="${ref%%/*}"
+        skill="${ref##*/}"
+        target="roles/${role}/skills/${skill}/SKILL.md"
+      else
+        target="skills/${ref}/SKILL.md"
+      fi
+      if [[ ! -f "$target" ]]; then
+        bad "$res_md back-references $ref but $target does not exist"
+        XREF_FAIL=1
+      fi
+    done
+  done < <(find resources -name RESOURCE.md -type f)
+fi
+
+if [[ $XREF_FAIL -eq 0 ]]; then
+  ok "skill ↔ resource cross-references are consistent"
+fi
+
+# ─── Step 11 (optional): real install + verify ────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 
