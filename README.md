@@ -38,7 +38,43 @@ codex
 
 Then either type `/kickoff` for a guided first dispatch, or describe a task in plain English — the dispatcher will pick the right role/skill and **declare its choice in one line** before doing the work.
 
-> **No install step?** Right. Hornero works as the project itself — `CLAUDE.md` (for Claude) and `AGENTS.md` (for Codex) live at the repo root. If you want the roles/skills/subagents available globally across all projects, the optional `./install.sh` copies them into `~/.claude/`. See [`install.sh`](install.sh) for `--claude` / `--codex` / `--both`.
+> **No install step?** Right. Hornero works as the project itself — `CLAUDE.md` (for Claude) and `AGENTS.md` (for Codex) live at the repo root. If you want the roles/skills/subagents available globally across all projects, you have two paths: install Hornero as a Claude Code plugin (preferred, see below), or run `./install.sh` to copy files into `~/.claude/` (works for both Claude and Codex).
+
+---
+
+## Install as a Claude Code plugin (preferred)
+
+Hornero ships as a Claude Code plugin so teammates get a one-command install with versioned updates instead of tribal `~/.claude/` copies. Plugin packaging is the [blog-recommended](https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start) distribution path for shareable team methodology.
+
+### Try it locally without committing
+
+```bash
+git clone git@github.com:argen/hornero.git
+claude --plugin-dir ./hornero
+```
+
+Then in the session: `/hornero:catalog`, `/hornero:kickoff`, `/hornero:orchestrate`, `/hornero:review`, `/hornero:role`.
+
+### What you get from the plugin path (Phase 1)
+
+- ✅ **Slash commands** (`/hornero:catalog`, `/hornero:kickoff`, `/hornero:orchestrate`, `/hornero:review`, `/hornero:role`, `/hornero:audit`, `/hornero:extract-lesson`).
+- ✅ **Reviewer subagents** — all 7 (`software-engineer-reviewer`, `product-manager-reviewer`, `designer-reviewer`, `tester-reviewer`, `security-expert-reviewer`, `data-scientist-reviewer`, `marketing-expert-reviewer`) callable via the Agent tool.
+- ✅ **Cross-role process skills** — `spec-the-problem`, `multi-role-review`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`.
+- ✅ **Session hooks** — `SessionStart` primer and `Stop` lesson reminder ship in `hooks/hooks.json`.
+
+### What's NOT in the plugin yet (use `install.sh` for the full set)
+
+Per-role component and workflow skills (~50 skills total, listed in the *What's in the box* table below) live under `roles/<role>/skills/<skill>/SKILL.md`. The plugin loader expects skills at a flat `skills/<name>/SKILL.md` path; flattening the per-role tree is a follow-up refactor. Until then, run:
+
+```bash
+./install.sh --claude   # or --codex / --both
+```
+
+…and the dispatcher in `CLAUDE.md` / `AGENTS.md` will pick up the per-role skills from `~/.claude/skills/`.
+
+### Plugin namespace caveat
+
+Plugin-loaded slash commands are namespaced — `/hornero:orchestrate`, not `/orchestrate`. If you also have `.claude/commands/` in your project, the bare `/orchestrate` continues to work there. Both can coexist; the bare form takes precedence in project-local scope.
 
 ---
 
