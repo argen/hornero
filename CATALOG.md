@@ -20,6 +20,8 @@
 
 | Skill | Type | When to invoke |
 |---|---|---|
+| `chronicle-recall` | workflow | Use before reviewing, proposing, or producing any non-trivial artifact — queries the project's `chronicle/entries/` layer for prior decisions whose scope, role, status, or keywords overlap with the current work, and surfaces relevant entries before fresh analysis begins. |
+| `chronicle-record` | workflow | Use after a non-trivial decision is made — captures a structured, schema-validated entry into the project's `chronicle/` layer so future sessions and roles can load it as situational awareness. This is the strict-schema successor to `decision-record`. |
 | `context-reset-check` | interactive | Use when a session feels stuck — detects context drift, repeated rework, contradictory outputs, and recommends resetting with a fresh tight brief. |
 | `decision-record` | component | Use after a non-trivial decision is made — captures the diagnosis, the decision, the alternatives rejected and why, the validation plan, and the revisit-by date as a durable artifact in `memory/decisions/`. |
 | `extract-lesson` | interactive | Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory. |
