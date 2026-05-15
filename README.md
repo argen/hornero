@@ -157,7 +157,7 @@ For reviewer tasks, this spawns the role's reviewer subagent. For producer tasks
 ./scripts/play-against.sh software-engineer plans/sessions-migration.md
 ```
 
-Opens an interactive `claude` session with a pre-seeded prompt that asks the named `*-reviewer` subagent to be antagonistic — *do not rubber-stamp*. Same script with `--check` runs the seeded-flaw fixtures in [`tests/seeded/`](tests/seeded/) as a regression net for the role personas (driven by `expect`; not `claude -p`). See [`tests/seeded/README.md`](tests/seeded/README.md) for the planted flaws and signature design.
+Opens an interactive `claude` session with a pre-seeded prompt that asks the named `*-reviewer` subagent to be antagonistic — *do not rubber-stamp*. Interactive mode supports all seven roles. Same script with `--check` runs the seeded PM fixtures (one positive, one negative control) as a coarse regression net for catastrophic persona drift, driven by `expect` against the real interactive CLI — not `claude -p`. See [`tests/seeded/README.md`](tests/seeded/README.md) for the planted flaw and signature design.
 
 ### Process skills
 
