@@ -38,6 +38,10 @@ slip and `--check` fails.
 | [`weak-prd.md`](weak-prd.md) | `product-manager-reviewer` | Success criteria are activity metrics ("more users complete the tour"); no outcome metric; no counter-metric guarding against gaming. | `counter-metric` · `gaming` · `Goodhart` · `activity metric` · `outcome` |
 | [`weak-design.md`](weak-design.md) | `designer-reviewer` | Flow describes only the happy path. Empty state, error state, and loading state are all absent. | `empty state` · `error state` · `loading` · `state inventory` · `edge case` |
 | [`weak-plan.md`](weak-plan.md) | `software-engineer-reviewer` | Adds a `NOT NULL` column to a large table in place; no rollback path, no concurrency note, no backfill plan. | `rollback` · `reversible` · `concurrent` · `backfill` · `in place` |
+| [`weak-test-plan.md`](weak-test-plan.md) | `tester-reviewer` | Three happy-path cases only — no risk analysis, no negative cases, no failure-mode tests; coverage-percentage substituted for thinking. | `risk` · `negative` · `failure mode` · `edge case` · `boundary` · `happy path` · `HTSM` |
+| [`weak-auth-flow.md`](weak-auth-flow.md) | `security-expert-reviewer` | Password-reset `/request` endpoint returns `404 "no such email"` (user enumeration); reset tokens stored in plaintext; no threat model. | `enumeration` · `threat model` · `trust boundary` · `OWASP` · `attack surface` · `timing` · `plaintext` |
+| [`weak-launch-brief.md`](weak-launch-brief.md) | `marketing-expert-reviewer` | "For anyone who needs to manage tasks" — no specific audience; "all-in-one productivity" with no competitive alternative named; positioning is missing. | `positioning` · `for whom` · `who is this for` · `Dunford` · `alternative` · `category` · `competitive` |
+| [`weak-experiment.md`](weak-experiment.md) | `data-scientist-reviewer` | No MDE / power calculation; daily peeking with early-stop at p<0.05; no SRM check; no pre-registration. | `MDE` · `power` · `peeking` · `pre-registration` · `sample size` · `effect size` · `SRM` · `multiple testing` |
 
 The signatures are deliberately a **small set of substrings per flaw**, not
 exact strings. Model output is non-deterministic; a role that *catches* the
@@ -48,7 +52,7 @@ flaw will use at least one of these terms, a role that *misses* it won't.
 | | Tokens (approx.) |
 |---|---|
 | One `--check` case | ~5k input + ~1.5k output ≈ 6k |
-| Full `--check` run | ~18k |
+| Full `--check` run (7 roles) | ~45k |
 
 A full run takes about a minute of wall-clock per case (subagent dispatch +
 the reviewer's turn). Not cheap enough to run on every commit; cheap enough
@@ -90,6 +94,3 @@ boundary and is documented as a risk in the implementation plan.
 - **No antagonism severity grading.** A role either mentions the planted
   flaw or it doesn't. Grading is a future PR if v1 reveals roles rubber-
   stamping past the signatures.
-- **Only 3 of 7 roles** (`product-manager`, `designer`, `software-engineer`).
-  Tester, security-expert, marketing-expert, and data-scientist will follow
-  once the assertion shape proves out.
