@@ -73,6 +73,7 @@
 | `pestel-analysis` | component | Use when a team needs to scan the external macro environment — Political, Economic, Social, Technological, Environmental, Legal — for forces that could shift strategy, inform a market-entry decision, or feed a strategy-kernel diagnosis. |
 | `positioning-statement` | component | Use to draft or critique a positioning statement using Geoffrey Moore's template, sharpened by April Dunford's framing. |
 | `prd` | component | Use when a product manager needs to produce or critique a PRD — to anchor a feature in a problem statement, expose solution-shaped thinking before it ossifies, pair every success metric with a counter-metric, and name what's deliberately out of scope. |
+| `press-release` | component | Use when a team needs to write an Amazon-style working-backwards press release as a forcing function for problem clarity, customer-facing language, and the "is this worth building?" test before any spec is written. |
 | `prioritization-advisor` | interactive | Use to triage a backlog or set of options into Do-Now / Defer / Discard — applying LNO, ICE-with-confidence, and the four-risks lens to produce a ranked list with explicit reasoning and rank-change conditions. |
 | `problem-framing-canvas` | interactive | Use before drafting a PRD to produce a structured problem statement — who has it, what triggers it, what happens if unsolved, what alternatives exist, what success looks like for the customer. |
 | `product-sense-interview-answer` | component | Use when preparing for or critiquing a product-sense interview answer — to structure a spoken "design X" or "improve Y" response that sounds reasoned, not rehearsed. |
@@ -80,6 +81,8 @@
 | `revenue-architecture` | workflow | Use when the PM needs to map the full product growth system — funnel, activation, retention, expansion, churn — as a connected graph, identify the bottleneck stage, and surface which levers move the system vs which produce only local lift. |
 | `strategy-kernel` | component | Use when a PM needs to produce or critique a strategy artifact — to name the central obstacle (diagnosis), articulate the posture for overcoming it (guiding policy), and confirm the actions reinforce each other rather than sitting as an independent initiative list (coherent actions). |
 | `success-metrics` | component | Use before instrumentation to define what good looks like — primary metric, counter-metric, guardrails, and leading indicators — for a feature, launch, or quarter. |
+| `user-story-mapping` | workflow | Use when a team needs to convert a discovery insight or product hypothesis into a release-shaped plan — Patton's two-dimensional story map with a narrative spine, walking skeleton, and release slices — that connects PM altitude to delivery sequencing. |
+| `workshop-facilitation` | workflow | Use when a PM needs to plan or run a focused, aligned product workshop — pre-work, facilitation modalities, time-boxing, decision-capture, and follow-through — rather than convening yet another open-ended discussion. |
 
 ---
 
