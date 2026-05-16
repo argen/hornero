@@ -2,7 +2,7 @@
 
 Where Hornero is, and what's next.
 
-## What ships today
+## What's available
 
 Hornero ships **one role** — `product-manager` — carrying **37 expert-grounded skills** across:
 
