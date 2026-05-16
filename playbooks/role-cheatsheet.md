@@ -1,15 +1,8 @@
 # Role cheatsheet
 
-One-page quick reference for invoking Hornero roles. For depth, read the specific `roles/<role>/ROLE.md`.
+One-page quick reference for invoking Hornero's role. For depth, read [`../roles/product-manager/ROLE.md`](../roles/product-manager/ROLE.md).
 
-> **Currently PM-only.** Hornero retracted in 2026-05 to ship a single role
-> (`product-manager`) — now carrying 37 skills across discovery,
-> strategy, AI-PM, finance, outside-in, GTM, workshops + delivery, and the
-> PM-to-Director career arc — plus eight cross-role process skills. The
-> multi-role table this cheatsheet used to be (six other lenses with their
-> anchor experts and quick-pick combinations) is preserved in git history
-> and returns alongside the retired roles. See
-> [`../ROADMAP.md`](../ROADMAP.md) for the re-expansion plan.
+Hornero ships `product-manager`, carrying 37 skills across discovery, strategy, AI-PM, finance, outside-in, GTM, workshops + delivery, operations, and the PM-to-Director career arc — plus eight cross-role process skills.
 
 ## The product manager at a glance
 
@@ -21,9 +14,9 @@ One-page quick reference for invoking Hornero roles. For depth, read the specifi
 
 | Role | Stays out of |
 |---|---|
-| product-manager | Implementation choices, UI fidelity, test plans, threat surface, measurement validity, GTM copy — those reviewers will return once the corresponding roles are restored |
+| product-manager | Implementation choices, UI fidelity, test plans, threat surface, measurement validity, GTM copy |
 
-Until they are, when a prompt asks about implementation, UX, testing, security, data, or marketing specifically, the dispatcher should either reframe the question as a *product decision* (what problem, what outcomes, what evidence, what alternative we considered) or honestly tell the user the relevant lens is not currently shipped.
+When a prompt asks about implementation, UX, testing, security, data, or marketing specifically, the dispatcher reframes the question as a *product decision* (what problem, what outcomes, what evidence, what alternative we considered) or asks one clarifying question to converge on the closest PM-shaped lens.
 
 ## Quick-pick by work type
 
@@ -130,7 +123,7 @@ Producer mode: "Produce a PRD for the cohort-duplicate fix." (Dispatcher picks `
 |---|---|
 | What this role thinks | `roles/product-manager/ROLE.md` |
 | Who this role learns from | `roles/product-manager/sources.md` |
-| How orchestration *will* work | `playbooks/orchestration-heuristics.md` *(dormant)* |
+| Orchestration heuristics | `playbooks/orchestration-heuristics.md` |
 | Day-1 setup | `playbooks/onboarding.md` |
 | Weekly maintenance | `playbooks/feedback-ritual.md` |
-| Re-expansion plan | `../ROADMAP.md` |
+| What's next | `../ROADMAP.md` |

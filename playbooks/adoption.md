@@ -60,13 +60,13 @@ Two cadences, set at adoption:
 
 Without these, Hornero accumulates without pruning, and the harness becomes liability rather than leverage.
 
-## Step 6 — Start with PM, restore roles incrementally
+## Step 6 — Start with PM, add roles as work demands
 
-Hornero currently ships PM-only. Don't restore all six retired roles on day one. Adopt in waves matched to the work the team actually faces:
+Hornero ships `product-manager` — start there, and add roles only when the team's work surfaces them. Most teams settle on 3-5 active roles, not the full set.
 
-- **Wave 1 (week 1):** `product-manager` only — the role currently shipped. Use it for PRDs, positioning, OKRs, problem framing, cross-functional decision orchestration.
-- **Wave 2 (week 3+):** Restore the role matching the next-most-common work surface — `software-engineer` for code-shaped decisions, `designer` for UI teams, `data-scientist` for analytics teams, `security-expert` for fintech / health. Each is a content drop-in per [`../CONTRIBUTING.md`](../CONTRIBUTING.md) § *Restoring a retired role*.
-- **Wave 3 (week 6+):** Add others as the work warrants. Most teams settle on 3-5 active roles, not all 7.
+- **Week 1:** `product-manager` only — PRDs, positioning, OKRs, problem framing, cross-functional decision orchestration, finance reads, market sizing.
+- **Week 3+:** Add the role matching the next-most-common work surface — `software-engineer` for code-shaped decisions, `designer` for UI teams, `data-scientist` for analytics teams, `security-expert` for fintech / health. Each is a content drop-in (`roles/<role>/`, `agents/<role>-reviewer.md`, then run the build scripts).
+- **Ongoing:** Add others as the work warrants.
 
 The dispatcher in `DISPATCHER.md` handles partial role sets — it never assumes every role is wired in.
 
@@ -74,7 +74,7 @@ The dispatcher in `DISPATCHER.md` handles partial role sets — it never assumes
 
 ### "We installed Hornero, no one uses it"
 **Cause:** No DRI; rollout was technical-only; no day-one demonstration of value.
-**Fix:** Pick a DRI now. Run `/kickoff` together as a team. Pick one upcoming decision and route it through `/orchestrate` or `/review` so the team sees the output.
+**Fix:** Pick a DRI now. Run `/kickoff` together as a team. Pick one upcoming decision and route it through `/orchestrate` so the team sees the output.
 
 ### "Every developer customized their own version"
 **Cause:** No approval process; no working group; tribal variants accumulated.

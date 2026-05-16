@@ -5,7 +5,7 @@ Hornero incorporates frameworks, heuristics, and practices from many experts. Wh
 ## Source articles
 
 - **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/) — the harness principles in `methodology.md`.
-- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — the orchestration principles in `methodology.md` (currently dormant — the `multi-role-review` skill that previously embodied them was retired with the non-PM roles).
+- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system) — the orchestrator-worker pattern in `methodology.md`.
 
 ## Adjacent repositories
 
@@ -22,16 +22,6 @@ Anchors: Marty Cagan · Teresa Torres · Martin Eriksson · Melissa Perri · Shr
 See also: Lenny Rachitsky · Tony Ulwick · Roman Pichler · Ken Norton · Bob Moesta · Rich Mironov · Chip Heath & Dan Heath.
 
 Synthesised content from Dean Peters' [Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills) is credited in-skill where ported.
-
-### Retired roles — history preserved in git
-
-The six non-PM roles (software-engineer, designer, tester, security-expert,
-marketing-expert, data-scientist) were retired in 2026-05 when Hornero
-retracted to PM-only. Their `sources.md` bibliographies (Beck, Fowler,
-Ousterhout, Norman, Nielsen, Cooper, Bach/Bolton, Hendrickson, OWASP, Shostack,
-Pearl, Kohavi, Dunford, Sharp, Raskin, and others) remain in git history and
-will return alongside their roles on re-expansion. See [`ROADMAP.md`](ROADMAP.md)
-for the re-expansion plan.
 
 ## How attribution works in skills
 

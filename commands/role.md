@@ -1,5 +1,5 @@
 ---
-description: Invoke a single Hornero role for a focused critique or artifact. Usage:- /role <role-name> <task>. Currently only role- product-manager.
+description: Invoke a single Hornero role for a focused critique or artifact. Usage- /role <role-name> <task>. Available role- product-manager.
 argument-hint: <role-name> <task>
 ---
 
@@ -9,10 +9,10 @@ The user wants a single named role to do the work. **Do not improvise the role.*
 
 ## What to do
 
-1. **Parse the role name** from the start of `$ARGUMENTS`. Valid role today:
+1. **Parse the role name** from the start of `$ARGUMENTS`. Available role:
    - `product-manager` / `pm`
 
-   The retired roles (`software-engineer`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist`) are dormant pending re-expansion — if the user names one, say so and offer to handle the PM-shaped part of the request, or to redirect to `product-manager`.
+   If the user names a role that isn't shipped, say so and offer to handle the PM-shaped part of the request.
 
 2. **For a reviewer task** (the default — "review X", "audit X", "critique X"): spawn the matching reviewer subagent via the Agent tool, e.g. `subagent_type: "product-manager-reviewer"`. The subagent definition is in [`agents/`](../../agents/) and is self-contained — it doesn't need ROLE.md at runtime.
 
@@ -25,7 +25,7 @@ The user wants a single named role to do the work. **Do not improvise the role.*
    /role <name> — adopting <reviewer subagent | role + skill>; <one-sentence plan>.
    ```
 
-5. **Stay inside the role's mandate.** If the task drifts into a retired role's territory (e.g., a security-shaped question landing on the PM), say so and offer the closest PM-shaped reframing (e.g., a product decision about acceptable risk posture) rather than improvising the missing lens.
+5. **Stay inside the role's mandate.** If the task drifts into territory the PM doesn't own (e.g., a security-shaped question landing on the PM), say so and offer the closest PM-shaped reframing (e.g., a product decision about acceptable risk posture) rather than improvising the missing lens.
 
 ## Task
 

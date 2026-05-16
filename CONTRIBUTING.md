@@ -41,14 +41,16 @@ BigQuery SQL reference, etc. live in the relevant `resources/<system>/RESOURCE.m
 under its own `## References` section. The role-level `sources.md` stays for
 *frameworks* (people, books, concepts) and preserves the ~10-anchor cap.
 
-## Restoring a retired role
+## Adding a new role
 
-Hornero currently ships PM-only. Re-adding one of the six retired roles
+Hornero ships `product-manager` today. Adding another role
 (`software-engineer`, `tester`, `designer`, `security-expert`,
-`marketing-expert`, `data-scientist`) is a content drop-in:
+`marketing-expert`, `data-scientist`, or anything else) is a content drop-in:
 
-1. Recover `roles/<role>/` from git history (or author it fresh).
-2. Recover `agents/<role>-reviewer.md` likewise.
+1. Author `roles/<role>/ROLE.md`, `roles/<role>/sources.md`, and the role's
+   skills under `roles/<role>/skills/<skill>/SKILL.md`.
+2. Author `agents/<role>-reviewer.md` as the reviewer subagent's
+   self-contained system prompt.
 3. Run, in this order:
    ```sh
    ./scripts/build-plugin-skills.sh     # adds skills/<name> symlinks
@@ -56,14 +58,13 @@ Hornero currently ships PM-only. Re-adding one of the six retired roles
    ./scripts/catalog.sh                 # regenerates CATALOG.md
    ./scripts/smoke-check.sh             # confirms counts and frontmatter
    ```
-4. If this is the **second** non-PM role landing, also restore the
-   `multi-role-review` skill, `/review` slash command, and
-   `playbooks/multi-role-review.md` from history — parallel critique becomes
-   useful again at ≥2 lenses.
+4. When a **second** role lands, add a `multi-role-review` skill, `/review`
+   slash command, and `playbooks/multi-role-review.md` — parallel critique
+   becomes useful at ≥2 lenses.
 5. Update `LEGAL_ROLES` in [`scripts/play-against.sh`](scripts/play-against.sh)
    and `VALID_ROLES` / `DEFAULT_ROLES` in
    [`scripts/codex-parallel-review.sh`](scripts/codex-parallel-review.sh) to
-   include the restored role.
+   include the new role.
 
 ## Resource anatomy
 

@@ -4,16 +4,12 @@
 > (Claude Code) and [`AGENTS.md`](AGENTS.md) (Codex). **Edit here.** The host
 > files are thin shims — they should never duplicate the content of this file.
 
-Hornero ships **one role today** (`product-manager`) plus six cross-role
-skills. The dispatcher protocol below is the design target — it was authored
-when seven roles shipped and is retained verbatim so that re-expansion (more
-roles back under `roles/`, more reviewers back under `agents/`) is a
-content-only change, not a protocol rewrite.
-
-Until then, every multi-match / parallel-fan-out path degrades gracefully:
-the only role available is PM, so steps 2–5 below resolve to "use
-product-manager + the matching PM skill". Users should not need to memorise
-which one to invoke. When a prompt arrives, run the dispatcher.
+Hornero ships `product-manager` plus eight cross-role process skills. The
+dispatcher protocol below picks the role + skill for a given prompt, declares
+the choice, and runs it. The protocol is built to host multiple roles; with
+one role today, the multi-match and parallel-fan-out paths degrade gracefully
+to a single PM lens. Users should not need to memorise which skill to
+invoke — describe the work in plain English and let the dispatcher route.
 
 ## The dispatcher protocol
 
@@ -90,21 +86,17 @@ If two or more roles' triggers fire strongly on the same prompt (e.g. "review
 this payments PR" → engineer + tester + security; "plan the launch" → PM +
 marketing + designer), do not pick one and silently drop the others.
 
-- If the integrating thread is a **customer job / product decision**, route to
-  [`/orchestrate`](.claude/commands/orchestrate.md) — the PM as
-  cross-functional orchestrator.
-- Otherwise, the dispatcher would route to direct multi-role-review without
-  PM framing. **That path is dormant** while Hornero ships PM-only — the
-  `/review` command and the `multi-role-review` skill have been retired
-  pending re-expansion. Use `/orchestrate` instead and let the PM run the
-  available role (itself); re-expansion will restore the non-PM-framed path.
+Route to [`/orchestrate`](.claude/commands/orchestrate.md) — the PM as
+cross-functional orchestrator runs `cross-functional-orchestration`, frames
+the work as a customer job, and synthesises into a product decision
+(outcomes, success criteria, alternative considered, revisit condition).
 
-In either path, fan reviewer subagents out in parallel and synthesise their
-findings yourself. **How** you spawn them is host-specific — see your host's
+Fan reviewer subagents out in parallel and synthesise their findings
+yourself. **How** you spawn them is host-specific — see your host's
 session-start file ([`CLAUDE.md`](CLAUDE.md) for the Agent tool,
-[`AGENTS.md`](AGENTS.md) for the `codex exec` script). With only one role
-shipped today the fan-out degenerates to a single PM reviewer; the structure
-of the call site is preserved for re-expansion.
+[`AGENTS.md`](AGENTS.md) for the Codex equivalent). With one role shipped
+today the fan-out resolves to a single PM reviewer; the same call site
+handles multiple reviewers as additional roles land.
 
 **Reviewer subagents are read-only by construction.** They explore, critique,
 and report — they do not edit, commit, or run destructive tools. The

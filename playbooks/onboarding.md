@@ -2,15 +2,11 @@
 
 This playbook gets a new teammate productive with Hornero in ≤30 minutes. Read top to bottom; skip nothing.
 
-> **Currently PM-only.** Hornero retracted in 2026-05 to ship a single role
-> (`product-manager`) — but the role now carries **37 skills** spanning
-> discovery, strategy, AI-PM, finance literacy, outside-in scanning, GTM,
-> workshops + delivery, and the PM-to-Director career arc. Whatever
-> product-shaped work you have, there is almost certainly a lens for it.
-> If you came expecting an engineering, design, security, marketing,
-> testing, or data-science lens *specifically*, see
-> [`../ROADMAP.md`](../ROADMAP.md) for the re-expansion plan; the
-> multi-role onboarding flow returns when the relevant role is restored.
+> Hornero ships one role today — `product-manager` — carrying **37 skills**
+> across discovery, strategy, AI-PM, finance literacy, outside-in scanning,
+> GTM, workshops + delivery, operations, and the PM-to-Director career
+> arc. Whatever product-shaped work you have, there is almost certainly a
+> lens for it.
 
 ## Prerequisites (5 min)
 
@@ -78,13 +74,6 @@ For a contested decision or a launch readiness call — use `/orchestrate`:
 
 `/orchestrate` adds a PM frame: the work is restated as a customer job, the synthesis lands as a *product decision* (outcomes, success criteria, alternative considered, revisit condition).
 
-> **Multi-role critique is dormant.** With one role currently shipped, the
-> `/orchestrate` fan-out resolves to a single PM lens. Once additional roles
-> are restored (see [`../ROADMAP.md`](../ROADMAP.md)), the orchestrator
-> resumes spawning multiple reviewer subagents in parallel and synthesising
-> non-overlapping findings, named conflicts, and a ranked recommendation
-> list.
-
 ## Step 5 — Slash commands at a glance
 
 | Command | When to use |
@@ -95,8 +84,6 @@ For a contested decision or a launch readiness call — use `/orchestrate`:
 | `/catalog` | See everything Hornero ships (the PM role, its skills, the cross-role process skills, commands). |
 | `/extract-lesson` | End of session. Captures surprises as durable updates. |
 | `/audit` | Quarterly rot review — surfaces unused skills. |
-
-The `/review` command from the v0-era multi-role surface was retired with the non-PM roles; it returns once two or more non-PM lenses are restored.
 
 Natural language always works too — the dispatcher in [`CLAUDE.md`](../CLAUDE.md) / [`AGENTS.md`](../AGENTS.md) matches plain prompts and declares the chosen role/skill before acting.
 
@@ -115,8 +102,6 @@ When a session ends, run it. It scans for surprises and proposes durable deltas 
 ## Next steps
 
 - [ ] [`playbooks/role-cheatsheet.md`](role-cheatsheet.md) — 1-page role quick reference
-- [ ] [`playbooks/orchestration-heuristics.md`](orchestration-heuristics.md) — *(dormant)* when to use 1 vs 4 vs 7 roles
-- [ ] [`playbooks/multi-role-review.md`](multi-role-review.md) — *(dormant)* plain-language companion to the retired skill
 - [ ] [`playbooks/feedback-ritual.md`](feedback-ritual.md) — weekly extraction cadence
 - [ ] [`playbooks/skill-rot-review.md`](skill-rot-review.md) — quarterly retirement cadence (pairs with [`/audit`](../.claude/commands/audit.md))
 - [ ] [`playbooks/adoption.md`](adoption.md) — DRI, working group, approval process for adopting Hornero in a team
@@ -130,8 +115,6 @@ When a session ends, run it. It scans for surprises and proposes durable deltas 
 **The agent doesn't pick up the skill.** The Hornero-as-project flow expects you to be inside the `hornero/` directory when you run `claude` or `codex`. If you're in a different repo and want Hornero available there too, install it as a Claude Code plugin (`claude --plugin-dir <path-to-hornero>`) or run `./install.sh` once to copy roles/skills/subagents into `~/.claude/` globally.
 
 **Skill output feels generic.** The skill's `description` may not be triggering well. Invoke explicitly: *"Use the `prd` skill at `roles/product-manager/skills/prd/SKILL.md`."*
-
-**Multi-role review unavailable.** Hornero ships PM-only today. Restore an additional role per [`../CONTRIBUTING.md`](../CONTRIBUTING.md) § *Restoring a retired role* to enable parallel critique.
 
 **Skills lose anchor sources in the output.** Run `scripts/validate-skill.sh <path>` to check anatomy. If it passes but content is generic, the skill needs editorial review.
 

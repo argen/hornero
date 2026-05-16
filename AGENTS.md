@@ -30,9 +30,10 @@ source in [`agents/`](agents/) by [`scripts/build-codex-agents.sh`](scripts/buil
 Codex discovers it either project-locally (Hornero clone in cwd) or globally
 after `./install.sh --codex`.
 
-Hornero currently ships **one** reviewer subagent
-(`product-manager-reviewer`). The fan-out / multi-thread paths below are
-preserved for re-expansion; today they resolve to a single PM call.
+Hornero ships **one** reviewer subagent (`product-manager-reviewer`). The
+fan-out / multi-thread paths below resolve to a single PM call today and
+accept additional reviewer subagents as they land — no protocol change
+required.
 
 ### Native path (preferred)
 
@@ -56,8 +57,9 @@ reviewers are restored.
 For Codex versions predating native subagents (or environments where `.codex/agents/`
 discovery isn't available), the script-based fan-out still works. It spawns one
 `codex exec` per role, each briefed with the reviewer file + the artifact. With
-only one role shipped the fan-out is a single subprocess; the script's parallel
-indexed-PIDs structure is retained so re-expansion is a one-line edit.
+one role shipped the fan-out is a single subprocess; the script's parallel
+indexed-PIDs structure handles additional roles as they land — no script
+change required.
 
 ```sh
 # Review a PRD with the only role currently shipped:

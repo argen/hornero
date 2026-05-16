@@ -18,18 +18,21 @@
 
 [*Hornero*](https://en.wikipedia.org/wiki/Rufous_hornero) is Argentina's national bird (*Furnarius rufus*) — known for building elaborate clay-oven nests in patient, methodical layers. The metaphor fits the project: each session adds a layer; the structure outlasts any single conversation.
 
-> **Currently PM-only.** Hornero retracted in 2026-05 to ship a single role,
-> `product-manager`, plus eight cross-role process skills. The role
-> currently carries **37 PM skills** spanning discovery, strategy, OKRs,
-> positioning, prioritisation, JTBD, the AI-PM competencies, finance
-> literacy, outside-in scanning, workshops, delivery, and the
-> PM-to-Director career arc. The multi-role dispatcher, orchestration
-> rules, reviewer-subagent fan-out, and dual plugin paths are retained as
-> **dormant scaffolding** so re-expansion (adding `software-engineer`,
-> `designer`, `tester`, `security-expert`, `marketing-expert`,
-> `data-scientist` back) is a drop-in change against the same harness, not
-> a re-architecture. See [`ROADMAP.md`](ROADMAP.md) for the re-expansion
-> plan.
+## What you get
+
+A `product-manager` role with **37 expert-grounded skills** that turn plain-English prompts into focused PM work:
+
+- **Discovery** — interview prep + synthesis, JTBD, problem framing, opportunity-solution trees, proto-personas, journey maps.
+- **Strategy** — strategy kernel, bet portfolio, PRDs, OKRs, prioritisation, success metrics, competitive teardowns, revenue architecture.
+- **Positioning + GTM** — positioning statement, Amazon-style press release.
+- **AI-PM** — AI-shaped readiness, context engineering.
+- **Finance literacy** — SaaS revenue + efficiency metrics, TAM/SAM/SOM, feature-investment, pricing, business-health diagnostic.
+- **Outside-in** — PESTEL, company research, acquisition-channel decisions.
+- **Workshops + delivery** — workshop facilitation, user story mapping.
+- **Career + leadership** — altitude/horizon diagnostic, director-readiness coaching, executive onboarding, product-sense interview prep.
+- **Operations + orchestration** — Linear triage, cross-functional decision orchestration.
+
+Plus **8 cross-role process skills** for the harness itself (problem-spec, lesson-extract, harness-check, context-reset, decision records, memory query, chronicle record + recall), a `product-manager-reviewer` subagent that critiques artefacts to the same bar, and a slash-command surface for kickoff, orchestration, catalog, and rot-review.
 
 ---
 
@@ -104,7 +107,7 @@ Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (
 
 - ✅ **1 reviewer subagent** — `product-manager-reviewer`, callable by name on either host (Claude via the Agent tool; Codex via the natural-language native path).
 - ✅ **45 expert-grounded skills** — 37 product-management skills (across discovery, strategy, AI-PM, finance, outside-in, workshops, delivery, career-leadership) + 8 cross-role process skills; see *What's in the box*.
-- ✅ **6 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit` (namespaced as `/hornero:<name>` under the Claude Code plugin). The previous `/review` command was retired with the multi-role-review skill; the path is dormant pending re-expansion.
+- ✅ **6 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit` (namespaced as `/hornero:<name>` under the Claude Code plugin).
 - ✅ **Session hooks** — `SessionStart` primer and `Stop` lesson reminder via `hooks/hooks.json` (same JSON format both hosts read).
 
 ### Build-time scripts
@@ -164,8 +167,6 @@ For launches, contested decisions, or any question that crosses concerns, invoke
 
 The PM frames the request as a customer job, runs the work through [`cross-functional-orchestration`](roles/product-manager/skills/cross-functional-orchestration/SKILL.md), and synthesises into a *product decision* — outcomes, success criteria, the alternative considered, the revisit condition — rather than a pile of opinions.
 
-> **Today, single-lens.** With one role shipped, `/orchestrate` runs the PM end to end. The multi-role fan-out (engineering / design / testing / security / marketing / data-science reviewers in parallel, synthesised into one decision) is dormant scaffolding pending re-expansion — see [`ROADMAP.md`](ROADMAP.md).
-
 ### Process commands
 
 | Command | When |
@@ -177,7 +178,7 @@ The PM frames the request as a customer job, runs the work through [`cross-funct
 
 ### Advanced
 
-**Force the role explicitly:** `/role product-manager <task>` adopts PM for either reviewer or producer work — useful if natural-language routing picks the wrong skill or you want a specific behaviour. With one role today, this is mostly redundant with plain prompts; retained for re-expansion.
+**Force the role explicitly:** `/role product-manager <task>` adopts PM for either reviewer or producer work — useful if natural-language routing picks the wrong skill or you want a specific behaviour.
 
 **Adversarial review against the PM:** `./scripts/play-against.sh product-manager docs/my-prd.md` opens an interactive `claude` session that primes the `product-manager-reviewer` subagent to be antagonistic — *do not rubber-stamp*. With `--check` it runs the seeded fixtures (one positive, one negative control) as a coarse regression net against catastrophic persona drift, driven by `expect` against the real interactive CLI — not `claude -p`. See [`tests/seeded/README.md`](tests/seeded/README.md).
 
@@ -208,8 +209,6 @@ Cross-role process skills (8): `spec-the-problem`, `extract-lesson`, `harness-ch
 
 The `product-manager-reviewer` subagent ships in [`agents/`](agents/) as a self-contained system prompt. Under Claude Code it's spawned by name via the Agent tool; under Codex it's read as a system-prompt fragment.
 
-> The retired roles (`software-engineer`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist`) live in git history. Re-adding any of them is a content drop-in: `roles/<role>/`, `agents/<role>-reviewer.md`, run `scripts/build-plugin-skills.sh` + `scripts/build-codex-agents.sh` + `scripts/catalog.sh`.
-
 ### Resources — external data sources (MCP)
 
 Roles can read and write external systems via MCP. Each system has a `resources/<name>/RESOURCE.md` card that describes the object model, the canonical MCP server, common gotchas, and a fallback path for when MCP isn't connected. Skills opt in via `resources: [...]` frontmatter; Hornero stays usable when none are configured (graceful degradation).
@@ -224,7 +223,6 @@ Roles can read and write external systems via MCP. Each system has a `resources/
 | [`datadog`](resources/datadog/RESOURCE.md) | stretch | Datadog observability — metrics, logs, traces, monitors, SLOs. Scaffolded for future PM skills around launch-impact validation. |
 | [`slack`](resources/slack/RESOURCE.md) | stretch | Slack team comms — channels, messages, threads, search. Scaffolded for future PM skills around customer-signal triage and async-feedback synthesis. |
 | [`notion`](resources/notion/RESOURCE.md) | stretch | Notion docs + databases — pages, properties, queries. Scaffolded for future PM skills around PRD drafting and roadmap-database triage. |
-| [`github`](resources/github/RESOURCE.md) | dormant | PRs, issues, Actions, code search, CODEOWNERS. The consuming skill (`github-pr-survey`) was retired with the software-engineer role; the resource card is kept for re-expansion. |
 
 More resources (Sentry, Grafana, Amplitude, Mixpanel, Stripe) land in follow-up PRs — see [`ROADMAP.md`](ROADMAP.md).
 
@@ -258,16 +256,15 @@ Values that need editing are marked `<like this>`.
 
 ## Going deeper
 
-- [`methodology.md`](methodology.md) — the two-layer synthesis: harness compounding (Chris MDP) + multi-agent orchestration (Anthropic's research system, dormant until re-expansion).
+- [`methodology.md`](methodology.md) — the two-layer synthesis: harness compounding (Chris MDP) + multi-agent orchestration (Anthropic's research system).
 - [`playbooks/onboarding.md`](playbooks/onboarding.md) — 30-minute hands-on walkthrough.
 - [`playbooks/adoption.md`](playbooks/adoption.md) — adopting Hornero in a team: DRI, working group, approval bar, infrastructure-before-rollout, cadence setup.
 - [`playbooks/feedback-ritual.md`](playbooks/feedback-ritual.md) — weekly `/extract-lesson` cadence.
-- [`playbooks/orchestration-heuristics.md`](playbooks/orchestration-heuristics.md) + [`playbooks/multi-role-review.md`](playbooks/multi-role-review.md) — *(dormant)* the multi-role design target; returns alongside the retired roles.
 - [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md) — quarterly retirement cadence; the judgment turn that pairs with `/audit`.
 - [`playbooks/claude-md-layering.md`](playbooks/claude-md-layering.md) — when to add a sub-`CLAUDE.md` and what belongs in root vs. sub.
 - [`playbooks/memory-loop.md`](playbooks/memory-loop.md) — the project-local memory layer end-to-end.
 - [`examples/sample-session.md`](examples/sample-session.md) — annotated PM session showing the dispatcher → role-adoption → synthesis flow.
-- [`ROADMAP.md`](ROADMAP.md) — status, including the re-expansion plan for the retired roles.
+- [`ROADMAP.md`](ROADMAP.md) — current status and what's next.
 - [`ATTRIBUTION.md`](ATTRIBUTION.md) — the expert sources the methodology incorporates.
 
 ---

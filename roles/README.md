@@ -2,13 +2,11 @@
 
 Each role is a persona an agent (or subagent) can adopt to critique work, produce role-specific artifacts, or contribute to a multi-role review.
 
-## The shipped role today
+## The role
 
 | Role | Reviewer focus | Producer artifacts |
 |---|---|---|
-| [`product-manager`](product-manager/ROLE.md) | Problem fit, scope, user value, success criteria, strategic posture | PRDs, JTBD, positioning, OKRs, strategy kernel, bet portfolio, success metrics, prioritization, problem framing, interview synthesis, competitive teardown, revenue architecture, linear triage, cross-functional orchestration |
-
-> **Currently PM-only.** The six retired roles (`software-engineer`, `tester`, `designer`, `security-expert`, `marketing-expert`, `data-scientist`) shipped in v0 (4 skills each = 24 skills) and are preserved in git history. Re-expansion is a content drop-in per [`../CONTRIBUTING.md`](../CONTRIBUTING.md) § *Restoring a retired role*.
+| [`product-manager`](product-manager/ROLE.md) | Problem fit, scope, user value, success criteria, strategic posture | PRDs, JTBD, positioning, OKRs, strategy kernel, bet portfolio, success metrics, prioritization, problem framing, interview synthesis, competitive teardown, revenue architecture, journey maps, story maps, opportunity-solution trees, finance reads, market sizing, acquisition-channel calls, press releases, workshop plans, linear triage, cross-functional orchestration |
 
 ## How to invoke a role
 
@@ -28,16 +26,16 @@ If you want to bypass dispatch and name the role yourself:
 
 > "Use the `product-manager` role to review this PRD draft."
 
-### Multiple roles *(dormant)*
+### Cross-functional decisions
 
-When a decision is cross-functional, the dispatcher previously auto-escalated to `multi-role-review`. With one role currently shipped, that path resolves to a single PM lens; the `multi-role-review` skill was retired alongside the non-PM roles and returns on re-expansion.
+When a decision crosses concerns (launch readiness, contested calls), use `/orchestrate` — the PM frames the work as a customer job and synthesises into a product decision (outcomes, success criteria, alternative considered, revisit condition) via the `cross-functional-orchestration` skill.
 
 ### Producer vs reviewer mode
 
 Each role works in two modes, controlled by the `mode:` frontmatter in `ROLE.md`:
 
-- **Reviewer** — critique an artifact from that role's lens. Default for `multi-role-review`.
-- **Producer** — generate that role's artifact (PRD, threat model, test plan, etc.). Invoke via the role's component or workflow skills under `<role>/skills/`.
+- **Reviewer** — critique an artifact from that role's lens (spawned by name via `product-manager-reviewer` in Claude Code, or the equivalent native path in Codex).
+- **Producer** — generate that role's artifact (PRD, OKRs, strategy kernel, etc.). Invoke via the role's component or workflow skills under `<role>/skills/`.
 
 ## Anatomy of a role
 
