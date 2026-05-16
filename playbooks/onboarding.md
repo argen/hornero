@@ -61,6 +61,7 @@ Now that you've seen one dispatch land, the methodology will make sense. Read in
 1. [`README.md`](../README.md) — what Hornero is and why
 2. [`methodology.md`](../methodology.md) — the two-layer model (harness + multi-agent collaboration)
 3. [`roles/README.md`](../roles/README.md) — how to invoke roles
+4. [`VOICE.md`](../VOICE.md) — how Hornero speaks. Calm, terse, plain-spoken; the bird's working metaphor (patient layers, duet, no preening). Lifecycle touchpoints carry voice; artefact outputs stay neutral.
 
 Skim. You don't need to memorise the role list yet.
 

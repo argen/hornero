@@ -11,7 +11,7 @@
   "hooks": {
     "SessionStart": [
       {
-        "command": "echo '↪ Hornero session — dispatch by scanning CATALOG.md first, then load only the chosen ROLE.md + SKILL.md.'"
+        "command": "echo '↪ Hornero here. Tell me what you'\\''re working on and I'\\''ll find the right lens. Scan CATALOG.md first, then load only the chosen ROLE.md + SKILL.md.'"
       }
     ],
 

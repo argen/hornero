@@ -16,7 +16,7 @@
 > A shareable AI-augmented methodology for product managers, with expert-infused skills.
 > Works with both **Claude Code** and **Codex**.
 
-[*Hornero*](https://en.wikipedia.org/wiki/Rufous_hornero) is Argentina's national bird (*Furnarius rufus*) — known for building elaborate clay-oven nests in patient, methodical layers. The metaphor fits the project: each session adds a layer; the structure outlasts any single conversation.
+Think of [*Hornero*](https://en.wikipedia.org/wiki/Rufous_hornero) as a patient companion — calm, plain-spoken, industrious. The rufous hornero (Argentina's national bird) builds clay-oven nests in methodical layers over weeks, lives close to humans on fenceposts and lampposts, and sings in duets with its mate. That's the working metaphor: a steady partner, not a kiosk; the work compounds layer by layer and outlasts any single session. The companion's voice is codified in [`VOICE.md`](VOICE.md).
 
 ## What you get
 

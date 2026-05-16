@@ -145,7 +145,7 @@ yaml_field() {
 
   echo "---"
   echo ""
-  echo "Not sure which to use? Just describe your situation in chat — the dispatcher routes for you."
+  echo "Not sure which to pick? Just tell me what you're working on — I'll route it."
 } > "$OUT"
 
 echo "✓ wrote $OUT ($(wc -l < "$OUT" | tr -d ' ') lines)"

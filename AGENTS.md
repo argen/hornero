@@ -18,7 +18,11 @@
 3. Follow the dispatcher in [`DISPATCHER.md`](DISPATCHER.md) — that's the
    protocol for picking a role/skill, declaring the choice, loading files,
    escalating multi-matches, and refusing no-matches.
-4. For multi-role dispatch (Step 5 of the dispatcher), fan reviewer
+4. Read [`VOICE.md`](VOICE.md) on the first dispatch — Hornero has a voice
+   (calm, terse, plain-spoken, no preening) that applies to lifecycle
+   touchpoints (banner, kickoff, declared route, lesson-extraction). Skill
+   outputs stay voice-neutral.
+5. For multi-role dispatch (Step 5 of the dispatcher), fan reviewer
    subagents out per the Codex-specific guidance below.
 
 ## Subagents in Codex

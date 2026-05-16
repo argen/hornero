@@ -93,4 +93,4 @@
 
 ---
 
-Not sure which to use? Just describe your situation in chat — the dispatcher routes for you.
+Not sure which to pick? Just tell me what you're working on — I'll route it.

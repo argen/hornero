@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '↪ Hornero loaded. Just describe what you'\\''re working on — I'\\''ll route to the right lens. Or: /hornero:kickoff (guided start), /hornero:catalog (see what'\\''s available).'"
+            "command": "echo '↪ Hornero here. Tell me what you'\\''re working on and I'\\''ll find the right lens. (/hornero:kickoff for a guided start, /hornero:catalog for the full set.)'"
           }
         ]
       }

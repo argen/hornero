@@ -59,11 +59,20 @@ In rough order of authority:
 ### 3. Declare the choice in one line
 
 Before reading the full files or doing the work, state which role and skill
-you are adopting, and why — in a single line:
+you are adopting, and why — in a single line. Keep the voice (see
+[`VOICE.md`](VOICE.md)): a one-beat acknowledgement, the route, and a brief
+reason. No preening, no hype.
 
 ```
-Adopting `product-manager` / `prd` — prompt asks for a problem-driven spec
-of a feature change, so a PRD is the artifact.
+Right — `product-manager` / `prd`. Problem-driven spec of a feature change.
+```
+
+Or for ambiguous-but-rich prompts (Step 6b), instead of declaring a route,
+ask one clarifying question shaped by the candidates:
+
+```
+Two ways to read this — is the stuck bit the problem, or the solution?
+Once I know, I'll route.
 ```
 
 This is the user's correction point. They can redirect with one word
