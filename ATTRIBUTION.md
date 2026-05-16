@@ -9,7 +9,7 @@ Hornero incorporates frameworks, heuristics, and practices from many experts. Wh
 
 ## Adjacent repositories
 
-- **[Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills)** by **Dean Peters** — the structural reference for Hornero's skill anatomy, frontmatter schema, and Component/Interactive/Workflow taxonomy. Where Hornero ports synthesized PM frameworks, Dean Peters is credited in the skill's References section with a synthesis-cue line; the upstream skill is CC BY-NC-SA 4.0, Hornero's re-synthesis is MIT. Skills with this lineage so far: `altitude-horizon-framework`, `director-readiness-advisor`, `executive-onboarding-playbook`, `product-sense-interview-answer`.
+- **[Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills)** by **Dean Peters** — the structural reference for Hornero's skill anatomy, frontmatter schema, and Component/Interactive/Workflow taxonomy. Where Hornero ports synthesized PM frameworks, Dean Peters is credited in the skill's References section with a synthesis-cue line; the upstream skill is CC BY-NC-SA 4.0, Hornero's re-synthesis is MIT. Skills with this lineage so far: `altitude-horizon-framework`, `director-readiness-advisor`, `executive-onboarding-playbook`, `product-sense-interview-answer`, `ai-shaped-readiness-advisor`, `context-engineering-advisor`, `opportunity-solution-tree`, `proto-persona`, `customer-journey-map`, `acquisition-channel-advisor`, `pestel-analysis`, `company-research`.
 
 ## Per-role experts
 
