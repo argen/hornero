@@ -6,7 +6,7 @@
 node_modules/
 tmp/
 .claude/*
-!.claude/commands/
+!.claude/commands
 
 # install.sh manifest — workspace-specific record of installed files
 .hornero-manifest

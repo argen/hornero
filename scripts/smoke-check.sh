@@ -142,7 +142,7 @@ DRY_LOG=/tmp/hornero-dry.log
 
 expected_skills=$(find skills roles -name SKILL.md -type f | wc -l | tr -d ' ')
 expected_agents=$(find agents -maxdepth 1 -name '*.md' -type f | wc -l | tr -d ' ')
-expected_commands=$(find .claude/commands -maxdepth 1 -name '*.md' -type f 2>/dev/null | wc -l | tr -d ' ')
+expected_commands=$(find commands -maxdepth 1 -name '*.md' -type f 2>/dev/null | wc -l | tr -d ' ')
 expected_total=$((expected_skills + expected_agents + expected_commands))
 
 actual_total=$(grep -c "would install:" "$DRY_LOG" || true)
