@@ -47,7 +47,13 @@ claude
 codex
 ```
 
-Then just **describe what you're working on in plain English** — the dispatcher matches the prompt against the catalog, **declares its choice in one line**, and starts the work. No menu to navigate. Type `/kickoff` only if you want a guided first dispatch.
+Then just **describe what you're working on in plain English** — the dispatcher matches the prompt against the catalog, **declares its choice in one line**, and starts the work. For example:
+
+> *You:* "Critique my PRD draft." → *Hornero:* *Adopting `product-manager` / `prd` — problem-driven spec, reviewer mode.*
+>
+> *You:* "How healthy is our Rule of 40?" → *Hornero:* *Adopting `product-manager` / `saas-economics-efficiency-metrics` — capital-efficiency literacy.*
+
+Redirect any pick with one word (*"use okrs instead"*). No menu to navigate. Type `/kickoff` only if you want a guided first dispatch.
 
 > **No install step?** Right. Hornero works as the project itself — `CLAUDE.md` (for Claude Code) and `AGENTS.md` (for Codex) live at the repo root. To make Hornero available globally across all projects, see *Install for global availability* below.
 
@@ -130,59 +136,15 @@ Plugin-loaded slash commands are namespaced — `/hornero:orchestrate`, not `/or
 
 ## How to use
 
-### Let the PM orchestrate (the headline pattern)
-
-For launches, contested decisions, and any cross-functional work — invoke the **product manager** as orchestrator. The PM frames the request as a customer job, picks the right role mix (2–5 roles), dispatches them in parallel, and synthesises into a decision recommendation.
-
-```
-/orchestrate Plan the LedgerStack v2 launch — is it ready?
-```
-
-What you get back is a *product decision* — outcomes, success criteria, the alternative the PM considered, the revisit condition — not a pile of role reports. The PM picks the expert lenses the work actually needs, runs them in parallel, and synthesises into a single launch-readiness recommendation. ([Inside view of how that works.](roles/product-manager/skills/cross-functional-orchestration/SKILL.md))
-
-### Run a multi-role review directly *(dormant)*
-
-> The `/review` command and its `multi-role-review` skill were retired
-> alongside the non-PM roles. With one role shipped today the path
-> degenerates to `/role product-manager` — restore the path by adding
-> roles back under `roles/`, agents back under `agents/`, and reinstating
-> `.claude/commands/review.md`. The orchestration playbook still documents
-> the design target.
-
-### Invoke a single role
-
-```
-/role product-manager draft a PRD for the cohort-duplicate fix
-```
-
-For reviewer tasks, this spawns the role's reviewer subagent. For producer tasks ("draft a PRD", "produce a positioning canvas"), it adopts the role + the matching component skill. PM is the only role currently available; the command will accept additional roles automatically once they're restored.
-
-### Play against the PM role from the shell
-
-```sh
-./scripts/play-against.sh product-manager docs/my-prd.md
-```
-
-Opens an interactive `claude` session with a pre-seeded prompt that asks the `product-manager-reviewer` subagent to be antagonistic — *do not rubber-stamp*. Same script with `--check` runs the seeded PM fixtures (one positive, one negative control) as a coarse regression net for catastrophic persona drift, driven by `expect` against the real interactive CLI — not `claude -p`. See [`tests/seeded/README.md`](tests/seeded/README.md) for the planted flaw and signature design.
-
-### Process skills
-
-| Command | When |
-|---|---|
-| `/kickoff` | First time using Hornero — guided dispatch in under 5 minutes. |
-| `/catalog` | See everything Hornero ships (roles, skills, commands). |
-| `/extract-lesson` | End of session — capture surprises as durable updates to roles, skills, or your project's `CLAUDE.md`/`AGENTS.md`. Run habitually or the harness doesn't compound. |
-| `/audit` | Quarterly rot-review — surfaces skills not invoked recently, sources-anchor orphans, and compensatory rules. Pairs with [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md). |
-
 ### Natural language is the front door
 
-Slash commands are shortcuts; the dispatcher in [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) reads plain prompts against role triggers and skill descriptions, then **declares its choice in one line** before starting:
+The dispatcher in [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) reads plain prompts against role triggers and skill descriptions, then **declares its choice in one line** before starting:
 
 > "Write a PRD for the cohort-duplicate fix." → *Adopting `product-manager` / `prd` — problem-driven spec is the artifact.*
 
 > "Sharpen the positioning for the launch." → *Adopting `product-manager` / `positioning-statement` — Moore + Dunford template.*
 
-> "Define an activation metric for new signups." → *Adopting `product-manager` / `success-metrics` — name the OEC, the unit of analysis, and a counter-metric.*
+> "Define an activation metric for new signups." → *Adopting `product-manager` / `success-metrics` — name the OEC, unit of analysis, counter-metric.*
 
 > "How do I read our Rule of 40?" → *Adopting `product-manager` / `saas-economics-efficiency-metrics` — capital-efficiency literacy.*
 
@@ -190,7 +152,34 @@ Slash commands are shortcuts; the dispatcher in [`CLAUDE.md`](CLAUDE.md) / [`AGE
 
 > "Size the TAM for this new vertical." → *Adopting `product-manager` / `tam-sam-som-calculator` — top-down × bottom-up triangulation.*
 
-If the prompt is ambiguous, the dispatcher asks **one** clarifying question (not a menu). Redirect any choice with one word ("use okrs instead").
+If the prompt is ambiguous, the dispatcher asks **one** clarifying question (not a menu of options). Redirect any choice with one word (*"use okrs instead"*).
+
+### Cross-functional decisions with `/orchestrate`
+
+For launches, contested decisions, or any question that crosses concerns, invoke the PM as orchestrator:
+
+```
+/orchestrate Plan the v2 launch — is it ready?
+```
+
+The PM frames the request as a customer job, runs the work through [`cross-functional-orchestration`](roles/product-manager/skills/cross-functional-orchestration/SKILL.md), and synthesises into a *product decision* — outcomes, success criteria, the alternative considered, the revisit condition — rather than a pile of opinions.
+
+> **Today, single-lens.** With one role shipped, `/orchestrate` runs the PM end to end. The multi-role fan-out (engineering / design / testing / security / marketing / data-science reviewers in parallel, synthesised into one decision) is dormant scaffolding pending re-expansion — see [`ROADMAP.md`](ROADMAP.md).
+
+### Process commands
+
+| Command | When |
+|---|---|
+| `/kickoff` | Guided first dispatch — a 3-sentence intro and one open invitation. Use once. |
+| `/catalog` | See everything Hornero ships (the PM role, its 37 skills, the 8 cross-role process skills, commands). |
+| `/extract-lesson` | End of session — capture surprises as durable updates to roles, skills, or your project's `CLAUDE.md`/`AGENTS.md`. Run habitually or the harness doesn't compound. |
+| `/audit` | Quarterly rot-review — surfaces unused skills, sources-anchor orphans, compensatory rules. Pairs with [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md). |
+
+### Advanced
+
+**Force the role explicitly:** `/role product-manager <task>` adopts PM for either reviewer or producer work — useful if natural-language routing picks the wrong skill or you want a specific behaviour. With one role today, this is mostly redundant with plain prompts; retained for re-expansion.
+
+**Adversarial review against the PM:** `./scripts/play-against.sh product-manager docs/my-prd.md` opens an interactive `claude` session that primes the `product-manager-reviewer` subagent to be antagonistic — *do not rubber-stamp*. With `--check` it runs the seeded fixtures (one positive, one negative control) as a coarse regression net against catastrophic persona drift, driven by `expect` against the real interactive CLI — not `claude -p`. See [`tests/seeded/README.md`](tests/seeded/README.md).
 
 ---
 
@@ -272,9 +261,8 @@ Values that need editing are marked `<like this>`.
 - [`methodology.md`](methodology.md) — the two-layer synthesis: harness compounding (Chris MDP) + multi-agent orchestration (Anthropic's research system, dormant until re-expansion).
 - [`playbooks/onboarding.md`](playbooks/onboarding.md) — 30-minute hands-on walkthrough.
 - [`playbooks/adoption.md`](playbooks/adoption.md) — adopting Hornero in a team: DRI, working group, approval bar, infrastructure-before-rollout, cadence setup.
-- [`playbooks/orchestration-heuristics.md`](playbooks/orchestration-heuristics.md) — *(dormant)* when to invoke 1 vs 4 vs 7 roles; parallel vs sequential dispatch. Applies once additional roles are restored.
-- [`playbooks/multi-role-review.md`](playbooks/multi-role-review.md) — *(dormant)* plain-language companion to the retired skill.
 - [`playbooks/feedback-ritual.md`](playbooks/feedback-ritual.md) — weekly `/extract-lesson` cadence.
+- [`playbooks/orchestration-heuristics.md`](playbooks/orchestration-heuristics.md) + [`playbooks/multi-role-review.md`](playbooks/multi-role-review.md) — *(dormant)* the multi-role design target; returns alongside the retired roles.
 - [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md) — quarterly retirement cadence; the judgment turn that pairs with `/audit`.
 - [`playbooks/claude-md-layering.md`](playbooks/claude-md-layering.md) — when to add a sub-`CLAUDE.md` and what belongs in root vs. sub.
 - [`playbooks/memory-loop.md`](playbooks/memory-loop.md) — the project-local memory layer end-to-end.
