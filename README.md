@@ -19,13 +19,17 @@
 [*Hornero*](https://en.wikipedia.org/wiki/Rufous_hornero) is Argentina's national bird (*Furnarius rufus*) — known for building elaborate clay-oven nests in patient, methodical layers. The metaphor fits the project: each session adds a layer; the structure outlasts any single conversation.
 
 > **Currently PM-only.** Hornero retracted in 2026-05 to ship a single role,
-> `product-manager`, plus six cross-role process skills. The multi-role
-> dispatcher, orchestration rules, reviewer-subagent fan-out, and dual
-> plugin paths are retained as **dormant scaffolding** so re-expansion
-> (adding `software-engineer`, `designer`, `tester`, `security-expert`,
-> `marketing-expert`, `data-scientist` back) is a drop-in change against
-> the same harness, not a re-architecture. See [`ROADMAP.md`](ROADMAP.md)
-> for the re-expansion plan.
+> `product-manager`, plus eight cross-role process skills. The role
+> currently carries **37 PM skills** spanning discovery, strategy, OKRs,
+> positioning, prioritisation, JTBD, the AI-PM competencies, finance
+> literacy, outside-in scanning, workshops, delivery, and the
+> PM-to-Director career arc. The multi-role dispatcher, orchestration
+> rules, reviewer-subagent fan-out, and dual plugin paths are retained as
+> **dormant scaffolding** so re-expansion (adding `software-engineer`,
+> `designer`, `tester`, `security-expert`, `marketing-expert`,
+> `data-scientist` back) is a drop-in change against the same harness, not
+> a re-architecture. See [`ROADMAP.md`](ROADMAP.md) for the re-expansion
+> plan.
 
 ---
 
@@ -43,7 +47,7 @@ claude
 codex
 ```
 
-Then either type `/kickoff` for a guided first dispatch, or describe a task in plain English — the dispatcher will pick the right role/skill and **declare its choice in one line** before doing the work.
+Then just **describe what you're working on in plain English** — the dispatcher matches the prompt against the catalog, **declares its choice in one line**, and starts the work. No menu to navigate. Type `/kickoff` only if you want a guided first dispatch.
 
 > **No install step?** Right. Hornero works as the project itself — `CLAUDE.md` (for Claude Code) and `AGENTS.md` (for Codex) live at the repo root. To make Hornero available globally across all projects, see *Install for global availability* below.
 
@@ -93,7 +97,7 @@ Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (
 ### What you get either way (both hosts)
 
 - ✅ **1 reviewer subagent** — `product-manager-reviewer`, callable by name on either host (Claude via the Agent tool; Codex via the natural-language native path).
-- ✅ **21 expert-grounded skills** — 15 product-management skills + 6 cross-role process skills; see *What's in the box*.
+- ✅ **45 expert-grounded skills** — 37 product-management skills (across discovery, strategy, AI-PM, finance, outside-in, workshops, delivery, career-leadership) + 8 cross-role process skills; see *What's in the box*.
 - ✅ **6 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit` (namespaced as `/hornero:<name>` under the Claude Code plugin). The previous `/review` command was retired with the multi-role-review skill; the path is dormant pending re-expansion.
 - ✅ **Session hooks** — `SessionStart` primer and `Stop` lesson reminder via `hooks/hooks.json` (same JSON format both hosts read).
 
@@ -170,17 +174,23 @@ Opens an interactive `claude` session with a pre-seeded prompt that asks the `pr
 | `/extract-lesson` | End of session — capture surprises as durable updates to roles, skills, or your project's `CLAUDE.md`/`AGENTS.md`. Run habitually or the harness doesn't compound. |
 | `/audit` | Quarterly rot-review — surfaces skills not invoked recently, sources-anchor orphans, and compensatory rules. Pairs with [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md). |
 
-### Natural language always works
+### Natural language is the front door
 
-Slash commands are shortcuts, not the only way in. The dispatcher in [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) matches plain prompts against role triggers and skill descriptions, then **declares its choice in one line** before starting:
+Slash commands are shortcuts; the dispatcher in [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) reads plain prompts against role triggers and skill descriptions, then **declares its choice in one line** before starting:
 
 > "Write a PRD for the cohort-duplicate fix." → *Adopting `product-manager` / `prd` — problem-driven spec is the artifact.*
 
-> "Sharpen the positioning for the launch." → *Adopting `product-manager` / `positioning-statement` — Moore + Dunford template, sharpened.*
+> "Sharpen the positioning for the launch." → *Adopting `product-manager` / `positioning-statement` — Moore + Dunford template.*
 
 > "Define an activation metric for new signups." → *Adopting `product-manager` / `success-metrics` — name the OEC, the unit of analysis, and a counter-metric.*
 
-You can redirect with one word ("use okrs instead").
+> "How do I read our Rule of 40?" → *Adopting `product-manager` / `saas-economics-efficiency-metrics` — capital-efficiency literacy.*
+
+> "Build a story map for the next two releases." → *Adopting `product-manager` / `user-story-mapping` — Patton spine + walking skeleton.*
+
+> "Size the TAM for this new vertical." → *Adopting `product-manager` / `tam-sam-som-calculator` — top-down × bottom-up triangulation.*
+
+If the prompt is ambiguous, the dispatcher asks **one** clarifying question (not a menu). Redirect any choice with one word ("use okrs instead").
 
 ---
 
@@ -188,11 +198,24 @@ You can redirect with one word ("use okrs instead").
 
 One role persona, grounded in canonical expert sources (not LLM-generated). Skills follow a shared anatomy (Purpose · Key Concepts · Application · Examples · Common Pitfalls · References) and cite from `sources.md` — `scripts/validate-skill.sh` enforces this.
 
-| Role | Component skills | Workflow skill |
-|---|---|---|
-| **product-manager** | `prd`, `jobs-to-be-done`, `positioning-statement`, `okrs`, `discovery-interview-prep`, `success-metrics`, `problem-framing-canvas`, `strategy-kernel`, `prioritization-advisor`, `bet-portfolio`, `revenue-architecture`, `interview-synthesis`, `competitive-teardown`, `linear-triage` | `cross-functional-orchestration` |
+The product-manager role currently carries **37 skills** organised by theme. The full one-line index lives in [`CATALOG.md`](CATALOG.md); the themed grouping below is the navigation aid.
 
-Cross-role process skills: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`.
+| Theme | Skills |
+|---|---|
+| **Discovery** | `discovery-interview-prep`, `interview-synthesis`, `jobs-to-be-done`, `problem-framing-canvas`, `opportunity-solution-tree`, `proto-persona`, `customer-journey-map` |
+| **Strategy** | `strategy-kernel`, `bet-portfolio`, `prd`, `okrs`, `prioritization-advisor`, `success-metrics`, `competitive-teardown`, `revenue-architecture` |
+| **Positioning + GTM** | `positioning-statement`, `press-release` |
+| **AI-PM** | `ai-shaped-readiness-advisor`, `context-engineering-advisor` |
+| **Finance literacy** | `saas-revenue-growth-metrics`, `saas-economics-efficiency-metrics`, `finance-metrics-quickref`, `tam-sam-som-calculator`, `feature-investment-advisor`, `finance-based-pricing-advisor`, `business-health-diagnostic` |
+| **Outside-in** | `pestel-analysis`, `company-research`, `acquisition-channel-advisor` |
+| **Workshops + delivery** | `workshop-facilitation`, `user-story-mapping` |
+| **Career / leadership** | `altitude-horizon-framework`, `director-readiness-advisor`, `executive-onboarding-playbook`, `product-sense-interview-answer` |
+| **Operations** | `linear-triage` |
+| **Cross-functional orchestration** *(workflow)* | `cross-functional-orchestration` — the PM-as-orchestrator pattern that powers `/orchestrate` |
+
+Cross-role process skills (8): `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`.
+
+> A subset of skills (career-leadership cluster, AI-PM pair, several discovery + finance + outside-in components) was re-synthesised from [Dean Peters' Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills) under Hornero's house style — citing the underlying authors directly, with a synthesis-cue line back to Dean's repo in each ported skill's References. See [`ATTRIBUTION.md`](ATTRIBUTION.md).
 
 The `product-manager-reviewer` subagent ships in [`agents/`](agents/) as a self-contained system prompt. Under Claude Code it's spawned by name via the Agent tool; under Codex it's read as a system-prompt fragment.
 

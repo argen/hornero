@@ -3,11 +3,14 @@
 This playbook gets a new teammate productive with Hornero in ≤30 minutes. Read top to bottom; skip nothing.
 
 > **Currently PM-only.** Hornero retracted in 2026-05 to ship a single role
-> (`product-manager`). The onboarding below is shaped around PM work — PRDs,
-> positioning, OKRs, problem framing, cross-functional decision
-> orchestration. If you came expecting an engineering or design lens
-> specifically, see [`../ROADMAP.md`](../ROADMAP.md) for the re-expansion plan;
-> the multi-role onboarding flow returns when the relevant role is restored.
+> (`product-manager`) — but the role now carries **37 skills** spanning
+> discovery, strategy, AI-PM, finance literacy, outside-in scanning, GTM,
+> workshops + delivery, and the PM-to-Director career arc. Whatever
+> product-shaped work you have, there is almost certainly a lens for it.
+> If you came expecting an engineering, design, security, marketing,
+> testing, or data-science lens *specifically*, see
+> [`../ROADMAP.md`](../ROADMAP.md) for the re-expansion plan; the
+> multi-role onboarding flow returns when the relevant role is restored.
 
 ## Prerequisites (5 min)
 
@@ -28,28 +31,32 @@ That's it. `CLAUDE.md` (for Claude) and `AGENTS.md` (for Codex) live at the repo
 
 > **Do I need to install anything?** No, not for this walkthrough. Hornero works as the project itself. To make roles, skills, and reviewer subagents available *globally* across every project, there are two options: install as a Claude Code plugin (`claude --plugin-dir <path-to-hornero>`, namespaces commands as `/hornero:<name>`) — preferred — or run `./install.sh` which copies into `~/.claude/` and works for both Claude and Codex. The 30-minute onboarding does not require either.
 
-## Step 2 — Try your first dispatch with `/kickoff` (5 min)
+## Step 2 — Try your first dispatch (5 min)
 
-In the session, type:
+The fastest way in is to **just describe what you're working on**. The dispatcher matches your prompt against the catalog, declares its choice in one line, and starts. No menu to navigate.
 
-```
-/kickoff
-```
+If you want a guided opening, type `/kickoff` — it gives a 3-sentence intro about what Hornero offers and invites you to describe your situation in your own words, then routes the same way. Use it once to see the flow; after that, plain prompts are enough.
 
-The agent will ask one short question — "what's something you could use a second opinion on right now?" — and then run a real dispatch on your answer. You'll see what a Hornero output feels like in practice.
-
-If you don't have anything specific in hand, try one of these — pick the PM-shaped task closest to your real work:
+If you don't have something specific in hand, here are seed prompts across the live skill themes — pick the one closest to your real work:
 
 | You want to... | Try | Bring |
 |---|---|---|
 | Critique a PRD | `Critique this PRD draft.` | A doc or outline in any format |
-| Sharpen positioning | `Sharpen the positioning for this product.` | A homepage hero, launch brief, or 1-paragraph positioning draft |
-| Articulate the customer's job | `Articulate the JTBD for this feature.` | A feature description in any format |
+| Sharpen positioning | `Sharpen the positioning for this product.` | A homepage hero, launch brief, or 1-paragraph draft |
+| Articulate the customer's job | `Articulate the JTBD for this feature.` | A feature description |
 | Frame a problem | `Frame this as a product problem, not a solution.` | A solution-shaped ask ("add a retry button") |
-| Define a success metric | `Define an activation metric for new signups.` | A working description of "activation" in your product |
-| Prioritise a roadmap | `Help me prioritise this backlog.` | A list of items in any format |
+| Define a success metric | `Define an activation metric for new signups.` | A working description of "activation" |
+| Build an opportunity-solution tree | `Map an OST from this discovery insight.` | A research finding or customer-quote bundle |
+| Map a customer journey | `Map the onboarding journey end-to-end.` | A rough flow description, screenshots optional |
+| Plan a workshop | `Plan a 90-min positioning workshop.` | The decision the workshop has to land |
+| Write an Amazon-style press release | `Draft a PR/FAQ for this feature.` | The customer-facing change you're considering |
+| Size a market | `Size the TAM/SAM/SOM for this new vertical.` | A 1-sentence ICP + the obvious adjacent markets |
+| Read SaaS economics | `What does our Rule of 40 say about our health?` | The growth rate + FCF margin numbers |
+| Choose an acquisition channel | `Should we invest in paid search or content for Q3?` | ACV, ICP, current motion |
+| Coach a PM-to-Director transition | `I'm a senior PM about to step up — what changes?` | Your current scope + your team's expectations |
+| Self-diagnose AI-shaped readiness | `Audit our team's AI-PM competencies.` | Your team's current AI involvement |
 
-The agent declares the chosen skill in one line before starting. Redirect with one word if it picks wrong: *"use okrs instead."*
+The agent declares the chosen skill in one line before starting. Redirect with one word if it picks wrong: *"use okrs instead."* If the prompt is ambiguous, the dispatcher asks **one** clarifying question (not a menu) and converges in a single turn.
 
 ## Step 3 — Read the methodology (10 min)
 
