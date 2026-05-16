@@ -34,6 +34,8 @@ A `product-manager` role with **37 expert-grounded skills** that turn plain-Engl
 
 Plus **8 cross-role process skills** for the harness itself (problem-spec, lesson-extract, harness-check, context-reset, decision records, memory query, chronicle record + recall), a `product-manager-reviewer` subagent that critiques artefacts to the same bar, and a slash-command surface for kickoff, orchestration, catalog, and rot-review.
 
+**Lessons extract themselves.** The `extract-lesson` skill fires on the Stop hook at the end of every session — the agent scans for corrections, surprises, and validated approaches, and surfaces concrete proposals when there's real signal (otherwise it stays quiet). Proposals are reviewed before any harness file changes. Opt out per-session with `HORNERO_NO_AUTO_EXTRACT=1`.
+
 ---
 
 ## Quick Start

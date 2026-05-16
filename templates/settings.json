@@ -25,7 +25,8 @@
 
     "Stop": [
       {
-        "command": "echo 'Session ending. Consider /extract-lesson if anything was surprising or worth capturing.'"
+        "_comment": "Auto-extract-lesson at session end. Replace <path-to-hornero> with your hornero clone path (or drop this hook if you prefer the manual /extract-lesson workflow). To disable for a session, set HORNERO_NO_AUTO_EXTRACT=1 before launching Claude Code.",
+        "command": "bash <path-to-hornero>/hooks/auto-extract-lesson.sh"
       }
     ]
   },
@@ -58,7 +59,7 @@
     "model: 'sonnet' is the default for new tasks; switch to opus for planning / haiku for trivial edits.",
     "hooks.SessionStart primes the dispatcher behaviour at every session-start.",
     "hooks.PostToolUse runs validate-skill.sh after SKILL.md edits and warns on failure. CLAUDE_TOOL_FILE_PATH stands in for whichever env var your Claude Code version exposes for the touched file — verify against the current hook docs before relying on it. If the var is empty the case statement no-ops, so the hook is safe-by-default.",
-    "hooks.Stop reminds the agent to consider /extract-lesson at session end.",
+    "hooks.Stop automatically runs the extract-lesson skill at session end via hooks/auto-extract-lesson.sh — the agent self-filters (says 'no lessons to extract' on routine sessions, proposes durable updates when there's signal). Opt out per-session with HORNERO_NO_AUTO_EXTRACT=1.",
     "_optional_hooks are commented examples — paste into hooks{} when you want stricter guardrails. Aggressive variants (blocking, auto-regen) trade agent ergonomics for invariants; adopt incrementally."
   ]
 }

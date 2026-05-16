@@ -1,6 +1,6 @@
 ---
 name: extract-lesson
-description: Use at session end or after a notable success/failure — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory.
+description: Runs automatically at session end via the Stop hook (or invoke explicitly mid-session after a notable success/failure) — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory.
 intent: |
   Implements Chris MDP's feedback-loop discipline. Closes the gap between
   "we learned something" and "the harness now reflects what we learned."
@@ -25,6 +25,12 @@ estimated_time: 5-10 minutes
 ## Purpose
 
 Convert ephemeral session learning into durable harness improvements. The skill scans the conversation for signal — surprises, corrections, near-misses, repeated patterns — and proposes specific deltas to role files, skills, CLAUDE.md, or per-project memory. The user reviews and accepts/edits/rejects each proposal. Accepted proposals get applied, closing the feedback loop.
+
+### When it runs
+
+- **Automatically at session end** via Hornero's Stop hook (`hooks/auto-extract-lesson.sh`). The agent self-filters: if the session was routine task completion, it says "No lessons to extract" in one line and the session ends. Only sessions with real signal produce proposals.
+- **Manually mid-session** via `/extract-lesson`, after a notable success/failure or when you want to capture a lesson while it's fresh rather than waiting for end-of-session.
+- **Opt-out** for a single session by setting `HORNERO_NO_AUTO_EXTRACT=1` in the shell environment before launching Claude Code, or by removing the Stop hook entry from your `.claude/settings.json` to disable globally.
 
 ## Key Concepts
 

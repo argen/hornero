@@ -31,7 +31,7 @@ Output quality peaks with sufficient detail — too little produces generic resu
 
 Lessons from agent failures must feed back into CLAUDE.md, skill files, and tests — not stay locked in individual conversations.
 
-**In Hornero:** the `extract-lesson` cross-role skill runs at session end. It scans for surprises and corrections, then proposes concrete deltas to a role file or skill. The `playbooks/feedback-ritual.md` formalizes this as a weekly review.
+**In Hornero:** the `extract-lesson` cross-role skill runs **automatically at session end** via the Stop hook (`hooks/auto-extract-lesson.sh`). It scans for surprises, corrections, and validated approaches, then proposes concrete deltas to a role file or skill. The user accepts / edits / rejects each proposal — the skill never edits autonomously. Opt out per-session with `HORNERO_NO_AUTO_EXTRACT=1`. The `playbooks/feedback-ritual.md` formalises a weekly batch review across multiple sessions.
 
 ### 5. Senior-engineer role shift
 

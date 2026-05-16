@@ -1,5 +1,5 @@
 {
-  "_comment": "Hornero plugin hooks. Session lifecycle only — guardrail hooks (validate-skill, catalog-regen, smoke-check) live in templates/settings.json because they reference Hornero scripts that require a path your installation knows about. Add those to your own .claude/settings.json if you want them; this file stays self-contained so the plugin loads cleanly from any host.",
+  "_comment": "Hornero plugin hooks. Session lifecycle only — guardrail hooks (validate-skill, catalog-regen, smoke-check) live in templates/settings.json because they reference Hornero scripts that require a path your installation knows about. Add those to your own .claude/settings.json if you want them; this file stays self-contained so the plugin loads cleanly from any host. The Stop hook automatically runs the extract-lesson skill at session end via hooks/auto-extract-lesson.sh — to opt out for a session, set HORNERO_NO_AUTO_EXTRACT=1 before launching Claude Code.",
 
   "hooks": {
     "SessionStart": [
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Session ending. Consider /hornero:extract-lesson if anything was surprising or worth capturing.'"
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT:-.}/hooks/auto-extract-lesson.sh\""
           }
         ]
       }

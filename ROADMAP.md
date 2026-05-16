@@ -22,7 +22,7 @@ One role, `product-manager`, carrying **37 expert-grounded skills**:
 
 ### Harness primitives
 
-- **8 cross-role process skills** for the harness itself: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`.
+- **8 cross-role process skills** for the harness itself: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`. `extract-lesson` runs automatically on the Stop hook (`hooks/auto-extract-lesson.sh`) — proposes durable harness updates at session end without the user invoking it.
 - **`product-manager-reviewer`** subagent in [`agents/`](agents/), callable by name on either host (Claude Code via the Agent tool; Codex via its native subagent path).
 - **6 slash commands** in [`.claude/commands/`](.claude/commands/): `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`.
 - **Chronicle layer** — machine-queryable record of decisions (`scripts/chronicle.sh`, deterministic harness at `tests/chronicle/`).
@@ -101,8 +101,9 @@ Plugin version anchored in `.claude-plugin/plugin.json` and `.codex-plugin/plugi
 
 ### v0.3.0 — 2026-05
 
-PM skill expansion, conversational kickoff, present-focused docs.
+PM skill expansion, conversational kickoff, automatic lesson extraction, present-focused docs.
 
+- **Automatic lesson extraction** — `hooks/auto-extract-lesson.sh` wires the Stop hook to fire the extract-lesson skill at every session end without the user having to type `/extract-lesson`. The agent self-filters via Chris MDP's signal-vs-noise discipline (most sessions stop in one line; only ones with real signal produce proposals). Re-stop loop prevented via `stop_hook_active`. Opt-out: `HORNERO_NO_AUTO_EXTRACT=1`. Plugin hook, install.sh recommendation, and `templates/settings.json` all updated.
 - **Docs reorientation** — canonical docs (README, ROADMAP, methodology, ATTRIBUTION, DISPATCHER, CLAUDE, AGENTS, CONTRIBUTING, roles/README, onboarding, role-cheatsheet, adoption, commands/role) now lead with present capabilities rather than the journey. README opens with a "What you get" section; ROADMAP adopts Now / Next / Later + Releases.
 - **Conversational kickoff** — `/kickoff` no longer asks one question and offers a 7-item bulleted menu; it opens with a 3-sentence intro and a single open invitation, then routes via the dispatcher. `DISPATCHER.md` gains Step 6b (ambiguous-but-rich → one clarifying question, never a menu). SessionStart banner names natural language first; slash commands as alternatives.
 - **PM skill expansion** — 22 new PM skills in four commits, re-synthesised from [Dean Peters' Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills) (CC BY-NC-SA 4.0 source; Hornero's re-synthesis is MIT). New themes: career/leadership (4), AI-PM (2), discovery extensions (3), outside-in (3), workshops + delivery (3), finance (7). Total PM skills 15 → 37; total skills 21 → 45.

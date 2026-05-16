@@ -276,22 +276,23 @@ if want_claude; then
   echo
   echo "──────────────────────────────────────────────────────────────"
   echo "Recommended addition to ${CLAUDE_DIR}/settings.json:"
-  cat <<'EOF'
+  cat <<EOF
 
   "hooks": {
     "Stop": [
-      { "command": "echo 'session ending — consider /extract-lesson' " }
+      { "command": "bash ${REPO_DIR}/hooks/auto-extract-lesson.sh" }
     ]
   }
 
 EOF
+  echo "(auto-runs extract-lesson at session end; opt out with HORNERO_NO_AUTO_EXTRACT=1)"
   echo "──────────────────────────────────────────────────────────────"
 fi
 
 echo
 echo "Next steps:"
 echo "  1. Open playbooks/onboarding.md  (or run /kickoff in your AI tool)"
-echo "  2. Try a real task — e.g. /kickoff, /orchestrate (dormant multi-role), or /role product-manager <task>"
+echo "  2. Try a real task — e.g. /kickoff, /orchestrate, or /role product-manager <task>"
 echo "  3. Run /harness-check on your current repo"
 echo
 [[ $DRY_RUN -eq 1 ]] && echo "(dry run — nothing was written)"
