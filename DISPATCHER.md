@@ -127,6 +127,24 @@ Do not invent a role or skill name that isn't in `CATALOG.md`. Do not pretend
 a forward-reference skill (one named in `ROLE.md` but not yet shipped) is
 available.
 
+### 6b. Ambiguous-but-rich → one clarifying question, not a menu
+
+When the prompt fires on three or more catalog rows *weakly* — enough signal
+that multiple lenses are plausible, not enough to pick one — do not silently
+guess and do not paste a numbered menu of options. Ask **one** diagnostic
+question shaped by the candidates, then route on the answer.
+
+```
+A few lenses could fit here. To pick the right one — is this a *what to
+build* question (problem framing, JTBD) or a *how to align* question
+(orchestration, decision record)?
+```
+
+The clarifying question is the differentiator between the top candidates,
+phrased in the user's vocabulary — not a list of skill names. One question,
+not two. The goal is to converge on a route in a single turn so the work can
+start, not to interview the user.
+
 ## When the dispatcher does NOT apply
 
 - The user is editing a specific file and wants direct help, not structured

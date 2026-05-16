@@ -1,29 +1,42 @@
 ---
-description: Get started with Hornero in under 5 minutes. Walks a new user through their first dispatch — picking a small real task, choosing the right role/skill, running it.
+description: Open conversational kickoff. The agent explains briefly what Hornero offers, invites the user to describe what's on their plate in natural language, and routes via the dispatcher — no pre-set menu of options.
 ---
 
 # /kickoff
 
-The user has just opened Hornero and wants to try it. Walk them through one real, useful dispatch in under 5 minutes. Do not lecture; do not summarise the methodology.
+The user has just opened Hornero. Do not lecture, do not summarise the methodology, and **do not offer a bulleted menu of PM tasks**. The dispatcher already routes natural language — the job here is to extend a single open invitation and then route on whatever comes back.
 
-## What to do
+## What to say first
 
-1. **Read [`playbooks/onboarding.md`](../../playbooks/onboarding.md)** end to end. It is the canonical onboarding walkthrough. Follow its sequence.
+Open with this — three sentences, no bullets:
 
-2. **Ask one short question**: what's something they could use a second opinion on right now? Offer 2-3 PM-shaped examples (Hornero currently ships PM-only — see ROADMAP for re-expansion):
-   - "Critique a PRD draft / a problem statement / a draft OKR set."
-   - "Sharpen the positioning for a product or feature."
-   - "Define a success metric (with a counter-metric) for a new flow."
-   - "Articulate the customer's job-to-be-done for a feature."
-   - "Frame a solution-shaped ask as a product problem."
-   - "Plan a launch — `/orchestrate` will frame as customer job + synthesise a decision (currently single-lens; multi-role fan-out returns on re-expansion)."
-   - **Repo-level** — "Audit this repo's AI-coding harness (`/harness-check` or natural-language equivalent)."
+> **Hornero picks the right product-management lens for what you're working on — PRD, positioning, OKRs, JTBD, prioritisation, strategy, and more — and runs it like a coach, not a checklist.**
+>
+> **Tell me, in your own words, what's on your plate.** A messy half-thought is fine: *"we're arguing whether to ship X", "my OKRs feel wrong", "I'm prepping a customer call and don't know what to ask".* I'll pick the right lens and start there.
+>
+> *Want the full menu instead? Say "show the catalog" or type `/hornero:catalog`.*
 
-3. **Don't expand beyond what they asked.** Pick the smallest matching role + skill, declare the choice in one line (per the dispatcher protocol in [`CLAUDE.md`](../../CLAUDE.md) / [`AGENTS.md`](../../AGENTS.md)), and do the work. Show them what good output looks like.
+Then **stop** and wait. Do not pre-fill examples. Do not ask a clarifying question yet.
 
-4. **At the end, point them at one next step**:
-   - `/catalog` — see what else is available.
-   - `/orchestrate` — when they have a cross-functional decision.
-   - [`playbooks/role-cheatsheet.md`](../../playbooks/role-cheatsheet.md) — 1-page reference.
+## How to route what comes back
 
-Keep it terse and demonstrative. The goal is a working first dispatch, not a tour.
+1. Read the user's natural-language reply.
+2. Run the dispatcher in [`DISPATCHER.md`](../../DISPATCHER.md) against it.
+3. **Clean match** → declare the route in one line (per Step 3 of the protocol) and start the skill immediately. Show what good output looks like; don't tour the methodology.
+4. **Ambiguous-but-rich** (three or more skills fire weakly) → ask **one** clarifying question shaped by the candidates. Not a menu. Examples:
+   - "Is the stuck bit the *problem* or the *solution*?"
+   - "Is this for team-internal alignment or an exec-facing decision?"
+   - "Are you trying to *define* this from scratch or *critique* an existing version?"
+   Route on the answer.
+5. **Genuinely no match** → say so plainly: "I'm not finding a strong lens for that — want to see what I do have? (`/hornero:catalog`)". Don't invent a skill name.
+6. If the user asked "show the catalog" or typed `/hornero:catalog`, read `CATALOG.md` and surface the table directly.
+
+## Wrap
+
+At the end of the first dispatch, point at one next step — only one:
+
+- `/hornero:catalog` — see what else is available.
+- `/orchestrate` — when they have a cross-functional decision.
+- [`playbooks/role-cheatsheet.md`](../../playbooks/role-cheatsheet.md) — 1-page reference.
+
+Keep it terse and demonstrative. The goal is a working first dispatch that *feels* like a coach reading the situation, not a kiosk presenting options.

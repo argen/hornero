@@ -69,3 +69,6 @@
 | `strategy-kernel` | component | Use when a PM needs to produce or critique a strategy artifact — to name the central obstacle (diagnosis), articulate the posture for overcoming it (guiding policy), and confirm the actions reinforce each other rather than sitting as an independent initiative list (coherent actions). |
 | `success-metrics` | component | Use before instrumentation to define what good looks like — primary metric, counter-metric, guardrails, and leading indicators — for a feature, launch, or quarter. |
 
+---
+
+Not sure which to use? Just describe your situation in chat — the dispatcher routes for you.

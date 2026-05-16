@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '↪ Hornero plugin loaded. /hornero:catalog to see roles & skills; /hornero:kickoff to run your first dispatch.'"
+            "command": "echo '↪ Hornero loaded. Just describe what you'\\''re working on — I'\\''ll route to the right lens. Or: /hornero:kickoff (guided start), /hornero:catalog (see what'\\''s available).'"
           }
         ]
       }
