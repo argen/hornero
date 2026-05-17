@@ -20,6 +20,16 @@ Linear is the issue tracker most product-engineering teams use day-to-day. Roles
 
 ## MCP Server
 
+Two integration paths are available. Choose based on your deployment context.
+
+### Option A — claude.ai integration (personal use, recommended)
+
+`mcp__claude_ai_Linear__` is the native Linear integration in claude.ai. Enable it via **Settings → Integrations → Linear** and authenticate via Linear's OAuth. No API key or local server needed. The OAuth handshake (`authenticate` → `complete_authentication`) activates the integration per session.
+
+Prefer this path for personal use and interactive Hornero sessions — auth is handled by claude.ai and token refresh is transparent.
+
+### Option B — self-hosted server (team deployments, CI)
+
 **Canonical server:** `@modelcontextprotocol/server-linear` (community-maintained reference; see References for the authoritative repo).
 
 **Install:**

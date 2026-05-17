@@ -38,9 +38,14 @@
 | Resource | Status | MCP server | Used by |
 |---|---|---|---|
 | `bigquery` | stretch | `mcp-server-bigquery` | 0 skill(s) |
+| `canva` | stable | `claude.ai integration (mcp__claude_ai_Canva__)` | 0 skill(s) |
 | `datadog` | stretch | `datadog-mcp-server` | 0 skill(s) |
 | `github` | stable | `github-mcp-server` | 0 skill(s) |
+| `gmail` | stable | `claude.ai integration (mcp__claude_ai_Gmail__)` | 0 skill(s) |
+| `google-calendar` | stable | `claude.ai integration (mcp__claude_ai_Google_Calendar__)` | 0 skill(s) |
+| `google-drive` | stable | `claude.ai integration (mcp__claude_ai_Google_Drive__)` | 0 skill(s) |
 | `hubspot` | stretch | `hubspot-mcp-server` | 0 skill(s) |
+| `intercom` | stable | `claude.ai integration (mcp__claude_ai_Intercom__)` | 0 skill(s) |
 | `jira` | stretch | `mcp-atlassian (community; Atlassian Remote MCP for OAuth path)` | 0 skill(s) |
 | `linear` | stable | `@modelcontextprotocol/server-linear` | 1 skill(s) |
 | `notion` | stretch | `@notionhq/notion-mcp-server` | 0 skill(s) |
