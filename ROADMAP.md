@@ -86,6 +86,14 @@ When a second role lands, the parallel `multi-role-review` path activates (paral
 - `templates/{CLAUDE,AGENTS,MAP,sub-CLAUDE}.md.template` gain a `data-sources` convention.
 - `smoke-check.sh`: every stretch resource has a non-empty `## Fallback Without MCP` section.
 
+### PM chronicle append semantics
+
+Three follow-ups deferred from the chronicle schema expansion (hypothesis + stakeholder entry types). Sequenced **after** the PM-shaped chronicle workflow lands (`/ingest`, `/prep`, `/review`, narrative walkthrough) so there is enough hypothesis and stakeholder content in real chronicles to design append discipline against:
+
+- **`hypothesis-track` skill** — appends Evidence Log rows to an open `type: hypothesis` entry and proposes a status transition (`open` → `weakening` / `strengthening` / `superseded` / `refuted`). The Evidence Log is the natural append-only section, but it breaks the only-supersedes invariant for everything else in a committed entry. Needs a structural exception design pass (which section can be appended, by whom, via what CLI subcommand, and how the validator stays strict around it).
+- **`stakeholder-update` skill** — same shape for `type: stakeholder` entries: lightweight append to Open asks, Concerns, and Last contact without forcing a full supersede. Sequenced after `hypothesis-track` since both share the structural exception.
+- **`bet-portfolio` refactor** — `roles/product-manager/skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Falls out once `hypothesis-track` exists and the chronicle carries enough hypothesis content to aggregate.
+
 ### Distribution
 
 - **Marketplace submission** for both Claude Code and Codex (manifests already ship — `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`).
