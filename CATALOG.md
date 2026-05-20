@@ -28,6 +28,7 @@
 | `harness-check` | workflow | Use to audit whether a repository is AI-ready — does it have AGENTS.md / CLAUDE.md, well-scoped skills, useful test feedback, and a working install path. |
 | `ingest` | workflow | Use to feed an artifact (interview transcript, meeting notes, doc export, dashboard screenshot, support ticket, paste) into the project's `chronicle/` layer — preserves the raw input, drafts a structured synthesis, and proposes updates to the chronicle entries the artifact informs. |
 | `memory-query` | workflow | Use before reviewing, proposing, or producing any non-trivial artifact — scans the project's `memory/decisions/` directory for prior decisions whose scope, affected-areas, or roles overlap with the current work, and surfaces relevant entries before fresh analysis begins. |
+| `prep` | workflow | Use before a meeting, 1:1, design review, vendor call, or QBR — pulls the matching `type: stakeholder` entry, recent `type: decision` and open `type: hypothesis` entries in their scope, and recent ingestion notes, then renders a one-page brief with open asks, likely points of disagreement, and suggested questions. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 
 ## Resources
