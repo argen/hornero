@@ -13,7 +13,7 @@ Every file in `chronicle/entries/<id>.md` MUST start with YAML frontmatter confo
 | `confidence` | number | `0.0`–`1.0` inclusive. Two decimals. |
 | `source_role` | enum | One of the live roles. Today: `product-manager`, plus the literal `cross-role` when a multi-role review produced the decision. (Re-expansion adds: `software-engineer`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist`.) |
 | `sourcing` | enum | One of: `documented`, `verbal`, `intuition`, `industry`. The **weakest** source the decision rests on — so a `documented` entry rests entirely on durable evidence, while an `industry` entry leans at least partly on generic field knowledge. Ordered strongest → weakest: documented > verbal > intuition > industry. |
-| `type` | enum | One of: `decision`, `hypothesis`, `stakeholder`. A `decision` entry follows Rumelt's strategy kernel. A `hypothesis` entry is an open assumption under test (Assumption → Prediction → Falsifier → Evidence Log → Resolution). A `stakeholder` entry is a per-person profile (Role & influence → Open asks → Concerns → Last contact → Decision affinity). A hypothesis resolves into a decision entry (or is refuted) as evidence accumulates; a stakeholder entry tracks one person over time and is updated by supersedes when the profile materially changes. |
+| `type` | enum | One of: `decision`, `hypothesis`, `stakeholder`, `customer`. A `decision` entry follows Rumelt's strategy kernel. A `hypothesis` entry is an open assumption under test (Assumption → Prediction → Falsifier → Evidence Log → Resolution). A `stakeholder` entry is a per-person profile (Role & influence → Open asks → Concerns → Last contact → Decision affinity). A `customer` entry is a per-B2B-account profile (Account profile → Usage shape → Health signals → Decision drivers → Stakeholders). A hypothesis resolves into a decision entry (or is refuted) as evidence accumulates; stakeholder and customer entries track one person/account over time and are updated by supersedes when the profile materially changes. |
 | `scope` | string list | 1–6 short tags. Free-form, but consistent within a project. Examples: `strategy`, `pricing`, `positioning`, `success-metrics`, `migrations`, `auth`. |
 | `affected_areas` | string list | 1+ paths or domains the decision binds. Globs allowed. |
 | `decision` | string | One sentence stating what was chosen. Must appear in the body too; this field is the index-friendly copy. |
@@ -67,11 +67,22 @@ The Markdown body MUST contain six `##` headers, in fixed order. The shape depen
 ## Notes
 ```
 
-For all three types, `## Notes` may be empty. The other five must have a non-empty body. The validator does not deeply parse the prose; it only enforces the section headers exist in the right order for the entry's declared type.
+**`type: customer`** — one B2B account (the company, not an individual):
 
-The hypothesis shape is borrowed from the discipline of testable claims: an Assumption without a Falsifier is just an opinion. The stakeholder shape is borrowed from CRM practice: one record per person, asks and concerns appended over time, last-contact tracked so atrophy is visible.
+```
+## Account profile
+## Usage shape
+## Health signals
+## Decision drivers
+## Stakeholders
+## Notes
+```
 
-The Evidence Log (for hypotheses) and Open asks + Last contact (for stakeholders) are the sections that grow after the entry is committed — see [`skills/chronicle-record/SKILL.md`](../skills/chronicle-record/SKILL.md) for the mutation rules.
+For all four types, `## Notes` may be empty. The other five must have a non-empty body. The validator does not deeply parse the prose; it only enforces the section headers exist in the right order for the entry's declared type.
+
+The hypothesis shape is borrowed from the discipline of testable claims: an Assumption without a Falsifier is just an opinion. The stakeholder shape is borrowed from CRM practice: one record per person, asks and concerns appended over time, last-contact tracked so atrophy is visible. The customer shape is the account-level sibling of stakeholder, scoped to B2B startups where the company is the unit of revenue: profile, usage, health, and the stakeholders inside it are first-class fields.
+
+The Evidence Log (for hypotheses), Open asks + Last contact (for stakeholders), and Usage shape + Health signals (for customers) are the sections that grow after the entry is committed — see [`skills/chronicle-record/SKILL.md`](../skills/chronicle-record/SKILL.md) for the mutation rules.
 
 ## Filename
 

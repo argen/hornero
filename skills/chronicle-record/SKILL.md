@@ -69,17 +69,20 @@ Why this matters: a `validated` entry with `sourcing: intuition` is a signal —
 
 **Don't anchor at `documented` by default** — calibrate to the truth. If the decision genuinely rests on a hunch, say so. The discomfort of writing `intuition` is the feature.
 
-### Three entry types: decision, hypothesis, stakeholder
+### Four entry types: decision, hypothesis, stakeholder, customer
 
 The `type` frontmatter field is required and takes one of:
 
 - **`decision`** (default) — a posture, policy, or commitment. Follows Rumelt's strategy kernel: Diagnosis → Decision → Coherent actions → Alternatives rejected → Validation plan → Notes.
 - **`hypothesis`** — an open assumption under test. Body shape: Assumption → Prediction → Falsifier → Evidence Log → Resolution → Notes.
 - **`stakeholder`** — one person the team coordinates with. Body shape: Role & influence → Open asks → Concerns → Last contact → Decision affinity → Notes.
+- **`customer`** — one B2B account (the company, not an individual). Body shape: Account profile → Usage shape → Health signals → Decision drivers → Stakeholders → Notes.
 
-All three types share frontmatter; the validator branches body-section enforcement on `type`. The distinction is load-bearing because future readers need to tell apart "what we believe and are testing" from "what we have committed to" from "who we are coordinating with." Bundling them confuses the recall loop.
+All four types share frontmatter; the validator branches body-section enforcement on `type`. The distinction is load-bearing because future readers need to tell apart "what we believe and are testing" from "what we have committed to" from "who we are coordinating with" from "which account is at stake." Bundling them confuses the recall loop.
 
 A stakeholder entry's `confidence` reflects how well the author understands that person's position; a low number is a signal the next interaction should be discovery, not pitch. The `affected_areas` field captures which parts of the product or roadmap the stakeholder cares about — useful when a PRD touching `billing/` should auto-surface the people for whom `billing` is in their affected_areas list.
+
+A customer entry is the account-level sibling of stakeholder. The pattern in B2B startups is one customer entry per company (Acme Corp) and zero-or-more stakeholder entries inside it (Hugo at Acme, Devlin at Acme). The customer entry's `## Stakeholders` section references the stakeholder entry IDs; the stakeholder entries name the account in prose. `affected_areas` on a customer entry captures which parts of the product matter to that account's renewal or expansion; `scope` typically includes `customers` plus segment tags (`enterprise`, `mid-market`, `smb`) and any per-account context (`renewal-q3`, `expansion-candidate`).
 
 **When in doubt**, write a hypothesis. A premature decision entry that turns out to be wrong is harder to walk back than a hypothesis that evolves with evidence. The `Resolution` section in a hypothesis is where the eventual decision entry (or refutation) gets linked.
 
@@ -88,7 +91,7 @@ A hypothesis ends in one of three ways:
 2. The Falsifier triggers → propose a refutation note and flip the hypothesis to `status: refuted`.
 3. The Validation plan still hasn't run by `review_after` → revisit; either tighten the prediction or kill the hypothesis.
 
-A stakeholder entry is updated when the person's role, influence, or position materially changes — propose a new entry that `supersedes` the previous profile. Lightweight updates (a new open ask, a concern surfaced, a contact date) are append-only edits to the relevant body sections; the `stakeholder-update` skill exists for that flow (deferred follow-up — see roadmap).
+A stakeholder or customer entry is updated when the person's role / account's profile materially changes — propose a new entry that `supersedes` the previous profile. Lightweight updates (a new open ask, a new support ticket pattern, a contact date, a fresh usage metric) are append-only edits to the relevant body sections; the `stakeholder-update` and `customer-update` skills exist for those flows (deferred follow-up — see roadmap).
 
 ### IDs are content-addressable
 
@@ -219,6 +222,31 @@ scripts/chronicle.sh propose \
 ```
 
 The `--decision` flag holds the one-sentence summary of the stakeholder's role and stake — used as the index-friendly copy. The body-specific flags scaffold the sections.
+
+### A customer entry
+
+See [`tests/chronicle/fixtures/good/2026-05-20-acme-corp.md`](../../tests/chronicle/fixtures/good/2026-05-20-acme-corp.md) — a 200-seat enterprise account with usage shape, health signals, decision drivers, and two stakeholders inside (Hugo and Devlin). The corresponding CLI:
+
+```bash
+scripts/chronicle.sh propose \
+  --type customer \
+  --title "Acme Corp" \
+  --status open \
+  --confidence 0.72 \
+  --source-role product-manager \
+  --sourcing documented \
+  --scope customers,enterprise,renewal-q3 \
+  --affected-areas "export,billing,contracts" \
+  --decision "Enterprise customer (200-seat, \$180k ARR); expansion candidate gated on per-seat invoicing; renewal at risk on export performance." \
+  --account-profile "Enterprise; 200 seats across 3 BUs; \$180k ARR; renews 2026-09-30." \
+  --usage-shape "DAU/MAU 0.62 (declining from 0.71 in Q1); export usage -18% MoM after rate-limit rollout." \
+  --health-signals "2 export-latency tickets in May; one SLA breach; NPS shifted +40 → +20 (n=8)." \
+  --decision-drivers "Strong yes on export latency improvements and per-seat invoicing; strong no on UX changes that retrain admin workflows." \
+  --stakeholders-here "Hugo (Head of Ops): 2026-05-19-hugo-acme-ops. Devlin (CFO): not yet captured — owns the per-seat invoicing ask." \
+  --review-after 2026-08-01
+```
+
+The `## Stakeholders` section is the cross-reference. Stakeholder entries inside this customer should name the customer in prose; the customer entry references the stakeholder IDs. Don't try to enforce the cross-reference via frontmatter fields — keeping it in prose lets the relationship be richer than "1:N" and keeps the validator simple.
 
 ### A superseding entry (sketch)
 

@@ -46,6 +46,7 @@ scripts/chronicle.sh query --sourcing intuition           # entries resting on h
 scripts/chronicle.sh query --status validated --sourcing verbal  # load-bearing but thinly sourced
 scripts/chronicle.sh query --type hypothesis --status open  # what assumptions are currently under test?
 scripts/chronicle.sh query --type stakeholder --scope billing  # who cares about billing?
+scripts/chronicle.sh query --type customer --scope renewal-q3  # which accounts are up for renewal in Q3?
 ```
 
 Output is byte-stable: same corpus + same query = same bytes. Filters AND together. `--limit N` caps the result count.
@@ -61,21 +62,23 @@ Every entry has a `status ∈ {validated, open, superseded, refuted}`. When load
 
 A query with no `--status` filter returns all four. Most reviewer preambles default to `--status validated` for the binding set, then a follow-up scan for `refuted` to catch traps.
 
-### Three entry types
+### Four entry types
 
-The `type` field distinguishes three shapes:
+The `type` field distinguishes four shapes:
 
 - **`decision`** — committed postures (Rumelt's kernel).
 - **`hypothesis`** — open assumptions under test (Assumption → Prediction → Falsifier → Evidence Log → Resolution).
 - **`stakeholder`** — per-person profiles (Role & influence → Open asks → Concerns → Last contact → Decision affinity).
+- **`customer`** — per-B2B-account profiles (Account profile → Usage shape → Health signals → Decision drivers → Stakeholders).
 
 Reviewer preambles benefit from a few scoped queries:
 
 - `--type decision --status validated` for the binding postures on the work's scope.
 - `--type hypothesis --status open` for the open assumptions in flight. A new PRD that contradicts a binding decision is a violation; a new PRD that aligns with an open hypothesis is the natural place to add evidence (or to propose the resolution).
-- `--type stakeholder --scope <area>` to find the people who care about the area you are touching — pair with the upcoming `/prep` skill before any meeting.
+- `--type stakeholder --scope <area>` to find the people who care about the area you are touching — pair with `/prep` before any meeting.
+- `--type customer --scope <segment>` to find the B2B accounts at stake when a roadmap call touches a segment (e.g. `--scope enterprise` before an enterprise-tier decision; `--scope renewal-q3` before a Q3 retention call).
 
-A decision converted from a hypothesis appears as a new entry that `supersedes` the hypothesis, not as an edit-in-place. Follow the supersedes chain to read both. A stakeholder profile that materially changes (new role, big influence shift) is updated the same way.
+A decision converted from a hypothesis appears as a new entry that `supersedes` the hypothesis, not as an edit-in-place. Follow the supersedes chain to read both. Stakeholder and customer profiles that materially change are updated the same way.
 
 ### Sourcing as a trust signal
 

@@ -39,7 +39,10 @@ LEGAL_SOURCING=(documented verbal intuition industry)
 #                   evidence accumulates or the assumption is refuted.
 #   `stakeholder` — one entry per person the team coordinates with; tracks their
 #                   asks, concerns, and decision affinity over time.
-LEGAL_TYPES=(decision hypothesis stakeholder)
+#   `customer`    — one entry per B2B account (the company, not an individual);
+#                   tracks account profile, usage shape, health signals, decision
+#                   drivers, and the stakeholders inside the account.
+LEGAL_TYPES=(decision hypothesis stakeholder customer)
 # Ingestion source kinds — looser than entry types because the working layer is
 # looser than the durable layer. Add freely as new artifact shapes show up.
 LEGAL_INGESTION_KINDS=(interview meeting doc screenshot dashboard chat other)
@@ -52,6 +55,7 @@ OPTIONAL_FIELDS=(alternatives_considered rejected_reason evidence supersedes sup
 REQUIRED_SECTIONS_DECISION=("## Diagnosis" "## Decision" "## Coherent actions" "## Alternatives rejected" "## Validation plan" "## Notes")
 REQUIRED_SECTIONS_HYPOTHESIS=("## Assumption" "## Prediction" "## Falsifier" "## Evidence Log" "## Resolution" "## Notes")
 REQUIRED_SECTIONS_STAKEHOLDER=("## Role & influence" "## Open asks" "## Concerns" "## Last contact" "## Decision affinity" "## Notes")
+REQUIRED_SECTIONS_CUSTOMER=("## Account profile" "## Usage shape" "## Health signals" "## Decision drivers" "## Stakeholders" "## Notes")
 
 # ─── helpers ──────────────────────────────────────────────────────────
 
@@ -73,12 +77,16 @@ Usage:
                                   [--resolution "..."] \
                                   [--role-influence "..."] [--open-asks "..."] \
                                   [--concerns "..."] [--last-contact "..."] \
-                                  [--decision-affinity "..."]
+                                  [--decision-affinity "..."] \
+                                  [--account-profile "..."] [--usage-shape "..."] \
+                                  [--health-signals "..."] [--decision-drivers "..."] \
+                                  [--stakeholders-here "..."]
                                   # sourcing ∈ {documented, verbal, intuition, industry} —
                                   # the weakest source the decision rests on.
-                                  # type ∈ {decision, hypothesis, stakeholder} — default decision.
+                                  # type ∈ {decision, hypothesis, stakeholder, customer} — default decision.
                                   # Hypothesis flags scaffold the assumption-under-test body;
-                                  # stakeholder flags scaffold a per-person profile.
+                                  # stakeholder flags scaffold a per-person profile;
+                                  # customer flags scaffold a per-account (B2B company) profile.
   scripts/chronicle.sh ingest    --path FILE --source-role ROLE --sourcing VALUE \
                                   [--kind KIND] [--title "..."]
                                   # Copies FILE to chronicle/source/<uuid>.<ext> (gitignored)
@@ -158,6 +166,7 @@ cmd_propose() {
   local diagnosis="" coherent_actions=""
   local assumption="" prediction="" falsifier="" evidence_log="" resolution=""
   local role_influence="" open_asks="" concerns="" last_contact="" decision_affinity=""
+  local account_profile="" usage_shape="" health_signals="" decision_drivers="" stakeholders_here=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -190,6 +199,11 @@ cmd_propose() {
       --concerns)          concerns="$2"; shift 2 ;;
       --last-contact)      last_contact="$2"; shift 2 ;;
       --decision-affinity) decision_affinity="$2"; shift 2 ;;
+      --account-profile)   account_profile="$2"; shift 2 ;;
+      --usage-shape)       usage_shape="$2"; shift 2 ;;
+      --health-signals)    health_signals="$2"; shift 2 ;;
+      --decision-drivers)  decision_drivers="$2"; shift 2 ;;
+      --stakeholders-here) stakeholders_here="$2"; shift 2 ;;
       -h|--help) usage; exit 0 ;;
       *) die "unknown propose flag: $1" ;;
     esac
@@ -300,6 +314,29 @@ cmd_propose() {
       echo "## Decision affinity"
       echo
       echo "${decision_affinity:-_TODO: what they will reliably support, what they will reliably oppose, and where they are neutral but vocal._}"
+      echo
+      echo "## Notes"
+      echo
+    elif [[ "$type" == "customer" ]]; then
+      echo "## Account profile"
+      echo
+      echo "${account_profile:-_TODO: segment, size (seats, ARR or contract value), plan tier, contract start and renewal dates, expansion path if any._}"
+      echo
+      echo "## Usage shape"
+      echo
+      echo "${usage_shape:-_TODO: activation status, retention pattern, key behavioural metrics (DAU/MAU, feature adoption), recent trends with dates._}"
+      echo
+      echo "## Health signals"
+      echo
+      echo "${health_signals:-_TODO: risk indicators — support volume, NPS, SLA breaches, churn flags. Note any comparison to peer accounts at the same tier._}"
+      echo
+      echo "## Decision drivers"
+      echo
+      echo "${decision_drivers:-_TODO: what they will reliably support (expansion, renewal levers), what they will reliably oppose (UX shifts, etc.), and where they are neutral but vocal._}"
+      echo
+      echo "## Stakeholders"
+      echo
+      echo "${stakeholders_here:-_TODO: reference stakeholder entries inside this account by id, with a one-line role descriptor each. Open new stakeholder entries for people who are not yet captured._}"
       echo
       echo "## Notes"
       echo
@@ -493,6 +530,7 @@ validate_one() {
   case "$type_v" in
     hypothesis)  sections=("${REQUIRED_SECTIONS_HYPOTHESIS[@]}") ;;
     stakeholder) sections=("${REQUIRED_SECTIONS_STAKEHOLDER[@]}") ;;
+    customer)    sections=("${REQUIRED_SECTIONS_CUSTOMER[@]}") ;;
     *)           sections=("${REQUIRED_SECTIONS_DECISION[@]}") ;;
   esac
   local found_idx=0

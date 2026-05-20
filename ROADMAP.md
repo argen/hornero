@@ -92,6 +92,7 @@ Three follow-ups deferred from the chronicle schema expansion (hypothesis + stak
 
 - **`hypothesis-track` skill** — appends Evidence Log rows to an open `type: hypothesis` entry and proposes a status transition (`open` → `weakening` / `strengthening` / `superseded` / `refuted`). The Evidence Log is the natural append-only section, but it breaks the only-supersedes invariant for everything else in a committed entry. Needs a structural exception design pass (which section can be appended, by whom, via what CLI subcommand, and how the validator stays strict around it).
 - **`stakeholder-update` skill** — same shape for `type: stakeholder` entries: lightweight append to Open asks, Concerns, and Last contact without forcing a full supersede. Sequenced after `hypothesis-track` since both share the structural exception.
+- **`customer-update` skill** — sibling for `type: customer` entries: lightweight append to Usage shape (new metric snapshots), Health signals (a new support ticket pattern, an SLA breach), and Stakeholders (a new contact captured) without forcing a full supersede. Sequenced alongside `stakeholder-update` — same structural exception, different body sections.
 - **`bet-portfolio` refactor** — `roles/product-manager/skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Falls out once `hypothesis-track` exists and the chronicle carries enough hypothesis content to aggregate.
 
 ### Distribution

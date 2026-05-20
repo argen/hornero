@@ -37,9 +37,11 @@ This skill closes the gap between "we have a chronicle layer" and "the PM walks 
 
 `/prep <person-name>` builds a brief centred on a specific stakeholder — pulls the matching `type: stakeholder` entry, then expands into decisions and hypotheses in their `affected_areas`. Use before 1:1s, QBRs, and vendor calls.
 
-`/prep <scope-tag>` builds a brief centred on a scope — pulls every stakeholder whose `affected_areas` include the tag, plus validated decisions and open hypotheses in that scope. Use before design reviews, roadmap meetings, and topic-bounded discussions where multiple stakeholders are in the room.
+`/prep <scope-tag>` builds a brief centred on a scope — pulls every stakeholder whose `affected_areas` include the tag, plus validated decisions and open hypotheses in that scope, **plus any `type: customer` accounts whose `scope` or `affected_areas` overlap**. The customer entries surface in a "Accounts in scope" section alongside stakeholders; use before design reviews, roadmap meetings, QBRs, and any B2B-shaped discussion where account context matters as much as person context.
 
 The two modes share the same output shape; only the loading order differs.
+
+For B2B teams, the person/account distinction is load-bearing — Hugo at Acme has different open asks than the Acme account has health signals, and a meeting about "Acme's renewal" is differently shaped from a meeting about "Hugo's per-seat invoicing ask." The prep brief surfaces both layers when both are relevant.
 
 ### What goes in the brief
 
@@ -83,15 +85,21 @@ scripts/chronicle.sh query --type stakeholder --keyword Maya
 # Then for each affected_area in the stakeholder entry:
 scripts/chronicle.sh query --type decision --status validated --scope <area>
 scripts/chronicle.sh query --type hypothesis --status open --scope <area>
+scripts/chronicle.sh query --type customer --scope <area>          # any accounts at stake?
 
 # Topic mode (example: /prep export)
 scripts/chronicle.sh query --type stakeholder --scope export    # who cares?
+scripts/chronicle.sh query --type customer --scope export       # which accounts?
 scripts/chronicle.sh query --type decision --status validated --scope export
 scripts/chronicle.sh query --type hypothesis --status open --scope export
 
-# In both modes, surface recent ingestion notes:
+# Account-name mode (example: /prep Acme)
+scripts/chronicle.sh query --type customer --keyword Acme
+# Then pull the stakeholders that customer entry references in its body.
+
+# In all modes, surface recent ingestion notes:
 ls -t chronicle/ingestion/ | head -10
-# (then read a couple if their slugs match the scope/person)
+# (then read a couple if their slugs match the scope/person/account)
 ```
 
 The agent synthesises the loaded entries into the six-section brief and stops. It does not commit anything, propose anything, or open follow-up loops — the brief is the deliverable.

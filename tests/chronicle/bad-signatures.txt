@@ -15,3 +15,4 @@ missing-type.md	missing required field: type
 bad-type.md	type (musing) not in
 hypothesis-missing-falsifier.md	required sections missing or out of order
 stakeholder-missing-asks.md	required sections missing or out of order
+customer-missing-health.md	required sections missing or out of order
