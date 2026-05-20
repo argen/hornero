@@ -1,6 +1,6 @@
 {
   "name": "hornero",
-  "description": "Role-and-skill methodology for Claude Code: PM reviewer subagent, 9 slash commands, and 48 expert-grounded skills (37 product-management skills + 11 cross-role process skills). Per-role skills are exposed at the plugin-loader's flat `skills/<name>` layout via build-time symlinks.",
+  "description": "Role-and-skill methodology for Claude Code: PM reviewer subagent, 12 slash commands, and 51 expert-grounded skills (37 product-management skills + 14 cross-role process skills, three of them — hypothesis-track, stakeholder-update, customer-update — driving the chronicle layer's append exception). Per-role skills are exposed at the plugin-loader's flat `skills/<name>` layout via build-time symlinks.",
   "version": "0.3.0",
   "author": {
     "name": "Bruno Belcastro"

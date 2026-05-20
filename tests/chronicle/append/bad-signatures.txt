@@ -1,0 +1,6 @@
+# filename<TAB>diagnostic substring that must appear in append error output
+# Each <name>.bad.cmd is run; .bad.target (if present) is copied into entries/ first.
+# Lines starting with # are ignored.
+decision-not-appendable	type 'decision' has no appendable sections
+wrong-section-for-type	section 'Diagnosis' is not appendable for type 'hypothesis'
+missing-entry	entry not found

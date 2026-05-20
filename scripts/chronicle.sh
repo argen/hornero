@@ -57,6 +57,22 @@ REQUIRED_SECTIONS_HYPOTHESIS=("## Assumption" "## Prediction" "## Falsifier" "##
 REQUIRED_SECTIONS_STAKEHOLDER=("## Role & influence" "## Open asks" "## Concerns" "## Last contact" "## Decision affinity" "## Notes")
 REQUIRED_SECTIONS_CUSTOMER=("## Account profile" "## Usage shape" "## Health signals" "## Decision drivers" "## Stakeholders" "## Notes")
 
+# Appendable sections — the structural exception to "committed entries are
+# immutable except via supersedes". Each type declares which body sections
+# may grow row-by-row via `chronicle.sh append`. Decisions have none: a
+# decision changes only by being superseded. Sections not on the list are
+# immutable — diagnosis, prediction, account profile, etc. travel via
+# propose → commit → supersedes, the same as the original write path.
+APPENDABLE_HYPOTHESIS=("Evidence Log")
+APPENDABLE_STAKEHOLDER=("Open asks" "Concerns" "Last contact" "Decision affinity")
+APPENDABLE_CUSTOMER=("Usage shape" "Health signals" "Decision drivers" "Stakeholders")
+APPENDABLE_DECISION=()
+# Last contact prepends (newest first) so the cold-read shows the most
+# recent touch at the top, and the /review staleness check finds the
+# freshest date on its first match. All other appendable sections grow
+# chronologically — append-only at the end.
+PREPEND_SECTIONS=("Last contact")
+
 # ─── helpers ──────────────────────────────────────────────────────────
 
 usage() {
@@ -94,6 +110,16 @@ Usage:
                                   # chronicle/ingestion/<date>-<slug>.md for the agent to fill in.
                                   # kind ∈ {interview, meeting, doc, screenshot, dashboard, chat, other}.
   scripts/chronicle.sh commit    <proposal-uuid-or-path>
+  scripts/chronicle.sh append    <entry-id> --section "Section Name" --content "..." [--date YYYY-MM-DD]
+                                  # Grow a whitelisted body section on a committed entry
+                                  # without forcing a full supersede. Whitelist by type:
+                                  #   hypothesis  → Evidence Log
+                                  #   stakeholder → Open asks, Concerns, Last contact, Decision affinity
+                                  #   customer    → Usage shape, Health signals, Decision drivers, Stakeholders
+                                  #   decision    → none (decisions only change via supersedes)
+                                  # Row shape: `- YYYY-MM-DD — <content>`. Date defaults to today.
+                                  # Last contact prepends (newest first); all others append.
+                                  # The modified entry is re-validated; on failure, restored from backup.
   scripts/chronicle.sh query     [--topic SLUG] [--scope TAG] [--role NAME] \
                                   [--status NAME] [--sourcing NAME] [--type NAME] \
                                   [--keyword WORD] [--limit N]
@@ -444,6 +470,152 @@ cmd_commit() {
   log "✓ committed: ${target}"
 
   cmd_summary
+}
+
+# ─── append ───────────────────────────────────────────────────────────
+#
+# Structural exception to "committed entries are immutable except via
+# supersedes". The whitelist (per-type) declares which body sections may
+# grow row-by-row. Sections outside the whitelist — diagnosis, falsifier,
+# account profile, etc. — still travel only via propose → commit →
+# supersedes. Decisions have no appendable sections at all.
+
+cmd_append() {
+  local id="" section="" content="" date_override=""
+
+  # First positional arg is the entry id; remaining args are flags.
+  if [[ $# -eq 0 ]]; then die "append requires <entry-id> --section ... --content ..."; fi
+  case "$1" in
+    -h|--help) usage; exit 0 ;;
+    --*) die "append requires <entry-id> as the first argument" ;;
+    *) id="$1"; shift ;;
+  esac
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --section)  section="$2"; shift 2 ;;
+      --content)  content="$2"; shift 2 ;;
+      --date)     date_override="$2"; shift 2 ;;
+      -h|--help)  usage; exit 0 ;;
+      *) die "unknown append flag: $1" ;;
+    esac
+  done
+
+  [[ -n "$section" ]] || die "append requires --section \"Section Name\""
+  [[ -n "$content" ]] || die "append requires --content \"...\""
+
+  local target="${ENTRIES_DIR}/${id}.md"
+  [[ -f "$target" ]] || die "entry not found: ${id} (looked at ${target#$ROOT/})"
+
+  # Read entry type from frontmatter and look up the appendable whitelist.
+  local type_v; type_v="$(fm_scalar type "$target")"
+  [[ -n "$type_v" ]] || die "entry ${id} has no type field — cannot determine appendable sections"
+
+  local -a appendable
+  case "$type_v" in
+    hypothesis)  appendable=("${APPENDABLE_HYPOTHESIS[@]}") ;;
+    stakeholder) appendable=("${APPENDABLE_STAKEHOLDER[@]}") ;;
+    customer)    appendable=("${APPENDABLE_CUSTOMER[@]}") ;;
+    decision)    appendable=() ;;
+    *)           die "unknown type '${type_v}' on entry ${id} — cannot determine appendable sections" ;;
+  esac
+
+  if [[ ${#appendable[@]} -eq 0 ]]; then
+    die "type '${type_v}' has no appendable sections (the entry can only change via supersedes)"
+  fi
+
+  if ! contains "$section" "${appendable[@]}"; then
+    die "section '${section}' is not appendable for type '${type_v}'. Appendable: ${appendable[*]}"
+  fi
+
+  # Decide append vs prepend
+  local mode="append"
+  if contains "$section" "${PREPEND_SECTIONS[@]}"; then
+    mode="prepend"
+  fi
+
+  local row_date="${date_override:-$(iso_date)}"
+  if ! [[ "$row_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+    die "--date must be ISO YYYY-MM-DD (got: ${row_date})"
+  fi
+
+  # Backup, mutate, re-validate, restore on failure.
+  local backup="${target}.append-backup"
+  cp "$target" "$backup"
+
+  local tmp="${target}.append-tmp"
+  awk -v section_name="$section" \
+      -v mode="$mode" \
+      -v date="$row_date" \
+      -v content="$content" '
+    BEGIN { in_section = 0; collected = 0; found = 0 }
+
+    function flush_section(   end, i, emitted_blank) {
+      if (collected == 0) return
+      end = collected
+      while (end >= 2 && lines[end] == "") end--
+      if (mode == "prepend") {
+        print lines[1]
+        i = 2
+        emitted_blank = 0
+        while (i <= end && lines[i] == "") { print lines[i]; emitted_blank = 1; i++ }
+        if (!emitted_blank) print ""
+        print "- " date " — " content
+        for (; i <= end; i++) print lines[i]
+      } else {
+        for (i = 1; i <= end; i++) print lines[i]
+        if (end == 1) print ""
+        print "- " date " — " content
+      }
+      for (i = end + 1; i <= collected; i++) print lines[i]
+      in_section = 0
+      collected = 0
+    }
+
+    {
+      if (substr($0, 1, 3) == "## ") {
+        if (in_section) flush_section()
+        if ($0 == "## " section_name) {
+          in_section = 1
+          found = 1
+          collected = 1
+          lines[1] = $0
+          next
+        }
+      }
+      if (in_section) {
+        collected++
+        lines[collected] = $0
+        next
+      }
+      print
+    }
+
+    END {
+      if (in_section) flush_section()
+      if (!found) exit 2
+    }
+  ' "$target" > "$tmp"
+  local awk_rc=$?
+
+  if [[ $awk_rc -ne 0 ]]; then
+    rm -f "$tmp" "$backup"
+    die "section '${section}' not found in entry body (entry may be malformed; re-run validate)"
+  fi
+
+  mv "$tmp" "$target"
+
+  # Post-mutation validation — strict integrity check
+  if ! validate_one "$target" >/dev/null 2>&1; then
+    mv "$backup" "$target"
+    echo "✗ append broke validation; entry restored from backup. Validator output:" >&2
+    validate_one "$target" >&2 || true
+    return 1
+  fi
+
+  rm -f "$backup"
+  log "✓ appended to ${section} on ${id}"
+  log "  row: - ${row_date} — ${content}"
 }
 
 # ─── validate ─────────────────────────────────────────────────────────
@@ -1007,6 +1179,7 @@ case "${1:-}" in
   ""|-h|--help) usage; exit 0 ;;
   propose)  shift; cmd_propose "$@" ;;
   commit)   shift; cmd_commit "$@" ;;
+  append)   shift; cmd_append "$@" ;;
   ingest)   shift; cmd_ingest "$@" ;;
   query)    shift; cmd_query "$@" ;;
   summary)  shift; cmd_summary ;;

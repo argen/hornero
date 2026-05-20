@@ -82,7 +82,28 @@ For all four types, `## Notes` may be empty. The other five must have a non-empt
 
 The hypothesis shape is borrowed from the discipline of testable claims: an Assumption without a Falsifier is just an opinion. The stakeholder shape is borrowed from CRM practice: one record per person, asks and concerns appended over time, last-contact tracked so atrophy is visible. The customer shape is the account-level sibling of stakeholder, scoped to B2B startups where the company is the unit of revenue: profile, usage, health, and the stakeholders inside it are first-class fields.
 
-The Evidence Log (for hypotheses), Open asks + Last contact (for stakeholders), and Usage shape + Health signals (for customers) are the sections that grow after the entry is committed — see [`skills/chronicle-record/SKILL.md`](../skills/chronicle-record/SKILL.md) for the mutation rules.
+The Evidence Log (for hypotheses), Open asks + Last contact (for stakeholders), and Usage shape + Health signals (for customers) are the sections that grow after the entry is committed — see the **Append exception** below.
+
+## Append exception
+
+Committed entries are immutable except via supersedes — with one structural carve-out. A handful of body sections grow row-by-row (evidence accumulating on a hypothesis, asks arriving on a stakeholder, health signals piling up on a customer). Forcing supersedes for each new row would churn the chronicle and dissolve the audit trail.
+
+The exception is the `chronicle.sh append` subcommand. It accepts an entry id, a section name, and a content string; writes `- YYYY-MM-DD — <content>` into the named section; and re-runs the validator against the modified entry. If the validator fails, the entry is restored from backup and the append errors out.
+
+The whitelist is per `type`:
+
+| Type | Appendable sections | Immutable sections (supersedes-only) |
+|---|---|---|
+| `decision` | _(none — decisions only change via supersedes)_ | All six |
+| `hypothesis` | Evidence Log | Assumption, Prediction, Falsifier, Resolution, Notes |
+| `stakeholder` | Open asks, Concerns, Last contact, Decision affinity | Role & influence, Notes |
+| `customer` | Usage shape, Health signals, Decision drivers, Stakeholders | Account profile, Notes |
+
+Row shape is `- YYYY-MM-DD — <content>` so each appended row carries its own provenance date. `Last contact` is the sole **prepend** section — newest first — so the cold-read shows the most recent touch at the top and the weekly `/review` staleness check finds the freshest date on its first match. All other appendable sections grow chronologically (oldest at top, newest at bottom).
+
+Sections outside the whitelist — Diagnosis, Falsifier, Account profile, Role & influence, etc. — remain immutable. A change to those is a material change to the entry's character, which is what supersedes is for.
+
+The skills that drive this exception are [`hypothesis-track`](../skills/hypothesis-track/SKILL.md), [`stakeholder-update`](../skills/stakeholder-update/SKILL.md), and [`customer-update`](../skills/customer-update/SKILL.md). Each is a thin wrapper that prompts for the row content, calls `chronicle.sh append`, and surfaces "this trigger crossed a threshold — open a new hypothesis / propose a decision via supersedes" when the appended row implies a deeper change.
 
 ## Filename
 

@@ -29,7 +29,7 @@ Two recent renewals (Acme, Global Corp) cited export latency under load as a dec
 
 ## Last contact
 
-2026-05-15 — QBR sync. Confirmed enterprise pipeline at $4.2M for Q3; reiterated export ask.
+- 2026-05-15 — QBR sync. Confirmed enterprise pipeline at $4.2M for Q3; reiterated export ask.
 
 ## Decision affinity
 

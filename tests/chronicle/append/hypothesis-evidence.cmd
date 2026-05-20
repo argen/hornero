@@ -1,0 +1,1 @@
+2026-05-18-invite-friction-blocks-team-activation --section "Evidence Log" --content "documented — Bulk-invite shipped 2026-05-15; time-to-activation dropped 22% in week 1 (Mixpanel)" --date 2026-05-20

@@ -22,9 +22,9 @@ One role, `product-manager`, carrying **37 expert-grounded skills**:
 
 ### Harness primitives
 
-- **8 cross-role process skills** for the harness itself: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`. `extract-lesson` runs automatically on the Stop hook (`hooks/auto-extract-lesson.sh`) — proposes durable harness updates at session end without the user invoking it.
+- **11 cross-role process skills** for the harness itself: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`, `hypothesis-track`, `stakeholder-update`, `customer-update`. `extract-lesson` runs automatically on the Stop hook (`hooks/auto-extract-lesson.sh`) — proposes durable harness updates at session end without the user invoking it. The three append-shaped skills (hypothesis-track, stakeholder-update, customer-update) drive the chronicle layer's [append exception](chronicle/SCHEMA.md#append-exception): they grow whitelisted body sections row-by-row without forcing a full supersede.
 - **`product-manager-reviewer`** subagent in [`agents/`](agents/), callable by name on either host (Claude Code via the Agent tool; Codex via its native subagent path).
-- **6 slash commands** in [`.claude/commands/`](.claude/commands/): `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`.
+- **12 slash commands** in [`.claude/commands/`](.claude/commands/): `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update`.
 - **Chronicle layer** — machine-queryable record of decisions (`scripts/chronicle.sh`, deterministic harness at `tests/chronicle/`).
 - **Voice** — [`VOICE.md`](VOICE.md) codifies the companion's voice (calm, terse, plain-spoken; bird metaphor → patient layers + duet). Applies to lifecycle touchpoints only (banner, kickoff, declared route, lesson-extraction). Artefact outputs (PRDs, OKRs, strategy kernels) stay voice-neutral.
 - **Memory layer (v0)** — project-local `memory/decisions/`, paired with `memory-query` + `decision-record`. Opt-in; absent directory → no-op.
@@ -86,14 +86,9 @@ When a second role lands, the parallel `multi-role-review` path activates (paral
 - `templates/{CLAUDE,AGENTS,MAP,sub-CLAUDE}.md.template` gain a `data-sources` convention.
 - `smoke-check.sh`: every stretch resource has a non-empty `## Fallback Without MCP` section.
 
-### PM chronicle append semantics
+### Bet-portfolio refactor (PM)
 
-Three follow-ups deferred from the chronicle schema expansion (hypothesis + stakeholder entry types). Sequenced **after** the PM-shaped chronicle workflow lands (`/ingest`, `/prep`, `/review`, narrative walkthrough) so there is enough hypothesis and stakeholder content in real chronicles to design append discipline against:
-
-- **`hypothesis-track` skill** — appends Evidence Log rows to an open `type: hypothesis` entry and proposes a status transition (`open` → `weakening` / `strengthening` / `superseded` / `refuted`). The Evidence Log is the natural append-only section, but it breaks the only-supersedes invariant for everything else in a committed entry. Needs a structural exception design pass (which section can be appended, by whom, via what CLI subcommand, and how the validator stays strict around it).
-- **`stakeholder-update` skill** — same shape for `type: stakeholder` entries: lightweight append to Open asks, Concerns, and Last contact without forcing a full supersede. Sequenced after `hypothesis-track` since both share the structural exception.
-- **`customer-update` skill** — sibling for `type: customer` entries: lightweight append to Usage shape (new metric snapshots), Health signals (a new support ticket pattern, an SLA breach), and Stakeholders (a new contact captured) without forcing a full supersede. Sequenced alongside `stakeholder-update` — same structural exception, different body sections.
-- **`bet-portfolio` refactor** — `roles/product-manager/skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Falls out once `hypothesis-track` exists and the chronicle carries enough hypothesis content to aggregate.
+Follow-on now that `hypothesis-track` is shipped: `roles/product-manager/skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Waits on enough real-chronicle hypothesis content to design the aggregation against.
 
 ### Distribution
 
