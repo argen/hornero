@@ -42,6 +42,8 @@ The skill is short by design. It is the **discipline of looking first**, execute
 scripts/chronicle.sh query --scope strategy --status validated
 scripts/chronicle.sh query --role product-manager --keyword "SMB"
 scripts/chronicle.sh query --topic migrations
+scripts/chronicle.sh query --provenance intuition           # entries resting on hunches
+scripts/chronicle.sh query --status validated --provenance verbal  # load-bearing but thinly sourced
 ```
 
 Output is byte-stable: same corpus + same query = same bytes. Filters AND together. `--limit N` caps the result count.
@@ -56,6 +58,17 @@ Every entry has a `status ∈ {validated, open, superseded, refuted}`. When load
 - **refuted** — actively disproven. Past failures harden future review — surface refuted entries when the proposed approach matches one.
 
 A query with no `--status` filter returns all four. Most reviewer preambles default to `--status validated` for the binding set, then a follow-up scan for `refuted` to catch traps.
+
+### Provenance as a trust signal
+
+Every entry carries `provenance ∈ {documented, verbal, intuition, industry}` — the weakest source the decision rests on. When a query surfaces a `validated` entry with `provenance: intuition` or `provenance: industry`, treat it as load-bearing but thinly sourced: the team committed, but new evidence could legitimately move the posture. Lead the review by naming the source layer ("the policy is recorded with provenance: intuition; if your PRD has documented evidence either way, that should reset the entry").
+
+Two query patterns worth knowing:
+
+- `--provenance intuition` or `--provenance industry` to surface the entries most likely to be wrong.
+- `--status validated --provenance verbal` to find committed-but-undocumented postures — natural follow-up work for the next `/ingest` cycle.
+
+The legacy `decision-record` / `memory-query` layer has no provenance column; this is one of the reasons new work belongs in Chronicle.
 
 ### Determinism guarantee
 
@@ -106,11 +119,11 @@ When Chronicle is re-expanded to cover multiple roles, recall is the cross-funct
 $ scripts/chronicle.sh query --scope strategy --status validated --limit 10
 # Chronicle query
 
-Filters: topic=* scope=strategy role=* status=validated keyword=* limit=10
+Filters: topic=* scope=strategy role=* status=validated provenance=* keyword=* limit=10
 
-| date | id | status | role | scope | title |
-|---|---|---|---|---|---|
-| 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | validated | product-manager | strategy,positioning | Refuse SMB segment for FY26 |
+| date | id | status | role | provenance | scope | title |
+|---|---|---|---|---|---|---|
+| 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
 
 1 match(es).
 ```
@@ -122,10 +135,10 @@ The reviewer reads the surfaced entry. The PRD draft proposes an SMB-focused onb
 A fresh session opens. The agent reads `chronicle/SUMMARY.md`:
 
 ```markdown
-| date | id | status | role | scope | title |
-|---|---|---|---|---|---|
-| 2026-05-15 | [`2026-05-15-refuse-smb-segment-for-fy26`](entries/2026-05-15-refuse-smb-segment-for-fy26.md) | validated | product-manager | strategy,positioning | Refuse SMB segment for FY26 |
-| 2026-04-22 | [`2026-04-22-shadow-column-migration`](entries/2026-04-22-shadow-column-migration.md) | validated | cross-role | migrations,database | Use shadow-column migration for user_id widening |
+| date | id | status | role | provenance | scope | title |
+|---|---|---|---|---|---|---|
+| 2026-05-15 | [`2026-05-15-refuse-smb-segment-for-fy26`](entries/2026-05-15-refuse-smb-segment-for-fy26.md) | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
+| 2026-04-22 | [`2026-04-22-shadow-column-migration`](entries/2026-04-22-shadow-column-migration.md) | validated | cross-role | documented | migrations,database | Use shadow-column migration for user_id widening |
 ```
 
 The agent has situational awareness before the user's first specific request. When the request lands ("review this PRD for an SMB-focused feature"), it can recall the segment posture immediately without re-querying.
@@ -136,7 +149,7 @@ The agent has situational awareness before the user's first specific request. Wh
 $ scripts/chronicle.sh query
 # Chronicle query
 
-Filters: topic=* scope=* role=* status=* keyword=* limit=50
+Filters: topic=* scope=* role=* status=* provenance=* keyword=* limit=50
 
 No matches.
 ```

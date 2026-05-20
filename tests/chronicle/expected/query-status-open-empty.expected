@@ -1,5 +1,5 @@
 # Chronicle query
 
-Filters: topic=* scope=* role=* status=open keyword=* limit=50
+Filters: topic=* scope=* role=* status=open provenance=* keyword=* limit=50
 
 No matches.

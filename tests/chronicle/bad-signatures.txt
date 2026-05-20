@@ -9,3 +9,5 @@ missing-section.md	required sections missing or out of order
 unresolved-evidence.md	evidence id (2099-12-31-this-does-not-exist) does not resolve
 unknown-field.md	unknown frontmatter field: mystery_field
 bad-date.md	date must be ISO YYYY-MM-DD
+missing-provenance.md	missing required field: provenance
+bad-provenance.md	provenance (hearsay) not in

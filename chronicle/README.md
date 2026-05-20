@@ -61,6 +61,7 @@ scripts/chronicle.sh propose \
   --status validated \
   --confidence 0.85 \
   --source-role product-manager \
+  --provenance documented \
   --scope strategy,positioning \
   --affected-areas "ROADMAP.md,evals/tasks/" \
   --decision "Refuse SMB; double down on mid-market." \
@@ -75,6 +76,7 @@ scripts/chronicle.sh commit <proposal-uuid>
 # Query
 scripts/chronicle.sh query --topic strategy/segment-focus
 scripts/chronicle.sh query --scope strategy --status validated
+scripts/chronicle.sh query --provenance intuition       # what are we resting on hunches?
 scripts/chronicle.sh query --keyword "SMB"
 
 # Regenerate SUMMARY.md (also called automatically on commit)
