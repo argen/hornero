@@ -14,15 +14,18 @@
 #   ./install.sh --force            # overwrite without asking
 #   ./install.sh --dry-run          # show what would be installed; don't write
 #   ./install.sh --uninstall        # remove Hornero-installed files
+#   ./install.sh --list-resources   # print the resource catalog (no install)
 #
 # What gets installed where:
 #   Claude target: skills (cross-role + per-role) → ~/.claude/skills/
 #                  reviewer agent              → ~/.claude/agents/
 #                  slash commands               → ~/.claude/commands/
+#                  resource cards (read-only)   → ~/.claude/hornero-resources/
 #   Codex target:  skills (flat plugin layout)   → ~/.codex/skills/
 #                  reviewer agent (TOML)       → ~/.codex/agents/
 #                  session hooks                → ~/.codex/hooks.json
 #                  slash commands               → ~/.codex/prompts/
+#                  resource cards (read-only)   → ~/.codex/hornero-resources/
 #                  (AGENTS.md is read from the current working directory;
 #                   no install step needed for the dispatcher itself.)
 
@@ -36,18 +39,20 @@ MANIFEST="${REPO_DIR}/.hornero-manifest"
 FORCE=0
 DRY_RUN=0
 UNINSTALL=0
+LIST_RESOURCES=0
 TARGET="claude"  # claude | codex | both
 
 for arg in "$@"; do
   case "$arg" in
-    --claude)    TARGET="claude" ;;
-    --codex)     TARGET="codex" ;;
-    --both)      TARGET="both" ;;
-    --force)     FORCE=1 ;;
-    --dry-run)   DRY_RUN=1 ;;
-    --uninstall) UNINSTALL=1 ;;
+    --claude)          TARGET="claude" ;;
+    --codex)           TARGET="codex" ;;
+    --both)            TARGET="both" ;;
+    --force)           FORCE=1 ;;
+    --dry-run)         DRY_RUN=1 ;;
+    --uninstall)       UNINSTALL=1 ;;
+    --list-resources)  LIST_RESOURCES=1 ;;
     -h|--help)
-      sed -n '2,25p' "$0"
+      sed -n '2,27p' "$0"
       exit 0
       ;;
     *)
@@ -56,6 +61,38 @@ for arg in "$@"; do
       ;;
   esac
 done
+
+# ---------- --list-resources (short-circuit) ----------
+if [[ $LIST_RESOURCES -eq 1 ]]; then
+  if [[ ! -d "${REPO_DIR}/resources" ]]; then
+    echo "No resources/ directory found at ${REPO_DIR}/resources" >&2
+    exit 1
+  fi
+  echo "Hornero resources (read-only data-source cards)"
+  echo "─────────────────────────────────────────────────"
+  printf "%-14s  %-12s  %s\n" "slug" "status" "consumers"
+  printf "%-14s  %-12s  %s\n" "----" "------" "---------"
+  for card in "${REPO_DIR}/resources"/*/RESOURCE.md; do
+    [[ -f "$card" ]] || continue
+    slug=$(basename "$(dirname "$card")")
+    status=$(awk '/^---$/{c++; next} c==1 && /^status:/{ sub(/^status:[[:space:]]*/,""); print; exit }' "$card")
+    # Count used_by entries (inline + block) — same parse as smoke-check.
+    inline=$(awk '/^---$/{c++; next} c==1 && /^used_by:[[:space:]]*\[/{ sub(/^used_by:[[:space:]]*\[/,""); sub(/\].*/,""); gsub(/[ \t]/,""); print }' "$card")
+    block=$(awk '/^---$/{c++; next} c==1 {
+      if (in_block && /^[[:space:]]+-/) { sub(/^[[:space:]]+-[[:space:]]*/,""); print; next }
+      if (in_block && /^[^[:space:]]/) { in_block=0 }
+      if (/^used_by:[[:space:]]*$/) { in_block=1; next }
+    }' "$card")
+    count=$(printf '%s\n%s\n' "$inline" "$block" | tr ',' '\n' | sed '/^$/d' | wc -l | tr -d ' ')
+    printf "%-14s  %-12s  %d skill(s)\n" "$slug" "$status" "$count"
+  done
+  echo
+  echo "Each card lives at resources/<slug>/RESOURCE.md and documents the MCP"
+  echo "server, auth, object model, and curl-based fallback. Skills opt in via"
+  echo "their frontmatter \`resources:\` field; Hornero stays usable when no MCP"
+  echo "server is configured (graceful degradation via the Fallback section)."
+  exit 0
+fi
 
 want_claude() { [[ "$TARGET" == "claude" || "$TARGET" == "both" ]]; }
 want_codex()  { [[ "$TARGET" == "codex"  || "$TARGET" == "both" ]]; }
@@ -177,6 +214,19 @@ install_codex_hooks() {
   copy_file "$src" "${CODEX_DIR}/hooks.json" "codex hooks"
 }
 
+install_resource_cards() {
+  # Copy resources/<slug>/RESOURCE.md into <host_dir>/hornero-resources/<slug>/
+  # so installed skills can resolve relative cross-refs even when the repo
+  # checkout isn't on disk. Read-only; never auto-mutated by Hornero.
+  local host_dir="$1" label_prefix="$2"
+  [[ -d "${REPO_DIR}/resources" ]] || return 0
+  for card in "${REPO_DIR}/resources"/*/RESOURCE.md; do
+    [[ -f "$card" ]] || continue
+    local slug; slug=$(basename "$(dirname "$card")")
+    copy_file "$card" "${host_dir}/hornero-resources/${slug}/RESOURCE.md" "${label_prefix} resource: ${slug}"
+  done
+}
+
 # ---------- Claude install ----------
 if want_claude; then
   echo "Claude — cross-role skills:"
@@ -210,6 +260,10 @@ if want_claude; then
       install_claude_command "$f"
     done
   fi
+
+  echo
+  echo "Claude — resource cards (→ ${CLAUDE_DIR}/hornero-resources/):"
+  install_resource_cards "${CLAUDE_DIR}" "claude"
 fi
 
 # ---------- Codex install ----------
@@ -256,6 +310,10 @@ if want_codex; then
       install_codex_command "$f"
     done
   fi
+
+  echo
+  echo "Codex — resource cards (→ ${CODEX_DIR}/hornero-resources/):"
+  install_resource_cards "${CODEX_DIR}" "codex"
 
   echo
   echo "  Note: AGENTS.md is read by Codex from the current working directory."

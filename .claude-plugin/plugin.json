@@ -1,6 +1,10 @@
 {
   "name": "hornero",
+<<<<<<< HEAD
   "description": "Role-and-skill methodology for Claude Code: PM reviewer subagent, 12 slash commands, and 51 expert-grounded skills (37 product-management skills + 14 cross-role process skills, three of them — hypothesis-track, stakeholder-update, customer-update — driving the chronicle layer's append exception). Per-role skills are exposed at the plugin-loader's flat `skills/<name>` layout via build-time symlinks.",
+=======
+  "description": "Role-and-skill methodology for Claude Code: PM reviewer subagent, 10 slash commands, and 50 expert-grounded skills (37 product-management skills + 13 cross-role process skills, including the cross-system `query-issue-tracker` (Linear/Jira) and `query-warehouse` (BigQuery/Snowflake) read primitives). Per-role skills are exposed at the plugin-loader's flat `skills/<name>` layout via build-time symlinks. The optional `mcpServers` block below lists data sources Hornero skills opt into via `resources:` frontmatter — every entry is `optional: true`; Hornero stays usable when nothing is configured.",
+>>>>>>> 72cd9f7 (chore(install): mcpServers manifest block, --list-resources, resource copy)
   "version": "0.3.0",
   "author": {
     "name": "Bruno Belcastro"
@@ -10,5 +14,49 @@
     "type": "git",
     "url": "https://github.com/argen/hornero"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "mcpServers": {
+    "linear": {
+      "optional": true,
+      "description": "Issue tracker for product engineering. See resources/linear/RESOURCE.md.",
+      "install": "claude mcp add linear -- npx -y @modelcontextprotocol/server-linear",
+      "auth_env": ["LINEAR_API_KEY"],
+      "used_by": ["product-manager/linear-triage", "product-manager/prd", "query-issue-tracker"]
+    },
+    "jira": {
+      "optional": true,
+      "description": "Atlassian's issue tracker. See resources/jira/RESOURCE.md for the OAuth (Atlassian Remote MCP) vs API-token (community server) paths.",
+      "install": "claude mcp add atlassian -- npx -y @sooperset/mcp-atlassian",
+      "auth_env": ["JIRA_HOST", "JIRA_USERNAME", "JIRA_API_TOKEN"],
+      "used_by": ["product-manager/prd", "query-issue-tracker"]
+    },
+    "github": {
+      "optional": true,
+      "description": "Code host — PRs, issues, Actions, releases. See resources/github/RESOURCE.md.",
+      "install": "claude mcp add github -- npx -y @modelcontextprotocol/server-github",
+      "auth_env": ["GITHUB_PERSONAL_ACCESS_TOKEN"],
+      "used_by": ["decision-record"]
+    },
+    "bigquery": {
+      "optional": true,
+      "description": "Google's serverless analytics warehouse. See resources/bigquery/RESOURCE.md.",
+      "install": "uvx mcp-server-bigquery",
+      "auth_env": ["GOOGLE_APPLICATION_CREDENTIALS", "BIGQUERY_PROJECT_ID"],
+      "used_by": ["query-warehouse"]
+    },
+    "snowflake": {
+      "optional": true,
+      "description": "Snowflake's cloud data warehouse. See resources/snowflake/RESOURCE.md.",
+      "install": "uvx mcp-snowflake-server --account <orgname>-<accountname> --user <user> --password <password> --warehouse <warehouse>",
+      "auth_env": ["SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "SNOWFLAKE_PASSWORD", "SNOWFLAKE_WAREHOUSE"],
+      "used_by": ["query-warehouse"]
+    },
+    "hubspot": {
+      "optional": true,
+      "description": "HubSpot CRM — Contacts, Companies, Deals, Tickets, Pipelines. See resources/hubspot/RESOURCE.md.",
+      "install": "claude mcp add hubspot -- npx -y @hubspot/mcp-server",
+      "auth_env": ["HUBSPOT_ACCESS_TOKEN"],
+      "used_by": ["product-manager/hubspot-pipeline-readout"]
+    }
+  }
 }
