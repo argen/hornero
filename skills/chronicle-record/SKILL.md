@@ -69,6 +69,22 @@ Why this matters: a `validated` entry with `provenance: intuition` is a signal �
 
 **Don't anchor at `documented` by default** — calibrate to the truth. If the decision genuinely rests on a hunch, say so. The discomfort of writing `intuition` is the feature.
 
+### Two entry types: decision and hypothesis
+
+The `type` frontmatter field is required and takes one of:
+
+- **`decision`** (default) — a posture, policy, or commitment. Follows Rumelt's strategy kernel: Diagnosis → Decision → Coherent actions → Alternatives rejected → Validation plan → Notes.
+- **`hypothesis`** — an open assumption under test. Body shape: Assumption → Prediction → Falsifier → Evidence Log → Resolution → Notes.
+
+The two types share frontmatter; the validator branches body-section enforcement on `type`. The distinction is load-bearing because future readers need to tell apart "what we believe and are testing" from "what we have committed to." Bundling them confuses the recall loop.
+
+**When in doubt**, write a hypothesis. A premature decision entry that turns out to be wrong is harder to walk back than a hypothesis that evolves with evidence. The `Resolution` section in a hypothesis is where the eventual decision entry (or refutation) gets linked.
+
+A hypothesis ends in one of three ways:
+1. Evidence accumulates → propose a new `decision` entry that `supersedes` the hypothesis. The hypothesis flips to `status: superseded`.
+2. The Falsifier triggers → propose a refutation note and flip the hypothesis to `status: refuted`.
+3. The Validation plan still hasn't run by `review_after` → revisit; either tighten the prediction or kill the hypothesis.
+
 ### IDs are content-addressable
 
 `id = <YYYY-MM-DD>-<kebab-slug-of-title>`. No randomness. This means:
@@ -150,6 +166,29 @@ See [`tests/chronicle/fixtures/good/2026-05-15-refuse-smb-segment-for-fy26.md`](
 ### A migration decision entry
 
 See [`tests/chronicle/fixtures/good/2026-04-22-shadow-column-migration.md`](../../tests/chronicle/fixtures/good/2026-04-22-shadow-column-migration.md) — a cross-role decision capturing diagnosis, the rejected alternatives (pg_repack, online ALTER, dual-write), validation signals, and the rollback path.
+
+### A hypothesis entry
+
+See [`tests/chronicle/fixtures/good/2026-05-18-invite-friction-blocks-team-activation.md`](../../tests/chronicle/fixtures/good/2026-05-18-invite-friction-blocks-team-activation.md) — an open hypothesis about activation friction, with a prediction, a falsifier, an evidence log of two observations, and an open resolution. The corresponding CLI:
+
+```bash
+scripts/chronicle.sh propose \
+  --type hypothesis \
+  --title "Invite-link friction blocks team activation under 50 seats" \
+  --status open \
+  --confidence 0.55 \
+  --source-role product-manager \
+  --provenance verbal \
+  --scope activation,growth \
+  --affected-areas "onboarding/,src/invite/" \
+  --decision "Invite-link friction is the primary blocker for teams of <50 seats reaching the activation event." \
+  --assumption "Teams under 50 seats hit a single-admin bottleneck during onboarding." \
+  --prediction "Bulk-invite UX drops time-to-activation by 30% within 60 days of rollout." \
+  --falsifier "Time-to-activation stays within ±10% with at least 25% adoption of bulk invite." \
+  --review-after 2026-07-01
+```
+
+The `--decision` flag still applies to hypotheses — it holds the one-sentence claim used as the index-friendly copy. The hypothesis-specific flags (`--assumption`, `--prediction`, `--falsifier`, `--evidence-log`, `--resolution`) scaffold the body sections.
 
 ### A superseding entry (sketch)
 

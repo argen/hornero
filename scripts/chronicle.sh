@@ -31,10 +31,18 @@ LEGAL_ROLES=(product-manager cross-role software-engineer designer tester securi
 # durable evidence and an `industry` entry leans at least partly on generic
 # field knowledge.
 LEGAL_PROVENANCE=(documented verbal intuition industry)
+# Entry types. `decision` is the original shape (Rumelt's kernel + validation
+# plan). `hypothesis` is an open assumption under test; resolves into a decision
+# when evidence accumulates or the assumption is refuted.
+LEGAL_TYPES=(decision hypothesis)
 
-REQUIRED_FIELDS=(id title date status confidence source_role provenance scope affected_areas decision)
+REQUIRED_FIELDS=(id title date status confidence source_role provenance type scope affected_areas decision)
 OPTIONAL_FIELDS=(alternatives_considered rejected_reason evidence supersedes superseded_by review_after session_id)
-REQUIRED_SECTIONS=("## Diagnosis" "## Decision" "## Coherent actions" "## Alternatives rejected" "## Validation plan" "## Notes")
+# Body sections depend on `type`. Both lists have six entries; the validator
+# picks one based on the entry's type frontmatter (with `decision` as the
+# fallback when type is missing — that failure is caught by REQUIRED_FIELDS).
+REQUIRED_SECTIONS_DECISION=("## Diagnosis" "## Decision" "## Coherent actions" "## Alternatives rejected" "## Validation plan" "## Notes")
+REQUIRED_SECTIONS_HYPOTHESIS=("## Assumption" "## Prediction" "## Falsifier" "## Evidence Log" "## Resolution" "## Notes")
 
 # ─── helpers ──────────────────────────────────────────────────────────
 
@@ -44,18 +52,24 @@ chronicle.sh — Hornero Chronicle CLI
 
 Usage:
   scripts/chronicle.sh propose   --title ... --topic ... --status ... [--confidence N] \
-                                  --source-role ROLE --provenance VALUE \
+                                  --source-role ROLE --provenance VALUE [--type TYPE] \
                                   --scope a,b --affected-areas a,b \
                                   --decision "..." [--alternatives "..."] \
                                   [--rejected-reason "..."] [--validation "..."] \
                                   [--evidence id1,id2] [--supersedes ID] \
                                   [--review-after YYYY-MM-DD] [--session-id ID] \
-                                  [--diagnosis "..."] [--coherent-actions "..."]
+                                  [--diagnosis "..."] [--coherent-actions "..."] \
+                                  [--assumption "..."] [--prediction "..."] \
+                                  [--falsifier "..."] [--evidence-log "..."] \
+                                  [--resolution "..."]
                                   # provenance ∈ {documented, verbal, intuition, industry} —
                                   # the weakest source the decision rests on.
+                                  # type ∈ {decision, hypothesis} — default decision.
+                                  # The hypothesis flags scaffold the alternate body shape;
+                                  # the decision flags scaffold the original.
   scripts/chronicle.sh commit    <proposal-uuid-or-path>
   scripts/chronicle.sh query     [--topic SLUG] [--scope TAG] [--role NAME] \
-                                  [--status NAME] [--provenance NAME] \
+                                  [--status NAME] [--provenance NAME] [--type NAME] \
                                   [--keyword WORD] [--limit N]
   scripts/chronicle.sh summary
   scripts/chronicle.sh validate  [path...]   # defaults to all entries
@@ -119,10 +133,11 @@ fm_list() {
 # ─── propose ──────────────────────────────────────────────────────────
 
 cmd_propose() {
-  local title="" topic="" status="open" confidence="0.50" source_role="" provenance=""
+  local title="" topic="" status="open" confidence="0.50" source_role="" provenance="" type="decision"
   local scope="" affected_areas="" decision="" alternatives="" rejected_reason=""
   local validation="" evidence="" supersedes="" review_after="" session_id=""
   local diagnosis="" coherent_actions=""
+  local assumption="" prediction="" falsifier="" evidence_log="" resolution=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -132,6 +147,7 @@ cmd_propose() {
       --confidence)        confidence="$2"; shift 2 ;;
       --source-role)       source_role="$2"; shift 2 ;;
       --provenance)        provenance="$2"; shift 2 ;;
+      --type)              type="$2"; shift 2 ;;
       --scope)             scope="$2"; shift 2 ;;
       --affected-areas)    affected_areas="$2"; shift 2 ;;
       --decision)          decision="$2"; shift 2 ;;
@@ -144,13 +160,18 @@ cmd_propose() {
       --session-id)        session_id="$2"; shift 2 ;;
       --diagnosis)         diagnosis="$2"; shift 2 ;;
       --coherent-actions)  coherent_actions="$2"; shift 2 ;;
+      --assumption)        assumption="$2"; shift 2 ;;
+      --prediction)        prediction="$2"; shift 2 ;;
+      --falsifier)         falsifier="$2"; shift 2 ;;
+      --evidence-log)      evidence_log="$2"; shift 2 ;;
+      --resolution)        resolution="$2"; shift 2 ;;
       -h|--help) usage; exit 0 ;;
       *) die "unknown propose flag: $1" ;;
     esac
   done
 
   [[ -n "$title" ]]            || die "propose requires --title"
-  [[ -n "$decision" ]]         || die "propose requires --decision"
+  [[ -n "$decision" ]]         || die "propose requires --decision (one-sentence claim, used as the index-friendly copy regardless of type)"
   [[ -n "$source_role" ]]      || die "propose requires --source-role"
   [[ -n "$provenance" ]]       || die "propose requires --provenance (one of: ${LEGAL_PROVENANCE[*]})"
   [[ -n "$scope" ]]            || die "propose requires --scope"
@@ -159,6 +180,7 @@ cmd_propose() {
   contains "$status" "${LEGAL_STATUSES[@]}" || die "status must be one of: ${LEGAL_STATUSES[*]}"
   contains "$source_role" "${LEGAL_ROLES[@]}" || die "source_role must be one of: ${LEGAL_ROLES[*]}"
   contains "$provenance" "${LEGAL_PROVENANCE[@]}" || die "provenance must be one of: ${LEGAL_PROVENANCE[*]}"
+  contains "$type" "${LEGAL_TYPES[@]}" || die "type must be one of: ${LEGAL_TYPES[*]}"
 
   # Confidence must be a number in [0,1]
   if ! awk -v c="$confidence" 'BEGIN { if (c+0 < 0 || c+0 > 1) exit 1 }'; then
@@ -198,6 +220,7 @@ cmd_propose() {
     echo "confidence: ${confidence}"
     echo "source_role: ${source_role}"
     echo "provenance: ${provenance}"
+    echo "type: ${type}"
     echo "scope: $(yaml_list "$scope")"
     echo "affected_areas: $(yaml_list "$affected_areas")"
     echo "decision: ${decision}"
@@ -209,39 +232,64 @@ cmd_propose() {
     [[ -n "$session_id" ]]        && echo "session_id: ${session_id}"
     echo "---"
     echo
-    echo "## Diagnosis"
-    echo
-    echo "${diagnosis:-_TODO: name the central challenge the decision is responding to._}"
-    echo
-    echo "## Decision"
-    echo
-    echo "${decision}"
-    echo
-    echo "## Coherent actions"
-    echo
-    echo "${coherent_actions:-_TODO: bulleted resource-allocation steps that operationalise the decision._}"
-    echo
-    echo "## Alternatives rejected"
-    echo
-    if [[ -n "$alternatives" ]]; then
-      IFS=',' read -ra alts <<<"$alternatives"
-      IFS=',' read -ra reasons <<<"$rejected_reason"
-      local i=0
-      for alt in "${alts[@]}"; do
-        local reason="${reasons[$i]:-unspecified}"
-        echo "- **${alt# }** — ${reason# }"
-        i=$((i+1))
-      done
+    if [[ "$type" == "hypothesis" ]]; then
+      echo "## Assumption"
+      echo
+      echo "${assumption:-${decision}}"
+      echo
+      echo "## Prediction"
+      echo
+      echo "${prediction:-_TODO: what we expect to observe if the assumption holds. Be specific enough to verify._}"
+      echo
+      echo "## Falsifier"
+      echo
+      echo "${falsifier:-_TODO: the observation that would refute this hypothesis. If none comes to mind, the hypothesis is not testable yet._}"
+      echo
+      echo "## Evidence Log"
+      echo
+      echo "${evidence_log:-_TODO: append-only rows as evidence accumulates. Each row: dash-space, ISO date, em-dash, provenance enum, em-dash, observation._}"
+      echo
+      echo "## Resolution"
+      echo
+      echo "${resolution:-_Open. Link to the decision entry that resolves this hypothesis once one exists._}"
+      echo
+      echo "## Notes"
+      echo
     else
-      echo "_TODO: list every alternative seriously considered, with one reason each._"
+      echo "## Diagnosis"
+      echo
+      echo "${diagnosis:-_TODO: name the central challenge the decision is responding to._}"
+      echo
+      echo "## Decision"
+      echo
+      echo "${decision}"
+      echo
+      echo "## Coherent actions"
+      echo
+      echo "${coherent_actions:-_TODO: bulleted resource-allocation steps that operationalise the decision._}"
+      echo
+      echo "## Alternatives rejected"
+      echo
+      if [[ -n "$alternatives" ]]; then
+        IFS=',' read -ra alts <<<"$alternatives"
+        IFS=',' read -ra reasons <<<"$rejected_reason"
+        local i=0
+        for alt in "${alts[@]}"; do
+          local reason="${reasons[$i]:-unspecified}"
+          echo "- **${alt# }** — ${reason# }"
+          i=$((i+1))
+        done
+      else
+        echo "_TODO: list every alternative seriously considered, with one reason each._"
+      fi
+      echo
+      echo "## Validation plan"
+      echo
+      echo "${validation:-_TODO: observable signals that will confirm or refute this decision._}"
+      echo
+      echo "## Notes"
+      echo
     fi
-    echo
-    echo "## Validation plan"
-    echo
-    echo "${validation:-_TODO: observable signals that will confirm or refute this decision._}"
-    echo
-    echo "## Notes"
-    echo
   } > "$proposal_path"
 
   log "↪ wrote proposal: ${proposal_path}"
@@ -386,16 +434,28 @@ validate_one() {
     echo "  ✗ ${rel}: provenance (${prov}) not in ${LEGAL_PROVENANCE[*]}"; fail=1
   fi
 
-  # Required sections present, in order
+  # type in legal set (missing required is already caught above)
+  local type_v; type_v="$(fm_scalar type "$file")"
+  if [[ -n "$type_v" ]] && ! contains "$type_v" "${LEGAL_TYPES[@]}"; then
+    echo "  ✗ ${rel}: type (${type_v}) not in ${LEGAL_TYPES[*]}"; fail=1
+  fi
+
+  # Required sections present, in order — branch on type
+  local -a sections
+  if [[ "$type_v" == "hypothesis" ]]; then
+    sections=("${REQUIRED_SECTIONS_HYPOTHESIS[@]}")
+  else
+    sections=("${REQUIRED_SECTIONS_DECISION[@]}")
+  fi
   local found_idx=0
   while IFS= read -r line; do
-    if [[ "$line" == "${REQUIRED_SECTIONS[$found_idx]}" ]]; then
+    if [[ "$line" == "${sections[$found_idx]}" ]]; then
       found_idx=$((found_idx + 1))
-      [[ $found_idx -eq ${#REQUIRED_SECTIONS[@]} ]] && break
+      [[ $found_idx -eq ${#sections[@]} ]] && break
     fi
   done < "$file"
-  if [[ $found_idx -lt ${#REQUIRED_SECTIONS[@]} ]]; then
-    echo "  ✗ ${rel}: required sections missing or out of order. Expected (in order): ${REQUIRED_SECTIONS[*]}"; fail=1
+  if [[ $found_idx -lt ${#sections[@]} ]]; then
+    echo "  ✗ ${rel}: required sections missing or out of order. Expected (in order): ${sections[*]}"; fail=1
   fi
 
   # Evidence IDs resolve (only if entries dir exists and we're validating from there)
@@ -455,7 +515,7 @@ cmd_validate() {
 # ─── query ────────────────────────────────────────────────────────────
 
 cmd_query() {
-  local topic="" scope="" role="" status="" provenance="" keyword=""
+  local topic="" scope="" role="" status="" provenance="" type="" keyword=""
   local limit=50
 
   while [[ $# -gt 0 ]]; do
@@ -465,6 +525,7 @@ cmd_query() {
       --role)        role="$2"; shift 2 ;;
       --status)      status="$2"; shift 2 ;;
       --provenance)  provenance="$2"; shift 2 ;;
+      --type)        type="$2"; shift 2 ;;
       --keyword)     keyword="$2"; shift 2 ;;
       --limit)       limit="$2"; shift 2 ;;
       -h|--help) usage; exit 0 ;;
@@ -482,11 +543,13 @@ cmd_query() {
       local s_role; s_role="$(fm_scalar source_role "$f")"
       local s_status; s_status="$(fm_scalar status "$f")"
       local s_prov; s_prov="$(fm_scalar provenance "$f")"
+      local s_type; s_type="$(fm_scalar type "$f")"
       local s_scope; s_scope="$(fm_list scope "$f")"
 
       [[ -n "$role" && "$s_role" != "$role" ]] && continue
       [[ -n "$status" && "$s_status" != "$status" ]] && continue
       [[ -n "$provenance" && "$s_prov" != "$provenance" ]] && continue
+      [[ -n "$type" && "$s_type" != "$type" ]] && continue
       [[ -n "$scope" && ",${s_scope}," != *",${scope},"* ]] && continue
       if [[ -n "$topic" ]]; then
         # Topic is a hint-tag — match against id or any scope tag (substring on id)
@@ -506,7 +569,7 @@ cmd_query() {
         y = 9999 - parts[1]; m = 99 - parts[2]; day = 99 - parts[3];
         printf "%04d-%02d-%02d", y, m, day
       }')"
-      matches+=("${inverted}|${id}|${date_v}|${s_status}|${s_role}|${s_prov}|${s_scope}|${title}")
+      matches+=("${inverted}|${id}|${date_v}|${s_status}|${s_type}|${s_role}|${s_prov}|${s_scope}|${title}")
     done < <(find "$ENTRIES_DIR" -maxdepth 1 -name '*.md' -type f | sort)
   fi
 
@@ -519,19 +582,19 @@ cmd_query() {
   # Emit fixed-shape Markdown
   echo "# Chronicle query"
   echo ""
-  echo "Filters: topic=${topic:-*} scope=${scope:-*} role=${role:-*} status=${status:-*} provenance=${provenance:-*} keyword=${keyword:-*} limit=${limit}"
+  echo "Filters: topic=${topic:-*} scope=${scope:-*} role=${role:-*} status=${status:-*} provenance=${provenance:-*} type=${type:-*} keyword=${keyword:-*} limit=${limit}"
   echo ""
   local count=0
   if [[ ${#sorted[@]} -eq 0 ]]; then
     echo "No matches."
     return 0
   fi
-  echo "| date | id | status | role | provenance | scope | title |"
-  echo "|---|---|---|---|---|---|---|"
+  echo "| date | id | type | status | role | provenance | scope | title |"
+  echo "|---|---|---|---|---|---|---|---|"
   for line in "${sorted[@]}"; do
     [[ $count -ge $limit ]] && break
-    IFS='|' read -r _inv id date_v status_v role_v prov_v scope_v title <<<"$line"
-    echo "| ${date_v} | ${id} | ${status_v} | ${role_v} | ${prov_v} | ${scope_v} | ${title} |"
+    IFS='|' read -r _inv id date_v status_v type_v role_v prov_v scope_v title <<<"$line"
+    echo "| ${date_v} | ${id} | ${type_v} | ${status_v} | ${role_v} | ${prov_v} | ${scope_v} | ${title} |"
     count=$((count + 1))
   done
   echo ""
@@ -570,8 +633,8 @@ cmd_summary() {
       echo ""
       echo "## Index"
       echo ""
-      echo "| date | id | status | role | provenance | scope | title |"
-      echo "|---|---|---|---|---|---|---|"
+      echo "| date | id | type | status | role | provenance | scope | title |"
+      echo "|---|---|---|---|---|---|---|---|"
       for f in "${entries[@]}"; do
         local id; id="$(fm_scalar id "$f")"
         local title; title="$(fm_scalar title "$f")"
@@ -579,8 +642,9 @@ cmd_summary() {
         local s_role; s_role="$(fm_scalar source_role "$f")"
         local s_status; s_status="$(fm_scalar status "$f")"
         local s_prov; s_prov="$(fm_scalar provenance "$f")"
+        local s_type; s_type="$(fm_scalar type "$f")"
         local s_scope; s_scope="$(fm_list scope "$f")"
-        echo "| ${date_v} | [\`${id}\`](entries/${id}.md) | ${s_status} | ${s_role} | ${s_prov} | ${s_scope} | ${title} |"
+        echo "| ${date_v} | [\`${id}\`](entries/${id}.md) | ${s_type} | ${s_status} | ${s_role} | ${s_prov} | ${s_scope} | ${title} |"
       done
     fi
   } > "$SUMMARY_FILE"

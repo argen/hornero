@@ -44,6 +44,7 @@ scripts/chronicle.sh query --role product-manager --keyword "SMB"
 scripts/chronicle.sh query --topic migrations
 scripts/chronicle.sh query --provenance intuition           # entries resting on hunches
 scripts/chronicle.sh query --status validated --provenance verbal  # load-bearing but thinly sourced
+scripts/chronicle.sh query --type hypothesis --status open  # what assumptions are currently under test?
 ```
 
 Output is byte-stable: same corpus + same query = same bytes. Filters AND together. `--limit N` caps the result count.
@@ -58,6 +59,17 @@ Every entry has a `status ∈ {validated, open, superseded, refuted}`. When load
 - **refuted** — actively disproven. Past failures harden future review — surface refuted entries when the proposed approach matches one.
 
 A query with no `--status` filter returns all four. Most reviewer preambles default to `--status validated` for the binding set, then a follow-up scan for `refuted` to catch traps.
+
+### Hypothesis vs decision
+
+The `type` field distinguishes `decision` entries (committed postures) from `hypothesis` entries (assumptions under test). They share frontmatter but differ in body shape — decisions follow Rumelt's kernel, hypotheses are Assumption → Prediction → Falsifier → Evidence Log → Resolution.
+
+Reviewer preambles benefit from two scoped queries:
+
+- `--type decision --status validated` for the binding postures on the work's scope.
+- `--type hypothesis --status open` for the open assumptions in flight. A new PRD that contradicts a binding decision is a violation; a new PRD that aligns with an open hypothesis is the natural place to add evidence (or to propose the resolution).
+
+A decision converted from a hypothesis appears as a new entry that `supersedes` the hypothesis, not as an edit-in-place. Follow the supersedes chain to read both.
 
 ### Provenance as a trust signal
 
@@ -119,11 +131,11 @@ When Chronicle is re-expanded to cover multiple roles, recall is the cross-funct
 $ scripts/chronicle.sh query --scope strategy --status validated --limit 10
 # Chronicle query
 
-Filters: topic=* scope=strategy role=* status=validated provenance=* keyword=* limit=10
+Filters: topic=* scope=strategy role=* status=validated provenance=* type=* keyword=* limit=10
 
-| date | id | status | role | provenance | scope | title |
-|---|---|---|---|---|---|---|
-| 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
+| date | id | type | status | role | provenance | scope | title |
+|---|---|---|---|---|---|---|---|
+| 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | decision | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
 
 1 match(es).
 ```
@@ -135,10 +147,10 @@ The reviewer reads the surfaced entry. The PRD draft proposes an SMB-focused onb
 A fresh session opens. The agent reads `chronicle/SUMMARY.md`:
 
 ```markdown
-| date | id | status | role | provenance | scope | title |
-|---|---|---|---|---|---|---|
-| 2026-05-15 | [`2026-05-15-refuse-smb-segment-for-fy26`](entries/2026-05-15-refuse-smb-segment-for-fy26.md) | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
-| 2026-04-22 | [`2026-04-22-shadow-column-migration`](entries/2026-04-22-shadow-column-migration.md) | validated | cross-role | documented | migrations,database | Use shadow-column migration for user_id widening |
+| date | id | type | status | role | provenance | scope | title |
+|---|---|---|---|---|---|---|---|
+| 2026-05-15 | [`2026-05-15-refuse-smb-segment-for-fy26`](entries/2026-05-15-refuse-smb-segment-for-fy26.md) | decision | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
+| 2026-04-22 | [`2026-04-22-shadow-column-migration`](entries/2026-04-22-shadow-column-migration.md) | decision | validated | cross-role | documented | migrations,database | Use shadow-column migration for user_id widening |
 ```
 
 The agent has situational awareness before the user's first specific request. When the request lands ("review this PRD for an SMB-focused feature"), it can recall the segment posture immediately without re-querying.
@@ -149,7 +161,7 @@ The agent has situational awareness before the user's first specific request. Wh
 $ scripts/chronicle.sh query
 # Chronicle query
 
-Filters: topic=* scope=* role=* status=* provenance=* keyword=* limit=50
+Filters: topic=* scope=* role=* status=* provenance=* type=* keyword=* limit=50
 
 No matches.
 ```

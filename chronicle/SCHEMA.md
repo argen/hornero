@@ -13,6 +13,7 @@ Every file in `chronicle/entries/<id>.md` MUST start with YAML frontmatter confo
 | `confidence` | number | `0.0`–`1.0` inclusive. Two decimals. |
 | `source_role` | enum | One of the live roles. Today: `product-manager`, plus the literal `cross-role` when a multi-role review produced the decision. (Re-expansion adds: `software-engineer`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist`.) |
 | `provenance` | enum | One of: `documented`, `verbal`, `intuition`, `industry`. The **weakest** source the decision rests on — so a `documented` entry rests entirely on durable evidence, while an `industry` entry leans at least partly on generic field knowledge. Ordered strongest → weakest: documented > verbal > intuition > industry. |
+| `type` | enum | One of: `decision`, `hypothesis`. A `decision` entry follows Rumelt's strategy kernel (Diagnosis → Decision → Coherent actions → Alternatives → Validation plan). A `hypothesis` entry is an open assumption under test, with a different body shape (Assumption → Prediction → Falsifier → Evidence Log → Resolution). A hypothesis resolves into a decision entry (or is refuted) as evidence accumulates. |
 | `scope` | string list | 1–6 short tags. Free-form, but consistent within a project. Examples: `strategy`, `pricing`, `positioning`, `success-metrics`, `migrations`, `auth`. |
 | `affected_areas` | string list | 1+ paths or domains the decision binds. Globs allowed. |
 | `decision` | string | One sentence stating what was chosen. Must appear in the body too; this field is the index-friendly copy. |
@@ -31,7 +32,9 @@ Every file in `chronicle/entries/<id>.md` MUST start with YAML frontmatter confo
 
 ## Body sections
 
-The Markdown body MUST contain these `##` headers, in order:
+The Markdown body MUST contain six `##` headers, in fixed order. The shape depends on `type`:
+
+**`type: decision`** — Rumelt's strategy kernel + a validation plan:
 
 ```
 ## Diagnosis
@@ -42,7 +45,20 @@ The Markdown body MUST contain these `##` headers, in order:
 ## Notes
 ```
 
-`## Notes` may be empty. The other five must have a non-empty body. The validator does not deeply parse the prose; it only enforces the section headers exist.
+**`type: hypothesis`** — assumption under test:
+
+```
+## Assumption
+## Prediction
+## Falsifier
+## Evidence Log
+## Resolution
+## Notes
+```
+
+For both types, `## Notes` may be empty. The other five must have a non-empty body. The validator does not deeply parse the prose; it only enforces the section headers exist in the right order for the entry's declared type.
+
+The hypothesis shape is borrowed from the discipline of testable claims: an Assumption without a Falsifier is just an opinion. The Evidence Log is the only section that grows after the entry is committed — see [`skills/chronicle-record/SKILL.md`](../skills/chronicle-record/SKILL.md) for the mutation rules.
 
 ## Filename
 
@@ -74,8 +90,9 @@ The validator is implemented in `scripts/chronicle.sh validate`. It enforces:
 7. `confidence` ∈ [0, 1]
 8. `source_role` ∈ legal set
 9. `provenance` ∈ legal set
-10. All `evidence` IDs resolve to existing entries
-11. All required body sections present, in order
-12. No CRLF, no trailing whitespace on frontmatter lines
+10. `type` ∈ legal set
+11. All `evidence` IDs resolve to existing entries
+12. All required body sections present, in order — branched on `type`
+13. No CRLF, no trailing whitespace on frontmatter lines
 
 Failure modes are reported one per entry with a short diagnostic.

@@ -1,9 +1,9 @@
 # Chronicle query
 
-Filters: topic=* scope=strategy role=* status=* provenance=* keyword=* limit=50
+Filters: topic=* scope=strategy role=* status=* provenance=* type=* keyword=* limit=50
 
-| date | id | status | role | provenance | scope | title |
-|---|---|---|---|---|---|---|
-| 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
+| date | id | type | status | role | provenance | scope | title |
+|---|---|---|---|---|---|---|---|
+| 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | decision | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
 
 1 match(es).

@@ -6,6 +6,7 @@ status: validated
 confidence: 0.78
 source_role: cross-role
 provenance: documented
+type: decision
 scope: [migrations, database]
 affected_areas: [db/migrations/, src/models/user.ts]
 decision: Adopt shadow-column migration; reject pg_repack and online ALTER.

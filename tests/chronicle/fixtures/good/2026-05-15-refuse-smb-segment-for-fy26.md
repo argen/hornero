@@ -6,6 +6,7 @@ status: validated
 confidence: 0.85
 source_role: product-manager
 provenance: documented
+type: decision
 scope: ["strategy", "positioning"]
 affected_areas: ["ROADMAP.md", "evals/"]
 decision: Refuse SMB segment; double down on mid-market through FY26.

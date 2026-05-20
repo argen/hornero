@@ -77,6 +77,7 @@ scripts/chronicle.sh commit <proposal-uuid>
 scripts/chronicle.sh query --topic strategy/segment-focus
 scripts/chronicle.sh query --scope strategy --status validated
 scripts/chronicle.sh query --provenance intuition       # what are we resting on hunches?
+scripts/chronicle.sh query --type hypothesis --status open  # what assumptions are under test?
 scripts/chronicle.sh query --keyword "SMB"
 
 # Regenerate SUMMARY.md (also called automatically on commit)

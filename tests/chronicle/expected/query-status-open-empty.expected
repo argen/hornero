@@ -1,5 +1,9 @@
 # Chronicle query
 
-Filters: topic=* scope=* role=* status=open provenance=* keyword=* limit=50
+Filters: topic=* scope=* role=* status=open provenance=* type=* keyword=* limit=50
 
-No matches.
+| date | id | type | status | role | provenance | scope | title |
+|---|---|---|---|---|---|---|---|
+| 2026-05-18 | 2026-05-18-invite-friction-blocks-team-activation | hypothesis | open | product-manager | verbal | activation,growth | Invite-link friction blocks team activation under 50 seats |
+
+1 match(es).
