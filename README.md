@@ -266,6 +266,7 @@ Values that need editing are marked `<like this>`.
 - [`playbooks/claude-md-layering.md`](playbooks/claude-md-layering.md) — when to add a sub-`CLAUDE.md` and what belongs in root vs. sub.
 - [`playbooks/memory-loop.md`](playbooks/memory-loop.md) — the project-local memory layer end-to-end.
 - [`examples/sample-session.md`](examples/sample-session.md) — annotated PM session showing the dispatcher → role-adoption → synthesis flow.
+- [`examples/week-with-hornero.md`](examples/week-with-hornero.md) — five-day narrative of one PM using `/ingest`, `/prep`, `/review`, and chronicle-record across a real initiative; shows how the chronicle layer grows.
 - [`ROADMAP.md`](ROADMAP.md) — current status and what's next.
 - [`ATTRIBUTION.md`](ATTRIBUTION.md) — the expert sources the methodology incorporates.
 
