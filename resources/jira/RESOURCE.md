@@ -2,14 +2,16 @@
 name: jira
 description: Atlassian's issue tracker — Issues, Epics, Sprints, Projects, Boards. Used for triage and sprint planning by PMs and engineers.
 type: data-source
-status: stretch
+status: stable
 mcp:
   server: "mcp-atlassian (community; Atlassian Remote MCP for OAuth path)"
   install: "claude mcp add atlassian -- npx -y @sooperset/mcp-atlassian"
   auth_env: [JIRA_HOST, JIRA_USERNAME, JIRA_API_TOKEN]
   capabilities: [issues, epics, sprints, projects, boards, jql_search, comments, transitions, users]
 object_model: [Issue, Epic, Sprint, Project, Board, Status, Component, Version, Comment, User]
-used_by: []
+used_by:
+  - product-manager/prd
+  - query-issue-tracker
 fallback: curl
 ---
 

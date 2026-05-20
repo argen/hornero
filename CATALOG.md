@@ -31,6 +31,8 @@
 | `ingest` | workflow | Use to feed an artifact (interview transcript, meeting notes, doc export, dashboard screenshot, support ticket, paste) into the project's `chronicle/` layer — preserves the raw input, drafts a structured synthesis, and proposes updates to the chronicle entries the artifact informs. |
 | `memory-query` | workflow | Use before reviewing, proposing, or producing any non-trivial artifact — scans the project's `memory/decisions/` directory for prior decisions whose scope, affected-areas, or roles overlap with the current work, and surfaces relevant entries before fresh analysis begins. |
 | `prep` | workflow | Use before a meeting, 1:1, design review, vendor call, or QBR — pulls the matching `type: stakeholder` entry, recent `type: decision` and open `type: hypothesis` entries in their scope, and recent ingestion notes, then renders a one-page brief with open asks, likely points of disagreement, and suggested questions. |
+| `query-issue-tracker` | workflow | Cross-system read primitive over the team's issue tracker — Linear or Jira. Resolves an intent ("active blockers on the export project", "issues changed in the last 7 days by the auth team", "open enterprise-tier bugs") to a structured result without forcing the caller to learn the underlying query language. |
+| `query-warehouse` | workflow | Cross-system read primitive over the team's analytics warehouse — BigQuery or Snowflake. Three call shapes (schema discovery, dry-run cost estimate, exploratory SQL with a kill-cost guardrail) with stable result formats and a hard upper bound on bytes scanned per call. |
 | `review` | workflow | Use weekly (typically Fridays) — runs six chronicle-health checks against the `chronicle/entries/` corpus, proposes fixes for the unambiguous findings, and surfaces the rest for a human call. Pairs with `/extract-lesson` (which tends the harness) the way `/review` tends the chronicle. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 | `stakeholder-update` | workflow | Use after any meaningful touchpoint with a stakeholder (1:1, ad-hoc Slack, meeting outcome) — appends to the relevant section on their `type: stakeholder` chronicle entry (Open asks, Concerns, Last contact, Decision affinity) via `chronicle.sh append`, keeping the entry current without forcing a full supersede. |
@@ -43,20 +45,20 @@
 
 | Resource | Status | MCP server | Used by |
 |---|---|---|---|
-| `bigquery` | stretch | `mcp-server-bigquery` | 0 skill(s) |
+| `bigquery` | stable | `mcp-server-bigquery` | 1 skill(s) |
 | `canva` | stable | `claude.ai integration (mcp__claude_ai_Canva__)` | 0 skill(s) |
 | `datadog` | stretch | `datadog-mcp-server` | 0 skill(s) |
-| `github` | stable | `github-mcp-server` | 0 skill(s) |
+| `github` | stable | `github-mcp-server` | 1 skill(s) |
 | `gmail` | stable | `claude.ai integration (mcp__claude_ai_Gmail__)` | 0 skill(s) |
 | `google-calendar` | stable | `claude.ai integration (mcp__claude_ai_Google_Calendar__)` | 0 skill(s) |
 | `google-drive` | stable | `claude.ai integration (mcp__claude_ai_Google_Drive__)` | 0 skill(s) |
-| `hubspot` | stretch | `hubspot-mcp-server` | 0 skill(s) |
+| `hubspot` | stable | `hubspot-mcp-server` | 1 skill(s) |
 | `intercom` | stable | `claude.ai integration (mcp__claude_ai_Intercom__)` | 0 skill(s) |
-| `jira` | stretch | `mcp-atlassian (community; Atlassian Remote MCP for OAuth path)` | 0 skill(s) |
-| `linear` | stable | `@modelcontextprotocol/server-linear` | 1 skill(s) |
+| `jira` | stable | `mcp-atlassian (community; Atlassian Remote MCP for OAuth path)` | 2 skill(s) |
+| `linear` | stable | `@modelcontextprotocol/server-linear` | 3 skill(s) |
 | `notion` | stretch | `@notionhq/notion-mcp-server` | 0 skill(s) |
 | `slack` | stretch | `@modelcontextprotocol/server-slack` | 0 skill(s) |
-| `snowflake` | stretch | `mcp-snowflake-server` | 0 skill(s) |
+| `snowflake` | stable | `mcp-snowflake-server` | 1 skill(s) |
 
 ## Role skills
 
@@ -80,6 +82,7 @@
 | `feature-investment-advisor` | interactive | Use when a PM needs to evaluate a feature-investment decision through a finance lens — fully-loaded cost, opportunity cost, expected value, payback — not vibes or ICE-without-finance. |
 | `finance-based-pricing-advisor` | interactive | Use when a PM needs to set or change pricing using finance levers — cost-plus, value-based, willingness-to-pay, margin floors, packaging — not just "what competitors charge" |
 | `finance-metrics-quickref` | component | Use when a PM needs a one-page lookup of the ~30 SaaS finance metrics they are expected to read — definition, formula, healthy range, common misread — to bring to a board prep, a CFO review, or a strategy debate without embarrassing themselves or misreading the numbers. |
+| `hubspot-pipeline-readout` | workflow | Use when a PM needs a current read on the GTM pipeline — stage-by-stage health, deal velocity by segment, ICP-fit pattern of who's actually moving — without waiting for a Tuesday sales-ops sync. Reads HubSpot via MCP; produces a one-page readout that names what's moving, what's stuck, and the one question the data raises. |
 | `interview-synthesis` | interactive | Use after discovery interviews to produce per-interview snapshots, theme rollups, OST updates, and a quote bank — the post-call discipline that makes the continuous-discovery cadence compound. |
 | `jobs-to-be-done` | component | Use to articulate why a customer hires a product — the functional, emotional, and social job they're trying to get done. Anchored in Clayton Christensen's JTBD theory. |
 | `linear-triage` | workflow | Use when a PM runs the weekly triage pass on a Linear project — re-confirm strategy alignment first, then surface stale work, then trim the cycle scope, so the team's next cycle reflects current strategy with no hidden blockers. |

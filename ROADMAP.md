@@ -28,7 +28,7 @@ One role, `product-manager`, carrying **37 expert-grounded skills**:
 - **Chronicle layer** — machine-queryable record of decisions (`scripts/chronicle.sh`, deterministic harness at `tests/chronicle/`).
 - **Voice** — [`VOICE.md`](VOICE.md) codifies the companion's voice (calm, terse, plain-spoken; bird metaphor → patient layers + duet). Applies to lifecycle touchpoints only (banner, kickoff, declared route, lesson-extraction). Artefact outputs (PRDs, OKRs, strategy kernels) stay voice-neutral.
 - **Memory layer (v0)** — project-local `memory/decisions/`, paired with `memory-query` + `decision-record`. Opt-in; absent directory → no-op.
-- **Resources layer (v0 foundation)** — `resources/<system>/RESOURCE.md` cards describing external data sources; `linear` ships stable, eight others scaffolded. Skills opt in via `resources:` frontmatter; Hornero stays usable when no MCP server is configured.
+- **Resources layer** — `resources/<system>/RESOURCE.md` cards describing external data sources. Six stable: `linear`, `github`, `jira`, `bigquery`, `snowflake`, `hubspot`. Plus claude.ai-native integrations stable: `canva`, `gmail`, `google-calendar`, `google-drive`, `intercom`. Stretch: `datadog`, `notion`, `slack`. Skills opt in via `resources:` frontmatter; the `mcpServers` block in `.claude-plugin/plugin.json` lists each entry as `optional: true` so Hornero stays usable when nothing is configured. Cross-system read primitives ship as cross-role skills: `query-issue-tracker` (Linear / Jira) and `query-warehouse` (BigQuery / Snowflake, with kill-cost guardrail).
 
 ### Plumbing
 
@@ -39,18 +39,6 @@ One role, `product-manager`, carrying **37 expert-grounded skills**:
 ## Next
 
 Queued for active work — measured in weeks, not quarters.
-
-### Resources layer — PR 2
-
-Build on the v0 foundation by adding the remaining stable resource cards and the first cross-system skills:
-
-- New `resources/{jira,bigquery,snowflake,hubspot}/RESOURCE.md` (`status: stable`).
-- New cross-role skills: `skills/query-issue-tracker/SKILL.md` with `resources: [linear, jira]`; `skills/query-warehouse/SKILL.md` with `resources: [bigquery, snowflake]` (schema discovery, dry-run cost estimate, exploratory SQL with a kill-cost guardrail).
-- New per-role skill: `roles/product-manager/skills/hubspot-pipeline-readout` (pipeline-stage health, deal velocity, ICP fit).
-- Frontmatter opt-in on existing skills: `prd → [linear, jira]`, `decision-record → [github]`.
-- `.claude-plugin/plugin.json` gains an `mcpServers` block with every v1 resource marked `optional: true`.
-- `install.sh` learns to copy `resources/` to `~/.claude/hornero-resources/` + `--list-resources` flag.
-- Risk to mitigate: don't over-genericise the cross-system skills — if `## Application` says "if Linear, X; if JIRA, Y" more than twice, split.
 
 ### First non-PM role (software-engineer)
 

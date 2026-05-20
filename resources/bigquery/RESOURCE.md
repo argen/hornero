@@ -2,14 +2,15 @@
 name: bigquery
 description: Google's serverless analytics warehouse — datasets, tables, views, SQL queries. Used by PMs for activation, retention, cohort analysis.
 type: data-source
-status: stretch
+status: stable
 mcp:
   server: "mcp-server-bigquery"
   install: "uvx mcp-server-bigquery"
   auth_env: [GOOGLE_APPLICATION_CREDENTIALS, BIGQUERY_PROJECT_ID]
   capabilities: [query, list_datasets, list_tables, get_table_schema, dry_run]
 object_model: [Project, Dataset, Table, View, MaterializedView, Routine, Schema, Job, QueryResult]
-used_by: []
+used_by:
+  - query-warehouse
 fallback: bq-cli
 ---
 

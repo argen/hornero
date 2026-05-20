@@ -11,6 +11,8 @@ mcp:
 object_model: [Issue, Project, Cycle, Team, Label, State, Milestone, Comment]
 used_by:
   - product-manager/linear-triage
+  - product-manager/prd
+  - query-issue-tracker
 fallback: curl
 ---
 

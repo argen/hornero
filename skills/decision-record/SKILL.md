@@ -10,6 +10,8 @@ intent: |
   may have already been considered and rejected.
 type: component
 theme: memory
+resources:
+  - github
 best_for:
   - After a multi-role-review synthesises a recommendation
   - After a strategy-kernel or bet-portfolio session lands

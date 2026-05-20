@@ -2,14 +2,15 @@
 name: hubspot
 description: HubSpot's CRM — Contacts, Companies, Deals, Tickets, Pipelines, Marketing Hub. Used by PMs to read pipeline signal, customer accounts, and renewal/churn risk.
 type: data-source
-status: stretch
+status: stable
 mcp:
   server: "hubspot-mcp-server"
   install: "claude mcp add hubspot -- npx -y @hubspot/mcp-server"
   auth_env: [HUBSPOT_ACCESS_TOKEN]
   capabilities: [contacts, companies, deals, tickets, engagements, properties, search]
 object_model: [Contact, Company, Deal, Ticket, Pipeline, Stage, Property, Owner, Engagement, List, Workflow]
-used_by: []
+used_by:
+  - product-manager/hubspot-pipeline-readout
 fallback: curl
 ---
 

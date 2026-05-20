@@ -8,6 +8,9 @@ intent: |
   in scope.
 type: component
 theme: discovery-delivery
+resources:
+  - linear
+  - jira
 best_for:
   - A non-trivial feature requiring cross-team alignment
   - A product decision needing visible problem/value articulation
