@@ -9,7 +9,8 @@ mcp:
   auth_env: [GITHUB_PERSONAL_ACCESS_TOKEN]
   capabilities: [pulls, issues, actions, code_search, releases, codeowners, dependabot]
 object_model: [Repository, PullRequest, Issue, Commit, Workflow, WorkflowRun, Release, Review, Comment, CheckRun]
-used_by: []
+used_by:
+  - decision-record
 fallback: curl
 ---
 

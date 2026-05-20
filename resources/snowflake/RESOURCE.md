@@ -2,14 +2,15 @@
 name: snowflake
 description: Snowflake's cloud data warehouse — databases, schemas, tables, warehouses. Used by PMs for activation, retention, cohort analysis when the team is on Snowflake instead of BigQuery.
 type: data-source
-status: stretch
+status: stable
 mcp:
   server: "mcp-snowflake-server"
   install: "uvx mcp-snowflake-server --account <orgname>-<accountname> --user <user> --password <password> --warehouse <warehouse>"
   auth_env: [SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, SNOWFLAKE_PASSWORD, SNOWFLAKE_WAREHOUSE]
   capabilities: [query, list_databases, list_schemas, list_tables, describe_table]
 object_model: [Account, Warehouse, Database, Schema, Table, View, MaterializedView, Stage, Role, Query]
-used_by: []
+used_by:
+  - query-warehouse
 fallback: snowsql
 ---
 
