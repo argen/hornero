@@ -540,10 +540,12 @@ cmd_append() {
   fi
 
   # Backup, mutate, re-validate, restore on failure.
-  local backup="${target}.append-backup"
+  # Backup lives in $TMPDIR (mktemp) so collisions are impossible and a
+  # crashed prior run cannot orphan a backup into chronicle/entries/ that
+  # the next run might silently clobber. Same shape for the awk tmp file.
+  local backup; backup="$(mktemp -t "chronicle-append-backup.XXXXXX")" || die "mktemp failed (backup)"
+  local tmp;    tmp="$(mktemp -t "chronicle-append-tmp.XXXXXX")"        || { rm -f "$backup"; die "mktemp failed (tmp)"; }
   cp "$target" "$backup"
-
-  local tmp="${target}.append-tmp"
   awk -v section_name="$section" \
       -v mode="$mode" \
       -v date="$row_date" \
