@@ -31,18 +31,22 @@ LEGAL_ROLES=(product-manager cross-role software-engineer designer tester securi
 # durable evidence and an `industry` entry leans at least partly on generic
 # field knowledge.
 LEGAL_PROVENANCE=(documented verbal intuition industry)
-# Entry types. `decision` is the original shape (Rumelt's kernel + validation
-# plan). `hypothesis` is an open assumption under test; resolves into a decision
-# when evidence accumulates or the assumption is refuted.
-LEGAL_TYPES=(decision hypothesis)
+# Entry types.
+#   `decision`    — Rumelt's strategy kernel + a validation plan. The original shape.
+#   `hypothesis`  — an open assumption under test; resolves into a decision when
+#                   evidence accumulates or the assumption is refuted.
+#   `stakeholder` — one entry per person the team coordinates with; tracks their
+#                   asks, concerns, and decision affinity over time.
+LEGAL_TYPES=(decision hypothesis stakeholder)
 
 REQUIRED_FIELDS=(id title date status confidence source_role provenance type scope affected_areas decision)
 OPTIONAL_FIELDS=(alternatives_considered rejected_reason evidence supersedes superseded_by review_after session_id)
-# Body sections depend on `type`. Both lists have six entries; the validator
+# Body sections depend on `type`. All lists have six entries; the validator
 # picks one based on the entry's type frontmatter (with `decision` as the
 # fallback when type is missing — that failure is caught by REQUIRED_FIELDS).
 REQUIRED_SECTIONS_DECISION=("## Diagnosis" "## Decision" "## Coherent actions" "## Alternatives rejected" "## Validation plan" "## Notes")
 REQUIRED_SECTIONS_HYPOTHESIS=("## Assumption" "## Prediction" "## Falsifier" "## Evidence Log" "## Resolution" "## Notes")
+REQUIRED_SECTIONS_STAKEHOLDER=("## Role & influence" "## Open asks" "## Concerns" "## Last contact" "## Decision affinity" "## Notes")
 
 # ─── helpers ──────────────────────────────────────────────────────────
 
@@ -61,12 +65,15 @@ Usage:
                                   [--diagnosis "..."] [--coherent-actions "..."] \
                                   [--assumption "..."] [--prediction "..."] \
                                   [--falsifier "..."] [--evidence-log "..."] \
-                                  [--resolution "..."]
+                                  [--resolution "..."] \
+                                  [--role-influence "..."] [--open-asks "..."] \
+                                  [--concerns "..."] [--last-contact "..."] \
+                                  [--decision-affinity "..."]
                                   # provenance ∈ {documented, verbal, intuition, industry} —
                                   # the weakest source the decision rests on.
-                                  # type ∈ {decision, hypothesis} — default decision.
-                                  # The hypothesis flags scaffold the alternate body shape;
-                                  # the decision flags scaffold the original.
+                                  # type ∈ {decision, hypothesis, stakeholder} — default decision.
+                                  # Hypothesis flags scaffold the assumption-under-test body;
+                                  # stakeholder flags scaffold a per-person profile.
   scripts/chronicle.sh commit    <proposal-uuid-or-path>
   scripts/chronicle.sh query     [--topic SLUG] [--scope TAG] [--role NAME] \
                                   [--status NAME] [--provenance NAME] [--type NAME] \
@@ -138,6 +145,7 @@ cmd_propose() {
   local validation="" evidence="" supersedes="" review_after="" session_id=""
   local diagnosis="" coherent_actions=""
   local assumption="" prediction="" falsifier="" evidence_log="" resolution=""
+  local role_influence="" open_asks="" concerns="" last_contact="" decision_affinity=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -165,6 +173,11 @@ cmd_propose() {
       --falsifier)         falsifier="$2"; shift 2 ;;
       --evidence-log)      evidence_log="$2"; shift 2 ;;
       --resolution)        resolution="$2"; shift 2 ;;
+      --role-influence)    role_influence="$2"; shift 2 ;;
+      --open-asks)         open_asks="$2"; shift 2 ;;
+      --concerns)          concerns="$2"; shift 2 ;;
+      --last-contact)      last_contact="$2"; shift 2 ;;
+      --decision-affinity) decision_affinity="$2"; shift 2 ;;
       -h|--help) usage; exit 0 ;;
       *) die "unknown propose flag: $1" ;;
     esac
@@ -252,6 +265,29 @@ cmd_propose() {
       echo "## Resolution"
       echo
       echo "${resolution:-_Open. Link to the decision entry that resolves this hypothesis once one exists._}"
+      echo
+      echo "## Notes"
+      echo
+    elif [[ "$type" == "stakeholder" ]]; then
+      echo "## Role & influence"
+      echo
+      echo "${role_influence:-_TODO: their role, who they report to, and where their decision influence is strongest._}"
+      echo
+      echo "## Open asks"
+      echo
+      echo "${open_asks:-_TODO: append-only rows as new asks arrive. Each row: dash-space, ISO date, em-dash, the ask, em-dash, source._}"
+      echo
+      echo "## Concerns"
+      echo
+      echo "${concerns:-_TODO: what they are worried about, with a date when each concern was surfaced._}"
+      echo
+      echo "## Last contact"
+      echo
+      echo "${last_contact:-_TODO: ISO date and a one-line summary of the most recent conversation._}"
+      echo
+      echo "## Decision affinity"
+      echo
+      echo "${decision_affinity:-_TODO: what they will reliably support, what they will reliably oppose, and where they are neutral but vocal._}"
       echo
       echo "## Notes"
       echo
@@ -442,11 +478,11 @@ validate_one() {
 
   # Required sections present, in order — branch on type
   local -a sections
-  if [[ "$type_v" == "hypothesis" ]]; then
-    sections=("${REQUIRED_SECTIONS_HYPOTHESIS[@]}")
-  else
-    sections=("${REQUIRED_SECTIONS_DECISION[@]}")
-  fi
+  case "$type_v" in
+    hypothesis)  sections=("${REQUIRED_SECTIONS_HYPOTHESIS[@]}") ;;
+    stakeholder) sections=("${REQUIRED_SECTIONS_STAKEHOLDER[@]}") ;;
+    *)           sections=("${REQUIRED_SECTIONS_DECISION[@]}") ;;
+  esac
   local found_idx=0
   while IFS= read -r line; do
     if [[ "$line" == "${sections[$found_idx]}" ]]; then

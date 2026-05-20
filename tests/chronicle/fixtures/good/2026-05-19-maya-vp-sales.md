@@ -1,0 +1,42 @@
+---
+id: 2026-05-19-maya-vp-sales
+title: Maya — VP Sales
+date: 2026-05-19
+status: open
+confidence: 0.70
+source_role: product-manager
+provenance: verbal
+type: stakeholder
+scope: [stakeholders, enterprise]
+affected_areas: [export, billing, contracts]
+decision: VP Sales representing enterprise-tier customers; high influence on export and billing roadmap calls.
+review_after: 2026-08-19
+---
+
+## Role & influence
+
+VP Sales. Owns the enterprise tier book. High decision influence on anything touching export, billing, or contract terms. Reports to the CRO; CEO defers to her on enterprise pricing.
+
+## Open asks
+
+- 2026-05-15 — Bulk export of customer activity logs in CSV (raised in QBR).
+- 2026-04-22 — Per-seat invoice line items for >100-seat accounts (raised in 1:1 with finance).
+- 2026-03-30 — Self-serve contract renewal portal (raised in roadmap review).
+
+## Concerns
+
+Two recent renewals (Acme, Global Corp) cited export latency under load as a deciding factor. Will escalate any roadmap call that defers export work past Q3.
+
+## Last contact
+
+2026-05-15 — QBR sync. Confirmed enterprise pipeline at $4.2M for Q3; reiterated export ask.
+
+## Decision affinity
+
+- **Strong yes:** anything that improves enterprise renewal probability.
+- **Strong no:** SMB-targeted features that consume engineering bandwidth.
+- **Neutral but vocal:** UX polish on existing flows.
+
+## Notes
+
+Maya prefers async over meetings. Send a one-paragraph summary before any roadmap call rather than booking time.

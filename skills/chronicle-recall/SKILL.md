@@ -45,6 +45,7 @@ scripts/chronicle.sh query --topic migrations
 scripts/chronicle.sh query --provenance intuition           # entries resting on hunches
 scripts/chronicle.sh query --status validated --provenance verbal  # load-bearing but thinly sourced
 scripts/chronicle.sh query --type hypothesis --status open  # what assumptions are currently under test?
+scripts/chronicle.sh query --type stakeholder --scope billing  # who cares about billing?
 ```
 
 Output is byte-stable: same corpus + same query = same bytes. Filters AND together. `--limit N` caps the result count.
@@ -60,16 +61,21 @@ Every entry has a `status ∈ {validated, open, superseded, refuted}`. When load
 
 A query with no `--status` filter returns all four. Most reviewer preambles default to `--status validated` for the binding set, then a follow-up scan for `refuted` to catch traps.
 
-### Hypothesis vs decision
+### Three entry types
 
-The `type` field distinguishes `decision` entries (committed postures) from `hypothesis` entries (assumptions under test). They share frontmatter but differ in body shape — decisions follow Rumelt's kernel, hypotheses are Assumption → Prediction → Falsifier → Evidence Log → Resolution.
+The `type` field distinguishes three shapes:
 
-Reviewer preambles benefit from two scoped queries:
+- **`decision`** — committed postures (Rumelt's kernel).
+- **`hypothesis`** — open assumptions under test (Assumption → Prediction → Falsifier → Evidence Log → Resolution).
+- **`stakeholder`** — per-person profiles (Role & influence → Open asks → Concerns → Last contact → Decision affinity).
+
+Reviewer preambles benefit from a few scoped queries:
 
 - `--type decision --status validated` for the binding postures on the work's scope.
 - `--type hypothesis --status open` for the open assumptions in flight. A new PRD that contradicts a binding decision is a violation; a new PRD that aligns with an open hypothesis is the natural place to add evidence (or to propose the resolution).
+- `--type stakeholder --scope <area>` to find the people who care about the area you are touching — pair with the upcoming `/prep` skill before any meeting.
 
-A decision converted from a hypothesis appears as a new entry that `supersedes` the hypothesis, not as an edit-in-place. Follow the supersedes chain to read both.
+A decision converted from a hypothesis appears as a new entry that `supersedes` the hypothesis, not as an edit-in-place. Follow the supersedes chain to read both. A stakeholder profile that materially changes (new role, big influence shift) is updated the same way.
 
 ### Provenance as a trust signal
 

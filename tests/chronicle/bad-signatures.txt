@@ -14,3 +14,4 @@ bad-provenance.md	provenance (hearsay) not in
 missing-type.md	missing required field: type
 bad-type.md	type (musing) not in
 hypothesis-missing-falsifier.md	required sections missing or out of order
+stakeholder-missing-asks.md	required sections missing or out of order

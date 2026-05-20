@@ -69,14 +69,17 @@ Why this matters: a `validated` entry with `provenance: intuition` is a signal �
 
 **Don't anchor at `documented` by default** — calibrate to the truth. If the decision genuinely rests on a hunch, say so. The discomfort of writing `intuition` is the feature.
 
-### Two entry types: decision and hypothesis
+### Three entry types: decision, hypothesis, stakeholder
 
 The `type` frontmatter field is required and takes one of:
 
 - **`decision`** (default) — a posture, policy, or commitment. Follows Rumelt's strategy kernel: Diagnosis → Decision → Coherent actions → Alternatives rejected → Validation plan → Notes.
 - **`hypothesis`** — an open assumption under test. Body shape: Assumption → Prediction → Falsifier → Evidence Log → Resolution → Notes.
+- **`stakeholder`** — one person the team coordinates with. Body shape: Role & influence → Open asks → Concerns → Last contact → Decision affinity → Notes.
 
-The two types share frontmatter; the validator branches body-section enforcement on `type`. The distinction is load-bearing because future readers need to tell apart "what we believe and are testing" from "what we have committed to." Bundling them confuses the recall loop.
+All three types share frontmatter; the validator branches body-section enforcement on `type`. The distinction is load-bearing because future readers need to tell apart "what we believe and are testing" from "what we have committed to" from "who we are coordinating with." Bundling them confuses the recall loop.
+
+A stakeholder entry's `confidence` reflects how well the author understands that person's position; a low number is a signal the next interaction should be discovery, not pitch. The `affected_areas` field captures which parts of the product or roadmap the stakeholder cares about — useful when a PRD touching `billing/` should auto-surface the people for whom `billing` is in their affected_areas list.
 
 **When in doubt**, write a hypothesis. A premature decision entry that turns out to be wrong is harder to walk back than a hypothesis that evolves with evidence. The `Resolution` section in a hypothesis is where the eventual decision entry (or refutation) gets linked.
 
@@ -84,6 +87,8 @@ A hypothesis ends in one of three ways:
 1. Evidence accumulates → propose a new `decision` entry that `supersedes` the hypothesis. The hypothesis flips to `status: superseded`.
 2. The Falsifier triggers → propose a refutation note and flip the hypothesis to `status: refuted`.
 3. The Validation plan still hasn't run by `review_after` → revisit; either tighten the prediction or kill the hypothesis.
+
+A stakeholder entry is updated when the person's role, influence, or position materially changes — propose a new entry that `supersedes` the previous profile. Lightweight updates (a new open ask, a concern surfaced, a contact date) are append-only edits to the relevant body sections; the `stakeholder-update` skill exists for that flow (deferred follow-up — see roadmap).
 
 ### IDs are content-addressable
 
@@ -189,6 +194,31 @@ scripts/chronicle.sh propose \
 ```
 
 The `--decision` flag still applies to hypotheses — it holds the one-sentence claim used as the index-friendly copy. The hypothesis-specific flags (`--assumption`, `--prediction`, `--falsifier`, `--evidence-log`, `--resolution`) scaffold the body sections.
+
+### A stakeholder entry
+
+See [`tests/chronicle/fixtures/good/2026-05-19-maya-vp-sales.md`](../../tests/chronicle/fixtures/good/2026-05-19-maya-vp-sales.md) — a VP Sales profile with three open asks, two concerns, decision-affinity notes, and a `--review-after` set 90 days out. The corresponding CLI:
+
+```bash
+scripts/chronicle.sh propose \
+  --type stakeholder \
+  --title "Maya — VP Sales" \
+  --status open \
+  --confidence 0.70 \
+  --source-role product-manager \
+  --provenance verbal \
+  --scope stakeholders,enterprise \
+  --affected-areas "export,billing,contracts" \
+  --decision "VP Sales representing enterprise-tier customers; high influence on export and billing roadmap calls." \
+  --role-influence "VP Sales. Owns the enterprise book. Reports to CRO." \
+  --open-asks "2026-05-15 — Bulk export of customer activity logs in CSV (QBR)" \
+  --concerns "Two recent renewals cited export latency under load." \
+  --last-contact "2026-05-15 — QBR sync; reiterated export ask." \
+  --decision-affinity "Strong yes on enterprise renewal levers; strong no on SMB features." \
+  --review-after 2026-08-19
+```
+
+The `--decision` flag holds the one-sentence summary of the stakeholder's role and stake — used as the index-friendly copy. The body-specific flags scaffold the sections.
 
 ### A superseding entry (sketch)
 

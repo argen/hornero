@@ -4,8 +4,9 @@ Filters: topic=* scope=* role=* status=* provenance=* type=* keyword=* limit=50
 
 | date | id | type | status | role | provenance | scope | title |
 |---|---|---|---|---|---|---|---|
+| 2026-05-19 | 2026-05-19-maya-vp-sales | stakeholder | open | product-manager | verbal | stakeholders,enterprise | Maya — VP Sales |
 | 2026-05-18 | 2026-05-18-invite-friction-blocks-team-activation | hypothesis | open | product-manager | verbal | activation,growth | Invite-link friction blocks team activation under 50 seats |
 | 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | decision | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
 | 2026-04-22 | 2026-04-22-shadow-column-migration | decision | validated | cross-role | documented | migrations,database | Use shadow-column migration for user_id widening |
 
-3 match(es).
+4 match(es).
