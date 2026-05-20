@@ -20,7 +20,7 @@ Think of [*Hornero*](https://en.wikipedia.org/wiki/Rufous_hornero) as a patient 
 
 ## What you get
 
-A `product-manager` role with **37 expert-grounded skills** that turn plain-English prompts into focused PM work:
+A `product-manager` role with **38 expert-grounded skills** that turn plain-English prompts into focused PM work:
 
 - **Discovery** — interview prep + synthesis, JTBD, problem framing, opportunity-solution trees, proto-personas, journey maps.
 - **Strategy** — strategy kernel, bet portfolio, PRDs, OKRs, prioritisation, success metrics, competitive teardowns, revenue architecture.
@@ -30,9 +30,9 @@ A `product-manager` role with **37 expert-grounded skills** that turn plain-Engl
 - **Outside-in** — PESTEL, company research, acquisition-channel decisions.
 - **Workshops + delivery** — workshop facilitation, user story mapping.
 - **Career + leadership** — altitude/horizon diagnostic, director-readiness coaching, executive onboarding, product-sense interview prep.
-- **Operations + orchestration** — Linear triage, cross-functional decision orchestration.
+- **Operations + orchestration** — Linear triage, HubSpot pipeline readout, cross-functional decision orchestration.
 
-Plus **8 cross-role process skills** for the harness itself (problem-spec, lesson-extract, harness-check, context-reset, decision records, memory query, chronicle record + recall), a `product-manager-reviewer` subagent that critiques artefacts to the same bar, and a slash-command surface for kickoff, orchestration, catalog, and rot-review.
+Plus **16 cross-role process skills** for the harness itself: problem-spec, lesson-extract, harness-check, context-reset, decision records, memory query, chronicle record + recall, the three chronicle-append-shaped skills (hypothesis-track, stakeholder-update, customer-update), the chronicle workflow trio (ingest, prep, review), and two cross-system read primitives (query-issue-tracker for Linear/Jira, query-warehouse for BigQuery/Snowflake with a kill-cost guardrail). A `product-manager-reviewer` subagent critiques artefacts to the same bar, and a 12-command slash surface covers kickoff, orchestration, catalog, rot-review, and the chronicle workflow.
 
 **Lessons extract themselves.** The `extract-lesson` skill fires on the Stop hook at the end of every session — the agent scans for corrections, surprises, and validated approaches, and surfaces concrete proposals when there's real signal (otherwise it stays quiet). Proposals are reviewed before any harness file changes. Opt out per-session with `HORNERO_NO_AUTO_EXTRACT=1`.
 
@@ -85,7 +85,7 @@ Then in the session: `/hornero:catalog`, `/hornero:kickoff`, `/hornero:orchestra
 ./install.sh --claude
 ```
 
-Slash commands available as bare `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit` (no `hornero:` namespace).
+Slash commands available as bare `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update` (no `hornero:` namespace).
 
 ### Codex
 
@@ -108,8 +108,8 @@ Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (
 ### What you get either way (both hosts)
 
 - ✅ **1 reviewer subagent** — `product-manager-reviewer`, callable by name on either host (Claude via the Agent tool; Codex via the natural-language native path).
-- ✅ **45 expert-grounded skills** — 37 product-management skills (across discovery, strategy, AI-PM, finance, outside-in, workshops, delivery, career-leadership) + 8 cross-role process skills; see *What's in the box*.
-- ✅ **6 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit` (namespaced as `/hornero:<name>` under the Claude Code plugin).
+- ✅ **54 expert-grounded skills** — 38 product-management skills (across discovery, strategy, AI-PM, finance, outside-in, workshops, delivery, career-leadership, operations) + 16 cross-role process skills (including the chronicle write/read/append trio, the chronicle workflow trio of `ingest`/`prep`/`review`, and the cross-system `query-issue-tracker` / `query-warehouse` primitives); see *What's in the box*.
+- ✅ **12 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update` (namespaced as `/hornero:<name>` under the Claude Code plugin).
 - ✅ **Session hooks** — `SessionStart` primer and `Stop` lesson reminder via `hooks/hooks.json` (same JSON format both hosts read).
 
 ### Build-time scripts
@@ -174,7 +174,11 @@ The PM frames the request as a customer job, runs the work through [`cross-funct
 | Command | When |
 |---|---|
 | `/kickoff` | Guided first dispatch — a 3-sentence intro and one open invitation. Use once. |
-| `/catalog` | See everything Hornero ships (the PM role, its 37 skills, the 8 cross-role process skills, commands). |
+| `/catalog` | See everything Hornero ships (the PM role, its 38 skills, the 16 cross-role process skills, commands). |
+| `/ingest` | Wrap an artifact (transcript, meeting notes, doc, dashboard pull) into the chronicle layer — preserves the raw input, drafts a synthesis, proposes chronicle entries. |
+| `/prep` | One-page meeting brief — pulls a stakeholder entry, decisions and open hypotheses in their scope, recent ingestion notes. |
+| `/review` | Weekly chronicle-health sweep — six checks; drafts proposals for unambiguous fixes, surfaces the rest for a human call. |
+| `/hypothesis-track`, `/stakeholder-update`, `/customer-update` | Append a dated row to the corresponding chronicle entry type without forcing a full supersede. See [`chronicle/SCHEMA.md`](chronicle/SCHEMA.md) → Append exception. |
 | `/extract-lesson` | End of session — capture surprises as durable updates to roles, skills, or your project's `CLAUDE.md`/`AGENTS.md`. Run habitually or the harness doesn't compound. |
 | `/audit` | Quarterly rot-review — surfaces unused skills, sources-anchor orphans, compensatory rules. Pairs with [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md). |
 
@@ -190,7 +194,7 @@ The PM frames the request as a customer job, runs the work through [`cross-funct
 
 One role persona, grounded in canonical expert sources (not LLM-generated). Skills follow a shared anatomy (Purpose · Key Concepts · Application · Examples · Common Pitfalls · References) and cite from `sources.md` — `scripts/validate-skill.sh` enforces this.
 
-The product-manager role currently carries **37 skills** organised by theme. The full one-line index lives in [`CATALOG.md`](CATALOG.md); the themed grouping below is the navigation aid.
+The product-manager role currently carries **38 skills** organised by theme. The full one-line index lives in [`CATALOG.md`](CATALOG.md); the themed grouping below is the navigation aid.
 
 | Theme | Skills |
 |---|---|
@@ -202,10 +206,16 @@ The product-manager role currently carries **37 skills** organised by theme. The
 | **Outside-in** | `pestel-analysis`, `company-research`, `acquisition-channel-advisor` |
 | **Workshops + delivery** | `workshop-facilitation`, `user-story-mapping` |
 | **Career / leadership** | `altitude-horizon-framework`, `director-readiness-advisor`, `executive-onboarding-playbook`, `product-sense-interview-answer` |
-| **Operations** | `linear-triage` |
+| **Operations** | `linear-triage`, `hubspot-pipeline-readout` |
 | **Cross-functional orchestration** *(workflow)* | `cross-functional-orchestration` — the PM-as-orchestrator pattern that powers `/orchestrate` |
 
-Cross-role process skills (8): `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`.
+Cross-role process skills (16):
+
+- **Harness primitives** — `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`.
+- **Chronicle write / read** — `chronicle-record`, `chronicle-recall`.
+- **Chronicle append-shaped** — `hypothesis-track`, `stakeholder-update`, `customer-update` (each grows a whitelisted section on its respective entry type via `chronicle.sh append`; see [`chronicle/SCHEMA.md`](chronicle/SCHEMA.md) → Append exception).
+- **Chronicle workflow** — `ingest` (artifact → chronicle proposal), `prep` (one-page meeting brief), `review` (weekly health sweep).
+- **Cross-system read primitives** — `query-issue-tracker` (Linear / Jira), `query-warehouse` (BigQuery / Snowflake, with a kill-cost guardrail).
 
 > A subset of skills (career-leadership cluster, AI-PM pair, several discovery + finance + outside-in components) was re-synthesised from [Dean Peters' Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills) under Hornero's house style — citing the underlying authors directly, with a synthesis-cue line back to Dean's repo in each ported skill's References. See [`ATTRIBUTION.md`](ATTRIBUTION.md).
 
@@ -217,26 +227,45 @@ Roles can read and write external systems via MCP. Each system has a `resources/
 
 | Resource | Status | What it covers |
 |---|---|---|
-| [`linear`](resources/linear/RESOURCE.md) | stable | Issue tracker — Issues, Projects, Cycles. Used by `linear-triage`. |
-| [`jira`](resources/jira/RESOURCE.md) | stretch | Atlassian issue tracker — Issues, Epics, Sprints, JQL. Scaffolded for future PM skills (sprint readout, cross-functional triage). |
-| [`bigquery`](resources/bigquery/RESOURCE.md) | stretch | Google's serverless analytics warehouse. Scaffolded for future PM skills around success-metrics validation and cohort analysis. |
-| [`snowflake`](resources/snowflake/RESOURCE.md) | stretch | Snowflake's cloud data warehouse. Scaffolded for the same PM skills as BigQuery, on the Snowflake side. |
-| [`hubspot`](resources/hubspot/RESOURCE.md) | stretch | HubSpot CRM — Contacts, Companies, Deals. Scaffolded for future PM skills around customer-signal triage and revenue-architecture validation. |
+| [`linear`](resources/linear/RESOURCE.md) | stable | Issue tracker — Issues, Projects, Cycles. Used by `linear-triage`, `prd`, `query-issue-tracker`. |
+| [`jira`](resources/jira/RESOURCE.md) | stable | Atlassian issue tracker — Issues, Epics, Sprints, JQL. Used by `prd`, `query-issue-tracker`. |
+| [`github`](resources/github/RESOURCE.md) | stable | Code host — PRs, issues, Actions, releases, CODEOWNERS. Used by `decision-record`. |
+| [`bigquery`](resources/bigquery/RESOURCE.md) | stable | Google's serverless analytics warehouse. Used by `query-warehouse` (with native dry-run cost estimate). |
+| [`snowflake`](resources/snowflake/RESOURCE.md) | stable | Snowflake's cloud data warehouse. Used by `query-warehouse` (with conservative pre-run estimate). |
+| [`hubspot`](resources/hubspot/RESOURCE.md) | stable | HubSpot CRM — Contacts, Companies, Deals, Tickets, Pipelines. Used by `hubspot-pipeline-readout`. |
+| [`canva`](resources/canva/RESOURCE.md), [`gmail`](resources/gmail/RESOURCE.md), [`google-calendar`](resources/google-calendar/RESOURCE.md), [`google-drive`](resources/google-drive/RESOURCE.md), [`intercom`](resources/intercom/RESOURCE.md) | stable | claude.ai-native integrations — OAuth via the Claude Code Integrations UI. No skills consume them today; cards are ready for the next wave. |
 | [`datadog`](resources/datadog/RESOURCE.md) | stretch | Datadog observability — metrics, logs, traces, monitors, SLOs. Scaffolded for future PM skills around launch-impact validation. |
-| [`slack`](resources/slack/RESOURCE.md) | stretch | Slack team comms — channels, messages, threads, search. Scaffolded for future PM skills around customer-signal triage and async-feedback synthesis. |
-| [`notion`](resources/notion/RESOURCE.md) | stretch | Notion docs + databases — pages, properties, queries. Scaffolded for future PM skills around PRD drafting and roadmap-database triage. |
+| [`slack`](resources/slack/RESOURCE.md) | stretch | Slack team comms — channels, messages, threads, search. Scaffolded for customer-signal triage and async-feedback synthesis. |
+| [`notion`](resources/notion/RESOURCE.md) | stretch | Notion docs + databases — pages, properties, queries. Scaffolded for PRD drafting and roadmap-database triage. |
 
-More resources (Sentry, Grafana, Amplitude, Mixpanel, Stripe) land in follow-up PRs — see [`ROADMAP.md`](ROADMAP.md).
+`bash install.sh --list-resources` prints the current catalog with status and consumer count. More resources (Sentry, Grafana, Amplitude, Mixpanel, Stripe) land in follow-up PRs — see [`ROADMAP.md`](ROADMAP.md).
 
-### Chronicle — project-local memory of decisions
+### Chronicle — project-local memory of decisions, hypotheses, stakeholders, customers
 
-Hornero ships a [`chronicle/`](chronicle/) layer: a machine-queryable record of decisions any future session or role can load as situational awareness. It is influenced by [Quorum's Chronicle module](https://github.com/balpal4495/Quorum/tree/main/modules) — same lifecycle (proposals → human-gated commit → byte-stable query), simpler substrate (Markdown-with-strict-frontmatter, deterministic harness, no embedder dependency).
+Hornero ships a [`chronicle/`](chronicle/) layer: a machine-queryable record any future session or role can load as situational awareness. It is influenced by [Quorum's Chronicle module](https://github.com/balpal4495/Quorum/tree/main/modules) — same lifecycle (proposals → human-gated commit → byte-stable query), simpler substrate (Markdown-with-strict-frontmatter, deterministic harness, no embedder dependency). Influenced too by [PM Brain](https://github.com/phuryn/pm-brain) on the multi-type entry shape and sourcing hierarchy.
 
-Two new cross-role skills wrap it:
-- [`chronicle-record`](skills/chronicle-record/SKILL.md) — write side. Calls `scripts/chronicle.sh propose` (LLM-free; human commits).
-- [`chronicle-recall`](skills/chronicle-recall/SKILL.md) — read side. Calls `scripts/chronicle.sh query`; output is byte-identical for a given corpus.
+**Four entry types** (per [`chronicle/SCHEMA.md`](chronicle/SCHEMA.md)):
 
-A deterministic harness at [`tests/chronicle/`](tests/chronicle/) backs the layer: every schema rule has a planted-flaw fixture, every query has a frozen expected output. `scripts/test-chronicle.sh` runs in `smoke-check.sh` and in the pre-commit hook.
+- `decision` — Rumelt's strategy kernel + validation plan. The original shape.
+- `hypothesis` — assumption under test (Assumption → Prediction → Falsifier → Evidence Log → Resolution); resolves into a decision when evidence accumulates or the assumption is refuted.
+- `stakeholder` — per-person profile (Role & influence → Open asks → Concerns → Last contact → Decision affinity) for the people the team coordinates with.
+- `customer` — per-B2B-account profile (Account profile → Usage shape → Health signals → Decision drivers → Stakeholders) for accounts where the company is the unit of revenue.
+
+Every entry carries a `sourcing` field — `documented > verbal > intuition > industry` (ordered strongest → weakest). The value is the weakest source the entry rests on, so a `validated` entry resting on `intuition` is visibly thin and `/review` will flag it.
+
+**Three write paths:**
+
+- [`chronicle-record`](skills/chronicle-record/SKILL.md) → `chronicle.sh propose` → human commit. The original create path; LLM-free.
+- [`chronicle-recall`](skills/chronicle-recall/SKILL.md) → `chronicle.sh query`. Byte-identical output for a given corpus.
+- **Append exception** — `chronicle.sh append` grows whitelisted sections (Evidence Log on hypotheses; Open asks / Concerns / Last contact / Decision affinity on stakeholders; Usage shape / Health signals / Decision drivers / Stakeholders on customers) row-by-row, without forcing a full supersede. Decisions stay fully immutable. Driven by the three append-shaped skills: [`hypothesis-track`](skills/hypothesis-track/SKILL.md), [`stakeholder-update`](skills/stakeholder-update/SKILL.md), [`customer-update`](skills/customer-update/SKILL.md).
+
+**Three workflow skills** wrap the layer end-to-end:
+
+- [`ingest`](skills/ingest/SKILL.md) — artifact → synthesis → chronicle entry proposals. Source artifact preserved under `chronicle/source/` (gitignored), synthesis under `chronicle/ingestion/`.
+- [`prep`](skills/prep/SKILL.md) — one-page meeting brief grounded in stakeholder entries, decisions, open hypotheses, and recent ingestion notes.
+- [`review`](skills/review/SKILL.md) — weekly chronicle-health sweep (six checks: stale hypotheses, overdue decisions, stale stakeholder contact, thin sourcing on validated entries, supersedes chain integrity, scope-tag entropy). Drafts proposals for unambiguous fixes; surfaces the rest for a human call.
+
+A deterministic harness at [`tests/chronicle/`](tests/chronicle/) backs the layer: every schema rule has a planted-flaw fixture, every query has a frozen expected output, every append case (positive + negative) has byte-diff and diagnostic-substring tests. `scripts/test-chronicle.sh` runs 33 checks in `smoke-check.sh` and in the pre-commit hook.
 
 Full one-liner index: [`CATALOG.md`](CATALOG.md).
 

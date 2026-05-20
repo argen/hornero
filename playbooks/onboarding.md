@@ -2,7 +2,7 @@
 
 This playbook gets a new teammate productive with Hornero in ≤30 minutes. Read top to bottom; skip nothing.
 
-> Hornero ships one role today — `product-manager` — carrying **37 skills**
+> Hornero ships one role today — `product-manager` — carrying **38 skills**
 > across discovery, strategy, AI-PM, finance literacy, outside-in scanning,
 > GTM, workshops + delivery, operations, and the PM-to-Director career
 > arc. Whatever product-shaped work you have, there is almost certainly a

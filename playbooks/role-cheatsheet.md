@@ -2,7 +2,7 @@
 
 One-page quick reference for invoking Hornero's role. For depth, read [`../roles/product-manager/ROLE.md`](../roles/product-manager/ROLE.md).
 
-Hornero ships `product-manager`, carrying 37 skills across discovery, strategy, AI-PM, finance, outside-in, GTM, workshops + delivery, operations, and the PM-to-Director career arc — plus eight cross-role process skills.
+Hornero ships `product-manager`, carrying 38 skills across discovery, strategy, AI-PM, finance, outside-in, GTM, workshops + delivery, operations (now including HubSpot pipeline readout), and the PM-to-Director career arc — plus sixteen cross-role process skills (harness primitives + chronicle write/read/append + the chronicle workflow trio of ingest/prep/review + the cross-system query-issue-tracker and query-warehouse primitives).
 
 ## The product manager at a glance
 
