@@ -77,6 +77,10 @@ Priority is normalised to `urgent / high / medium / low / none` so consumers don
 - **Not a write path.** No status changes, no comments, no issue creation. If a consumer needs to write, it calls the tracker's MCP tools directly (with the right social discipline).
 - **Not a cache.** Each call hits the live tracker. Don't accumulate stale results across a session.
 
+### Engine routing vs divergent logic
+
+The `## Application` section below names one MCP tool per tracker for each of the three call shapes — six branch points total. That sounds like "if Linear, X; if JIRA, Y" repeated, but the branches are **engine-routing only** (one tool name per shape), not divergent logic. The two trackers expose the same shape of read; only the tool names differ. Engine routing per shape is the right factoring for a cross-system primitive — splitting into `query-linear` + `query-jira` would force every consumer to detect-then-dispatch, which defeats the purpose. The anti-pattern this skill is *not* falling into is divergent behaviour by tracker (e.g., "on Linear we return cycle-relative dates, on Jira we return absolute dates") — that would belong in tracker-specific skills.
+
 ## Application
 
 The skill is invoked by other skills or directly in conversation. It takes one of three named shapes:

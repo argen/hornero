@@ -200,7 +200,7 @@ Agent: ✗ Estimated 10,247 GB scan ($51.24) exceeds the 100 GB per-call cap.
 
 ## Common Pitfalls
 
-1. **Skipping the estimate before run.** Don't. The skill enforces this internally — but consumers reading old patterns from data-eng workflows may try. The kill-cap is the only thing standing between a typo and the monthly compute budget.
+1. **Skipping the estimate before run.** Don't. The skill instructs the model to enforce this internally — but a SKILL.md is instructions to an agent, not executable code. Honest read: the kill-cap is the only thing standing between a typo and the monthly compute budget, and the enforcement is the agent reading and obeying the skill. If the team needs hard structural enforcement (CI gates, billing alerts, IAM-level scan caps), wire those at the warehouse layer; this skill is the friction-reducing wrapper, not the safety net of last resort.
 2. **Translating SQL between dialects.** GoogleSQL vs Snowflake SQL is more than syntactic — semantic differences in date arithmetic, NULL handling, and JSON access make naive translation actively dangerous. The skill detects engine and routes; it does not translate.
 3. **Caching schema across sessions.** Schemas change. A `discover` call at the start of a session can be referenced for the rest of that session, but don't carry the schema across sessions — re-discover when it matters.
 4. **Running large analysis from a chat skill.** This primitive is for sub-100GB exploratory work. Anything larger belongs in a notebook with human-confirmed cost. The cap is doing its job when it refuses.
