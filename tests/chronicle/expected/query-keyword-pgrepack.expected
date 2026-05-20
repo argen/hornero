@@ -1,8 +1,8 @@
 # Chronicle query
 
-Filters: topic=* scope=* role=* status=* provenance=* type=* keyword=pg_repack limit=50
+Filters: topic=* scope=* role=* status=* sourcing=* type=* keyword=pg_repack limit=50
 
-| date | id | type | status | role | provenance | scope | title |
+| date | id | type | status | role | sourcing | scope | title |
 |---|---|---|---|---|---|---|---|
 | 2026-04-22 | 2026-04-22-shadow-column-migration | decision | validated | cross-role | documented | migrations,database | Use shadow-column migration for user_id widening |
 

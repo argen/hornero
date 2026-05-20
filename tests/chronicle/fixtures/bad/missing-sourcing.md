@@ -1,22 +1,22 @@
 ---
-id: missing-provenance
-title: Decision without provenance label
+id: missing-sourcing
+title: Decision without sourcing label
 date: 2026-05-20
 status: open
 confidence: 0.50
 source_role: product-manager
 scope: [test]
 affected_areas: [test]
-decision: A decision with no provenance label on its sourcing.
+decision: A decision with no sourcing label on its sourcing.
 ---
 
 ## Diagnosis
 
-Testing the missing-provenance check.
+Testing the missing-sourcing check.
 
 ## Decision
 
-A decision with no provenance label on its sourcing.
+A decision with no sourcing label on its sourcing.
 
 ## Coherent actions
 

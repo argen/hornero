@@ -1,8 +1,8 @@
 # Chronicle query
 
-Filters: topic=* scope=* role=* status=* provenance=* type=* keyword=* limit=50
+Filters: topic=* scope=* role=* status=* sourcing=* type=* keyword=* limit=50
 
-| date | id | type | status | role | provenance | scope | title |
+| date | id | type | status | role | sourcing | scope | title |
 |---|---|---|---|---|---|---|---|
 | 2026-05-19 | 2026-05-19-maya-vp-sales | stakeholder | open | product-manager | verbal | stakeholders,enterprise | Maya — VP Sales |
 | 2026-05-18 | 2026-05-18-invite-friction-blocks-team-activation | hypothesis | open | product-manager | verbal | activation,growth | Invite-link friction blocks team activation under 50 seats |

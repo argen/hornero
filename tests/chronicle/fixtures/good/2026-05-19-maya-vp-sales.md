@@ -5,7 +5,7 @@ date: 2026-05-19
 status: open
 confidence: 0.70
 source_role: product-manager
-provenance: verbal
+sourcing: verbal
 type: stakeholder
 scope: [stakeholders, enterprise]
 affected_areas: [export, billing, contracts]

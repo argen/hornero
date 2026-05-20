@@ -5,7 +5,7 @@ date: 2026-05-15
 status: validated
 confidence: 0.85
 source_role: product-manager
-provenance: documented
+sourcing: documented
 type: decision
 scope: ["strategy", "positioning"]
 affected_areas: ["ROADMAP.md", "evals/"]

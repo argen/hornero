@@ -12,7 +12,7 @@ Every file in `chronicle/entries/<id>.md` MUST start with YAML frontmatter confo
 | `status` | enum | One of: `validated`, `open`, `superseded`, `refuted`. |
 | `confidence` | number | `0.0`–`1.0` inclusive. Two decimals. |
 | `source_role` | enum | One of the live roles. Today: `product-manager`, plus the literal `cross-role` when a multi-role review produced the decision. (Re-expansion adds: `software-engineer`, `designer`, `tester`, `security-expert`, `marketing-expert`, `data-scientist`.) |
-| `provenance` | enum | One of: `documented`, `verbal`, `intuition`, `industry`. The **weakest** source the decision rests on — so a `documented` entry rests entirely on durable evidence, while an `industry` entry leans at least partly on generic field knowledge. Ordered strongest → weakest: documented > verbal > intuition > industry. |
+| `sourcing` | enum | One of: `documented`, `verbal`, `intuition`, `industry`. The **weakest** source the decision rests on — so a `documented` entry rests entirely on durable evidence, while an `industry` entry leans at least partly on generic field knowledge. Ordered strongest → weakest: documented > verbal > intuition > industry. |
 | `type` | enum | One of: `decision`, `hypothesis`, `stakeholder`. A `decision` entry follows Rumelt's strategy kernel. A `hypothesis` entry is an open assumption under test (Assumption → Prediction → Falsifier → Evidence Log → Resolution). A `stakeholder` entry is a per-person profile (Role & influence → Open asks → Concerns → Last contact → Decision affinity). A hypothesis resolves into a decision entry (or is refuted) as evidence accumulates; a stakeholder entry tracks one person over time and is updated by supersedes when the profile materially changes. |
 | `scope` | string list | 1–6 short tags. Free-form, but consistent within a project. Examples: `strategy`, `pricing`, `positioning`, `success-metrics`, `migrations`, `auth`. |
 | `affected_areas` | string list | 1+ paths or domains the decision binds. Globs allowed. |
@@ -82,7 +82,7 @@ The Evidence Log (for hypotheses) and Open asks + Last contact (for stakeholders
 - **`id` = date + slug** → entries sort naturally by date; cross-references are stable and human-readable.
 - **`status`** → makes "what's still load-bearing?" answerable by a `status: validated` filter.
 - **`confidence`** → makes "how much should I trust this?" visible. Decisions made under low confidence get re-examined sooner.
-- **`provenance`** → makes "what's this resting on?" visible at a glance. A `validated` entry with `provenance: intuition` is a signal — the team committed, but the source layer is thin and the entry is exposed if a documented finding contradicts it. PM Brain's hierarchy (documented > verbal > intuition > industry) is the reference; Hornero applies it at the entry level rather than per-claim because the entry is the unit the validator can enforce.
+- **`sourcing`** → makes "what's this resting on?" visible at a glance. A `validated` entry with `sourcing: intuition` is a signal — the team committed, but the source layer is thin and the entry is exposed if a documented finding contradicts it. PM Brain's hierarchy (documented > verbal > intuition > industry) is the reference; Hornero applies it at the entry level rather than per-claim because the entry is the unit the validator can enforce.
 - **`evidence` + `supersedes`** → forms a citable DAG; future-you can trace why a posture exists.
 - **Body sections** are the Rumelt kernel (Diagnosis → Decision → Coherent actions) plus the validation plan — same shape as the legacy `decision-record` skill, just enforced.
 
@@ -102,7 +102,7 @@ The validator is implemented in `scripts/chronicle.sh validate`. It enforces:
 6. `status` ∈ legal set
 7. `confidence` ∈ [0, 1]
 8. `source_role` ∈ legal set
-9. `provenance` ∈ legal set
+9. `sourcing` ∈ legal set
 10. `type` ∈ legal set
 11. All `evidence` IDs resolve to existing entries
 12. All required body sections present, in order — branched on `type`

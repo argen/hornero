@@ -5,7 +5,7 @@ date: 2026-05-20
 status: open
 confidence: 0.40
 source_role: product-manager
-provenance: intuition
+sourcing: intuition
 type: hypothesis
 scope: [test]
 affected_areas: [test]

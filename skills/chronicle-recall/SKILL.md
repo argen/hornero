@@ -42,8 +42,8 @@ The skill is short by design. It is the **discipline of looking first**, execute
 scripts/chronicle.sh query --scope strategy --status validated
 scripts/chronicle.sh query --role product-manager --keyword "SMB"
 scripts/chronicle.sh query --topic migrations
-scripts/chronicle.sh query --provenance intuition           # entries resting on hunches
-scripts/chronicle.sh query --status validated --provenance verbal  # load-bearing but thinly sourced
+scripts/chronicle.sh query --sourcing intuition           # entries resting on hunches
+scripts/chronicle.sh query --status validated --sourcing verbal  # load-bearing but thinly sourced
 scripts/chronicle.sh query --type hypothesis --status open  # what assumptions are currently under test?
 scripts/chronicle.sh query --type stakeholder --scope billing  # who cares about billing?
 ```
@@ -77,16 +77,16 @@ Reviewer preambles benefit from a few scoped queries:
 
 A decision converted from a hypothesis appears as a new entry that `supersedes` the hypothesis, not as an edit-in-place. Follow the supersedes chain to read both. A stakeholder profile that materially changes (new role, big influence shift) is updated the same way.
 
-### Provenance as a trust signal
+### Sourcing as a trust signal
 
-Every entry carries `provenance ∈ {documented, verbal, intuition, industry}` — the weakest source the decision rests on. When a query surfaces a `validated` entry with `provenance: intuition` or `provenance: industry`, treat it as load-bearing but thinly sourced: the team committed, but new evidence could legitimately move the posture. Lead the review by naming the source layer ("the policy is recorded with provenance: intuition; if your PRD has documented evidence either way, that should reset the entry").
+Every entry carries `sourcing ∈ {documented, verbal, intuition, industry}` — the weakest source the decision rests on. When a query surfaces a `validated` entry with `sourcing: intuition` or `sourcing: industry`, treat it as load-bearing but thinly sourced: the team committed, but new evidence could legitimately move the posture. Lead the review by naming the source layer ("the policy is recorded with sourcing: intuition; if your PRD has documented evidence either way, that should reset the entry").
 
 Two query patterns worth knowing:
 
-- `--provenance intuition` or `--provenance industry` to surface the entries most likely to be wrong.
-- `--status validated --provenance verbal` to find committed-but-undocumented postures — natural follow-up work for the next `/ingest` cycle.
+- `--sourcing intuition` or `--sourcing industry` to surface the entries most likely to be wrong.
+- `--status validated --sourcing verbal` to find committed-but-undocumented postures — natural follow-up work for the next `/ingest` cycle.
 
-The legacy `decision-record` / `memory-query` layer has no provenance column; this is one of the reasons new work belongs in Chronicle.
+The legacy `decision-record` / `memory-query` layer has no sourcing column; this is one of the reasons new work belongs in Chronicle.
 
 ### Determinism guarantee
 
@@ -137,9 +137,9 @@ When Chronicle is re-expanded to cover multiple roles, recall is the cross-funct
 $ scripts/chronicle.sh query --scope strategy --status validated --limit 10
 # Chronicle query
 
-Filters: topic=* scope=strategy role=* status=validated provenance=* type=* keyword=* limit=10
+Filters: topic=* scope=strategy role=* status=validated sourcing=* type=* keyword=* limit=10
 
-| date | id | type | status | role | provenance | scope | title |
+| date | id | type | status | role | sourcing | scope | title |
 |---|---|---|---|---|---|---|---|
 | 2026-05-15 | 2026-05-15-refuse-smb-segment-for-fy26 | decision | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
 
@@ -153,7 +153,7 @@ The reviewer reads the surfaced entry. The PRD draft proposes an SMB-focused onb
 A fresh session opens. The agent reads `chronicle/SUMMARY.md`:
 
 ```markdown
-| date | id | type | status | role | provenance | scope | title |
+| date | id | type | status | role | sourcing | scope | title |
 |---|---|---|---|---|---|---|---|
 | 2026-05-15 | [`2026-05-15-refuse-smb-segment-for-fy26`](entries/2026-05-15-refuse-smb-segment-for-fy26.md) | decision | validated | product-manager | documented | strategy,positioning | Refuse SMB segment for FY26 |
 | 2026-04-22 | [`2026-04-22-shadow-column-migration`](entries/2026-04-22-shadow-column-migration.md) | decision | validated | cross-role | documented | migrations,database | Use shadow-column migration for user_id widening |
@@ -167,7 +167,7 @@ The agent has situational awareness before the user's first specific request. Wh
 $ scripts/chronicle.sh query
 # Chronicle query
 
-Filters: topic=* scope=* role=* status=* provenance=* type=* keyword=* limit=50
+Filters: topic=* scope=* role=* status=* sourcing=* type=* keyword=* limit=50
 
 No matches.
 ```

@@ -5,7 +5,7 @@ date: 2026-05-18
 status: open
 confidence: 0.55
 source_role: product-manager
-provenance: verbal
+sourcing: verbal
 type: hypothesis
 scope: [activation, growth]
 affected_areas: ["onboarding/", "src/invite/"]

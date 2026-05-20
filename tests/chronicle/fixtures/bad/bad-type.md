@@ -5,7 +5,7 @@ date: 2026-05-20
 status: open
 confidence: 0.50
 source_role: product-manager
-provenance: documented
+sourcing: documented
 type: musing
 scope: [test]
 affected_areas: [test]

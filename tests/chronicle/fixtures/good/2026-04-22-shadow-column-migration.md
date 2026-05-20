@@ -5,7 +5,7 @@ date: 2026-04-22
 status: validated
 confidence: 0.78
 source_role: cross-role
-provenance: documented
+sourcing: documented
 type: decision
 scope: [migrations, database]
 affected_areas: [db/migrations/, src/models/user.ts]

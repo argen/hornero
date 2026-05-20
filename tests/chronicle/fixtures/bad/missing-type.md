@@ -5,7 +5,7 @@ date: 2026-05-20
 status: open
 confidence: 0.50
 source_role: product-manager
-provenance: documented
+sourcing: documented
 scope: [test]
 affected_areas: [test]
 decision: An entry with no type field.

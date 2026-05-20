@@ -54,9 +54,9 @@ The body has six required sections in fixed order: Diagnosis → Decision → Co
 
 `confidence ∈ [0, 1]` is required on every entry. Decisions made under low confidence (≤0.6) carry that visibly into the index, so reviewers loading the SUMMARY know which postures to treat as load-bearing vs. provisional. **Don't anchor at 0.85 by default** — calibrate.
 
-### Provenance is the weakest-link signal
+### Sourcing is the weakest-link signal
 
-Every entry carries `provenance ∈ {documented, verbal, intuition, industry}`. The hierarchy is ordered strongest → weakest, and **the value is the weakest source the decision rests on**, not the strongest. A decision supported by one documented finding plus three hallway conversations is `verbal`, not `documented`, because future-you needs to see that the entry is exposed if the verbal claims turn out to be wrong.
+Every entry carries `sourcing ∈ {documented, verbal, intuition, industry}`. The hierarchy is ordered strongest → weakest, and **the value is the weakest source the decision rests on**, not the strongest. A decision supported by one documented finding plus three hallway conversations is `verbal`, not `documented`, because future-you needs to see that the entry is exposed if the verbal claims turn out to be wrong.
 
 The four levels:
 
@@ -65,7 +65,7 @@ The four levels:
 - **`intuition`** — the author's judgment based on prior experience in this specific context.
 - **`industry`** — generic field knowledge with no citation specific to this project ("SaaS Rule of 40 says…").
 
-Why this matters: a `validated` entry with `provenance: intuition` is a signal — the team committed, but the source layer is thin. The next reviewer should treat it as a candidate for upgrading (find documented evidence) rather than as load-bearing.
+Why this matters: a `validated` entry with `sourcing: intuition` is a signal — the team committed, but the source layer is thin. The next reviewer should treat it as a candidate for upgrading (find documented evidence) rather than as load-bearing.
 
 **Don't anchor at `documented` by default** — calibrate to the truth. If the decision genuinely rests on a hunch, say so. The discomfort of writing `intuition` is the feature.
 
@@ -120,7 +120,7 @@ scripts/chronicle.sh propose \
   --status validated \
   --confidence 0.85 \
   --source-role product-manager \
-  --provenance documented \
+  --sourcing documented \
   --scope strategy,positioning \
   --affected-areas "ROADMAP.md,evals/" \
   --decision "Refuse SMB segment; double down on mid-market through FY26." \
@@ -183,7 +183,7 @@ scripts/chronicle.sh propose \
   --status open \
   --confidence 0.55 \
   --source-role product-manager \
-  --provenance verbal \
+  --sourcing verbal \
   --scope activation,growth \
   --affected-areas "onboarding/,src/invite/" \
   --decision "Invite-link friction is the primary blocker for teams of <50 seats reaching the activation event." \
@@ -206,7 +206,7 @@ scripts/chronicle.sh propose \
   --status open \
   --confidence 0.70 \
   --source-role product-manager \
-  --provenance verbal \
+  --sourcing verbal \
   --scope stakeholders,enterprise \
   --affected-areas "export,billing,contracts" \
   --decision "VP Sales representing enterprise-tier customers; high influence on export and billing roadmap calls." \
@@ -230,7 +230,7 @@ scripts/chronicle.sh propose \
   --status validated \
   --confidence 0.70 \
   --source-role product-manager \
-  --provenance verbal \
+  --sourcing verbal \
   --scope strategy,positioning \
   --affected-areas "ROADMAP.md" \
   --decision "Re-open SMB segment Q4 FY26 after enterprise tier proves CAC payback model." \
@@ -244,7 +244,7 @@ On commit, the predecessor entry's `status` flips to `superseded` and its `super
 
 1. **Bypassing the human gate.** The agent must never call `commit` itself. Proposing without committing is correct; committing without human review defeats the entire design.
 2. **Anchoring confidence at 0.85.** The confidence field is informative only if it varies. A decision made on thin evidence should ship at 0.50 and trigger a sooner `review_after`.
-3. **Anchoring provenance at `documented`.** Same failure mode as the confidence anchor. The provenance field is the weakest source the decision rests on, not the strongest. If one of the legs of the argument is hallway conversation, the entry is `verbal` — regardless of how solid the other legs are.
+3. **Anchoring sourcing at `documented`.** Same failure mode as the confidence anchor. The sourcing field is the weakest source the decision rests on, not the strongest. If one of the legs of the argument is hallway conversation, the entry is `verbal` — regardless of how solid the other legs are.
 4. **Writing the decision as advocacy.** A Chronicle entry is a fair record, not a sales pitch. The alternatives section is where the entry earns its teaching value — if a future reader can't see why the rejected options were tempting, the record is broken.
 5. **Recording discussions instead of decisions.** No decision, no record. The Chronicle's signal-to-noise determines whether future sessions actually use it.
 6. **Forgetting `review_after`.** A decision without a revisit date calcifies. Set one even if approximate.

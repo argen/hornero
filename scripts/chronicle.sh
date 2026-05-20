@@ -26,11 +26,11 @@ SUMMARY_FILE="${CHRONICLE_DIR}/SUMMARY.md"
 
 LEGAL_STATUSES=(validated open superseded refuted)
 LEGAL_ROLES=(product-manager cross-role software-engineer designer tester security-expert marketing-expert data-scientist)
-# Provenance is ordered strongest → weakest. An entry's value is the weakest
+# Sourcing is ordered strongest → weakest. An entry's value is the weakest
 # source the decision rests on, so a `documented` entry rests entirely on
 # durable evidence and an `industry` entry leans at least partly on generic
 # field knowledge.
-LEGAL_PROVENANCE=(documented verbal intuition industry)
+LEGAL_SOURCING=(documented verbal intuition industry)
 # Entry types.
 #   `decision`    — Rumelt's strategy kernel + a validation plan. The original shape.
 #   `hypothesis`  — an open assumption under test; resolves into a decision when
@@ -39,7 +39,7 @@ LEGAL_PROVENANCE=(documented verbal intuition industry)
 #                   asks, concerns, and decision affinity over time.
 LEGAL_TYPES=(decision hypothesis stakeholder)
 
-REQUIRED_FIELDS=(id title date status confidence source_role provenance type scope affected_areas decision)
+REQUIRED_FIELDS=(id title date status confidence source_role sourcing type scope affected_areas decision)
 OPTIONAL_FIELDS=(alternatives_considered rejected_reason evidence supersedes superseded_by review_after session_id)
 # Body sections depend on `type`. All lists have six entries; the validator
 # picks one based on the entry's type frontmatter (with `decision` as the
@@ -56,7 +56,7 @@ chronicle.sh — Hornero Chronicle CLI
 
 Usage:
   scripts/chronicle.sh propose   --title ... --topic ... --status ... [--confidence N] \
-                                  --source-role ROLE --provenance VALUE [--type TYPE] \
+                                  --source-role ROLE --sourcing VALUE [--type TYPE] \
                                   --scope a,b --affected-areas a,b \
                                   --decision "..." [--alternatives "..."] \
                                   [--rejected-reason "..."] [--validation "..."] \
@@ -69,14 +69,14 @@ Usage:
                                   [--role-influence "..."] [--open-asks "..."] \
                                   [--concerns "..."] [--last-contact "..."] \
                                   [--decision-affinity "..."]
-                                  # provenance ∈ {documented, verbal, intuition, industry} —
+                                  # sourcing ∈ {documented, verbal, intuition, industry} —
                                   # the weakest source the decision rests on.
                                   # type ∈ {decision, hypothesis, stakeholder} — default decision.
                                   # Hypothesis flags scaffold the assumption-under-test body;
                                   # stakeholder flags scaffold a per-person profile.
   scripts/chronicle.sh commit    <proposal-uuid-or-path>
   scripts/chronicle.sh query     [--topic SLUG] [--scope TAG] [--role NAME] \
-                                  [--status NAME] [--provenance NAME] [--type NAME] \
+                                  [--status NAME] [--sourcing NAME] [--type NAME] \
                                   [--keyword WORD] [--limit N]
   scripts/chronicle.sh summary
   scripts/chronicle.sh validate  [path...]   # defaults to all entries
@@ -140,7 +140,7 @@ fm_list() {
 # ─── propose ──────────────────────────────────────────────────────────
 
 cmd_propose() {
-  local title="" topic="" status="open" confidence="0.50" source_role="" provenance="" type="decision"
+  local title="" topic="" status="open" confidence="0.50" source_role="" sourcing="" type="decision"
   local scope="" affected_areas="" decision="" alternatives="" rejected_reason=""
   local validation="" evidence="" supersedes="" review_after="" session_id=""
   local diagnosis="" coherent_actions=""
@@ -154,7 +154,7 @@ cmd_propose() {
       --status)            status="$2"; shift 2 ;;
       --confidence)        confidence="$2"; shift 2 ;;
       --source-role)       source_role="$2"; shift 2 ;;
-      --provenance)        provenance="$2"; shift 2 ;;
+      --sourcing)        sourcing="$2"; shift 2 ;;
       --type)              type="$2"; shift 2 ;;
       --scope)             scope="$2"; shift 2 ;;
       --affected-areas)    affected_areas="$2"; shift 2 ;;
@@ -186,13 +186,13 @@ cmd_propose() {
   [[ -n "$title" ]]            || die "propose requires --title"
   [[ -n "$decision" ]]         || die "propose requires --decision (one-sentence claim, used as the index-friendly copy regardless of type)"
   [[ -n "$source_role" ]]      || die "propose requires --source-role"
-  [[ -n "$provenance" ]]       || die "propose requires --provenance (one of: ${LEGAL_PROVENANCE[*]})"
+  [[ -n "$sourcing" ]]       || die "propose requires --sourcing (one of: ${LEGAL_SOURCING[*]})"
   [[ -n "$scope" ]]            || die "propose requires --scope"
   [[ -n "$affected_areas" ]]   || die "propose requires --affected-areas"
 
   contains "$status" "${LEGAL_STATUSES[@]}" || die "status must be one of: ${LEGAL_STATUSES[*]}"
   contains "$source_role" "${LEGAL_ROLES[@]}" || die "source_role must be one of: ${LEGAL_ROLES[*]}"
-  contains "$provenance" "${LEGAL_PROVENANCE[@]}" || die "provenance must be one of: ${LEGAL_PROVENANCE[*]}"
+  contains "$sourcing" "${LEGAL_SOURCING[@]}" || die "sourcing must be one of: ${LEGAL_SOURCING[*]}"
   contains "$type" "${LEGAL_TYPES[@]}" || die "type must be one of: ${LEGAL_TYPES[*]}"
 
   # Confidence must be a number in [0,1]
@@ -232,7 +232,7 @@ cmd_propose() {
     echo "status: ${status}"
     echo "confidence: ${confidence}"
     echo "source_role: ${source_role}"
-    echo "provenance: ${provenance}"
+    echo "sourcing: ${sourcing}"
     echo "type: ${type}"
     echo "scope: $(yaml_list "$scope")"
     echo "affected_areas: $(yaml_list "$affected_areas")"
@@ -260,7 +260,7 @@ cmd_propose() {
       echo
       echo "## Evidence Log"
       echo
-      echo "${evidence_log:-_TODO: append-only rows as evidence accumulates. Each row: dash-space, ISO date, em-dash, provenance enum, em-dash, observation._}"
+      echo "${evidence_log:-_TODO: append-only rows as evidence accumulates. Each row: dash-space, ISO date, em-dash, sourcing enum, em-dash, observation._}"
       echo
       echo "## Resolution"
       echo
@@ -464,10 +464,10 @@ validate_one() {
     echo "  ✗ ${rel}: source_role (${role}) not in ${LEGAL_ROLES[*]}"; fail=1
   fi
 
-  # provenance in legal set
-  local prov; prov="$(fm_scalar provenance "$file")"
-  if [[ -n "$prov" ]] && ! contains "$prov" "${LEGAL_PROVENANCE[@]}"; then
-    echo "  ✗ ${rel}: provenance (${prov}) not in ${LEGAL_PROVENANCE[*]}"; fail=1
+  # sourcing in legal set
+  local prov; prov="$(fm_scalar sourcing "$file")"
+  if [[ -n "$prov" ]] && ! contains "$prov" "${LEGAL_SOURCING[@]}"; then
+    echo "  ✗ ${rel}: sourcing (${prov}) not in ${LEGAL_SOURCING[*]}"; fail=1
   fi
 
   # type in legal set (missing required is already caught above)
@@ -551,7 +551,7 @@ cmd_validate() {
 # ─── query ────────────────────────────────────────────────────────────
 
 cmd_query() {
-  local topic="" scope="" role="" status="" provenance="" type="" keyword=""
+  local topic="" scope="" role="" status="" sourcing="" type="" keyword=""
   local limit=50
 
   while [[ $# -gt 0 ]]; do
@@ -560,7 +560,7 @@ cmd_query() {
       --scope)       scope="$2"; shift 2 ;;
       --role)        role="$2"; shift 2 ;;
       --status)      status="$2"; shift 2 ;;
-      --provenance)  provenance="$2"; shift 2 ;;
+      --sourcing)  sourcing="$2"; shift 2 ;;
       --type)        type="$2"; shift 2 ;;
       --keyword)     keyword="$2"; shift 2 ;;
       --limit)       limit="$2"; shift 2 ;;
@@ -578,13 +578,13 @@ cmd_query() {
       local date_v; date_v="$(fm_scalar date "$f")"
       local s_role; s_role="$(fm_scalar source_role "$f")"
       local s_status; s_status="$(fm_scalar status "$f")"
-      local s_prov; s_prov="$(fm_scalar provenance "$f")"
+      local s_prov; s_prov="$(fm_scalar sourcing "$f")"
       local s_type; s_type="$(fm_scalar type "$f")"
       local s_scope; s_scope="$(fm_list scope "$f")"
 
       [[ -n "$role" && "$s_role" != "$role" ]] && continue
       [[ -n "$status" && "$s_status" != "$status" ]] && continue
-      [[ -n "$provenance" && "$s_prov" != "$provenance" ]] && continue
+      [[ -n "$sourcing" && "$s_prov" != "$sourcing" ]] && continue
       [[ -n "$type" && "$s_type" != "$type" ]] && continue
       [[ -n "$scope" && ",${s_scope}," != *",${scope},"* ]] && continue
       if [[ -n "$topic" ]]; then
@@ -618,14 +618,14 @@ cmd_query() {
   # Emit fixed-shape Markdown
   echo "# Chronicle query"
   echo ""
-  echo "Filters: topic=${topic:-*} scope=${scope:-*} role=${role:-*} status=${status:-*} provenance=${provenance:-*} type=${type:-*} keyword=${keyword:-*} limit=${limit}"
+  echo "Filters: topic=${topic:-*} scope=${scope:-*} role=${role:-*} status=${status:-*} sourcing=${sourcing:-*} type=${type:-*} keyword=${keyword:-*} limit=${limit}"
   echo ""
   local count=0
   if [[ ${#sorted[@]} -eq 0 ]]; then
     echo "No matches."
     return 0
   fi
-  echo "| date | id | type | status | role | provenance | scope | title |"
+  echo "| date | id | type | status | role | sourcing | scope | title |"
   echo "|---|---|---|---|---|---|---|---|"
   for line in "${sorted[@]}"; do
     [[ $count -ge $limit ]] && break
@@ -669,7 +669,7 @@ cmd_summary() {
       echo ""
       echo "## Index"
       echo ""
-      echo "| date | id | type | status | role | provenance | scope | title |"
+      echo "| date | id | type | status | role | sourcing | scope | title |"
       echo "|---|---|---|---|---|---|---|---|"
       for f in "${entries[@]}"; do
         local id; id="$(fm_scalar id "$f")"
@@ -677,7 +677,7 @@ cmd_summary() {
         local date_v; date_v="$(fm_scalar date "$f")"
         local s_role; s_role="$(fm_scalar source_role "$f")"
         local s_status; s_status="$(fm_scalar status "$f")"
-        local s_prov; s_prov="$(fm_scalar provenance "$f")"
+        local s_prov; s_prov="$(fm_scalar sourcing "$f")"
         local s_type; s_type="$(fm_scalar type "$f")"
         local s_scope; s_scope="$(fm_list scope "$f")"
         echo "| ${date_v} | [\`${id}\`](entries/${id}.md) | ${s_type} | ${s_status} | ${s_role} | ${s_prov} | ${s_scope} | ${title} |"
