@@ -45,6 +45,13 @@ In rough order of authority:
   it. (The same files are the source of truth for Codex; if your Codex install
   loads commands from a different directory, mirror them there or invoke them
   by reading the file content directly.)
+- **Artifact intake wins.** If the user pastes or attaches a transcript,
+  meeting notes, doc export, screenshot, dashboard pull, or other raw
+  artifact worth preserving, route via [`/ingest`](.claude/commands/ingest.md)
+  before doing any other lens-work. The artifact is preserved under
+  `chronicle/source/` (gitignored) and a synthesis lands under
+  `chronicle/ingestion/`; chronicle entry updates are proposed from the
+  synthesis. Without this step, the artifact gets discussed once and lost.
 - **Explicit naming wins.** If the user names a role ("as the security
   expert…") or a skill ("draft an ADR for…", "run the design-review skill"),
   use it. No further matching.

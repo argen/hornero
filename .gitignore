@@ -18,3 +18,10 @@ evals/runs/*
 # Chronicle proposals are workspace-local until human-committed → entries/
 chronicle/proposals/*
 !chronicle/proposals/.gitkeep
+
+# Chronicle raw source artifacts often carry PII (interview transcripts,
+# support tickets, dashboard screenshots). The synthesis under
+# chronicle/ingestion/ is committed; the raw input is not.
+chronicle/source/*
+!chronicle/source/.gitkeep
+!chronicle/source/README.md

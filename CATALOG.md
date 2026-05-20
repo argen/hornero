@@ -26,6 +26,7 @@
 | `decision-record` | component | Use after a non-trivial decision is made — captures the diagnosis, the decision, the alternatives rejected and why, the validation plan, and the revisit-by date as a durable artifact in `memory/decisions/`. |
 | `extract-lesson` | interactive | Runs automatically at session end via the Stop hook (or invoke explicitly mid-session after a notable success/failure) — scans the conversation for surprises and corrections, proposes durable updates to roles, skills, CLAUDE.md / AGENTS.md, or per-project memory. |
 | `harness-check` | workflow | Use to audit whether a repository is AI-ready — does it have AGENTS.md / CLAUDE.md, well-scoped skills, useful test feedback, and a working install path. |
+| `ingest` | workflow | Use to feed an artifact (interview transcript, meeting notes, doc export, dashboard screenshot, support ticket, paste) into the project's `chronicle/` layer — preserves the raw input, drafts a structured synthesis, and proposes updates to the chronicle entries the artifact informs. |
 | `memory-query` | workflow | Use before reviewing, proposing, or producing any non-trivial artifact — scans the project's `memory/decisions/` directory for prior decisions whose scope, affected-areas, or roles overlap with the current work, and surfaces relevant entries before fresh analysis begins. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 

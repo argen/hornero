@@ -22,6 +22,8 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CHRONICLE_DIR="${ROOT}/chronicle"
 ENTRIES_DIR="${CHRONICLE_DIR}/entries"
 PROPOSALS_DIR="${CHRONICLE_DIR}/proposals"
+INGESTION_DIR="${CHRONICLE_DIR}/ingestion"
+SOURCE_DIR="${CHRONICLE_DIR}/source"
 SUMMARY_FILE="${CHRONICLE_DIR}/SUMMARY.md"
 
 LEGAL_STATUSES=(validated open superseded refuted)
@@ -38,6 +40,9 @@ LEGAL_SOURCING=(documented verbal intuition industry)
 #   `stakeholder` — one entry per person the team coordinates with; tracks their
 #                   asks, concerns, and decision affinity over time.
 LEGAL_TYPES=(decision hypothesis stakeholder)
+# Ingestion source kinds — looser than entry types because the working layer is
+# looser than the durable layer. Add freely as new artifact shapes show up.
+LEGAL_INGESTION_KINDS=(interview meeting doc screenshot dashboard chat other)
 
 REQUIRED_FIELDS=(id title date status confidence source_role sourcing type scope affected_areas decision)
 OPTIONAL_FIELDS=(alternatives_considered rejected_reason evidence supersedes superseded_by review_after session_id)
@@ -74,6 +79,12 @@ Usage:
                                   # type ∈ {decision, hypothesis, stakeholder} — default decision.
                                   # Hypothesis flags scaffold the assumption-under-test body;
                                   # stakeholder flags scaffold a per-person profile.
+  scripts/chronicle.sh ingest    --path FILE --source-role ROLE --sourcing VALUE \
+                                  [--kind KIND] [--title "..."]
+                                  # Copies FILE to chronicle/source/<uuid>.<ext> (gitignored)
+                                  # and creates a synthesis stub under
+                                  # chronicle/ingestion/<date>-<slug>.md for the agent to fill in.
+                                  # kind ∈ {interview, meeting, doc, screenshot, dashboard, chat, other}.
   scripts/chronicle.sh commit    <proposal-uuid-or-path>
   scripts/chronicle.sh query     [--topic SLUG] [--scope TAG] [--role NAME] \
                                   [--status NAME] [--sourcing NAME] [--type NAME] \
@@ -688,12 +699,98 @@ cmd_summary() {
   log "✓ regenerated ${SUMMARY_FILE#$ROOT/} (${#entries[@]} entries)"
 }
 
+# ─── ingest ──────────────────────────────────────────────────────────
+
+cmd_ingest() {
+  local path="" kind="other" source_role="" sourcing="" title=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --path)         path="$2"; shift 2 ;;
+      --kind)         kind="$2"; shift 2 ;;
+      --source-role)  source_role="$2"; shift 2 ;;
+      --sourcing)     sourcing="$2"; shift 2 ;;
+      --title)        title="$2"; shift 2 ;;
+      -h|--help) usage; exit 0 ;;
+      *) die "unknown ingest flag: $1" ;;
+    esac
+  done
+
+  [[ -n "$path" ]]         || die "ingest requires --path <file>"
+  [[ -f "$path" ]]         || die "ingest: file not found: $path"
+  [[ -n "$source_role" ]]  || die "ingest requires --source-role"
+  [[ -n "$sourcing" ]]     || die "ingest requires --sourcing (one of: ${LEGAL_SOURCING[*]})"
+
+  contains "$source_role" "${LEGAL_ROLES[@]}" || die "source_role must be one of: ${LEGAL_ROLES[*]}"
+  contains "$sourcing" "${LEGAL_SOURCING[@]}" || die "sourcing must be one of: ${LEGAL_SOURCING[*]}"
+  contains "$kind" "${LEGAL_INGESTION_KINDS[@]}" || die "kind must be one of: ${LEGAL_INGESTION_KINDS[*]}"
+
+  # Title defaults to filename sans extension
+  if [[ -z "$title" ]]; then
+    title="$(basename "$path")"
+    title="${title%.*}"
+  fi
+
+  mkdir -p "$INGESTION_DIR" "$SOURCE_DIR"
+
+  local today; today="$(iso_date)"
+  local slug; slug="$(slugify "$title")"
+  local id="${today}-${slug}"
+  local target="${INGESTION_DIR}/${id}.md"
+  [[ -f "$target" ]] && die "ingestion stub already exists: ${target} (rename via --title to disambiguate)"
+
+  # Preserve raw under chronicle/source/<uuid>.<ext>
+  local ext="${path##*.}"
+  [[ "$ext" == "$path" ]] && ext="txt"   # no extension → call it txt
+  local src_uuid; src_uuid="$(uuid)"
+  local source_target="${SOURCE_DIR}/${src_uuid}.${ext}"
+  cp "$path" "$source_target"
+
+  # The source_path field stays relative to repo root so the synthesis is portable
+  local rel_source="chronicle/source/${src_uuid}.${ext}"
+
+  {
+    echo "---"
+    echo "id: ${id}"
+    echo "title: ${title}"
+    echo "date: ${today}"
+    echo "source_path: ${rel_source}"
+    echo "source_kind: ${kind}"
+    echo "source_role: ${source_role}"
+    echo "sourcing: ${sourcing}"
+    echo "---"
+    echo
+    echo "## Summary"
+    echo
+    echo "_TODO: 1-3 sentences distilling the artifact._"
+    echo
+    echo "## Observations"
+    echo
+    echo "_TODO: bulleted observations. Tag each inline with a sourcing label \`[documented]\`, \`[verbal]\`, \`[intuition]\`, or \`[industry]\` so the entry's overall sourcing field can be derived from the weakest tag below._"
+    echo
+    echo "## Implications"
+    echo
+    echo "_TODO: which chronicle entries (decisions, hypotheses, stakeholders) does this update? Propose with \`scripts/chronicle.sh propose ...\` when appropriate; link supersedes when this refutes a prior entry._"
+    echo
+    echo "## Notes"
+    echo
+  } > "$target"
+
+  log "↪ ingested: ${path}"
+  log "  source preserved: ${source_target} (gitignored)"
+  log "  synthesis stub:   ${target}"
+  log "  next: open the stub, fill in the body, then propose any chronicle entries it implies."
+
+  echo "$target"
+}
+
 # ─── arg parsing ─────────────────────────────────────────────────────
 
 case "${1:-}" in
   ""|-h|--help) usage; exit 0 ;;
   propose)  shift; cmd_propose "$@" ;;
   commit)   shift; cmd_commit "$@" ;;
+  ingest)   shift; cmd_ingest "$@" ;;
   query)    shift; cmd_query "$@" ;;
   summary)  shift; cmd_summary ;;
   validate) shift; cmd_validate "$@" ;;
