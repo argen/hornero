@@ -29,6 +29,7 @@
 | `ingest` | workflow | Use to feed an artifact (interview transcript, meeting notes, doc export, dashboard screenshot, support ticket, paste) into the project's `chronicle/` layer — preserves the raw input, drafts a structured synthesis, and proposes updates to the chronicle entries the artifact informs. |
 | `memory-query` | workflow | Use before reviewing, proposing, or producing any non-trivial artifact — scans the project's `memory/decisions/` directory for prior decisions whose scope, affected-areas, or roles overlap with the current work, and surfaces relevant entries before fresh analysis begins. |
 | `prep` | workflow | Use before a meeting, 1:1, design review, vendor call, or QBR — pulls the matching `type: stakeholder` entry, recent `type: decision` and open `type: hypothesis` entries in their scope, and recent ingestion notes, then renders a one-page brief with open asks, likely points of disagreement, and suggested questions. |
+| `review` | workflow | Use weekly (typically Fridays) — runs six chronicle-health checks against the `chronicle/entries/` corpus, proposes fixes for the unambiguous findings, and surfaces the rest for a human call. Pairs with `/extract-lesson` (which tends the harness) the way `/review` tends the chronicle. |
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 
 ## Resources

@@ -12,6 +12,19 @@ Chris MDP's fourth principle: feedback-loop discipline. Without a ritual, lesson
 
 Suggested: Friday afternoon (review the week before context shifts) or Monday morning (review before this week's work begins).
 
+## Two layers, two skills
+
+Hornero compounds in two long-lived layers, and each has its own weekly sweep:
+
+| Layer | Skill | What it tends |
+|---|---|---|
+| **Harness** | `extract-lesson` | Role files, skill files, CLAUDE.md / AGENTS.md, project memory. Captures what the agent should do differently next session. |
+| **Chronicle** | `/review` | Chronicle entries — stale hypotheses, overdue decisions, stale stakeholders, thin sourcing, supersedes integrity, scope-tag entropy. Captures what the project's durable record should look like to stay load-bearing. |
+
+The two are **complementary, not interchangeable**. `extract-lesson` runs automatically on session Stop; `/review` is invoked manually as part of this ritual. Both belong to the weekly feedback cadence; neither replaces the other.
+
+If the chronicle layer is in light use (few or no entries), skip the `/review` step until it has content worth tending.
+
 ## The ritual
 
 ### Step 1 — Run `extract-lesson` against the week's notable sessions (10 min)
@@ -44,6 +57,17 @@ For accepted proposals:
 - Commit on a feedback-loop branch: `feat/feedback-<date>`.
 
 Keep the commits small. One commit per logical lesson.
+
+### Step 3b — Run `/review` on the chronicle (5-15 min)
+
+If the chronicle layer is in active use, run `/review` after the harness ritual completes. The skill walks the six chronicle-health checks and produces:
+
+- Drafted proposals for unambiguous fixes (resolved hypotheses, broken supersedes, near-duplicate scope tags).
+- Flagged calls for findings that need user judgement (overdue decisions, thin sourcing, stale stakeholder contact).
+
+Commit the accepted proposals via `scripts/chronicle.sh commit <uuid>`. The skill does not auto-commit; the human gate on `chronicle/entries/` is structural.
+
+If the report says "all OK" for three consecutive runs, drop frequency. Overrunning the chronicle check produces more drift than it prevents.
 
 ### Step 4 — Note recurring themes (2 min)
 

@@ -91,6 +91,7 @@ Usage:
                                   [--keyword WORD] [--limit N]
   scripts/chronicle.sh summary
   scripts/chronicle.sh validate  [path...]   # defaults to all entries
+  scripts/chronicle.sh review                # weekly health sweep — six structured checks
   scripts/chronicle.sh --help
 EOF
 }
@@ -784,6 +785,184 @@ cmd_ingest() {
   echo "$target"
 }
 
+# ─── review ──────────────────────────────────────────────────────────
+#
+# Six chronicle-health checks. Each emits a Markdown section; either a
+# bulleted list of findings or a single "OK" line. The output is consumed
+# by the /review skill, which decides which findings to act on directly
+# (e.g. propose a status change) and which to surface for a human call.
+
+# entry-iteration helper: print "<file>\t<id>\t<type>\t<status>\t<review_after>\t<sourcing>"
+# for every committed entry. Empty lines for missing fields.
+_review_iter() {
+  [[ -d "$ENTRIES_DIR" ]] || return 0
+  while IFS= read -r f; do
+    [[ -f "$f" ]] || continue
+    printf '%s\t%s\t%s\t%s\t%s\t%s\n' \
+      "$f" \
+      "$(fm_scalar id "$f")" \
+      "$(fm_scalar type "$f")" \
+      "$(fm_scalar status "$f")" \
+      "$(fm_scalar review_after "$f")" \
+      "$(fm_scalar sourcing "$f")"
+  done < <(find "$ENTRIES_DIR" -maxdepth 1 -name '*.md' -type f | sort)
+}
+
+cmd_review() {
+  local today; today="$(iso_date)"
+  echo "# Chronicle review — ${today}"
+  echo
+  echo "> Output of \`scripts/chronicle.sh review\`. Six health checks across the chronicle layer. The \`/review\` skill consumes this report and decides which findings to act on directly versus surface for a human call."
+  echo
+
+  # ── 1. Hypotheses past review_after still open ─────────────────────
+  echo "## 1. Stale hypotheses (review_after passed, status still open)"
+  echo
+  local found=0
+  while IFS=$'\t' read -r file id type status review_after sourcing; do
+    [[ "$type" == "hypothesis" ]] || continue
+    [[ "$status" == "open" ]] || continue
+    [[ -n "$review_after" ]] || continue
+    if [[ "$review_after" < "$today" ]]; then
+      local title; title="$(fm_scalar title "$file")"
+      echo "- \`${id}\` — review_after was ${review_after}; status still \`open\`. Title: ${title}"
+      found=1
+    fi
+  done < <(_review_iter)
+  [[ $found -eq 0 ]] && echo "OK — no stale hypotheses."
+  echo
+
+  # ── 2. Validated decisions whose review_after has passed ──────────
+  echo "## 2. Decisions overdue for revisit (status validated, review_after passed)"
+  echo
+  found=0
+  while IFS=$'\t' read -r file id type status review_after sourcing; do
+    [[ "$type" == "decision" ]] || continue
+    [[ "$status" == "validated" ]] || continue
+    [[ -n "$review_after" ]] || continue
+    if [[ "$review_after" < "$today" ]]; then
+      local title; title="$(fm_scalar title "$file")"
+      echo "- \`${id}\` — review_after was ${review_after}; still \`validated\` without a fresh revisit. Title: ${title}"
+      found=1
+    fi
+  done < <(_review_iter)
+  [[ $found -eq 0 ]] && echo "OK — no overdue decisions."
+  echo
+
+  # ── 3. Stakeholders not contacted in >60 days ─────────────────────
+  echo "## 3. Stale stakeholder contact (no Last contact update in 60+ days)"
+  echo
+  found=0
+  while IFS=$'\t' read -r file id type status review_after sourcing; do
+    [[ "$type" == "stakeholder" ]] || continue
+    # Parse first ISO date in the Last contact section
+    local last
+    last="$(awk '
+      /^## Last contact[[:space:]]*$/ { in_sec = 1; next }
+      in_sec && /^## / { exit }
+      in_sec {
+        if (match($0, /[0-9]{4}-[0-9]{2}-[0-9]{2}/)) {
+          print substr($0, RSTART, RLENGTH); exit
+        }
+      }
+    ' "$file")"
+    if [[ -z "$last" ]]; then
+      local title; title="$(fm_scalar title "$file")"
+      echo "- \`${id}\` — no parseable date in \`## Last contact\`. Title: ${title}"
+      found=1
+      continue
+    fi
+    # macOS BSD date math
+    local last_epoch today_epoch days
+    last_epoch="$(date -j -f "%Y-%m-%d" "${last}" "+%s" 2>/dev/null || echo "")"
+    today_epoch="$(date -j -f "%Y-%m-%d" "${today}" "+%s" 2>/dev/null || echo "")"
+    if [[ -z "$last_epoch" || -z "$today_epoch" ]]; then continue; fi
+    days=$(( (today_epoch - last_epoch) / 86400 ))
+    if [[ $days -ge 60 ]]; then
+      local title; title="$(fm_scalar title "$file")"
+      echo "- \`${id}\` — last contact ${last} (${days} days ago). Title: ${title}"
+      found=1
+    fi
+  done < <(_review_iter)
+  [[ $found -eq 0 ]] && echo "OK — every stakeholder has been touched in the last 60 days."
+  echo
+
+  # ── 4. Thin sourcing on validated entries ─────────────────────────
+  echo "## 4. Thin sourcing on validated entries (sourcing ∈ {intuition, industry})"
+  echo
+  found=0
+  while IFS=$'\t' read -r file id type status review_after sourcing; do
+    [[ "$status" == "validated" ]] || continue
+    if [[ "$sourcing" == "intuition" || "$sourcing" == "industry" ]]; then
+      local title; title="$(fm_scalar title "$file")"
+      echo "- \`${id}\` — \`status: validated\` rests on \`sourcing: ${sourcing}\`. Title: ${title}"
+      found=1
+    fi
+  done < <(_review_iter)
+  [[ $found -eq 0 ]] && echo "OK — every validated entry rests on \`documented\` or \`verbal\` sourcing."
+  echo
+
+  # ── 5. Supersedes chain integrity ─────────────────────────────────
+  echo "## 5. Supersedes chain integrity (broken predecessor or successor links)"
+  echo
+  found=0
+  while IFS=$'\t' read -r file id type status review_after sourcing; do
+    local pred; pred="$(fm_scalar supersedes "$file")"
+    if [[ -n "$pred" ]]; then
+      if [[ ! -f "${ENTRIES_DIR}/${pred}.md" ]]; then
+        echo "- \`${id}\` — \`supersedes: ${pred}\` but \`${pred}.md\` does not exist."
+        found=1
+      else
+        # The predecessor should carry superseded_by pointing back
+        local back; back="$(fm_scalar superseded_by "${ENTRIES_DIR}/${pred}.md")"
+        if [[ "$back" != "$id" ]]; then
+          echo "- \`${pred}\` — superseded by \`${id}\` but its \`superseded_by\` field is \`${back:-<unset>}\`. Mismatch."
+          found=1
+        fi
+      fi
+    fi
+    local sb; sb="$(fm_scalar superseded_by "$file")"
+    if [[ -n "$sb" ]]; then
+      if [[ ! -f "${ENTRIES_DIR}/${sb}.md" ]]; then
+        echo "- \`${id}\` — \`superseded_by: ${sb}\` but \`${sb}.md\` does not exist."
+        found=1
+      fi
+    fi
+  done < <(_review_iter)
+  [[ $found -eq 0 ]] && echo "OK — every supersedes chain links both directions."
+  echo
+
+  # ── 6. Scope-tag entropy (tags used by only one entry) ────────────
+  echo "## 6. Scope-tag entropy (tags used by exactly one entry — candidates to merge)"
+  echo
+  if [[ -d "$ENTRIES_DIR" ]]; then
+    # Aggregate scope tags across entries, count occurrences
+    local tmp; tmp="$(mktemp)"
+    while IFS= read -r f; do
+      [[ -f "$f" ]] || continue
+      local s; s="$(fm_list scope "$f")"
+      [[ -z "$s" ]] && continue
+      printf '%s\n' "$s" | tr ',' '\n' | sed -E 's/^ +| +$//g; /^$/d'
+    done < <(find "$ENTRIES_DIR" -maxdepth 1 -name '*.md' -type f | sort) > "$tmp"
+    local singletons
+    singletons="$(sort "$tmp" | uniq -c | awk '$1 == 1 {print $2}' | sort)"
+    rm -f "$tmp"
+    if [[ -z "$singletons" ]]; then
+      echo "OK — every scope tag is used by at least two entries."
+    else
+      while IFS= read -r tag; do
+        echo "- \`${tag}\` — used by exactly one entry. Consider merging into an existing tag or accepting as singleton."
+      done <<<"$singletons"
+    fi
+  else
+    echo "OK — no chronicle directory yet."
+  fi
+  echo
+  echo "---"
+  echo
+  echo "Run \`/review\` to act on these findings; the agent will propose chronicle entry updates for the unambiguous fixes and surface the rest for a human call."
+}
+
 # ─── arg parsing ─────────────────────────────────────────────────────
 
 case "${1:-}" in
@@ -794,5 +973,6 @@ case "${1:-}" in
   query)    shift; cmd_query "$@" ;;
   summary)  shift; cmd_summary ;;
   validate) shift; cmd_validate "$@" ;;
+  review)   shift; cmd_review ;;
   *) die "unknown subcommand: $1 (see --help)" ;;
 esac
