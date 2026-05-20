@@ -4,7 +4,7 @@
 > (Claude Code) and [`AGENTS.md`](AGENTS.md) (Codex). **Edit here.** The host
 > files are thin shims — they should never duplicate the content of this file.
 
-Hornero ships `product-manager` plus eight cross-role process skills. The
+Hornero ships `product-manager` plus sixteen cross-role process skills. The
 dispatcher protocol below picks the role + skill for a given prompt, declares
 the choice, and runs it. The protocol is built to host multiple roles; with
 one role today, the multi-match and parallel-fan-out paths degrade gracefully
