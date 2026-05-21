@@ -1,0 +1,53 @@
+# Dispatcher routing fixtures
+# Format: prompt<TAB>expected_skill<TAB>expected_role<TAB>notes
+#
+# expected_role values: product-manager, cross-role
+# expected_skill must resolve to an entry in CATALOG.md
+# Lines starting with # are comments; blank lines are ignored.
+#
+# These fixtures document the expected dispatch for representative prompts.
+# validate-dispatcher.sh checks that every expected_skill exists in CATALOG.md
+# and has non-empty scenarios frontmatter — it does not run the LLM.
+
+# ── Explicit slash commands ───────────────────────────────────────────────────
+/ingest transcript.md	ingest	cross-role	explicit slash command — artifact intake
+/prep Maya	prep	cross-role	explicit slash command — stakeholder brief
+/review	review	cross-role	explicit slash command — chronicle health sweep
+/extract-lesson	extract-lesson	cross-role	explicit slash command — session-end lesson capture
+/catalog	harness-check	cross-role	explicit slash command — catalog display
+
+# ── Artifact intake signals ───────────────────────────────────────────────────
+Here is my PRD, please critique it	prd	product-manager	artifact + critique verb → PRD reviewer mode
+Critique this launch plan	prd	product-manager	launch plan artifact → PRD critique
+Here's the positioning deck, review it	positioning-statement	product-manager	positioning artifact
+
+# ── Verb + shape triggers (product-manager skills) ───────────────────────────
+Help me frame this problem before we write the spec	problem-framing-canvas	product-manager	"frame this problem" → problem-framing-canvas
+Write a strategy kernel for our Q3 initiative	strategy-kernel	product-manager	"strategy kernel" explicit naming
+Make the bets in this strategy explicit	bet-portfolio	product-manager	"bets" trigger → bet-portfolio
+Draft OKRs for the activation initiative	okrs	product-manager	"OKRs" → okrs skill
+Write a PRD for the cohort-duplicate feature	prd	product-manager	"PRD" + feature description
+How do I size the market for this vertical	tam-sam-som-calculator	product-manager	market sizing intent
+How healthy is our Rule of 40	saas-economics-efficiency-metrics	product-manager	Rule of 40 → efficiency metrics
+Walk me through our NRR and ARR story	saas-revenue-growth-metrics	product-manager	ARR/NRR → revenue growth metrics
+Prep me for discovery interviews with enterprise users	discovery-interview-prep	product-manager	interview prep intent
+Synthesise the three interviews I ran this week	interview-synthesis	product-manager	post-interview synthesis
+Draft a positioning statement for the new checkout	positioning-statement	product-manager	positioning intent
+Write a working-backwards press release	press-release	product-manager	press release intent
+Prioritise these 12 backlog items for next sprint	prioritization-advisor	product-manager	backlog triage intent
+Define a success metric for the onboarding flow	success-metrics	product-manager	success metric definition intent
+Run a competitive teardown on Stripe	competitive-teardown	product-manager	competitive analysis intent
+
+# ── Verb + shape triggers (cross-role skills) ────────────────────────────────
+Record the decision to defer bulk export to Q4	chronicle-record	cross-role	decision capture intent → chronicle-record
+What decisions are relevant for the pricing initiative	chronicle-recall	cross-role	prior-decisions query intent
+Track new evidence on the activation hypothesis	hypothesis-track	cross-role	evidence tracking → hypothesis-track
+Update Maya's stakeholder entry after today's 1:1	stakeholder-update	cross-role	stakeholder update intent
+Update Acme account health signals	customer-update	cross-role	B2B account update intent
+
+# ── Multi-match cases (should escalate, not silently pick one) ───────────────
+# These are intentionally ambiguous — they match multiple skills.
+# The dispatcher should ask for clarification rather than guess.
+# Format: prompt<TAB>ESCALATE<TAB>cross-role<TAB>reason
+Help me think through the activation problem	ESCALATE	cross-role	matches problem-framing-canvas AND strategy-kernel AND chronicle-recall
+Review this	ESCALATE	cross-role	no artifact type specified — too ambiguous to route

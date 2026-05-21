@@ -1,16 +1,23 @@
 #!/usr/bin/env bash
 # score.sh — interactive scoring + aggregation for multi-role-review evals.
 #
-# Per-run scoring: walks the four rubric dimensions, asks for 0 / 0.25 / 0.5 /
-# 0.75 / 1.0, captures a one-line rationale per dimension, writes
-# evals/runs/<task-slug>/score.json.
+# Per-run scoring (human): walks the four rubric dimensions interactively,
+# writes evals/runs/<task-slug>/score_human.json.
+# (Legacy: if score.json exists and score_human.json does not, score.json
+# is read as a human score for backward compatibility.)
 #
-# Aggregation: reads every score.json under evals/runs/, reports per-task
-# mean and the cross-task mean (the v1 target is ≥ 0.8 across 20 tasks).
+# Per-run scoring (LLM judge): delegates to evals/judge.py, writes
+# evals/runs/<task-slug>/score_llm.json.
+#
+# Aggregation: reads score_human.json + score_llm.json under evals/runs/,
+# reports per-task means and delta (human − LLM). Flags |delta| ≥ 0.25.
+# Human score takes precedence for the reported mean; LLM score is shown
+# alongside for calibration.
 #
 # Usage:
-#   ./evals/score.sh evals/runs/<task-slug>     # score a single run
-#   ./evals/score.sh --aggregate                # aggregate across all runs
+#   ./evals/score.sh evals/runs/<task-slug>          # human score
+#   ./evals/score.sh --judge evals/runs/<task-slug>  # LLM judge score
+#   ./evals/score.sh --aggregate                     # aggregate both
 
 set -euo pipefail
 
@@ -18,61 +25,127 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 # ─── Aggregate mode ───────────────────────────────────────────────────
+# ─── Helpers ──────────────────────────────────────────────────────────
+
+# Extract a numeric field from a score JSON file using jq (if available) or grep.
+_score_field() {
+  local file="$1" field="$2"
+  if command -v jq >/dev/null 2>&1; then
+    jq -r ".${field} // empty" "$file" 2>/dev/null
+  else
+    grep -E "\"${field}\":" "$file" | sed -E 's/.*: *([0-9.]+).*/\1/' | head -1
+  fi
+}
+
+# Return the authoritative human score file for a run directory.
+# Prefers score_human.json; falls back to score.json (legacy).
+_human_score_file() {
+  local dir="$1"
+  if [[ -f "${dir}/score_human.json" ]]; then echo "${dir}/score_human.json"
+  elif [[ -f "${dir}/score.json" ]]; then echo "${dir}/score.json"
+  else echo ""
+  fi
+}
+
+# ─── Aggregate mode ───────────────────────────────────────────────────
 if [[ "${1:-}" == "--aggregate" || "${1:-}" == "-a" ]]; then
   echo "Aggregating scored runs in evals/runs/..."
   echo
-  printf "%-40s %8s %8s %8s %8s %8s\n" "task" "cite" "distinct" "conflict" "action" "mean"
-  printf -- "%.0s-" {1..82}; echo
 
-  total_sum=0
-  total_count=0
-
-  # Pick parser: jq is robust (handles inline and multi-line nested JSON).
-  # Fall back to grep+sed for environments without jq — mis-parses multi-line
-  # nested score objects.
-  if command -v jq >/dev/null 2>&1; then
-    parser="jq"
-  else
-    parser="grep"
+  if ! command -v jq >/dev/null 2>&1; then
     echo "(note: jq not found — using best-effort grep parser; install jq for robust parsing)" >&2
   fi
 
-  for score_file in evals/runs/*/score.json; do
-    [[ -f "$score_file" ]] || continue
-    task=$(basename "$(dirname "$score_file")")
+  # Header
+  printf "%-36s %6s %6s  %s\n" "task" "human" "llm" "delta / flags"
+  printf -- "%.0s-" {1..72}; echo
 
-    if [[ "$parser" == "jq" ]]; then
-      cite=$(jq -r '.dimensions.source_citation_rate.score // .dimensions.source_citation_rate' "$score_file")
-      distinct=$(jq -r '.dimensions.finding_distinctness.score // .dimensions.finding_distinctness' "$score_file")
-      conflict=$(jq -r '.dimensions.conflict_surfacing.score // .dimensions.conflict_surfacing' "$score_file")
-      action=$(jq -r '.dimensions.actionability.score // .dimensions.actionability' "$score_file")
-    else
-      cite=$(grep -E '"source_citation_rate":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
-      distinct=$(grep -E '"finding_distinctness":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
-      conflict=$(grep -E '"conflict_surfacing":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
-      action=$(grep -E '"actionability":' "$score_file" | sed -E 's/.*: *([0-9.]+).*/\1/')
+  total_sum=0
+  total_count=0
+  flag_count=0
+
+  for run_dir in evals/runs/*/; do
+    [[ -d "$run_dir" ]] || continue
+    task=$(basename "$run_dir")
+
+    human_file=$(_human_score_file "$run_dir")
+    llm_file="${run_dir}score_llm.json"
+
+    [[ -z "$human_file" && ! -f "$llm_file" ]] && continue
+
+    human_mean=""
+    llm_mean=""
+
+    if [[ -n "$human_file" ]]; then
+      c=$(_score_field "$human_file" source_citation_rate)
+      d=$(_score_field "$human_file" finding_distinctness)
+      f=$(_score_field "$human_file" conflict_surfacing)
+      a=$(_score_field "$human_file" actionability)
+      [[ -n "$c" && -n "$d" && -n "$f" && -n "$a" ]] && \
+        human_mean=$(awk -v a="$c" -v b="$d" -v c="$f" -v d="$a" 'BEGIN{ printf "%.3f", (a+b+c+d)/4 }')
     fi
-    mean=$(awk -v a="$cite" -v b="$distinct" -v c="$conflict" -v d="$action" 'BEGIN{ printf "%.3f", (a+b+c+d)/4 }')
 
-    printf "%-40s %8s %8s %8s %8s %8s\n" "$task" "$cite" "$distinct" "$conflict" "$action" "$mean"
+    if [[ -f "$llm_file" ]]; then
+      c=$(_score_field "$llm_file" source_citation_rate)
+      d=$(_score_field "$llm_file" finding_distinctness)
+      f=$(_score_field "$llm_file" conflict_surfacing)
+      a=$(_score_field "$llm_file" actionability)
+      [[ -n "$c" && -n "$d" && -n "$f" && -n "$a" ]] && \
+        llm_mean=$(awk -v a="$c" -v b="$d" -v c="$f" -v d="$a" 'BEGIN{ printf "%.3f", (a+b+c+d)/4 }')
+    fi
 
-    total_sum=$(awk -v s="$total_sum" -v m="$mean" 'BEGIN{ printf "%.6f", s + m }')
-    total_count=$((total_count + 1))
+    # Compute delta and flag if |delta| >= 0.25
+    delta_str=""
+    flag=""
+    if [[ -n "$human_mean" && -n "$llm_mean" ]]; then
+      delta_str=$(awk -v h="$human_mean" -v l="$llm_mean" 'BEGIN{ printf "%+.3f", h-l }')
+      flag=$(awk -v h="$human_mean" -v l="$llm_mean" \
+        'BEGIN{ d=h-l; if(d<0)d=-d; print (d>=0.25) ? " ← review" : "" }')
+      [[ -n "$flag" ]] && flag_count=$((flag_count+1))
+    fi
+
+    printf "%-36s %6s %6s  %s%s\n" \
+      "${task:0:36}" \
+      "${human_mean:----}" \
+      "${llm_mean:----}" \
+      "${delta_str}" \
+      "${flag}"
+
+    # Accumulate using human mean if available, else LLM mean
+    report_mean="${human_mean:-$llm_mean}"
+    if [[ -n "$report_mean" ]]; then
+      total_sum=$(awk -v s="$total_sum" -v m="$report_mean" 'BEGIN{ printf "%.6f", s+m }')
+      total_count=$((total_count+1))
+    fi
   done
 
-  printf -- "%.0s-" {1..82}; echo
+  printf -- "%.0s-" {1..72}; echo
   if [[ $total_count -gt 0 ]]; then
-    overall=$(awk -v s="$total_sum" -v n="$total_count" 'BEGIN{ printf "%.3f", s / n }')
-    printf "%-40s %8s %8s %8s %8s %8s\n" "MEAN (n=$total_count)" "" "" "" "" "$overall"
+    overall=$(awk -v s="$total_sum" -v n="$total_count" 'BEGIN{ printf "%.3f", s/n }')
+    printf "%-36s %6s\n" "MEAN (n=$total_count)" "$overall"
     echo
     target_met=$(awk -v m="$overall" 'BEGIN{ print (m >= 0.8) ? "yes" : "no" }')
     echo "v1 target (mean ≥ 0.8 across 20 runs): $target_met"
     [[ $total_count -lt 20 ]] && echo "  (n=$total_count; target requires n≥20)"
+    [[ $flag_count -gt 0 ]] && echo
+    [[ $flag_count -gt 0 ]] && echo "  ← $flag_count run(s) flagged for human review (|human−llm| ≥ 0.25)"
+    [[ $flag_count -gt 0 ]] && echo "    Re-score flagged runs with: ./evals/score.sh evals/runs/<task-slug>"
   else
-    echo "No score.json files found under evals/runs/."
-    echo "Run ./evals/score.sh evals/runs/<task-slug> to score a run."
+    echo "No scored runs found under evals/runs/."
+    echo "Score a run:      ./evals/score.sh evals/runs/<task-slug>"
+    echo "LLM judge a run:  ./evals/score.sh --judge evals/runs/<task-slug>"
   fi
   exit 0
+fi
+
+# ─── LLM judge mode ───────────────────────────────────────────────────
+if [[ "${1:-}" == "--judge" ]]; then
+  shift
+  if [[ -z "${1:-}" ]]; then
+    echo "Usage: $0 --judge evals/runs/<task-slug> [--provider anthropic|openai|gemini] [--model <model>]" >&2
+    exit 2
+  fi
+  exec python3 evals/judge.py "$@"
 fi
 
 # ─── Per-run scoring ──────────────────────────────────────────────────
@@ -96,7 +169,7 @@ if [[ ! -f "$SYNTH" ]]; then
 fi
 
 TASK_SLUG=$(basename "$RUN_DIR")
-SCORE_FILE="$RUN_DIR/score.json"
+SCORE_FILE="$RUN_DIR/score_human.json"
 
 echo "Scoring run: $TASK_SLUG"
 echo "Synthesis: $SYNTH ($(wc -l < "$SYNTH" | tr -d ' ') lines)"
@@ -141,6 +214,7 @@ cat > "$SCORE_FILE" <<EOF
   "task": "$TASK_SLUG",
   "scored_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "rubric_version": "v0",
+  "judge": "human",
   "source_citation_rate": $cite_val,
   "source_citation_rationale": "$cite_note",
   "finding_distinctness": $dist_val,
@@ -161,4 +235,5 @@ echo "  conflict:     $conf_val"
 echo "  actionable:   $act_val"
 echo "  mean:         $mean"
 echo
-echo "Run ./evals/score.sh --aggregate to see the running mean."
+echo "LLM judge this run:  ./evals/score.sh --judge $RUN_DIR"
+echo "Aggregate all runs:  ./evals/score.sh --aggregate"

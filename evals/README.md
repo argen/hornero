@@ -23,18 +23,72 @@ Each dimension scored 0 / 0.25 / 0.5 / 0.75 / 1.0 per the rubric. A run's score 
 
 ## Method
 
-Per task:
+Two scoring paths — human and LLM judge — complement each other:
 
-1. **Run** `multi-role-review` against the task artifact (PR diff / RFC / spec / launch plan). Specify role count, roles, and any orchestrator (PM-orchestrator vs. generic).
-2. **Capture** the synthesis output to `evals/runs/<task-slug>/synthesis.md` and each role's per-artifact output to `evals/runs/<task-slug>/<role>.md`.
-3. **Score** with [`score.sh`](score.sh) — interactive prompt that walks the four rubric dimensions and asks for a 0-1 reading per dimension, then writes `evals/runs/<task-slug>/score.json`.
-4. **Aggregate** with `score.sh --aggregate` — reads every `score.json` under `evals/runs/`, reports per-task scores and the mean.
+- **Human** (`score_human.json`) — the authority. Slow but calibrated.
+- **LLM judge** (`score_llm.json`) — throughput tool. Fast but may be systematically biased on specific dimensions.
+- **Aggregate** shows both side-by-side and flags runs where `|human − llm| ≥ 0.25` for human review.
 
-Pre-registration discipline (per the data-scientist role's discipline):
+The LLM judge is **provider-agnostic** — Anthropic, OpenAI, or Gemini. Each provider's SDK is lazy-imported, so you only install the one you'll use. The `judge_provider` and `judge_model` fields in `score_llm.json` record which model produced each score, so you can compare providers and detect provider-specific bias.
+
+| Provider | Default model | API key env | Install |
+|---|---|---|---|
+| `anthropic` (default) | `claude-sonnet-4-6` | `ANTHROPIC_API_KEY` | `pip install anthropic` |
+| `openai` | `gpt-4o` | `OPENAI_API_KEY` | `pip install openai` |
+| `gemini` | `gemini-1.5-pro` | `GEMINI_API_KEY` | `pip install google-genai` |
+
+Override the default provider with `--provider` (or `EVAL_JUDGE_PROVIDER` env var); override the model with `--model` (or `EVAL_JUDGE_MODEL` env var).
+
+### Recommended workflow
+
+1. **Run** `multi-role-review` against the task artifact. Capture synthesis to `evals/runs/<task-slug>/synthesis.md`.
+2. **LLM-judge all tasks first** (fast, no human time required):
+   ```bash
+   for dir in evals/runs/*/; do ./evals/score.sh --judge "$dir"; done
+
+   # Or with a non-default provider:
+   for dir in evals/runs/*/; do ./evals/score.sh --judge "$dir" --provider openai; done
+   ```
+3. **Aggregate** to surface which runs have high human-LLM delta:
+   ```bash
+   ./evals/score.sh --aggregate
+   ```
+4. **Human-score the flagged runs** (those with `← review` in the aggregate output):
+   ```bash
+   ./evals/score.sh evals/runs/<flagged-task-slug>
+   ```
+5. **Re-aggregate** — human scores take precedence over LLM scores in the mean.
+
+### Cross-provider judging (advanced)
+
+Running the judge across two or more providers on the same runs is a useful precision technique: if Anthropic and OpenAI both score a run at 0.5 while Gemini scores it at 1.0, the provider is the variable and the human score breaks the tie. Each provider's score overwrites the previous `score_llm.json` for that run, so capture cross-provider runs to separate files or different run directories if you want to compare them.
+
+### Score file locations
+
+| File | Written by | Meaning |
+|---|---|---|
+| `score_human.json` | `score.sh <run-dir>` (interactive) | Human-judged score; authoritative |
+| `score_llm.json` | `score.sh --judge <run-dir>` or `judge.py <run-dir>` | LLM-judged score; records `judge_provider` + `judge_model` |
+| `score.json` | Legacy (old `score.sh`) | Read as human score for backward compatibility |
+
+### Pre-registration discipline (per the data-scientist role's discipline)
 
 - Score immediately after the run, before reading other runs' scores.
 - Don't re-score a run after seeing the aggregate mean.
 - A failing dimension is informative — don't round up because the run "felt good."
+
+### LLM judge calibration
+
+**Calibration target:** mean `|human − LLM|` delta < 0.1 across calibration runs.
+
+If the delta is consistently > 0.1 on a specific dimension:
+1. Re-read the rubric for that dimension
+2. Add a concrete one-sentence example for the 0.25 and 0.75 levels (the boundary cases where LLMs tend to drift)
+3. Re-judge a few runs with the updated prompt and compare again
+
+Document systematic offsets below. Recalibrate quarterly or after any rubric change.
+
+**Current calibration notes:** *(no runs scored yet — populate after first campaign)*
 
 ## What's in scope for the eval
 
@@ -70,8 +124,14 @@ cp <artifact-source> evals/runs/<task-slug>/artifact.md  # or link
 #  evals/runs/<task-slug>/synthesis.md and each role's output to
 #  evals/runs/<task-slug>/<role>.md."
 
-# Then score
+# LLM-judge first (fast)
+./evals/score.sh --judge evals/runs/<task-slug>
+
+# Human score if flagged (|delta| >= 0.25 in aggregate report)
 ./evals/score.sh evals/runs/<task-slug>
+
+# See the running mean
+./evals/score.sh --aggregate
 ```
 
 ## How to add a new task
