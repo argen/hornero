@@ -123,7 +123,7 @@ Both are idempotent. `scripts/smoke-check.sh` fails loudly if either gets out of
 
 ### CI + local guards
 
-Every PR runs `validate-skill`, `validate-resource`, `test-validate-resource`, and `smoke-check` in GitHub Actions — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml). No secrets, no API credits, no network.
+Every PR runs `validate-skill`, `validate-resource`, `test-validate-resource`, `validate-dispatcher`, and `smoke-check` in GitHub Actions — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml). No secrets, no API credits, no network.
 
 To catch the same breakage locally before push, opt into the pre-commit shim:
 
@@ -132,6 +132,8 @@ To catch the same breakage locally before push, opt into the pre-commit shim:
 ```
 
 It symlinks `scripts/hooks/pre-commit` into `.git/hooks/`. Run with `--remove` to undo. Not auto-installed.
+
+See [`playbooks/harness-guide.md`](playbooks/harness-guide.md) for the full inventory of determinism invariants, what each check validates, and how to extend the harness without breaking it.
 
 ### Plugin namespace caveat (Claude Code)
 
@@ -267,6 +269,8 @@ Every entry carries a `sourcing` field — `documented > verbal > intuition > in
 
 A deterministic harness at [`tests/chronicle/`](tests/chronicle/) backs the layer: every schema rule has a planted-flaw fixture, every query has a frozen expected output, every append case (positive + negative) has byte-diff and diagnostic-substring tests. `scripts/test-chronicle.sh` runs 33 checks in `smoke-check.sh` and in the pre-commit hook.
 
+**Multi-role-review evals** at [`evals/`](evals/) measure output quality on 20 representative cross-functional tasks using a human + LLM dual-score approach: `evals/judge.py` scores a synthesis automatically via the Claude API (writes `score_llm.json`); `evals/score.sh` handles human scoring (writes `score_human.json`) and aggregation with delta flagging. See [`evals/README.md`](evals/README.md).
+
 Full one-liner index: [`CATALOG.md`](CATALOG.md).
 
 ---
@@ -294,6 +298,7 @@ Values that need editing are marked `<like this>`.
 - [`playbooks/skill-rot-review.md`](playbooks/skill-rot-review.md) — quarterly retirement cadence; the judgment turn that pairs with `/audit`.
 - [`playbooks/claude-md-layering.md`](playbooks/claude-md-layering.md) — when to add a sub-`CLAUDE.md` and what belongs in root vs. sub.
 - [`playbooks/memory-loop.md`](playbooks/memory-loop.md) — the project-local memory layer end-to-end.
+- [`examples/use-cases.md`](examples/use-cases.md) — six PM workflow sequences (discovery cycle, strategy kernel, launch readiness, finance review, weekly rhythm, stakeholder prep) — the multi-skill patterns that compound.
 - [`examples/sample-session.md`](examples/sample-session.md) — annotated PM session showing the dispatcher → role-adoption → synthesis flow.
 - [`examples/week-with-hornero.md`](examples/week-with-hornero.md) — five-day narrative of one PM using `/ingest`, `/prep`, `/review`, and chronicle-record across a real initiative; shows how the chronicle layer grows.
 - [`ROADMAP.md`](ROADMAP.md) — current status and what's next.

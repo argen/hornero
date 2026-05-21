@@ -353,7 +353,21 @@ else
   bad "scripts/test-chronicle.sh missing or not executable"
 fi
 
-# ─── Step 12 (optional): real install + verify ────────────────────────
+# ─── Step 12: dispatcher routing fixtures ────────────────────────────
+step "dispatcher: routing fixtures + catalog description completeness"
+
+if [[ -x ./scripts/validate-dispatcher.sh ]]; then
+  if ./scripts/validate-dispatcher.sh >/tmp/hornero-dispatcher.log 2>&1; then
+    ok "$(grep -c '✓' /tmp/hornero-dispatcher.log 2>/dev/null || echo 0) dispatcher checks passed"
+  else
+    bad "validate-dispatcher.sh failed (see /tmp/hornero-dispatcher.log)"
+    tail -20 /tmp/hornero-dispatcher.log >&2
+  fi
+else
+  bad "scripts/validate-dispatcher.sh missing or not executable"
+fi
+
+# ─── Step 13 (optional): real install + verify ────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 

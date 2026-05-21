@@ -8,6 +8,10 @@
           {
             "type": "command",
             "command": "echo '↪ Hornero here. Tell me what you'\\''re working on and I'\\''ll find the right lens. (/hornero:kickoff for a guided start, /hornero:catalog for the full set.)'"
+          },
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT:-.}/hooks/session-start-check.sh\""
           }
         ]
       }
