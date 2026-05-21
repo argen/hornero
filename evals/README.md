@@ -29,12 +29,25 @@ Two scoring paths — human and LLM judge — complement each other:
 - **LLM judge** (`score_llm.json`) — throughput tool. Fast but may be systematically biased on specific dimensions.
 - **Aggregate** shows both side-by-side and flags runs where `|human − llm| ≥ 0.25` for human review.
 
+The LLM judge is **provider-agnostic** — Anthropic, OpenAI, or Gemini. Each provider's SDK is lazy-imported, so you only install the one you'll use. The `judge_provider` and `judge_model` fields in `score_llm.json` record which model produced each score, so you can compare providers and detect provider-specific bias.
+
+| Provider | Default model | API key env | Install |
+|---|---|---|---|
+| `anthropic` (default) | `claude-sonnet-4-6` | `ANTHROPIC_API_KEY` | `pip install anthropic` |
+| `openai` | `gpt-4o` | `OPENAI_API_KEY` | `pip install openai` |
+| `gemini` | `gemini-1.5-pro` | `GEMINI_API_KEY` | `pip install google-genai` |
+
+Override the default provider with `--provider` (or `EVAL_JUDGE_PROVIDER` env var); override the model with `--model` (or `EVAL_JUDGE_MODEL` env var).
+
 ### Recommended workflow
 
 1. **Run** `multi-role-review` against the task artifact. Capture synthesis to `evals/runs/<task-slug>/synthesis.md`.
 2. **LLM-judge all tasks first** (fast, no human time required):
    ```bash
    for dir in evals/runs/*/; do ./evals/score.sh --judge "$dir"; done
+
+   # Or with a non-default provider:
+   for dir in evals/runs/*/; do ./evals/score.sh --judge "$dir" --provider openai; done
    ```
 3. **Aggregate** to surface which runs have high human-LLM delta:
    ```bash
@@ -46,12 +59,16 @@ Two scoring paths — human and LLM judge — complement each other:
    ```
 5. **Re-aggregate** — human scores take precedence over LLM scores in the mean.
 
+### Cross-provider judging (advanced)
+
+Running the judge across two or more providers on the same runs is a useful precision technique: if Anthropic and OpenAI both score a run at 0.5 while Gemini scores it at 1.0, the provider is the variable and the human score breaks the tie. Each provider's score overwrites the previous `score_llm.json` for that run, so capture cross-provider runs to separate files or different run directories if you want to compare them.
+
 ### Score file locations
 
 | File | Written by | Meaning |
 |---|---|---|
 | `score_human.json` | `score.sh <run-dir>` (interactive) | Human-judged score; authoritative |
-| `score_llm.json` | `score.sh --judge <run-dir>` or `judge.py <run-dir>` | LLM-judged score; calibration signal |
+| `score_llm.json` | `score.sh --judge <run-dir>` or `judge.py <run-dir>` | LLM-judged score; records `judge_provider` + `judge_model` |
 | `score.json` | Legacy (old `score.sh`) | Read as human score for backward compatibility |
 
 ### Pre-registration discipline (per the data-scientist role's discipline)

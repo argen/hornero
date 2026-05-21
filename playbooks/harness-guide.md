@@ -200,11 +200,11 @@ All of these are run in CI on every PR. Run them locally with `scripts/install-g
 The eval harness at [`evals/`](../evals/) measures output quality (not structural validity). It uses a human + LLM dual-score approach to balance throughput with accuracy:
 
 - **Human score** → `score_human.json`: the authority; scored interactively via `evals/score.sh <run-dir>`
-- **LLM score** → `score_llm.json`: throughput tool; scored automatically via `python evals/judge.py <run-dir>`
+- **LLM score** → `score_llm.json`: throughput tool; scored automatically via `python evals/judge.py <run-dir>` — provider-agnostic (anthropic / openai / gemini), records `judge_provider` + `judge_model`
 - **Calibration target:** mean |human − LLM| delta < 0.1 across scored runs
 - **Workflow:** LLM scores all 20 tasks first; human reviews the 5-10 with the highest |delta| ≥ 0.25 flags; `score.sh --aggregate` shows both side-by-side
 
-If the LLM delta is consistently > 0.1 on a specific dimension, the judge prompt needs a concrete example for that dimension. Recalibrate quarterly or after any rubric change. Document offsets in [`evals/README.md`](../evals/README.md).
+If the LLM delta is consistently > 0.1 on a specific dimension, the judge prompt needs a concrete example for that dimension. Cross-provider judging (running the same runs through Anthropic *and* OpenAI *and* Gemini) is a useful precision technique — if providers disagree, the provider is the variable and the human score breaks the tie. Recalibrate quarterly or after any rubric change. Document offsets in [`evals/README.md`](../evals/README.md).
 
 ---
 

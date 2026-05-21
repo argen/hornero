@@ -141,12 +141,11 @@ fi
 # ─── LLM judge mode ───────────────────────────────────────────────────
 if [[ "${1:-}" == "--judge" ]]; then
   shift
-  RUN_DIR="${1:-}"
-  if [[ -z "$RUN_DIR" ]]; then
-    echo "Usage: $0 --judge evals/runs/<task-slug>" >&2
+  if [[ -z "${1:-}" ]]; then
+    echo "Usage: $0 --judge evals/runs/<task-slug> [--provider anthropic|openai|gemini] [--model <model>]" >&2
     exit 2
   fi
-  exec python3 evals/judge.py "$RUN_DIR"
+  exec python3 evals/judge.py "$@"
 fi
 
 # ─── Per-run scoring ──────────────────────────────────────────────────
