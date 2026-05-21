@@ -123,7 +123,7 @@ Both are idempotent. `scripts/smoke-check.sh` fails loudly if either gets out of
 
 ### CI + local guards
 
-Every PR runs `validate-skill`, `validate-resource`, `test-validate-resource`, `validate-dispatcher`, and `smoke-check` in GitHub Actions — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml). No secrets, no API credits, no network.
+Every PR runs `validate-skill`, `validate-resource`, `test-validate-resource`, and `smoke-check` in GitHub Actions — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml). `validate-dispatcher` runs transitively as step 12 inside `smoke-check`. No secrets, no API credits, no network.
 
 To catch the same breakage locally before push, opt into the pre-commit shim:
 

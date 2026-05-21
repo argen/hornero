@@ -4,6 +4,10 @@ Guidance for working **on** the Hornero repo itself — adding roles, editing
 skills, regenerating the catalog. For using Hornero in your own project, see
 [`README.md`](README.md).
 
+For the determinism invariants the harness rests on — what each validator
+checks, how the layers compose, and what is forbidden — see
+[`playbooks/harness-guide.md`](playbooks/harness-guide.md).
+
 ## Skill anatomy
 
 Every `SKILL.md` is enforced by [`scripts/validate-skill.sh`](scripts/validate-skill.sh):
@@ -138,6 +142,17 @@ strict Red/Green TDD:
 Doc-only or skill-only changes don't need a test. Anything that runs as code
 does.
 
+## Dispatcher routing fixtures
+
+Routing expectations for representative prompts are captured in
+[`tests/dispatcher/routes.tsv`](tests/dispatcher/routes.tsv) — tab-separated
+`prompt → expected_skill → expected_role` triples plus `ESCALATE` entries for
+documented multi-match cases.
+[`scripts/validate-dispatcher.sh`](scripts/validate-dispatcher.sh) runs three
+deterministic checks against the fixtures (dead references, CATALOG.md
+description completeness, scenarios frontmatter presence). When you rename or
+remove a skill, update `routes.tsv` to match — CI will fail otherwise.
+
 ## Branch hygiene
 
 - Branch from a clean `main` (`git status` clean, `git pull --ff-only`
@@ -158,10 +173,11 @@ does.
 ./scripts/build-plugin-skills.sh   # if you added or renamed a per-role skill
 ./scripts/build-codex-agents.sh    # if you touched any agents/*.md
 ./scripts/catalog.sh               # if you touched any frontmatter
-./scripts/smoke-check.sh           # always — confirms counts, symlinks, sync, and cross-refs
+./scripts/validate-dispatcher.sh   # if you renamed/removed a skill or edited tests/dispatcher/routes.tsv
+./scripts/smoke-check.sh           # always — confirms counts, symlinks, sync, cross-refs, and dispatcher fixtures
 ```
 
-These four (`validate-skill`, `validate-resource`, `test-validate-resource`, `smoke-check`) also run in CI on every PR — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml). CI is the authoritative gate. To catch the same breakage **before** push, opt into the local pre-commit shim:
+These also run in CI on every PR — `validate-skill`, `validate-resource`, `test-validate-resource`, and `smoke-check` as explicit steps; `validate-dispatcher` runs transitively as step 12 inside `smoke-check`. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml). CI is the authoritative gate. To catch the same breakage **before** push, opt into the local pre-commit shim:
 
 ```sh
 ./scripts/install-git-hooks.sh     # symlinks scripts/hooks/pre-commit into .git/hooks/
