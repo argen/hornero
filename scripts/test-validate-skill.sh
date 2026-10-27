@@ -103,6 +103,38 @@ write_skill "$TMP/namecolon.md" "name: bad: name" "description: ok."
 assert_fail "unquoted name with ': ' fails" "$TMP/namecolon.md" \
   "frontmatter: name must be quoted (contains ': ' or YAML indicator)"
 
+MSG_Q="frontmatter: description must be quoted (contains ': ' or YAML indicator)"
+
+write_skill "$TMP/coltab.md" "name: coltab" $'description: Use when a:\tb changes.'
+assert_fail "unquoted description with ':<TAB>' fails" "$TMP/coltab.md" "$MSG_Q"
+
+write_skill "$TMP/colend.md" "name: colend" 'description: Use when the key is:'
+assert_fail "unquoted description ending in ':' fails" "$TMP/colend.md" "$MSG_Q"
+
+for ch in '-' '?' ',' ']' '}'; do
+  write_skill "$TMP/ind.md" "name: ind" "description: ${ch}leading indicator."
+  assert_fail "unquoted description starting with '${ch}' fails" "$TMP/ind.md" "$MSG_Q"
+done
+
+write_skill "$TMP/hash.md" "name: hash" 'description: Use when planning # not a comment.'
+assert_fail "unquoted description containing ' #' fails" "$TMP/hash.md" \
+  "frontmatter: description must be quoted (contains ' #' comment start)"
+
+write_skill "$TMP/hashok.md" "name: hashok" 'description: Use when issue#12 changes.'
+assert_pass "unquoted description with '#' not preceded by space passes" "$TMP/hashok.md"
+
+write_skill "$TMP/hashq.md" "name: hashq" 'description: "Use when planning # fine."'
+assert_pass "quoted description containing ' #' passes" "$TMP/hashq.md"
+
+write_skill "$TMP/unclosed.md" "name: unclosed" 'description: "Use when the quote never closes.'
+assert_fail "opening double quote without closing quote fails" "$TMP/unclosed.md" \
+  "frontmatter: description has an unclosed quote"
+
+write_skill "$TMP/unclosedn.md" "name: unclosedn" 'description: ok.' 
+sed -i.bak 's/^name: unclosedn/name: "unclosedn/' "$TMP/unclosedn.md"
+assert_fail "name with unclosed double quote fails" "$TMP/unclosedn.md" \
+  "frontmatter: name has an unclosed quote"
+
 long="$(printf 'a%.0s' $(seq 1 1024))"
 write_skill "$TMP/len1024.md" "name: len1024" "description: ${long:0:1013}"
 assert_pass "description at exactly 1024 chars passes" "$TMP/len1024.md"

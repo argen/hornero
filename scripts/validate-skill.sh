@@ -8,7 +8,8 @@
 #   3. Anti-patterns / Common Pitfalls section is non-empty
 #   4. References section is non-empty (citation discipline)
 #   5. Single-line name/description values are YAML-safe: an unquoted value
-#      must not contain ': ' or start with a YAML indicator character
+#      must not contain ': ', ':<TAB>', ' #' or end in ':', must not start
+#      with a YAML indicator character, and a leading quote must be closed
 #   6. description is at most 1024 characters (Claude API limit)
 #   7. Warn (non-fatal) when a file exceeds 500 lines
 #
@@ -53,13 +54,26 @@ for file in "$@"; do
     awk '/^---$/{c++; next} c==1' "$2" | sed -n "s/^$1:[[:space:]]*//p" | head -1
   }
 
+  indicator='^[]`*&!|>%@[{#?,}-]'
   for field in name description; do
     val=$(fm_value "$field" "$file")
     case "$val" in
-      \"*|\'*|"|"*|">"*) ;;
+      \"*)
+        if [[ ${#val} -lt 2 || ! "$val" =~ [^\\]\"$ ]]; then
+          echo "  ✗ frontmatter: ${field} has an unclosed quote"; FAIL=1
+        fi
+        ;;
+      \'*)
+        if [[ ${#val} -lt 2 || "$val" != *\' ]]; then
+          echo "  ✗ frontmatter: ${field} has an unclosed quote"; FAIL=1
+        fi
+        ;;
+      "|"*|">"*) ;;
       *)
-        if [[ "$val" == *": "* || "$val" =~ ^[\`\*\&\!\|\>\%\@\[\{\#] ]]; then
+        if [[ "$val" == *": "* || "$val" == *":"$'\t'* || "$val" == *: || "$val" =~ $indicator ]]; then
           echo "  ✗ frontmatter: ${field} must be quoted (contains ': ' or YAML indicator)"; FAIL=1
+        elif [[ "$val" == *" #"* ]]; then
+          echo "  ✗ frontmatter: ${field} must be quoted (contains ' #' comment start)"; FAIL=1
         fi
         ;;
     esac
