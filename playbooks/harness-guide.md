@@ -107,7 +107,7 @@ The idempotency check (`stop_hook_active`) is the key invariant. Without it, the
 | 5 | Every CATALOG entry resolves to a real directory on disk |
 | 6 | `install.sh --dry-run` reports the expected file count |
 | 7 | `skills/` holds only real directories (no symlinks); every `role:` value names an existing `roles/<role>/ROLE.md` |
-| 8 | `.codex-plugin/plugin.json` valid + in sync with `.claude-plugin/`; Codex agent TOMLs parse and match Markdown sources |
+| 8 | root `plugin.json` valid + in sync with `.claude-plugin/`, `mcp.json` servers match; Codex agent TOMLs parse and match Markdown sources |
 | 9 | Every RESOURCE.md passes `validate-resource.sh` anatomy lint |
 | 10 | Skill `resources:` → RESOURCE.md and RESOURCE.md `used_by:` → SKILL.md are bidirectionally consistent |
 | 11 | Chronicle: `validate` (schema) + `test-chronicle.sh` (33 determinism checks) |

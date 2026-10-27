@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Hornero are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Plugin version is anchored in `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`.
+All notable changes to Hornero are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Plugin version is anchored in `.claude-plugin/plugin.json` and the root `plugin.json`.
 
 ## [Unreleased]
 

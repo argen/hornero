@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "hornero",
+  "version": "0.3.0",
+  "description": "Role-and-skill methodology for product managers: PM reviewer subagent and 59 skills (38 product-management, 16 cross-role process, 5 command skills), including the chronicle layer for durable decisions.",
+  "author": {
+    "name": "Bruno Belcastro"
+  },
+  "homepage": "https://github.com/argen/hornero",
+  "repository": "https://github.com/argen/hornero",
+  "license": "MIT",
+  "keywords": ["product-management", "skills", "prd", "strategy", "discovery", "chronicle"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Hornero",
+        "shortDescription": "Expert-grounded product-management skills with a durable decision chronicle.",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "defaultPrompt": [
+          "Use Hornero to kick off: help me pick the right lens for what I am working on.",
+          "Use Hornero to critique my PRD draft."
+        ]
+      },
+      "onboardingSkill": "./skills/kickoff/SKILL.md"
+    }
+  }
+}

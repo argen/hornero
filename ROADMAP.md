@@ -33,7 +33,7 @@ One role, `product-manager`, carrying **38 expert-grounded skills**:
 ### Plumbing
 
 - **Flat skills layout** — every skill is a real directory at `skills/<name>/` (role membership is a `role:` frontmatter key; slash commands are `type: command` skills). No symlink generator; `.claude/skills` points at `skills/` for project-level discovery.
-- **Vendor-agnostic plugin parity** — `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` sibling manifests; reviewer subagents available as `agents/<name>.md` (Claude) and auto-generated `.codex/agents/<name>.toml` (Codex). `install.sh --claude / --codex / --both` for global installs.
+- **Vendor-agnostic plugin parity** — `.claude-plugin/plugin.json` and a portable root `plugin.json` (Agent Plugins standard, Codex settings under `extensions["com.openai"]`); reviewer subagents available as `agents/<name>.md` (Claude) and auto-generated `.codex/agents/<name>.toml` (Codex). `install.sh --claude / --codex / --both` for global installs.
 - **CI self-breakage guard** — `validate-skill`, `validate-resource`, `test-validate-resource`, `smoke-check` on every PR; opt-in local pre-commit mirror via `scripts/install-git-hooks.sh`.
 - **Antagonistic reviewer harness** — `scripts/play-against.sh --check` for catastrophic-persona-drift regression on the PM reviewer.
 
@@ -81,7 +81,9 @@ Follow-on now that `hypothesis-track` is shipped: `skills/bet-portfolio/SKILL.md
 
 ### Distribution
 
-- **Marketplace submission** for both Claude Code and Codex (manifests already ship — `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`).
+- **Marketplace files ship**: `.claude-plugin/marketplace.json` (`/plugin marketplace add argen/hornero`) and `.agents/plugins/marketplace.json` for Codex. `npx skills add argen/hornero` installs the skills into ~75 agents.
+- **Public Codex directory submission is blocked** by the hooks rule: a plugin that ships hooks is ineligible, and `hooks/hooks.json` stays because Claude Code needs it. Revisit if hooks can be split per host.
+- **Official Claude marketplace submission** still open (the validator also asks for a plugin icon).
 - **Publish as `npx hornero init`** for one-step setup in any repo.
 
 ### Infrastructure
