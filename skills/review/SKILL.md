@@ -7,7 +7,7 @@ intent: |
   revisit-by without re-examination, stakeholders go silent for months,
   and singleton scope tags accumulate. The chronicle's signal-to-noise
   decays without an explicit sweep.
-allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)
+allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh review*), Bash(scripts/chronicle.sh query *), Bash(scripts/chronicle.sh summary*), Bash(scripts/chronicle.sh validate*)
 type: workflow
 theme: memory
 best_for:
@@ -34,6 +34,8 @@ Run the chronicle-health sweep. The skill consumes the structured findings from 
 - **`/review`** runs manually, weekly. It tends the **chronicle** — entries, supersedes chains, sourcing discipline, scope-tag entropy.
 
 The two skills cover the two long-lived layers Hornero compounds in. Neither replaces the other.
+
+> Under a plugin install the script lives at `${CLAUDE_PLUGIN_ROOT}/scripts/chronicle.sh`, so the `allowed-tools` pre-approval does not apply and each call prompts.
 
 ## Key Concepts
 

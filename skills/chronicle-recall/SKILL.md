@@ -7,7 +7,7 @@ intent: |
   already considered, validated, or refuted. Reviewer subagents call this
   skill at the top of every review; producer skills call it before
   drafting a new artifact.
-allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)
+allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh query *), Bash(scripts/chronicle.sh summary*), Bash(scripts/chronicle.sh validate*)
 type: workflow
 theme: memory
 best_for:
@@ -30,6 +30,8 @@ estimated_time: 1-3 minutes
 Scan the project's Chronicle layer before doing fresh work. If a relevant decision exists, the work should start *upstream of that decision*, not re-derive it. This skill is the read side of the Chronicle loop; [`chronicle-record`](../chronicle-record/SKILL.md) is the write side.
 
 The skill is short by design. It is the **discipline of looking first**, executed via two cheap, deterministic operations: read `chronicle/SUMMARY.md` (cold-start digest), and run `scripts/chronicle.sh query ...` (filtered scan). No vector search, no LLM in the read path — same guarantee as `memory-query`, but against a strict-schema corpus that supports structured filters.
+
+> Under a plugin install the script lives at `${CLAUDE_PLUGIN_ROOT}/scripts/chronicle.sh`, so the `allowed-tools` pre-approval does not apply and each call prompts.
 
 ## Key Concepts
 
