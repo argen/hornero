@@ -39,6 +39,9 @@ jobs:
       - name: test-validate-skill.sh (validator unit tests)
         run: ./scripts/test-validate-skill.sh
 
+      - name: test-check-md-links.sh (link checker unit tests)
+        run: ./scripts/test-check-md-links.sh
+
       - name: Install Claude Code CLI (for claude plugin validate)
         run: |
           npm install -g @anthropic-ai/claude-code

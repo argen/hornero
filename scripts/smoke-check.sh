@@ -387,7 +387,17 @@ else
   rm -rf "$DEREF"
 fi
 
-# ─── Step 14 (optional): real install + verify ────────────────────────
+# ─── Step 14: relative markdown links resolve ─────────────────────────
+step "relative markdown link existence (scripts/check-md-links.sh)"
+
+if ./scripts/check-md-links.sh >/tmp/hornero-md-links.log 2>&1; then
+  ok "$(tail -1 /tmp/hornero-md-links.log | sed 's/^✓ //')"
+else
+  bad "broken relative markdown links (see /tmp/hornero-md-links.log)"
+  head -30 /tmp/hornero-md-links.log >&2
+fi
+
+# ─── Step 15 (optional): real install + verify ────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 
