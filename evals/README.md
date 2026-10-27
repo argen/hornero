@@ -46,7 +46,7 @@ Cost: a routing case is a few turns on a small prompt (cents). An artifact case 
 ## Add a case
 
 1. `claude plugin eval init --bare <name>` or copy an existing directory under `cases/`.
-2. Put the whole prompt, artifact included, in `prompt.md`; each run starts empty.
+2. Put the whole prompt, artifact included, in `prompt.md`; each run starts empty. Artifact-intake routing prompts ("critique this PRD") carry the artifact inline for the same reason: an empty workspace gives the model nothing to read, so it asks for the file instead of invoking the skill.
 3. Add `graders/skill-fired.md` (`tool_used` with an `input_match` on the skill name) and, for artifacts, a `quality.md` with concrete PASS/FAIL conditions.
 4. For a routing case, add the row to `tests/dispatcher/routes.tsv` and name the directory `route-<skill>` (`-2`, `-3` for repeats of the same skill). Run `./scripts/validate-dispatcher.sh`.
 
