@@ -103,7 +103,7 @@ Then enable the `hornero` plugin in `~/.codex/config.toml`.
 ./install.sh --codex
 ```
 
-Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (TOML), session hooks → `~/.codex/hooks.json`. Slash commands ship as skills, so there is no separate prompts directory.
+Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (TOML), session hooks → `~/.codex/hooks.json`. Slash commands ship as skills, so there is no separate prompts directory and no `/orchestrate` style prompt. In Codex, invoke a skill explicitly by typing `$` or `/skills` and picking it (for example `$orchestrate`), or describe the task in natural language and let Codex match the skill implicitly. `disable-model-invocation` is a Claude Code field that Codex ignores.
 
 ### What you get either way (both hosts)
 

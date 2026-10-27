@@ -36,10 +36,14 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 - This changelog.
 - Hardening of the new checks: `validate-skill.sh` also rejects unquoted values with `:<TAB>`, a trailing `:`, a leading `-`/`?`/`,`/`]`/`}`, a ` #` comment start, or an unclosed quote; `check-md-links.sh` ignores inline code spans and `~~~` fences, skips any URI scheme and accepts `<angle>` targets; `smoke-check.sh` validates a tracked-files-only dereferenced copy and no longer aborts on missing validator output; CI pins the Claude Code CLI to 2.1.311 with the auto-updater disabled.
 
+### Upgrading
+
+- `install.sh` now prunes files the previous install recorded in `.hornero-manifest` that the new install does not write (old `~/.claude/commands/*.md`, `~/.codex/prompts/*.md`, `~/.claude/skills/<role>-<skill>/`), honouring `--dry-run`; run `./install.sh` again to clean up. Files that are not hidden (dotfiles under `skills/`) are no longer installed.
+
 ### Removed
 
 - `commands/` and the `.claude/commands` symlink (superseded by skills), and `scripts/build-plugin-skills.sh` (no symlinks left to generate).
-- `install.sh` no longer copies to `~/.claude/commands` or `~/.codex/prompts`; the skills cover both.
+- `install.sh` no longer copies to `~/.claude/commands` or `~/.codex/prompts`; skills replace both. Claude Code users type `/<name>`. Codex has no `disable-model-invocation` and no prompts directory here, so a Codex user invokes a skill explicitly by typing `$` or using `/skills` to mention it (for example `$orchestrate`), or implicitly by describing the task in natural language.
 
 ## [0.3.0] - 2026-05
 
