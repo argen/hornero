@@ -4,36 +4,31 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 
 ## [Unreleased]
 
-### Changed
-
-- `prd`, `positioning-statement`, `success-metrics`, `strategy-kernel`, `bet-portfolio` and `cross-functional-orchestration` carry an Output discipline block: each finding names its framework and author, at least one trade-off is stated, and the response ends with one to three concrete next actions. Artifact eval cases went from 0.40-0.60 to 0.86-1.00.
+## [0.4.0] - 2026-10-27
 
 ### Added
 
 - `claude plugin eval` suite under `evals/cases/`: 25 routing cases (one per natural-language row of `tests/dispatcher/routes.tsv`, graded on the skill that fired) and 7 PM-lens artifact cases with an `llm` quality grader. `validate-dispatcher.sh` Check 4 keeps routes.tsv and the routing cases in sync.
 - `EVAL_HORNERO_NO_AUTO_EXTRACT=1` opt-out in `hooks/auto-extract-lesson.sh`, set by every eval case so the Stop hook's extra lesson turn does not alter graded output.
 - `.github/workflows/evals.yml`: opt-in (`workflow_dispatch` plus weekly) eval run; needs the `ANTHROPIC_API_KEY` secret. `ci.yml` does not run evals.
+- `.claude-plugin/marketplace.json`: `/plugin marketplace add argen/hornero` then `/plugin install hornero@hornero`.
+- Portable root `plugin.json` (Agent Plugins standard) with Codex settings under `extensions["com.openai"]` (display name, default prompts, `kickoff` as the onboarding skill), and `.agents/plugins/marketplace.json` for the Codex repo marketplace.
+- skills.sh install path (`npx skills add argen/hornero`); a local `npx skills add` run discovered all 59 skills.
+- `.claude/rules/skills.md`, a path-scoped rule (`skills/**`, `roles/**`, `resources/**`) with the validate-skill, catalog, and validate-resource reminders.
+- `allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)` on `chronicle-recall`, `prep`, and `review`.
+- Stop hook `timeout` (30s) and `statusMessage`; `_comment` notes Claude Code's cap of 8 consecutive Stop-hook continuations.
+- `skills/{orchestrate,role,kickoff,catalog,audit}/SKILL.md` as `type: command` skills (`kickoff`, `catalog`, `audit`, `role` set `disable-model-invocation: true`; `orchestrate` stays model-invocable because the dispatcher routes to it).
+- `.claude/skills -> ../skills` so a session opened at the repo root discovers every skill without the plugin or `install.sh`; `.gitignore` un-ignores it.
+- `validate-skill.sh` fails on unquoted `name`/`description` values containing `: ` or starting with a YAML indicator, fails on descriptions over 1024 characters, and warns over 500 lines; covered by `scripts/test-validate-skill.sh`.
+- `scripts/check-md-links.sh` (with `test-check-md-links.sh`) fails on broken relative Markdown links.
+- `smoke-check.sh` runs `claude plugin validate` on a dereferenced copy of the repo (skipped when the CLI is absent) and the link check; CI installs the CLI and runs the new tests.
+- This changelog.
+- Hardening of the new checks: `validate-skill.sh` also rejects unquoted values with `:<TAB>`, a trailing `:`, a leading `-`/`?`/`,`/`]`/`}`, a ` #` comment start, or an unclosed quote; `check-md-links.sh` ignores inline code spans and `~~~` fences, skips any URI scheme and accepts `<angle>` targets; `smoke-check.sh` validates a tracked-files-only dereferenced copy and no longer aborts on missing validator output; CI pins the Claude Code CLI to 2.1.311 with the auto-updater disabled.
 
 ### Changed
 
+- `prd`, `positioning-statement`, `success-metrics`, `strategy-kernel`, `bet-portfolio` and `cross-functional-orchestration` carry an Output discipline block: each finding names its framework and author, at least one trade-off is stated, and the response ends with one to three concrete next actions. Artifact eval cases went from 0.40-0.60 to 0.86-1.00.
 - Artifact eval cases split the single `quality.md` grader into `q-sources`, `q-distinct`, `q-tradeoff` and `q-actionable` (plus `q-decision` for the launch plan), so a case passes at 0.8 with one criterion missing and shows which one.
-
-### Removed
-
-- `evals/judge.py`, `evals/score.sh`, `evals/tasks/` and `evals/runs/` (bespoke human and LLM dual-scoring flow that was never run); `evals/rubric.md` now feeds the llm graders and `evals/EVAL-REPORT.md` is kept as history.
-
-### Fixed
-
-- Eval fixtures: the chronicle routing cases now seed a `chronicle/` project and `scripts/chronicle.sh` via `seed-chronicle.sh` (run with `--scaffold`, which CI and the README commands now pass); the positioning-statement, saas-revenue-growth-metrics and saas-economics-efficiency-metrics routing cases carry their artifact or metrics inline; `success-metrics` description now covers critiquing an existing metric definition.
-- Four skills (`prep`, `hypothesis-track`, `stakeholder-update`, `customer-update`), the `/hypothesis-track` command and the `github` resource card had unquoted `description:` values containing `: `, which is invalid YAML; Claude Code loaded them with empty metadata. Descriptions are now double-quoted.
-- `repository` in both plugin manifests is a string, as `claude plugin validate` requires.
-- Dead links to `skills/multi-role-review` and to roles that were never shipped (`software-engineer`, `data-scientist`, `tester`, `designer`, `security-expert`, `marketing-expert`) removed or reworded as plain "future role" prose; stale `../../` links in `commands/` and three renamed-file links corrected.
-- `templates/settings.json` hooks use the real Claude Code shape (`matcher` plus `hooks[]`, `tool_input.file_path` read from stdin via `jq`); invented `CLAUDE_TOOL_FILE_PATH`, `effortLevel` and `skipAutoPermissionPrompt` keys removed.
-- Generated Codex agent TOMLs no longer carry `sandbox_mode` (Codex ignores it in custom agents); they set `model_reasoning_effort = "medium"` instead. `AGENTS.md` uses `agents.max_concurrent_threads_per_session`.
-- ROADMAP skill counts corrected to 38 product-manager and 16 cross-role skills.
-
-### Changed
-
 - Per-role skills moved from `roles/<role>/skills/<name>/` to `skills/<name>/`; every skill is now a real directory and role membership is the `role:` frontmatter key (38 skills carry `role: product-manager`). `roles/<role>/` keeps `ROLE.md` and `sources.md`. All path references and relative links across the docs are rewritten.
 - `catalog.sh` groups skills by `role:` and lists `type: command` skills under a new "Slash commands" section; `smoke-check.sh` step 7 now fails on any symlink under `skills/` or a `role:` with no `roles/<role>/ROLE.md`.
 - Slash commands are skills (`type: command`); the invocation syntax, argument handling, and route-declaration lines of the six commands that shadowed same-named skills (`review`, `prep`, `ingest`, `hypothesis-track`, `stakeholder-update`, `customer-update`) plus `extract-lesson` now live in each skill's Application section, with `argument-hint:` where they take arguments.
@@ -50,31 +45,26 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 - Descriptions of 15 skills in the finance, problem-framing, memory, discovery, and strategy clusters state what they produce, when to use them, and which sibling to use instead.
 - ROADMAP Distribution: marketplace files ship; public Codex directory submission is blocked because plugins that ship hooks are ineligible.
 
-### Added
+### Fixed
 
-- `.claude-plugin/marketplace.json`: `/plugin marketplace add argen/hornero` then `/plugin install hornero@hornero`.
-- Portable root `plugin.json` (Agent Plugins standard) with Codex settings under `extensions["com.openai"]` (display name, default prompts, `kickoff` as the onboarding skill), and `.agents/plugins/marketplace.json` for the Codex repo marketplace.
-- skills.sh install path (`npx skills add argen/hornero`); a local `npx skills add` run discovered all 59 skills.
-- `.claude/rules/skills.md`, a path-scoped rule (`skills/**`, `roles/**`, `resources/**`) with the validate-skill, catalog, and validate-resource reminders.
-- `allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)` on `chronicle-recall`, `prep`, and `review`.
-- Stop hook `timeout` (30s) and `statusMessage`; `_comment` notes Claude Code's cap of 8 consecutive Stop-hook continuations.
-- `skills/{orchestrate,role,kickoff,catalog,audit}/SKILL.md` as `type: command` skills (`kickoff`, `catalog`, `audit`, `role` set `disable-model-invocation: true`; `orchestrate` stays model-invocable because the dispatcher routes to it).
-- `.claude/skills -> ../skills` so a session opened at the repo root discovers every skill without the plugin or `install.sh`; `.gitignore` un-ignores it.
-- `validate-skill.sh` fails on unquoted `name`/`description` values containing `: ` or starting with a YAML indicator, fails on descriptions over 1024 characters, and warns over 500 lines; covered by `scripts/test-validate-skill.sh`.
-- `scripts/check-md-links.sh` (with `test-check-md-links.sh`) fails on broken relative Markdown links.
-- `smoke-check.sh` runs `claude plugin validate` on a dereferenced copy of the repo (skipped when the CLI is absent) and the link check; CI installs the CLI and runs the new tests.
-- This changelog.
-- Hardening of the new checks: `validate-skill.sh` also rejects unquoted values with `:<TAB>`, a trailing `:`, a leading `-`/`?`/`,`/`]`/`}`, a ` #` comment start, or an unclosed quote; `check-md-links.sh` ignores inline code spans and `~~~` fences, skips any URI scheme and accepts `<angle>` targets; `smoke-check.sh` validates a tracked-files-only dereferenced copy and no longer aborts on missing validator output; CI pins the Claude Code CLI to 2.1.311 with the auto-updater disabled.
+- Eval fixtures: the chronicle routing cases now seed a `chronicle/` project and `scripts/chronicle.sh` via `seed-chronicle.sh` (run with `--scaffold`, which CI and the README commands now pass); the positioning-statement, saas-revenue-growth-metrics and saas-economics-efficiency-metrics routing cases carry their artifact or metrics inline; `success-metrics` description now covers critiquing an existing metric definition.
+- Four skills (`prep`, `hypothesis-track`, `stakeholder-update`, `customer-update`), the `/hypothesis-track` command and the `github` resource card had unquoted `description:` values containing `: `, which is invalid YAML; Claude Code loaded them with empty metadata. Descriptions are now double-quoted.
+- `repository` in both plugin manifests is a string, as `claude plugin validate` requires.
+- Dead links to `skills/multi-role-review` and to roles that were never shipped (`software-engineer`, `data-scientist`, `tester`, `designer`, `security-expert`, `marketing-expert`) removed or reworded as plain "future role" prose; stale `../../` links in `commands/` and three renamed-file links corrected.
+- `templates/settings.json` hooks use the real Claude Code shape (`matcher` plus `hooks[]`, `tool_input.file_path` read from stdin via `jq`); invented `CLAUDE_TOOL_FILE_PATH`, `effortLevel` and `skipAutoPermissionPrompt` keys removed.
+- Generated Codex agent TOMLs no longer carry `sandbox_mode` (Codex ignores it in custom agents); they set `model_reasoning_effort = "medium"` instead. `AGENTS.md` uses `agents.max_concurrent_threads_per_session`.
+- ROADMAP skill counts corrected to 38 product-manager and 16 cross-role skills.
+
+### Removed
+
+- `evals/judge.py`, `evals/score.sh`, `evals/tasks/` and `evals/runs/` (bespoke human and LLM dual-scoring flow that was never run); `evals/rubric.md` now feeds the llm graders and `evals/EVAL-REPORT.md` is kept as history.
+- `.codex-plugin/plugin.json`, superseded by the root `plugin.json`.
+- `commands/` and the `.claude/commands` symlink (superseded by skills), and `scripts/build-plugin-skills.sh` (no symlinks left to generate).
+- `install.sh` no longer copies to `~/.claude/commands` or `~/.codex/prompts`; skills replace both. Claude Code users type `/<name>`. Codex has no `disable-model-invocation` and no prompts directory here, so a Codex user invokes a skill explicitly by typing `$` or using `/skills` to mention it (for example `$orchestrate`), or implicitly by describing the task in natural language.
 
 ### Upgrading
 
 - `install.sh` now prunes files the previous install recorded in `.hornero-manifest` that the new install does not write (old `~/.claude/commands/*.md`, `~/.codex/prompts/*.md`, `~/.claude/skills/<role>-<skill>/`), honouring `--dry-run`; run `./install.sh` again to clean up. Files that are not hidden (dotfiles under `skills/`) are no longer installed.
-
-### Removed
-
-- `.codex-plugin/plugin.json`, superseded by the root `plugin.json`.
-- `commands/` and the `.claude/commands` symlink (superseded by skills), and `scripts/build-plugin-skills.sh` (no symlinks left to generate).
-- `install.sh` no longer copies to `~/.claude/commands` or `~/.codex/prompts`; skills replace both. Claude Code users type `/<name>`. Codex has no `disable-model-invocation` and no prompts directory here, so a Codex user invokes a skill explicitly by typing `$` or using `/skills` to mention it (for example `$orchestrate`), or implicitly by describing the task in natural language.
 
 ## [0.3.0] - 2026-05
 
