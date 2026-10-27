@@ -63,7 +63,7 @@ After `software-engineer`, the intended order, lightest first:
 4. **marketing-expert** — `positioning-canvas`, `strategic-narrative`, `launch-brief`, `pre-launch-marketing-audit`.
 5. **data-scientist** — `metric-definition`, `experiment-design`, `causal-dag`, `pre-launch-measurement-audit`.
 
-When a second role lands, the parallel `multi-role-review` path activates (parallel critique needs ≥2 lenses to be meaningful).
+When a second role lands, parallel multi-role review activates (parallel critique needs ≥2 lenses to be meaningful).
 
 ### Resources layer — PR 3 (stretch + dispatcher wiring)
 
