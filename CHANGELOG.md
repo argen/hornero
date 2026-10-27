@@ -4,6 +4,10 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 
 ## [Unreleased]
 
+### Changed
+
+- `prd`, `positioning-statement`, `success-metrics`, `strategy-kernel`, `bet-portfolio` and `cross-functional-orchestration` carry an Output discipline block: each finding names its framework and author, at least one trade-off is stated, and the response ends with one to three concrete next actions. Artifact eval cases went from 0.40-0.60 to 0.86-1.00.
+
 ### Added
 
 - `claude plugin eval` suite under `evals/cases/`: 25 routing cases (one per natural-language row of `tests/dispatcher/routes.tsv`, graded on the skill that fired) and 7 PM-lens artifact cases with an `llm` quality grader. `validate-dispatcher.sh` Check 4 keeps routes.tsv and the routing cases in sync.

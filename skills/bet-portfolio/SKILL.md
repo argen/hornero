@@ -159,6 +159,14 @@ The portfolio is not a point-in-time artifact. Commit to a review cadence before
 
 A bet portfolio that is not reviewed is a bet portfolio that is not being managed.
 
+### Output discipline
+
+When the response critiques or produces an artifact:
+
+- **Ground each finding.** Name the framework and its author and work, drawn from this skill's References (for example "Cagan's four big risks, *Inspired*"). Cite only what the finding actually rests on.
+- **Name a trade-off.** State at least one cost the recommendation accepts and take a position on it.
+- **End with next actions.** Close with one to three concrete actions, each with a deliverable or owner (for example "rewrite the problem section with ticket counts and interview evidence"). Never end on "align", "iterate" or "more research".
+
 ## Examples
 
 ### Worked example — B2B SaaS, mid-market expansion
