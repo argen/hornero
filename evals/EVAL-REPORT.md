@@ -1,5 +1,7 @@
 # Eval report — v1 (20 tasks, mean 0.903)
 
+> Historical: this report predates the `claude plugin eval` suite and its numbers came from the retired judge.py and score.sh flow.
+
 > **Scope note (2026-05-15):** Hornero retracted to PM-only. The 13 non-PM
 > eval tasks and runs have been deleted; only the 7 PM-led tasks remain
 > reproducible (`02, 04, 08, 12, 13, 14, 18`). The full v1 campaign numbers

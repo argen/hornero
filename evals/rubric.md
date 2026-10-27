@@ -1,4 +1,6 @@
-# Multi-role-review eval rubric
+# Review quality rubric
+
+> Source for the `type: llm` graders in `evals/cases/*/graders/quality.md`. Those graders adapt the four dimensions below to a single-role PM output as PASS/FAIL conditions; this file keeps the full 0-1 scale for human spot checks.
 
 > Each run is scored on four dimensions. Each dimension gets one of `{0, 0.25, 0.5, 0.75, 1.0}`. The run's score is the mean of the four. Target across 20 tasks: **mean ≥ 0.8**.
 
@@ -77,7 +79,7 @@ Use this as a judge. Be honest. Round down when uncertain.
 1. Read the synthesis end-to-end. Don't peek at per-role artifacts yet.
 2. Score each dimension against the rubric above. Use the integer levels (0, 0.25, 0.5, 0.75, 1.0) — not finer.
 3. If a dimension is hard to score, note **why** in the rationale field. The note is more useful than the number.
-4. The run's score is the mean of the four. Record it in `evals/runs/<task-slug>/score.json`.
+4. The run's score is the mean of the four. Note it next to the grader verdict for that case.
 
 ## Calibration drift
 

@@ -287,7 +287,7 @@ Every entry carries a `sourcing` field — `documented > verbal > intuition > in
 
 A deterministic harness at [`tests/chronicle/`](tests/chronicle/) backs the layer: every schema rule has a planted-flaw fixture, every query has a frozen expected output, every append case (positive + negative) has byte-diff and diagnostic-substring tests. `scripts/test-chronicle.sh` runs 33 checks in `smoke-check.sh` and in the pre-commit hook.
 
-**Multi-role-review evals** at [`evals/`](evals/) measure output quality on 20 representative cross-functional tasks using a human + LLM dual-score approach: `evals/judge.py` scores a synthesis automatically via the Claude API (writes `score_llm.json`); `evals/score.sh` handles human scoring (writes `score_human.json`) and aggregation with delta flagging. See [`evals/README.md`](evals/README.md).
+**Plugin evals** at [`evals/`](evals/) run through `claude plugin eval`: routing cases check that natural-language prompts invoke the right skill (kept in sync with `tests/dispatcher/routes.tsv`), and artifact cases check that PM critiques cite sources, name trade-offs and end in actions. The suite is opt-in and costs API tokens; the weekly `evals.yml` workflow runs it. See [`evals/README.md`](evals/README.md).
 
 Full one-liner index: [`CATALOG.md`](CATALOG.md).
 

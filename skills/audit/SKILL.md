@@ -23,7 +23,7 @@ Source: Anthropic, ["How Claude Code Works in Large Codebases"](https://claude.c
 
    Confirms baseline health: all skills pass anatomy, frontmatter intact, CATALOG.md not drifting, install.sh count matches. If smoke-check fails, fix that first — rot review on a broken baseline is noise.
 
-3. **Catalog usage scan** — for each skill, check the most recent `evals/runs/*` directory:
+3. **Catalog usage scan** — for each skill, check the most recent `evals/results/*` run (written by `claude plugin eval`):
    - Skills invoked in ≥1 recent run → "load-bearing"
    - Skills not invoked in the last N runs → "candidate for retirement" (not "delete" — candidates are the input to the judgment step, not the output)
    - Skills cited by other skills (via `[[name]]` links or References) → "load-bearing even if not directly invoked"

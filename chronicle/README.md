@@ -63,7 +63,7 @@ scripts/chronicle.sh propose \
   --source-role product-manager \
   --sourcing documented \
   --scope strategy,positioning \
-  --affected-areas "ROADMAP.md,evals/tasks/" \
+  --affected-areas "ROADMAP.md,evals/cases/" \
   --decision "Refuse SMB; double down on mid-market." \
   --alternatives "Pursue SMB; pursue both" \
   --rejected-reason "SMB CAC > 12mo payback; LTV insufficient under current pricing." \
