@@ -37,6 +37,19 @@
 | `spec-the-problem` | interactive | Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written. |
 | `stakeholder-update` | workflow | Use after any meaningful touchpoint with a stakeholder (1:1, ad-hoc Slack, meeting outcome) — appends to the relevant section on their `type: stakeholder` chronicle entry (Open asks, Concerns, Last contact, Decision affinity) via `chronicle.sh append`, keeping the entry current without forcing a full supersede. |
 
+## Slash commands
+
+> Skills with `type: command`. Typed as `/<name>` (`/hornero:<name>` when
+> installed as a plugin); most are user-invoked only.
+
+| Command | Type | When to invoke |
+|---|---|---|
+| `audit` | command | Runs a rot-review pass that surfaces skills, roles, and hooks that may no longer be earning their keep. Run quarterly. Reuses validate-skill, smoke-check, and the eval suite to separate validated, still-load-bearing items from compensatory ones that are candidates for retirement. |
+| `catalog` | command | Shows what Hornero ships (roles, cross-role skills, and per-role skills) as a scannable index. Use when the user wants to know what is available without reading the full files. |
+| `kickoff` | command | Opens a conversational kickoff. Briefly explains what Hornero offers, invites the user to describe what is on their plate in natural language, and routes via the dispatcher with no pre-set menu of options. |
+| `orchestrate` | command | Invokes the PM as cross-functional orchestrator. Frames the work as a customer job, picks the role mix, dispatches roles in parallel, and synthesizes a decision recommendation. |
+| `role` | command | Invokes a single Hornero role for a focused critique or artifact. Usage: /role <role-name> <task>. Available role: product-manager. |
+
 ## Resources
 
 > External data sources skills can read or write via MCP. Skills opt in

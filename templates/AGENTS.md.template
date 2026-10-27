@@ -62,7 +62,7 @@ If any of the above is slow or unreliable, say so explicitly — agents need to 
 
 Hornero currently ships PM-only. The multi-role-review scaffolding remains in place but is dormant; every fan-out resolves to a single PM lens.
 
-Slash commands available (definitions in `<path-to-hornero>/.claude/commands/`):
+Slash commands available (definitions are skills at `<path-to-hornero>/skills/<name>/SKILL.md`):
 
 - `/orchestrate <task>` — PM as cross-functional orchestrator (marquee for launches/cross-functional decisions).
 - `/role <name> <task>` — single named role.

@@ -8,6 +8,7 @@ intent: |
   the rest gets re-derived from Slack scrollback or fresh asking. With
   it, every meeting starts from a tight one-pager grounded in the
   durable chronicle layer.
+argument-hint: <stakeholder-name-or-scope-tag-or-meeting-description>
 type: workflow
 theme: memory
 best_for:
@@ -126,6 +127,16 @@ A 3-page brief is a sign the user should narrow the meeting topic before walking
 - The meeting is a standup or other ritual where no one has open chronicle context.
 - The chronicle is empty for the relevant scope — the brief would be honest but useless; better to do discovery first.
 - The user already has a tight brief — don't generate parallel ones.
+
+### Invocation notes
+
+The argument (`$ARGUMENTS`) picks the mode: a name or stakeholder slug is person mode; a scope tag is topic mode; a free-form description gets whichever mode fits, and the agent declares which. Read the matched entries directly when the query summaries aren't enough. After the meeting, the user runs `/ingest` on the resulting notes.
+
+Declare the route in one line before starting (per `VOICE.md`):
+
+```
+/prep — <person|topic> mode on <X>; loading <N> entries from chronicle.
+```
 
 ## Examples
 

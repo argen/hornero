@@ -8,6 +8,7 @@ intent: |
   flags every stakeholder as stale. With it, each touch becomes a
   one-line append the moment it happens, and the entry stays a current
   picture of where this person sits.
+argument-hint: <stakeholder-id>
 type: workflow
 theme: memory
 best_for:
@@ -98,6 +99,16 @@ When `/review` flags a stakeholder as stale (no Last contact update in 60+ days)
 - You actually have pinged them since but didn't record it → run stakeholder-update with the actual date (`--date YYYY-MM-DD`).
 - You haven't pinged them → flag for the next 1:1 cadence; don't record a fake row.
 - They've left the org / scope → propose a supersedes (new entry, `status: superseded`, role marked closed).
+
+### Invocation notes
+
+Pick the section per touchpoint: a 1:1, sync, or meeting goes to Last contact (always prepended, newest first); a new ask to Open asks; a new concern to Concerns; a predictable yes/no/neutral to Decision affinity. If one touch hit two sections, do two appends, one per logical observation. If the entry is `type: customer`, redirect to `/customer-update`. Foundational changes to Role & influence travel via supersedes, never append.
+
+Declare the route in one line before starting (per `VOICE.md`):
+
+```
+/stakeholder-update — appending to <Section> on <id>.
+```
 
 ## Examples
 

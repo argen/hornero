@@ -4,27 +4,26 @@
 # Optional. Hornero already works as the project itself: clone the repo,
 # open it in Claude Code or Codex, and CLAUDE.md / AGENTS.md will be read
 # from the repo root. Run this installer only if you want the roles, skills,
-# subagents, and slash commands available globally across all your projects.
+# subagents, and slash commands (skills with type: command) available
+# globally across all your projects.
 #
 # Usage:
 #   ./install.sh                    # Claude Code only (default)
 #   ./install.sh --claude           # Claude Code only (explicit)
-#   ./install.sh --codex            # Codex only — full set (skills + agents + hooks + prompts)
+#   ./install.sh --codex            # Codex only — full set (skills + agents + hooks)
 #   ./install.sh --both             # Claude Code + Codex
 #   ./install.sh --force            # overwrite without asking
 #   ./install.sh --dry-run          # show what would be installed; don't write
 #   ./install.sh --uninstall        # remove Hornero-installed files
 #   ./install.sh --list-resources   # print the resource catalog (no install)
 #
-# What gets installed where:
+# What gets installed where (slash commands ship as skills):
 #   Claude target: skills (flat, one dir per skill) → ~/.claude/skills/
 #                  reviewer agent              → ~/.claude/agents/
-#                  slash commands               → ~/.claude/commands/
 #                  resource cards (read-only)   → ~/.claude/hornero-resources/
-#   Codex target:  skills (flat plugin layout)   → ~/.codex/skills/
+#   Codex target:  skills (flat layout)          → ~/.codex/skills/
 #                  reviewer agent (TOML)       → ~/.codex/agents/
 #                  session hooks                → ~/.codex/hooks.json
-#                  slash commands               → ~/.codex/prompts/
 #                  resource cards (read-only)   → ~/.codex/hornero-resources/
 #                  (AGENTS.md is read from the current working directory;
 #                   no install step needed for the dispatcher itself.)
@@ -52,7 +51,7 @@ for arg in "$@"; do
     --uninstall)       UNINSTALL=1 ;;
     --list-resources)  LIST_RESOURCES=1 ;;
     -h|--help)
-      sed -n '2,27p' "$0"
+      sed -n '2,29p' "$0"
       exit 0
       ;;
     *)
@@ -187,18 +186,6 @@ install_agent() {
   copy_file "$src" "${CLAUDE_DIR}/agents/${fname}" "agent: ${fname}"
 }
 
-install_claude_command() {
-  local src="$1"
-  local fname; fname=$(basename "$src")
-  copy_file "$src" "${CLAUDE_DIR}/commands/${fname}" "claude command: ${fname}"
-}
-
-install_codex_command() {
-  local src="$1"
-  local fname; fname=$(basename "$src")
-  copy_file "$src" "${CODEX_DIR}/prompts/${fname}" "codex command: ${fname}"
-}
-
 install_codex_skill() {
   local src="$1" name="$2"
   local rel="${src#${REPO_DIR}/skills/${name}/}"
@@ -247,15 +234,6 @@ if want_claude; then
   fi
 
   echo
-  echo "Claude — slash commands:"
-  if [[ -d "${REPO_DIR}/.claude/commands" ]]; then
-    for f in "${REPO_DIR}/.claude/commands"/*.md; do
-      [[ -f "$f" ]] || continue
-      install_claude_command "$f"
-    done
-  fi
-
-  echo
   echo "Claude — resource cards (→ ${CLAUDE_DIR}/hornero-resources/):"
   install_resource_cards "${CLAUDE_DIR}" "claude"
 fi
@@ -284,15 +262,6 @@ if want_codex; then
   echo "Codex — session hooks (→ ${CODEX_DIR}/hooks.json):"
   if [[ -f "${REPO_DIR}/hooks/hooks.json" ]]; then
     install_codex_hooks "${REPO_DIR}/hooks/hooks.json"
-  fi
-
-  echo
-  echo "Codex — slash commands (→ ${CODEX_DIR}/prompts/):"
-  if [[ -d "${REPO_DIR}/.claude/commands" ]]; then
-    for f in "${REPO_DIR}/.claude/commands"/*.md; do
-      [[ -f "$f" ]] || continue
-      install_codex_command "$f"
-    done
   fi
 
   echo

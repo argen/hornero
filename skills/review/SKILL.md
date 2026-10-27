@@ -113,6 +113,14 @@ If the report has more than ~15 findings, the chronicle has accumulated maintena
 
 Don't try to walk 30 findings in one pass — quality drops, and the user disengages.
 
+### Invocation notes
+
+Declare the route in one line before starting (per `VOICE.md`):
+
+```
+/review — six chronicle-health checks; reading the report now.
+```
+
 ## Examples
 
 ### A typical Friday run on a healthy chronicle

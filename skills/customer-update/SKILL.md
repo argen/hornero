@@ -8,6 +8,7 @@ intent: |
   churn risks go un-tracked across renewal windows. With it, each
   meaningful event becomes a one-line append the moment it happens, and
   the entry stays a current picture of the account.
+argument-hint: <customer-id>
 type: workflow
 theme: memory
 best_for:
@@ -97,6 +98,16 @@ Followed by, in conversation: which section, the content, optionally a date over
 `/review` surfaces stale customer entries (no updates in 60+ days on an active account); `customer-update` is how those get refreshed.
 
 `/prep` reads from customer entries when building briefs for account-touching meetings (e.g., a QBR with Acme). The brief is only as fresh as the rows this skill appends — keep them current and the brief is grounded in reality, not in last quarter's snapshot.
+
+### Invocation notes
+
+Pick the section per signal: a metric or behavioural shift goes to Usage shape; a support, SLA, NPS, or churn signal to Health signals; an expansion-path, posture, or contract-terms shift to Decision drivers; a newly discovered person to Stakeholders. All four append at the bottom. If one event hits two sections, do two appends. If the entry is `type: stakeholder`, redirect to `/stakeholder-update`. A crossed threshold (renewal risk, churn flag) is surfaced for the user's call; never auto-propose a churn or renewal-risk decision.
+
+Declare the route in one line before starting (per `VOICE.md`):
+
+```
+/customer-update — appending to <Section> on <id>.
+```
 
 ## Examples
 

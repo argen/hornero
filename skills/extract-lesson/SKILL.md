@@ -129,6 +129,10 @@ Show all proposals to the user. For each:
 
 After applying, suggest a follow-up: run `validate-skill.sh` on any modified SKILL.md files; commit the deltas to a feedback-loop branch.
 
+### Invocation notes
+
+Invoke with `/extract-lesson` mid-session, or let the Stop hook run it at session end. Ask before writing: show the proposed deltas and let the user accept, edit, or reject each. If nothing was surprising, say so in one line and stop; forced lessons rot the harness.
+
 ## Examples
 
 ### Example 1 — Recurring correction → skill change (success)

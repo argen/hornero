@@ -102,7 +102,7 @@ If two or more roles' triggers fire strongly on the same prompt (e.g. "review
 this payments PR" → engineer + tester + security; "plan the launch" → PM +
 marketing + designer), do not pick one and silently drop the others.
 
-Route to [`/orchestrate`](.claude/commands/orchestrate.md) — the PM as
+Route to [`/orchestrate`](skills/orchestrate/SKILL.md) — the PM as
 cross-functional orchestrator runs `cross-functional-orchestration`, frames
 the work as a customer job, and synthesises into a product decision
 (outcomes, success criteria, alternative considered, revisit condition).

@@ -8,6 +8,7 @@ intent: |
   currently riding?" answer goes stale. With it, every observation that
   bears on a hypothesis hits the Evidence Log within minutes of being
   noticed, and the entry's `status` stays accurate.
+argument-hint: <hypothesis-id>
 type: workflow
 theme: memory
 best_for:
@@ -86,6 +87,16 @@ The skill does not run the propose command itself; it surfaces it for the user t
 Always tag the row with the weakest source the observation actually rests on. A dashboard screenshot pasted into Slack is `documented`. A teammate's recollection of a customer call is `verbal`. The PM's hunch about why a number moved is `intuition`. A generic SaaS benchmark from a Substack is `industry`.
 
 If the sourcing tag is unclear, default down (weaker), not up. Future-you reading the Evidence Log will treat `documented` as load-bearing; mis-labeling `verbal` as `documented` poisons that signal across the entire chronicle.
+
+### Invocation notes
+
+If the entry is not `status: open`, say which status it has and ask whether the user really wants evidence on a closed entry (rare; usually a new hypothesis is warranted). Default the sourcing tag down when uncertain. On a crossed threshold, the drafted command is `chronicle.sh propose --type decision --supersedes <id> --status validated ...`, surfaced for human commit and never run by the skill.
+
+Declare the route in one line before starting (per `VOICE.md`):
+
+```
+/hypothesis-track — appending evidence and checking thresholds on <id>.
+```
 
 ## Examples
 

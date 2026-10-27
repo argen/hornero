@@ -8,6 +8,7 @@ intent: |
   every artifact has a durable source copy, a synthesised observation
   set, and a clear path to which decisions, hypotheses, or stakeholders
   it should update.
+argument-hint: <file-path-or-description-of-what-to-ingest>
 type: workflow
 theme: memory
 best_for:
@@ -143,6 +144,22 @@ scripts/chronicle.sh commit <proposal-uuid>
 ```
 
 The ingestion file references the chronicle entry IDs that resulted from it (in `## Implications` or `## Notes`); the chronicle entries' `evidence:` field can reference back — though that's optional and depends on whether the synthesis crystallises into a decision worth citing.
+
+### Invocation notes
+
+Resolve the artifact from `$ARGUMENTS` before running the CLI:
+
+- A file path is used directly.
+- A paste is written to a temp file first (for example `/tmp/ingest-<short-slug>.txt`), and the temp path is passed to `--path`.
+- A URL or external reference is not fetched: ask the user to provide the contents (Hornero stays usable without network access).
+
+Classify the source kind (`interview`, `meeting`, `doc`, `screenshot`, `dashboard`, `chat`, `other`); if unclear, ask once rather than guessing silently. The initial `--sourcing` is a best guess; the final value is the weakest sourcing tag that ends up in `## Observations`. Stop after `chronicle.sh propose` and announce the proposal IDs; the human gate on `chronicle/entries/` is structural.
+
+Declare the route in one line before starting (per `VOICE.md`):
+
+```
+/ingest — preserving <kind> artifact, synthesis stub at <path>; will propose <N> chronicle entries.
+```
 
 ## Examples
 
