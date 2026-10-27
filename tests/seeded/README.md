@@ -67,7 +67,7 @@ inventory:
 | Missing-fixture regressions (script fails if a fixture file is gone) | Flake rate (single-run observations; variance is unknown) |
 | Signature-too-liberal (covered by the negative control — see below) | Signature-too-strict (the agent might catch the flaw in different words; we'd miss it) |
 
-For deeper measurement of multi-role-review **synthesis** quality (which
+For deeper measurement of orchestrated-review **synthesis** quality (which
 this script does *not* test), see [`evals/README.md`](../../evals/README.md)
 and the 4-dimension human-judge rubric.
 

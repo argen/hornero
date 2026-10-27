@@ -8,7 +8,7 @@ The user is doing the weekly chronicle maintenance pass — typically Friday aft
 
 ## What to do
 
-1. **Load and follow [`skills/review/SKILL.md`](../../skills/review/SKILL.md)** — it is the canonical procedure. Do not improvise the checks.
+1. **Load and follow [`skills/review/SKILL.md`](../skills/review/SKILL.md)** — it is the canonical procedure. Do not improvise the checks.
 
 2. **Run `scripts/chronicle.sh review`** and read the report. Six sections, one per check:
    - Stale hypotheses (review_after passed, status still open)

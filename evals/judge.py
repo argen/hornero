@@ -13,7 +13,7 @@ Supported providers (lazy-imported — install only the SDK you use):
 Usage:
     python evals/judge.py evals/runs/<task-slug>
     python evals/judge.py evals/runs/<task-slug> --provider openai
-    python evals/judge.py evals/runs/<task-slug> --provider gemini --model gemini-1.5-pro
+    python evals/judge.py evals/runs/<task-slug> --provider gemini --model gemini-2.5-pro
     python evals/judge.py evals/runs/<task-slug> --dry-run
 
 Defaults:
@@ -77,7 +77,7 @@ class Judge(ABC):
 
 class AnthropicJudge(Judge):
     name = "anthropic"
-    default_model = "claude-sonnet-4-6"
+    default_model = "claude-sonnet-5-5"
     api_key_env = "ANTHROPIC_API_KEY"
     install_hint = "pip install anthropic"
 
@@ -99,7 +99,8 @@ class AnthropicJudge(Judge):
 
 class OpenAIJudge(Judge):
     name = "openai"
-    default_model = "gpt-4o"
+    # Unverified: confirm the current OpenAI model id before relying on this default.
+    default_model = "gpt-5"
     api_key_env = "OPENAI_API_KEY"
     install_hint = "pip install openai"
 
@@ -123,7 +124,7 @@ class OpenAIJudge(Judge):
 
 class GeminiJudge(Judge):
     name = "gemini"
-    default_model = "gemini-1.5-pro"
+    default_model = "gemini-2.5-pro"
     api_key_env = "GEMINI_API_KEY"
     install_hint = "pip install google-genai"
 

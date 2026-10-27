@@ -53,7 +53,7 @@ The name callable this way:
 
 - `product-manager-reviewer`
 
-Codex's `agents.max_threads` default is 6; the cap matters once additional
+Codex's `agents.max_concurrent_threads_per_session` default is 6 (`agents.max_threads` is a legacy alias); the cap matters once additional
 reviewers are restored.
 
 ### Legacy fallback — `scripts/codex-parallel-review.sh`

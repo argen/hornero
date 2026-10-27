@@ -8,7 +8,7 @@ The user just touched a stakeholder (1:1, Slack thread, meeting outcome, ad-hoc 
 
 ## What to do
 
-1. **Load and follow [`skills/stakeholder-update/SKILL.md`](../../skills/stakeholder-update/SKILL.md)** — it is the canonical procedure. Do not improvise the section split.
+1. **Load and follow [`skills/stakeholder-update/SKILL.md`](../skills/stakeholder-update/SKILL.md)** — it is the canonical procedure. Do not improvise the section split.
 
 2. **Confirm the entry is type: stakeholder.** Read `chronicle/entries/<id>.md`. If it's not a stakeholder, say which type it is and stop. If it's a `type: customer` entry, redirect to `/customer-update`.
 

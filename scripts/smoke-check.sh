@@ -138,7 +138,10 @@ done
 step "install.sh --dry-run count"
 
 DRY_LOG=/tmp/hornero-dry.log
-./install.sh --dry-run >"$DRY_LOG" 2>&1 || true
+# install.sh refuses to run without ~/.claude; CI runners have none, so point HOME at a scratch dir.
+DRY_HOME=$(mktemp -d); mkdir -p "$DRY_HOME/.claude"
+HOME="$DRY_HOME" ./install.sh --dry-run >"$DRY_LOG" 2>&1 || true
+rm -rf "$DRY_HOME"
 
 expected_skills=$(find skills roles -name SKILL.md -type f | wc -l | tr -d ' ')
 expected_agents=$(find agents -maxdepth 1 -name '*.md' -type f | wc -l | tr -d ' ')
@@ -231,8 +234,21 @@ for src in agents/*.md; do
     CODEX_FAIL=1
     continue
   fi
+  # Codex ignores sandbox_mode in custom agent files (subagents inherit the parent
+  # sandbox), so a generated TOML carrying it is stale; it must set an effort instead.
+  if grep -q '^sandbox_mode' "$target"; then
+    bad "stale sandbox_mode in $target (run scripts/build-codex-agents.sh)"
+    CODEX_FAIL=1
+  fi
+  if ! grep -q '^model_reasoning_effort = "medium"' "$target"; then
+    bad "missing model_reasoning_effort in $target (run scripts/build-codex-agents.sh)"
+    CODEX_FAIL=1
+  fi
   # Description in TOML must match description in Markdown frontmatter.
-  md_desc=$(awk '/^---$/{c++; next} c==1 && /^description:/{sub(/^description:[[:space:]]*/,""); print; exit}' "$src")
+  md_desc=$(awk '/^---$/{c++; next} c==1 && /^description:/{
+    sub(/^description:[[:space:]]*/,""); sub(/[[:space:]]+$/,"")
+    if ($0 ~ /^".*"$/) { $0 = substr($0, 2, length($0) - 2); gsub(/\\"/, "\"") }
+    print; exit}' "$src")
   toml_desc=$(python3 -c "import tomllib; print(tomllib.load(open('${target}','rb')).get('description',''))" 2>/dev/null)
   if [[ "$md_desc" != "$toml_desc" ]]; then
     bad "description drift: $src ↔ $target (run scripts/build-codex-agents.sh)"
@@ -367,7 +383,51 @@ else
   bad "scripts/validate-dispatcher.sh missing or not executable"
 fi
 
-# ─── Step 13 (optional): real install + verify ────────────────────────
+# ─── Step 13: claude plugin validate on a dereferenced copy ──────────
+step "claude plugin validate (dereferenced copy)"
+
+if ! command -v claude >/dev/null 2>&1; then
+  echo "  skipped: claude CLI not installed"
+else
+  DEREF="$(mktemp -d)"
+  trap 'rm -rf "$DEREF"' EXIT
+  # The validator does not follow symlinks; a running session does. Copy only tracked
+  # files (working-tree content), then replace each symlink with a copy of its target.
+  # Without --strict: --strict also fails on directory-profile warnings (icon, CLAUDE.md at root).
+  git ls-files -z | tar --null -T - -cf - | tar -xf - -C "$DEREF"
+  while IFS= read -r -d '' link; do
+    [[ -L "$link" ]] || continue
+    rel="${link#"$DEREF"/}"
+    tgt="$(readlink "$link")"
+    [[ "$tgt" == /* ]] || tgt="$PWD/$(dirname "$rel")/$tgt"
+    rm "$link"
+    if [[ -e "$tgt" ]]; then
+      cp -RL "$tgt" "$link"
+    else
+      echo "  warning: dangling symlink skipped: $rel" >&2
+    fi
+  done < <(find "$DEREF" -type l -print0)
+  find "$DEREF" -name .DS_Store -delete
+  if claude plugin validate "$DEREF" >/tmp/hornero-plugin-validate.log 2>&1; then
+    ok "claude plugin validate passed (errors only; warnings tolerated)"
+  else
+    bad "claude plugin validate failed (see /tmp/hornero-plugin-validate.log)"
+    { grep -E '✘|❯' /tmp/hornero-plugin-validate.log | head -20 || true; tail -20 /tmp/hornero-plugin-validate.log; } >&2
+  fi
+  rm -rf "$DEREF"
+fi
+
+# ─── Step 14: relative markdown links resolve ─────────────────────────
+step "relative markdown link existence (scripts/check-md-links.sh)"
+
+if ./scripts/check-md-links.sh >/tmp/hornero-md-links.log 2>&1; then
+  ok "$(tail -1 /tmp/hornero-md-links.log | sed 's/^✓ //')"
+else
+  bad "broken relative markdown links (see /tmp/hornero-md-links.log)"
+  head -30 /tmp/hornero-md-links.log >&2
+fi
+
+# ─── Step 15 (optional): real install + verify ────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 

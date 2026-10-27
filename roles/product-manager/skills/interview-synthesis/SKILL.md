@@ -317,6 +317,6 @@ quotes advance confidence ratings. Hypotheticals go to the unverified-claims sec
     frames them.
   - [`prd`](../prd/SKILL.md) — the PRD's Evidence section draws from the quote
     bank and theme rollup produced here.
-  - [`roles/marketing-expert/skills/voc-mining`](../../../marketing-expert/skills/voc-mining/SKILL.md) —
+  - a future `marketing-expert` role's `voc-mining` skill —
     the synthesised quote bank feeds VOC mining; distinct skill with distinct
     procedure.

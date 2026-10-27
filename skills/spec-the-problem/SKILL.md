@@ -12,7 +12,7 @@ best_for:
   - Before starting implementation of a new feature
   - When a user request is solution-shaped ("add a button that...")
   - When scope is unclear or success criteria are missing
-  - At the start of a multi-role-review run
+  - At the start of an orchestrated review run
 scenarios:
   - "User says 'add a retry mechanism to the upload flow' — skill surfaces the underlying problem (which failures? which users? what's the acceptable retry budget?)"
   - "Spec'ing a non-trivial refactor before touching code"
@@ -185,6 +185,6 @@ Which is it?"
 
 - **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/) — the "Spec problems, not solutions" principle is the source for this skill.
 - **Related Hornero skills:**
-  - `skills/multi-role-review/SKILL.md` — the multi-role review skill's Step 2 (detailed delegation) implements the same principle one level down: each role subagent gets a problem-shaped brief, not a solution-shaped one.
+  - `roles/product-manager/skills/cross-functional-orchestration/SKILL.md` — its dispatch step (detailed delegation) applies the same principle one level down: each reviewer subagent gets a problem-shaped brief, not a solution-shaped one.
   - `skills/extract-lesson/SKILL.md` — at session end, may propose updates to specs for future similar work.
 - **Tangential discipline:** Marty Cagan's "four risks" framing (value/usability/feasibility/business viability) in `roles/product-manager/sources.md` — problem-shaped specs naturally surface unaddressed risks.

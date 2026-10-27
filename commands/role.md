@@ -14,11 +14,11 @@ The user wants a single named role to do the work. **Do not improvise the role.*
 
    If the user names a role that isn't shipped, say so and offer to handle the PM-shaped part of the request.
 
-2. **For a reviewer task** (the default — "review X", "audit X", "critique X"): spawn the matching reviewer subagent via the Agent tool, e.g. `subagent_type: "product-manager-reviewer"`. The subagent definition is in [`agents/`](../../agents/) and is self-contained — it doesn't need ROLE.md at runtime.
+2. **For a reviewer task** (the default — "review X", "audit X", "critique X"): spawn the matching reviewer subagent via the Agent tool, e.g. `subagent_type: "product-manager-reviewer"`. The subagent definition is in [`agents/`](../agents/) and is self-contained — it doesn't need ROLE.md at runtime.
 
 3. **For a producer task** ("draft a PRD", "produce a positioning canvas", "frame this as a problem"): adopt the role yourself rather than spawning a reviewer. Load:
    - `roles/<role>/ROLE.md` — mindset and heuristics.
-   - The matching component or workflow skill in `roles/<role>/skills/<skill>/SKILL.md` (the one whose `description` matches the artifact). Scan [`CATALOG.md`](../../CATALOG.md) if uncertain.
+   - The matching component or workflow skill in `roles/<role>/skills/<skill>/SKILL.md` (the one whose `description` matches the artifact). Scan [`CATALOG.md`](../CATALOG.md) if uncertain.
 
 4. **Declare your choice in one line** before starting:
    ```

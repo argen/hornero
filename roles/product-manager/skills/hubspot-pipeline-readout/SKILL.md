@@ -165,6 +165,6 @@ came from before the Q3 ICP review.
 - [`resources/hubspot/RESOURCE.md`](../../../../resources/hubspot/RESOURCE.md) — HubSpot MCP capabilities, deal/company/pipeline object model, gotchas, fallback recipes.
 - [`roles/product-manager/skills/positioning-statement/SKILL.md`](../positioning-statement/SKILL.md) — produces the ICP claim Section 3 tests against.
 - [`roles/product-manager/skills/revenue-architecture/SKILL.md`](../revenue-architecture/SKILL.md) — the broader system this pipeline read sits within; revenue-architecture maps the full funnel, this skill is a current-state read on the GTM stage.
-- [`roles/product-manager/skills/saas-revenue-and-growth-metrics/SKILL.md`](../saas-revenue-and-growth-metrics/SKILL.md) — for the metric definitions (CAC, LTV, win rate) the readout implicitly draws on.
+- [`roles/product-manager/skills/saas-revenue-growth-metrics/SKILL.md`](../saas-revenue-growth-metrics/SKILL.md) — for the metric definitions (CAC, LTV, win rate) the readout implicitly draws on.
 - [`skills/customer-update/SKILL.md`](../../../../skills/customer-update/SKILL.md) — when the readout surfaces an at-risk account, the update goes onto the customer's chronicle entry via this skill.
 - [`skills/query-warehouse/SKILL.md`](../../../../skills/query-warehouse/SKILL.md) — when product-usage data needs to be cross-referenced with pipeline state (e.g. "are the at-risk accounts also showing low product engagement?"), the warehouse skill is the read primitive.

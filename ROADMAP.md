@@ -8,7 +8,7 @@ What's available and stable today.
 
 ### The product-manager role
 
-One role, `product-manager`, carrying **37 expert-grounded skills**:
+One role, `product-manager`, carrying **38 expert-grounded skills**:
 
 - **Discovery** — interview prep + synthesis, JTBD, problem framing, opportunity-solution trees, proto-personas, journey maps.
 - **Strategy** — strategy kernel, bet portfolio, PRDs, OKRs, prioritisation, success metrics, competitive teardown, revenue architecture.
@@ -22,7 +22,7 @@ One role, `product-manager`, carrying **37 expert-grounded skills**:
 
 ### Harness primitives
 
-- **11 cross-role process skills** for the harness itself: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`, `hypothesis-track`, `stakeholder-update`, `customer-update`. `extract-lesson` runs automatically on the Stop hook (`hooks/auto-extract-lesson.sh`) — proposes durable harness updates at session end without the user invoking it. The three append-shaped skills (hypothesis-track, stakeholder-update, customer-update) drive the chronicle layer's [append exception](chronicle/SCHEMA.md#append-exception): they grow whitelisted body sections row-by-row without forcing a full supersede.
+- **16 cross-role process skills** for the harness itself: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`, `ingest`, `prep`, `review`, `hypothesis-track`, `stakeholder-update`, `customer-update`, `query-issue-tracker`, `query-warehouse`. `extract-lesson` runs automatically on the Stop hook (`hooks/auto-extract-lesson.sh`) — proposes durable harness updates at session end without the user invoking it. The three append-shaped skills (hypothesis-track, stakeholder-update, customer-update) drive the chronicle layer's [append exception](chronicle/SCHEMA.md#append-exception): they grow whitelisted body sections row-by-row without forcing a full supersede.
 - **`product-manager-reviewer`** subagent in [`agents/`](agents/), callable by name on either host (Claude Code via the Agent tool; Codex via its native subagent path).
 - **12 slash commands** in [`.claude/commands/`](.claude/commands/): `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update`.
 - **Chronicle layer** — machine-queryable record of decisions (`scripts/chronicle.sh`, deterministic harness at `tests/chronicle/`).
@@ -46,7 +46,7 @@ Land `roles/software-engineer/` with the seed skills `adr`, `rfc`, `refactor-pla
 
 ### Non-engineer reach validation
 
-Graduate `[~]` → `[x]` after one designer and one marketer pass the three-criterion bar (reach / recognition / continuation) following [`playbooks/test-protocol-non-engineer-reach.md`](playbooks/test-protocol-non-engineer-reach.md).
+Graduate `[~]` → `[x]` after one designer and one marketer pass the three-criterion bar (reach / recognition / continuation) following a test protocol (not yet written).
 
 ## Later
 
@@ -90,25 +90,4 @@ Follow-on now that `hypothesis-track` is shipped: `roles/product-manager/skills/
 
 ## Releases
 
-Plugin version anchored in `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`. Newest first.
-
-### v0.3.0 — 2026-05
-
-PM skill expansion, conversational kickoff, automatic lesson extraction, a voice for the companion, present-focused docs.
-
-- **A voice for the companion** — [`VOICE.md`](VOICE.md) codifies the personality (calm, terse, plain-spoken, no preening) grounded in the rufous hornero's traits (patient layers, duet, ground-level walk, comfortable around humans). Six touchpoints rewritten to land the voice: SessionStart banner, `/kickoff` opener, dispatcher's declared one-liner, Stop-hook "nothing to capture" line, `/catalog` footer, README microcopy. `CLAUDE.md` + `AGENTS.md` reference `VOICE.md` on first dispatch. Artefact outputs (PRDs, OKRs, etc.) stay voice-neutral so they travel cleanly to stakeholders.
-- **Automatic lesson extraction** — `hooks/auto-extract-lesson.sh` wires the Stop hook to fire the extract-lesson skill at every session end without the user having to type `/extract-lesson`. The agent self-filters via Chris MDP's signal-vs-noise discipline (most sessions stop in one line; only ones with real signal produce proposals). Re-stop loop prevented via `stop_hook_active`. Opt-out: `HORNERO_NO_AUTO_EXTRACT=1`. Plugin hook, install.sh recommendation, and `templates/settings.json` all updated.
-- **Docs reorientation** — canonical docs (README, ROADMAP, methodology, ATTRIBUTION, DISPATCHER, CLAUDE, AGENTS, CONTRIBUTING, roles/README, onboarding, role-cheatsheet, adoption, commands/role) now lead with present capabilities rather than the journey. README opens with a "What you get" section; ROADMAP adopts Now / Next / Later + Releases.
-- **Conversational kickoff** — `/kickoff` no longer asks one question and offers a 7-item bulleted menu; it opens with a 3-sentence intro and a single open invitation, then routes via the dispatcher. `DISPATCHER.md` gains Step 6b (ambiguous-but-rich → one clarifying question, never a menu). SessionStart banner names natural language first; slash commands as alternatives.
-- **PM skill expansion** — 22 new PM skills in four commits, re-synthesised from [Dean Peters' Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills) (CC BY-NC-SA 4.0 source; Hornero's re-synthesis is MIT). New themes: career/leadership (4), AI-PM (2), discovery extensions (3), outside-in (3), workshops + delivery (3), finance (7). Total PM skills 15 → 37; total skills 21 → 45.
-
-### v0.2.0 — foundation
-
-- **Antagonistic role-reviewer E2E (PM)** — `scripts/play-against.sh --check` runs the PM positive case + PM negative control via `expect` against the real interactive `claude` CLI; transcripts persisted to `tests/seeded/last-run/` on every run for spot-checking. Coarse regression net for catastrophic persona drift.
-- **CI self-breakage guard** — `.github/workflows/ci.yml` runs `validate-skill`, `validate-resource`, `test-validate-resource`, and `smoke-check` on every PR. Opt-in local mirror via `scripts/install-git-hooks.sh`. Catches stale `CATALOG.md`, frontmatter contract violations, and skill↔resource cross-ref breaks before merge.
-- **Resources layer (PR 1 — foundation)** — new top-level `resources/<system>/RESOURCE.md` cards describing external data sources (object model, MCP server, gotchas, fallback). Skills opt in via `resources: [<slug>]` frontmatter. Ships `resources/linear/` and the `linear-triage` consuming skill; `scripts/validate-resource.sh` enforces anatomy; `smoke-check.sh` gains bidirectional skill↔resource cross-ref. Hornero stays usable when no MCP server is configured (graceful degradation via documented fallback paths). PR #24.
-- **Vendor-agnostic plugin parity** — Hornero loads at full fidelity on both Claude Code and Codex from a single source-of-truth. `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` sibling manifests; reviewer subagents available as `agents/<name>.md` (Claude) and auto-generated `.codex/agents/<name>.toml` (Codex) via `scripts/build-codex-agents.sh`; `install.sh --codex` installs skills + agents + hooks + commands. PR #23.
-- **Plugin packaging (Claude Code)** — `.claude-plugin/plugin.json` manifest, top-level `skills/<name>/SKILL.md` symlinks (auto-built by `scripts/build-plugin-skills.sh`), plugin-loadable session hooks. PRs #20, #21.
-- **Blog-alignment series** (PRs #18–#19) — guardrail hooks in `templates/settings.json`, `templates/sub-CLAUDE.md.template` + `playbooks/claude-md-layering.md`, explore/edit separation made explicit in `DISPATCHER.md`, `templates/MAP.md.template`, `/audit` slash command + `playbooks/skill-rot-review.md` (quarterly cadence), `playbooks/adoption.md` (DRI + cross-functional working group + approval process).
-- **Memory layer v0** — project-local memory layer at `memory/decisions/` shipped as the third Hornero primitive. Two new cross-role skills: [`memory-query`](skills/memory-query/SKILL.md) and [`decision-record`](skills/decision-record/SKILL.md). [`playbooks/memory-loop.md`](playbooks/memory-loop.md) walks the read-decide-write cycle end-to-end. Distinct from `adr` (architecture-shaped) and `prd` (feature-shaped) — `decision-record` captures cross-role posture-shaping calls. Opt-in per project; absent `memory/decisions/` directory → no-op behaviour.
-- **Chronicle layer** — machine-queryable record of decisions any future session or role can load as situational awareness. Influenced by [Quorum's Chronicle module](https://github.com/balpal4495/Quorum/tree/main/modules) — same lifecycle, simpler substrate (Markdown-with-strict-frontmatter, deterministic harness, no embedder dependency). Two cross-role skills: `chronicle-record` (write side, calls `scripts/chronicle.sh propose` — LLM-free; human commits) and `chronicle-recall` (read side, byte-identical output for a given corpus). Deterministic harness at `tests/chronicle/` backs the layer.
+See [`CHANGELOG.md`](CHANGELOG.md).

@@ -1,6 +1,6 @@
 ---
 name: hypothesis-track
-description: Use when new evidence arrives on an open `type: hypothesis` entry — appends a dated row to its Evidence Log via `chronicle.sh append`, then either keeps the hypothesis open or surfaces a threshold crossing (falsifier triggered → propose refutation; prediction met → propose a resolving decision via supersedes).
+description: "Use when new evidence arrives on an open `type: hypothesis` entry — appends a dated row to its Evidence Log via `chronicle.sh append`, then either keeps the hypothesis open or surfaces a threshold crossing (falsifier triggered → propose refutation; prediction met → propose a resolving decision via supersedes)."
 intent: |
   Make the hypothesis loop close. Without this skill, evidence
   accumulates in conversation transcripts and never lands on the

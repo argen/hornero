@@ -3,7 +3,7 @@ name: decision-record
 description: Use after a non-trivial decision is made — captures the diagnosis, the decision, the alternatives rejected and why, the validation plan, and the revisit-by date as a durable artifact in `memory/decisions/`.
 intent: |
   The write side of the Hornero memory layer. Converts ephemeral
-  decisions (made in a multi-role-review, a strategy session, a
+  decisions (made in an orchestrated review, a strategy session, a
   PRD critique, a launch debate) into structured records committed
   to the project's `memory/decisions/` directory. Future sessions
   query these via `memory-query` before proposing approaches that
@@ -13,7 +13,7 @@ theme: memory
 resources:
   - github
 best_for:
-  - After a multi-role-review synthesises a recommendation
+  - After a orchestrated review synthesises a recommendation
   - After a strategy-kernel or bet-portfolio session lands
   - After a contested PRD, RFC, or ADR is resolved
   - Whenever an alternative is *rejected* with reasoning worth preserving
@@ -51,9 +51,9 @@ This skill overlaps with two existing artifacts and is deliberately distinct fro
 
 | Artifact | Owner | Scope |
 |---|---|---|
-| [`skills-adr`](../../roles/software-engineer/skills/adr/SKILL.md) | software-engineer role | Architectural decisions — system topology, framework choice, data-model trade-offs |
+| `adr` (a future `software-engineer` role skill) | software-engineer role | Architectural decisions — system topology, framework choice, data-model trade-offs |
 | [`skills-prd`](../../roles/product-manager/skills/prd/SKILL.md) | product-manager role | Feature specification — problem, hypothesis, success criteria, scope |
-| **`decision-record`** (this skill) | **cross-role** | **Any decision a multi-role-review produces, especially cross-functional ones — pricing, packaging, strategy posture, launch sequencing, bet portfolio, role-mix calls** |
+| **`decision-record`** (this skill) | **cross-role** | **Any decision an orchestrated review produces, especially cross-functional ones — pricing, packaging, strategy posture, launch sequencing, bet portfolio, role-mix calls** |
 
 Use ADR for "we chose Postgres over DynamoDB." Use PRD for "we are building search filters." Use `decision-record` for "we are refusing the SMB segment this year" or "we accepted the shadow-column migration over pg_repack after security and DB review."
 
@@ -95,7 +95,7 @@ references:
 
 ## Application
 
-Run this skill **after** a decision has actually been made — not as a brainstorm scaffold, not as a decision-making tool. The decision itself happens in a multi-role-review, a strategy session, a PRD review, or a real-time call. This skill captures what was decided.
+Run this skill **after** a decision has actually been made — not as a brainstorm scaffold, not as a decision-making tool. The decision itself happens in an orchestrated review, a strategy session, a PRD review, or a real-time call. This skill captures what was decided.
 
 1. **Restate the diagnosis.** Ask: *what was the central challenge this decision is responding to?* If the answer is a list of three things, you have not yet diagnosed; you have summarised. Compress to the crux. (Rumelt: a diagnosis names what is *hard* about the situation.)
 2. **State the decision in one sentence.** No qualifiers. No "we'll explore X." A decision is the moment ambiguity collapses.
@@ -155,7 +155,7 @@ Use the shadow-column pattern: add nullable column → backfill in batches → a
 ## References
 
 - PR-432 (the migration)
-- Hornero multi-role-review on 2026-05-13 (software-engineer + security-expert + data-scientist)
+- Hornero orchestrated review on 2026-05-13 (engineering + security + data lenses)
 ```
 
 ### A strategy posture record
@@ -222,8 +222,7 @@ Refuse the SMB segment for 2026. All product, marketing, and sales investment go
 
 - [`skills/memory-query`](../memory-query/SKILL.md) — the read side; how reviewer agents and future sessions scan `memory/decisions/` before proposing.
 - [`roles/product-manager/skills/strategy-kernel`](../../roles/product-manager/skills/strategy-kernel/SKILL.md) — the longer-form Rumelt artifact this record is a compressed instance of.
-- [`roles/software-engineer/skills/adr`](../../roles/software-engineer/skills/adr/SKILL.md) — engineer-scoped sibling artifact; use ADR for architectural decisions, decision-record for cross-role ones.
-- [`skills/multi-role-review`](../multi-role-review/SKILL.md) — the orchestration that typically produces the decisions this skill records.
+- a future `software-engineer` role's `adr` skill — engineer-scoped sibling artifact; use ADR for architectural decisions, decision-record for cross-role ones.
 - [`playbooks/memory-loop.md`](../../playbooks/memory-loop.md) — the read-decide-write cycle, worked end-to-end.
 - Richard Rumelt, *Good Strategy / Bad Strategy* (2011) — diagnosis / guiding policy / coherent actions, the kernel this record borrows. The "alternatives rejected" section is Rumelt's discipline ported into ADR-style format.
 - Michael Nygard, "Documenting Architecture Decisions" (2011) — the ADR pattern this record generalises beyond architecture.

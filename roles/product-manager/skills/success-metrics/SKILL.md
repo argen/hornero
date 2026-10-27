@@ -32,7 +32,7 @@ Define what good looks like for a feature, launch, or quarter before the team st
 
 The artifact is a metric stack: a primary metric, a counter-metric, guardrail metrics, and leading indicators — each with a rationale. The purpose is alignment before measurement: the team should be able to state, before launch, exactly what signal would tell them the work succeeded, and what signal would tell them it harmed something they care about.
 
-Distinct from the data-scientist's [`metric-definition`](../../../../data-scientist/skills/metric-definition/SKILL.md) skill: the PM names *which* metrics matter and *why*; the data-scientist verifies definitional integrity, measurement validity, and statistical soundness. This skill produces the brief that the data-scientist's skill validates.
+Distinct from the data-scientist's `metric-definition` (a future `data-scientist` role skill): the PM names *which* metrics matter and *why*; the data-scientist verifies definitional integrity, measurement validity, and statistical soundness. This skill produces the brief that the data-scientist's skill validates.
 
 ## Key Concepts
 
@@ -272,7 +272,7 @@ Failures: "improve user activation" has no baseline, no target, no horizon — n
 - **Christina Wodtke** — *Radical Focus* (2016, rev. 2021). OKR-shaped success criteria: baseline, target, horizon. The Key Result side of an OKR is the canonical form of a well-shaped metric.
 - **John Cutler** — North Star Framework; product systems thinking. The distinction between output metrics, input metrics, and health metrics underlies the leading-indicator and guardrail discipline.
 - **Related Hornero skills:**
-  - [`roles/data-scientist/skills/metric-definition`](../../../../data-scientist/skills/metric-definition/SKILL.md) — downstream of this skill. PM names which metrics; data-scientist verifies definitional integrity and measurement validity.
+  - a future `data-scientist` role's `metric-definition` skill — downstream of this skill. PM names which metrics; data-scientist verifies definitional integrity and measurement validity.
   - [`okrs`](../okrs/SKILL.md) — OKRs operate at team/product level; feature metric stacks are the more granular complement. Primary metrics trace up to KRs.
   - [`prd`](../prd/SKILL.md) — the success-metrics stack belongs in the PRD's success-criteria section.
   - [`cross-functional-orchestration`](../cross-functional-orchestration/SKILL.md) — the "outcomes we'll watch" section in the decision recommendation should be drawn from a success-metrics stack.

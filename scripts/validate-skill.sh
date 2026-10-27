@@ -7,6 +7,15 @@
 #      Application, Examples, Common Pitfalls, References)
 #   3. Anti-patterns / Common Pitfalls section is non-empty
 #   4. References section is non-empty (citation discipline)
+#   5. Single-line name/description values are YAML-safe: an unquoted value
+#      must not contain ': ', ':<TAB>', ' #' or end in ':', must not start
+#      with a YAML indicator character, and a leading quote must be closed
+#   6. description is at most 1024 characters (Claude API limit)
+#   7. Warn (non-fatal) when a file exceeds 500 lines
+#
+# Check 5 is a targeted heuristic, not a YAML parser (no YAML library is
+# assumed). It only inspects single-line `name:` / `description:` values;
+# multi-line block scalars and other fields are not checked.
 #
 # Phase 2+: cross-check that every named framework in Key Concepts
 # appears in the role's sources.md.
@@ -40,6 +49,47 @@ for file in "$@"; do
       echo "  ✗ frontmatter missing required field: ${field}"; FAIL=1
     fi
   done
+
+  fm_value() {
+    awk '/^---$/{c++; next} c==1' "$2" | sed -n "s/^$1:[[:space:]]*//p" | head -1
+  }
+
+  indicator='^[]`*&!|>%@[{#?,}-]'
+  for field in name description; do
+    val=$(fm_value "$field" "$file")
+    case "$val" in
+      \"*)
+        if [[ ${#val} -lt 2 || ! "$val" =~ [^\\]\"$ ]]; then
+          echo "  ✗ frontmatter: ${field} has an unclosed quote"; FAIL=1
+        fi
+        ;;
+      \'*)
+        if [[ ${#val} -lt 2 || "$val" != *\' ]]; then
+          echo "  ✗ frontmatter: ${field} has an unclosed quote"; FAIL=1
+        fi
+        ;;
+      "|"*|">"*) ;;
+      *)
+        if [[ "$val" == *": "* || "$val" == *":"$'\t'* || "$val" == *: || "$val" =~ $indicator ]]; then
+          echo "  ✗ frontmatter: ${field} must be quoted (contains ': ' or YAML indicator)"; FAIL=1
+        elif [[ "$val" == *" #"* ]]; then
+          echo "  ✗ frontmatter: ${field} must be quoted (contains ' #' comment start)"; FAIL=1
+        fi
+        ;;
+    esac
+  done
+
+  desc=$(fm_value description "$file")
+  case "$desc" in
+    \"*\"|\'*\') desc="${desc:1:${#desc}-2}" ;;
+  esac
+  if [[ ${#desc} -gt 1024 ]]; then
+    echo "  ✗ description exceeds 1024 characters (${#desc})"; FAIL=1
+  fi
+
+  if [[ $(wc -l < "$file") -gt 500 ]]; then
+    echo "  ⚠ over 500 lines; consider moving depth to a sibling reference.md"
+  fi
 
   # Anatomy sections
   for section in "${required_sections[@]}"; do

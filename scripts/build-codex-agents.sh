@@ -4,7 +4,7 @@
 #
 # Claude Code reads agents/<name>.md (Markdown with YAML frontmatter).
 # Codex reads .codex/agents/<name>.toml (TOML with `name`,
-# `description`, `sandbox_mode`, `developer_instructions`). Both formats
+# `description`, `model_reasoning_effort`, `developer_instructions`). Both formats
 # describe the same reviewer; this script keeps them in sync.
 #
 # Canonical source: agents/*.md (author-facing — edit these).
@@ -35,6 +35,7 @@ yaml_field() {
       if (match($0, pattern)) {
         line = substr($0, RSTART + RLENGTH)
         sub(/[[:space:]]+$/, "", line)
+        if (line ~ /^".*"$/) { line = substr(line, 2, length(line) - 2); gsub(/\\"/, "\"", line) }
         print line
         exit
       }
@@ -69,8 +70,9 @@ for src in agents/*.md; do
 
   # Build the TOML.
   # - name and description are quoted strings (escape backslashes and double quotes).
-  # - sandbox_mode is read-only for all reviewers (read-only is the explore/edit
-  #   separation invariant from DISPATCHER.md §5).
+  # - No sandbox_mode: Codex ignores it in custom agent files (subagents inherit
+  #   the parent sandbox). The read-only invariant from DISPATCHER.md §5 lives in
+  #   the developer_instructions prose ("Stay in your lane").
   # - developer_instructions uses TOML literal multi-line strings ('''…''')
   #   which preserve content verbatim; the only forbidden substring is '''.
   body=$(body_after_frontmatter "$src")
@@ -87,7 +89,7 @@ for src in agents/*.md; do
     echo ""
     echo "name = \"${name}\""
     echo "description = \"${esc_description}\""
-    echo "sandbox_mode = \"read-only\""
+    echo "model_reasoning_effort = \"medium\""
     echo ""
     echo "developer_instructions = '''"
     printf '%s\n' "$body"

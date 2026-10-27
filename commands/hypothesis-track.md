@@ -1,5 +1,5 @@
 ---
-description: Append evidence to an open `type: hypothesis` chronicle entry; surface threshold crossings (falsifier triggered or prediction met) as supersedes proposals. Usage- /hypothesis-track <hypothesis-id>.
+description: "Append evidence to an open `type: hypothesis` chronicle entry; surface threshold crossings (falsifier triggered or prediction met) as supersedes proposals. Usage- /hypothesis-track <hypothesis-id>."
 ---
 
 # /hypothesis-track
@@ -8,7 +8,7 @@ The user has a new observation that bears on an open hypothesis. The skill recor
 
 ## What to do
 
-1. **Load and follow [`skills/hypothesis-track/SKILL.md`](../../skills/hypothesis-track/SKILL.md)** — it is the canonical procedure. Do not improvise the threshold check.
+1. **Load and follow [`skills/hypothesis-track/SKILL.md`](../skills/hypothesis-track/SKILL.md)** — it is the canonical procedure. Do not improvise the threshold check.
 
 2. **Confirm the entry is type: hypothesis and status: open.** Read `chronicle/entries/<id>.md`. If it's not a hypothesis, say which type it is and stop. If it's not open (superseded / refuted / validated), say so and ask whether the user wants to record evidence on a closed entry anyway (rare; usually means a new hypothesis is warranted).
 

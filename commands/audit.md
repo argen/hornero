@@ -10,7 +10,7 @@ Source: Anthropic, ["How Claude Code Works in Large Codebases"](https://claude.c
 
 ## What to do
 
-1. **Load and follow [`playbooks/skill-rot-review.md`](../../playbooks/skill-rot-review.md)** — it's the human-judgment checklist. This command is the automation that feeds it.
+1. **Load and follow [`playbooks/skill-rot-review.md`](../playbooks/skill-rot-review.md)** — it's the human-judgment checklist. This command is the automation that feeds it.
 
 2. **Run the mechanical sweep** — surface the data the judgment turn needs:
 

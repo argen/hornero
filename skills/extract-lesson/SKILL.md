@@ -10,7 +10,7 @@ type: interactive
 theme: harness
 best_for:
   - At the end of a working session
-  - After a multi-role-review surfaces a recurring delegation mistake
+  - After an orchestrated review surfaces a recurring delegation mistake
   - After a bug fix where the root cause reveals a missing guardrail
   - When the user corrects the agent's approach in a way that would apply to future tasks
 scenarios:
@@ -104,7 +104,7 @@ For each lesson, produce a concrete diff proposal:
 ```markdown
 **Proposal 1.**
 
-Target: `roles/security-expert/ROLE.md`, section "Anti-patterns"
+Target: `roles/product-manager/ROLE.md`, section "Anti-patterns"
 
 Change: add a new anti-pattern:
 
@@ -135,9 +135,9 @@ After applying, suggest a follow-up: run `validate-skill.sh` on any modified SKI
 
 **Signal:** Three sessions in a row, the user reminded the agent to use `tmp/` for subagent output files. The pattern of "agent writes to chat, user redirects" repeated.
 
-**Distilled:** "Lead agent in multi-role-review is not enforcing Rule 4 (artifact passing)."
+**Distilled:** "Lead agent in cross-functional-orchestration is not enforcing Rule 4 (artifact passing)."
 
-**Target:** `skills/multi-role-review/SKILL.md`
+**Target:** `roles/product-manager/skills/cross-functional-orchestration/SKILL.md`
 
 **Proposal:** Add to "Step 3 — Parallel dispatch": "Each subagent prompt must include `Write your findings to tmp/<role>-review-<slug>.md.` literally — do not paraphrase, do not move the instruction to the middle of the prompt."
 
@@ -207,7 +207,6 @@ After applying, suggest a follow-up: run `validate-skill.sh` on any modified SKI
 
 - **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/) — feedback-loop discipline is the fourth principle.
 - **Related Hornero skills:**
-  - `skills/multi-role-review/SKILL.md` — Step 7 invokes extract-lesson when a multi-role review reveals recurring issues.
   - `skills/spec-the-problem/SKILL.md` — extract-lesson may propose updates to default question sets when specific question patterns prove valuable.
   - `skills/harness-check/SKILL.md` — extract-lesson is consulted as part of harness-check's audit.
 - **Related playbooks:**

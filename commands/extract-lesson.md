@@ -8,7 +8,7 @@ The user is ending a working session and wants to capture what should outlast it
 
 ## What to do
 
-1. **Load and follow [`skills/extract-lesson/SKILL.md`](../../skills/extract-lesson/SKILL.md)** — it is the canonical procedure. Do not improvise.
+1. **Load and follow [`skills/extract-lesson/SKILL.md`](../skills/extract-lesson/SKILL.md)** — it is the canonical procedure. Do not improvise.
 
 2. **Scan the conversation** (and recent commits if relevant) for:
    - Surprises — moments where the agent's first instinct was wrong.
@@ -16,7 +16,7 @@ The user is ending a working session and wants to capture what should outlast it
    - Repeated rework — patterns the skill/role definitions should have prevented.
    - Validated approaches — non-obvious choices the user confirmed.
 
-3. **Propose specific deltas** — exact files, exact edits. Not "we should update the security role"; instead, "update `roles/security-expert/ROLE.md` line 47 to add: ...".
+3. **Propose specific deltas** — exact files, exact edits. Not "we should update the security role"; instead, "update `roles/product-manager/ROLE.md` line 47 to add: ...".
 
    Candidate targets:
    - A role's `ROLE.md` (mindset/heuristics/anti-patterns).
