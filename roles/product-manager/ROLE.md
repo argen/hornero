@@ -149,18 +149,4 @@ When invoked to produce, the role generates:
 
 ## Skills index
 
-### Component (artifacts) — shipped (v0 drafts)
-- [`prd`](../../skills/prd/SKILL.md) — Product Requirements Doc
-- [`positioning-statement`](../../skills/positioning-statement/SKILL.md) — Moore + Dunford template
-- [`jobs-to-be-done`](../../skills/jobs-to-be-done/SKILL.md) — JTBD statement
-- [`okrs`](../../skills/okrs/SKILL.md) — quarterly OKR set (Wodtke)
-- [`success-metrics`](../../skills/success-metrics/SKILL.md) — primary metric + counter-metric + guardrails + leading indicators (Cagan, Doshi, Wodtke, Cutler)
-
-### Interactive (guided flows) — shipped (v0 drafts)
-- [`discovery-interview-prep`](../../skills/discovery-interview-prep/SKILL.md) — Torres + Moesta interview guide
-- [`prioritization-advisor`](../../skills/prioritization-advisor/SKILL.md) — LNO + ICE-with-confidence + four-risks triage (Doshi, Gilad, Cagan, Wodtke)
-- [`problem-framing-canvas`](../../skills/problem-framing-canvas/SKILL.md) — solution-free problem statement before PRD (Christensen, Cagan, Doshi, Perri)
-
-### Workflow (multi-step) — shipped (v0 drafts)
-- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — PM-led orchestration: frame as customer job, triage role mix, dispatch reviewers in parallel (the orchestrator covers lenses whose role has not shipped), synthesise into a decision (Cagan, Christensen, Doshi, Heath)
-- [`linear-triage`](../../skills/linear-triage/SKILL.md) — weekly Linear project triage; reads/writes via the [`linear`](../../resources/linear/RESOURCE.md) resource (Torres, Perri, Cagan)
+See the product-manager section of [`CATALOG.md`](../../CATALOG.md#product-manager).
