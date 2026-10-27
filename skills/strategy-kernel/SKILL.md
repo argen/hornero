@@ -1,6 +1,6 @@
 ---
 name: strategy-kernel
-description: Use when a PM needs to produce or critique a strategy artifact — to name the central obstacle (diagnosis), articulate the posture for overcoming it (guiding policy), and confirm the actions reinforce each other rather than sitting as an independent initiative list (coherent actions).
+description: "Produces or critiques a strategy artifact in Rumelt's kernel shape: the central obstacle (diagnosis), the posture for overcoming it (guiding policy), and coherent reinforcing actions rather than an independent initiative list. Use when asked to write, review, or sharpen a product strategy. To make the bets inside a strategy explicit, with assumptions, evidence weight, and kill criteria, use bet-portfolio."
 role: product-manager
 intent: |
   Produces a Rumelt-style three-part strategy kernel: a named diagnosis of the

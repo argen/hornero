@@ -1,6 +1,6 @@
 ---
 name: spec-the-problem
-description: Use before any non-trivial implementation — forces a problem statement + constraints + success criteria pass before code is written.
+description: "Forces a problem statement, constraints, and success criteria pass before any non-trivial implementation, so code is not written against an unexamined request. Use at the start of an engineering task, bug fix, or refactor with unclear scope. It is deliberately short and code-facing: for a customer-centred problem frame ahead of a PRD use problem-framing-canvas, and for the full product spec use prd."
 intent: |
   Implements Chris MDP's "Spec problems, not solutions" principle.
   Forces the user (and the agent) to articulate the problem, the constraints,

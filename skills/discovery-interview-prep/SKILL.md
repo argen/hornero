@@ -1,6 +1,6 @@
 ---
 name: discovery-interview-prep
-description: Use to plan a discovery interview — produces an interview guide grounded in Teresa Torres' continuous-discovery methodology and Bob Moesta's switch-interview technique.
+description: "Produces a discovery interview guide before the call, grounded in Teresa Torres' continuous-discovery methodology and Bob Moesta's switch-interview technique. Use when asked to plan, script, or prepare for a customer interview. After the interviews, turn transcripts into snapshots, themes, and a quote bank with interview-synthesis."
 role: product-manager
 intent: |
   Produces a structured interview guide for a discovery conversation

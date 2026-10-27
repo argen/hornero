@@ -1,6 +1,6 @@
 ---
 name: saas-revenue-growth-metrics
-description: Use when a PM needs to read or critique SaaS top-of-funnel + retention metrics — ARR, NRR, GRR, CAC payback, magic number, expansion levers — without bluffing past finance.
+description: "Explains and critiques SaaS growth and retention metrics (ARR, NRR, GRR, CAC payback, magic number, expansion levers), with the formula, healthy range, and common misread for each. Use when asked to read, sanity-check, or challenge top-of-funnel and retention numbers. For unit economics and capital efficiency (Rule of 40, burn multiple, margins, FCF) use saas-economics-efficiency-metrics; for a one-page lookup of all ~30 metrics use finance-metrics-quickref; for a combined health read use business-health-diagnostic."
 role: product-manager
 intent: |
   Builds fluency in the SaaS revenue metric stack — from how ARR is composed

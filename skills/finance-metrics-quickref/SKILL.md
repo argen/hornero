@@ -1,6 +1,6 @@
 ---
 name: finance-metrics-quickref
-description: Use when a PM needs a one-page lookup of the ~30 SaaS finance metrics they are expected to read — definition, formula, healthy range, common misread — to bring to a board prep, a CFO review, or a strategy debate without embarrassing themselves or misreading the numbers.
+description: "Produces a one-page lookup of the ~30 SaaS finance metrics a PM is expected to read, each with definition, formula, healthy range, and common misread. Use when asked for a cheat sheet, a quick definition, or prep for a board or CFO conversation. For depth on growth and retention use saas-revenue-growth-metrics; for depth on unit economics and efficiency use saas-economics-efficiency-metrics; for a diagnosis of the actual business use business-health-diagnostic."
 role: product-manager
 intent: |
   A fast-lookup reference covering the ~30 SaaS finance metrics that appear in

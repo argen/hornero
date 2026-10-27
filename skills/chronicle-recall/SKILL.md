@@ -1,6 +1,6 @@
 ---
 name: chronicle-recall
-description: Use before reviewing, proposing, or producing any non-trivial artifact — queries the project's `chronicle/entries/` layer for prior decisions whose scope, role, status, or keywords overlap with the current work, and surfaces relevant entries before fresh analysis begins.
+description: "Queries the project's chronicle/entries/ layer for prior decisions, hypotheses, stakeholders, and customers whose scope, role, status, or keywords overlap the current work, and surfaces them before fresh analysis begins. Use before reviewing, proposing, or producing a non-trivial artifact in a project with a chronicle. If the project only has memory/decisions/ files use memory-query; to write a new entry use chronicle-record."
 intent: |
   The read side of the Hornero Chronicle layer. Closes the most expensive
   failure mode in AI-assisted work — re-proposing approaches the team has

@@ -1,6 +1,6 @@
 ---
 name: bet-portfolio
-description: Use to make the implicit bets in a product strategy explicit — typically 3-7 bets, each with assumption, evidence weight, kill criterion, and revisit cadence.
+description: "Makes the implicit bets in a product strategy explicit: typically 3-7 bets, each with an assumption, evidence weight, kill criterion, and revisit cadence. Use after a strategy exists and the question is what must be true, and when to stop. To write or critique the strategy itself use strategy-kernel; to track evidence against one open hypothesis use hypothesis-track."
 role: product-manager
 intent: |
   Surfaces and stress-tests the strategic bets embedded in a product

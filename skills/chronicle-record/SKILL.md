@@ -1,6 +1,6 @@
 ---
 name: chronicle-record
-description: Use after a non-trivial decision is made — captures a structured, schema-validated entry into the project's `chronicle/` layer so future sessions and roles can load it as situational awareness. This is the strict-schema successor to `decision-record`.
+description: "Captures a decision as a schema-validated entry in the project's chronicle/ layer (proposed via chronicle.sh, committed by a human) so future sessions and roles can load it as situational awareness. Use after a non-trivial decision in a project that has a chronicle/. It supersedes decision-record, which is the lightweight memory/decisions/ variant for projects without a chronicle; to read entries back use chronicle-recall."
 intent: |
   The write side of the Hornero Chronicle layer. Converts a decision
   reached in a session into a Markdown-with-YAML-frontmatter file that

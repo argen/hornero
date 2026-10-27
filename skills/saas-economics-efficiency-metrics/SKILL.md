@@ -1,6 +1,6 @@
 ---
 name: saas-economics-efficiency-metrics
-description: Use when a PM needs to read or critique SaaS unit-economics and capital-efficiency metrics — Rule of 40, burn multiple, gross margin, contribution margin, FCF — without bluffing past finance.
+description: "Explains and critiques SaaS unit-economics and capital-efficiency metrics (Rule of 40, burn multiple, gross margin, contribution margin, FCF), with the formula, healthy range, and common misread for each. Use when asked how efficiently the business turns spend into growth or profit. For ARR, NRR, GRR, CAC payback and expansion use saas-revenue-growth-metrics; for a one-page lookup of all ~30 metrics use finance-metrics-quickref; for a combined health read use business-health-diagnostic."
 role: product-manager
 intent: |
   Equips a PM to navigate an efficiency dashboard, board deck, or fundraising
