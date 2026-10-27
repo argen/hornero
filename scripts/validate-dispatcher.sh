@@ -133,6 +133,16 @@ while IFS=$'\t' read -r prompt expected_skill expected_role notes; do
   if [[ ! -f "$dir/prompt.md" ]]; then
     bad "no eval case $dir/prompt.md for routes.tsv row: ${prompt:0:50}"
     SYNC_FAIL=1
+  elif [[ "$expected_skill" != "ESCALATE" ]]; then
+    if ! grep -q "?${slug}\"" "$dir/graders/skill-fired.md" 2>/dev/null; then
+      bad "$dir/graders/skill-fired.md does not match skill ${slug}"
+      SYNC_FAIL=1
+    fi
+    body_first=$(awk 'c>=2 && NF {print; exit} /^---[[:space:]]*$/ {c++}' "$dir/prompt.md")
+    if [[ "$body_first" != "$prompt" ]]; then
+      bad "$dir/prompt.md first body line differs from routes.tsv prompt: ${prompt:0:50}"
+      SYNC_FAIL=1
+    fi
   fi
 done < "$ROUTES"
 
