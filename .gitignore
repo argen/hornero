@@ -12,9 +12,9 @@ tmp/
 # install.sh manifest — workspace-specific record of installed files
 .hornero-manifest
 
-# Eval runs — artifacts and scores are workspace-specific
-evals/runs/*
-!evals/runs/.gitkeep
+# claude plugin eval output, written on every run
+evals/results/
+/results.json
 
 # Chronicle proposals are workspace-local until human-committed → entries/
 chronicle/proposals/*

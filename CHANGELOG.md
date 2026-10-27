@@ -4,6 +4,16 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 
 ## [Unreleased]
 
+### Added
+
+- `claude plugin eval` suite under `evals/cases/`: 25 routing cases (one per natural-language row of `tests/dispatcher/routes.tsv`, graded on the skill that fired) and 7 PM-lens artifact cases with an `llm` quality grader. `validate-dispatcher.sh` Check 4 keeps routes.tsv and the routing cases in sync.
+- `EVAL_HORNERO_NO_AUTO_EXTRACT=1` opt-out in `hooks/auto-extract-lesson.sh`, set by every eval case so the Stop hook's extra lesson turn does not alter graded output.
+- `.github/workflows/evals.yml`: opt-in (`workflow_dispatch` plus weekly) eval run; needs the `ANTHROPIC_API_KEY` secret. `ci.yml` does not run evals.
+
+### Removed
+
+- `evals/judge.py`, `evals/score.sh`, `evals/tasks/` and `evals/runs/` (bespoke human and LLM dual-scoring flow that was never run); `evals/rubric.md` now feeds the llm graders and `evals/EVAL-REPORT.md` is kept as history.
+
 ### Fixed
 
 - Four skills (`prep`, `hypothesis-track`, `stakeholder-update`, `customer-update`), the `/hypothesis-track` command and the `github` resource card had unquoted `description:` values containing `: `, which is invalid YAML; Claude Code loaded them with empty metadata. Descriptions are now double-quoted.

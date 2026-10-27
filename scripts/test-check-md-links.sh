@@ -13,7 +13,7 @@ trap 'rm -rf "$TMP"' EXIT
 
 new_repo() {
   local d="$TMP/$1"
-  mkdir -p "$d/sub" "$d/evals/runs/x"
+  mkdir -p "$d/sub" "$d/chronicle/source/x"
   git -C "$d" init -q
   echo "$d"
 }
@@ -53,8 +53,8 @@ printf '[gone](../nope.md)\n' > "$r/sub/a.md"
 expect "relative to the linking file's directory" 1 "sub/a.md -> ../nope.md" "$r"
 
 r=$(new_repo excluded)
-printf '[gone](missing.md)\n' > "$r/evals/runs/x/synthesis.md"
-expect "evals/runs is excluded" 0 "" "$r"
+printf '[gone](missing.md)\n' > "$r/chronicle/source/x/synthesis.md"
+expect "chronicle/source is excluded" 0 "" "$r"
 
 r=$(new_repo dirlink)
 printf '[d](sub)\n' > "$r/README.md"

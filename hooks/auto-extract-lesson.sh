@@ -9,7 +9,9 @@
 # type /extract-lesson explicitly.
 #
 # Honoured opt-outs:
-#   HORNERO_NO_AUTO_EXTRACT=1   — disable for this session only
+#   HORNERO_NO_AUTO_EXTRACT=1        — disable for this session only
+#   EVAL_HORNERO_NO_AUTO_EXTRACT=1   — same, for `claude plugin eval` runs, which pass
+#                                      only EVAL_* variables through to the run
 #
 # Failure modes are deliberate no-ops: if anything goes wrong (jq missing,
 # malformed payload, unwritable stdout), the hook exits 0 silently so the
@@ -18,7 +20,7 @@
 set -u
 
 # Opt-out: respect user preference if set.
-if [[ "${HORNERO_NO_AUTO_EXTRACT:-0}" == "1" ]]; then
+if [[ "${HORNERO_NO_AUTO_EXTRACT:-0}" == "1" || "${EVAL_HORNERO_NO_AUTO_EXTRACT:-0}" == "1" ]]; then
   exit 0
 fi
 
