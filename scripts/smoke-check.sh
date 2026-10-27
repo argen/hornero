@@ -194,8 +194,18 @@ elif ! python3 -m json.tool plugin.json >/dev/null 2>&1; then
   bad "plugin.json is not valid JSON"
   CODEX_FAIL=1
 elif ! python3 -c "import json,sys; d=json.load(open('plugin.json')); sys.exit(0 if isinstance(d.get('extensions',{}).get('com.openai'), dict) else 1)"; then
-  bad "plugin.json lacks extensions[\"com.openai\"] (Codex ignores .codex-plugin/ only when it is present)"
+  bad "plugin.json lacks extensions[\"com.openai\"] (it replaces the .codex-plugin overlay)"
   CODEX_FAIL=1
+fi
+if [[ -f plugin.json ]]; then
+  extra_keys=$(python3 -c "
+import json
+allowed={'\$schema','name','version','description','author','homepage','repository','license','keywords','extensions'}
+print(' '.join(sorted(set(json.load(open('plugin.json'))) - allowed)))" 2>/dev/null) || extra_keys="?"
+  if [[ -n "$extra_keys" ]]; then
+    bad "plugin.json has keys outside the Agent Plugins schema: ${extra_keys}"
+    CODEX_FAIL=1
+  fi
 fi
 if [[ -e .codex-plugin ]]; then
   bad ".codex-plugin/ must not exist; root plugin.json supersedes it"
@@ -216,11 +226,21 @@ fi
 
 # 8b2. MCP servers declared for Claude must be declared in mcp.json (same names),
 # and mcp.json must not invent servers Claude lacks. Hornero declares none today.
-claude_mcp=$(python3 -c "import json; print(' '.join(sorted(json.load(open('.claude-plugin/plugin.json')).get('mcpServers', {}))))" 2>/dev/null)
+mcp_names() {
+  python3 -c "import json,sys; print(' '.join(sorted(json.load(open(sys.argv[1])).get('mcpServers', {}))))" "$1"
+}
+claude_mcp=$(mcp_names .claude-plugin/plugin.json) || { bad ".claude-plugin/plugin.json is not valid JSON"; CODEX_FAIL=1; claude_mcp=""; }
 codex_mcp=""
-if [[ -f mcp.json ]]; then
-  codex_mcp=$(python3 -c "import json; print(' '.join(sorted(json.load(open('mcp.json')).get('mcpServers', {}))))" 2>/dev/null)
-fi
+for f in mcp.json .mcp.json; do
+  [[ -f "$f" ]] || continue
+  if names=$(mcp_names "$f"); then
+    codex_mcp="${codex_mcp:+$codex_mcp }${names}"
+  else
+    bad "$f is not valid JSON"
+    CODEX_FAIL=1
+  fi
+done
+codex_mcp=$(echo "$codex_mcp" | tr ' ' '\n' | sort -u | tr '\n' ' ' | sed 's/ $//')
 if [[ "$claude_mcp" != "$codex_mcp" ]]; then
   bad "MCP server drift: .claude-plugin='${claude_mcp}' mcp.json='${codex_mcp}'"
   CODEX_FAIL=1
