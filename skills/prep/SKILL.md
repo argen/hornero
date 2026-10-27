@@ -9,6 +9,7 @@ intent: |
   it, every meeting starts from a tight one-pager grounded in the
   durable chronicle layer.
 argument-hint: <stakeholder-name-or-scope-tag-or-meeting-description>
+allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)
 type: workflow
 theme: memory
 best_for:

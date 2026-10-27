@@ -7,6 +7,7 @@ intent: |
   revisit-by without re-examination, stakeholders go silent for months,
   and singleton scope tags accumulate. The chronicle's signal-to-noise
   decays without an explicit sweep.
+allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)
 type: workflow
 theme: memory
 best_for:

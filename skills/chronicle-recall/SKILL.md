@@ -7,6 +7,7 @@ intent: |
   already considered, validated, or refuted. Reviewer subagents call this
   skill at the top of every review; producer skills call it before
   drafting a new artifact.
+allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)
 type: workflow
 theme: memory
 best_for:
