@@ -142,7 +142,7 @@ DRY_HOME=$(mktemp -d); mkdir -p "$DRY_HOME/.claude"
 HOME="$DRY_HOME" ./install.sh --dry-run >"$DRY_LOG" 2>&1 || true
 rm -rf "$DRY_HOME"
 
-expected_skills=$(find skills -mindepth 2 -type f | wc -l | tr -d ' ')
+expected_skills=$(find skills -mindepth 2 -type f ! -name '.*' | wc -l | tr -d ' ')
 expected_agents=$(find agents -maxdepth 1 -name '*.md' -type f | wc -l | tr -d ' ')
 expected_resources=$(find resources -mindepth 2 -maxdepth 2 -name RESOURCE.md -type f 2>/dev/null | wc -l | tr -d ' ')
 expected_total=$((expected_skills + expected_agents + expected_resources))

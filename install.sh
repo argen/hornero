@@ -141,8 +141,13 @@ fi
 # Reset manifest at start of fresh install (dry-run does not touch manifest)
 [[ $DRY_RUN -eq 0 ]] && : > "${MANIFEST}.tmp"
 
+PLANNED="$(mktemp)"
+trap 'rm -f "$PLANNED"' EXIT
+
 record() {
+  echo "$1" >> "$PLANNED"
   [[ $DRY_RUN -eq 0 ]] && echo "$1" >> "${MANIFEST}.tmp"
+  return 0
 }
 
 confirm_overwrite() {
@@ -163,6 +168,7 @@ copy_file() {
   if confirm_overwrite "$target"; then
     if [[ $DRY_RUN -eq 1 ]]; then
       echo "  would install: ${src#${REPO_DIR}/}  →  ${target}"
+      record "$target"
     else
       mkdir -p "$(dirname "$target")"
       cp "$src" "$target"
@@ -171,7 +177,14 @@ copy_file() {
     fi
   else
     echo "  skipped:      ${label}"
+    # a declined overwrite is still ours if the previous install wrote it
+    if [[ -f "${MANIFEST}" ]] && grep -qxF "$target" "${MANIFEST}"; then record "$target"; fi
   fi
+}
+
+skill_name() {
+  local rel="${1#${REPO_DIR}/skills/}"
+  echo "${rel%%/*}"
 }
 
 install_skill() {
@@ -220,9 +233,9 @@ install_resource_cards() {
 if want_claude; then
   echo "Claude — skills:"
   while IFS= read -r -d '' file; do
-    name=$(basename "$(dirname "$file")")
+    name=$(skill_name "$file")
     install_skill "$file" "$name"
-  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f -print0 2>/dev/null)
+  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f ! -name '.*' -print0 2>/dev/null)
 
   echo
   echo "Claude — reviewer agent:"
@@ -243,9 +256,9 @@ if want_codex; then
   echo
   echo "Codex — skills (→ ${CODEX_DIR}/skills/):"
   while IFS= read -r -d '' file; do
-    name=$(basename "$(dirname "$file")")
+    name=$(skill_name "$file")
     install_codex_skill "$file" "$name"
-  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f -print0 2>/dev/null)
+  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f ! -name '.*' -print0 2>/dev/null)
 
   echo
   echo "Codex — reviewer agent (TOML → ${CODEX_DIR}/agents/):"
@@ -273,6 +286,32 @@ if want_codex; then
   echo "  If you want Hornero's dispatcher protocol active in every project,"
   echo "  copy AGENTS.md into the project root, or invoke Codex from inside"
   echo "  the Hornero repo."
+fi
+
+# ---------- Prune files the previous install wrote but this one does not ----------
+# Covers layouts from older versions (commands/, prompts/, <role>-<skill>/).
+# Entries outside the targets being installed are carried over untouched.
+if [[ -f "${MANIFEST}" ]]; then
+  while IFS= read -r path; do
+    [[ -z "$path" ]] && continue
+    in_scope=0
+    want_claude && [[ "$path" == "${CLAUDE_DIR}/"* ]] && in_scope=1
+    want_codex  && [[ "$path" == "${CODEX_DIR}/"*  ]] && in_scope=1
+    if [[ $in_scope -eq 0 ]]; then
+      [[ $DRY_RUN -eq 0 ]] && echo "$path" >> "${MANIFEST}.tmp"
+      continue
+    fi
+    grep -qxF "$path" "$PLANNED" && continue
+    if [[ -e "$path" ]]; then
+      if [[ $DRY_RUN -eq 1 ]]; then
+        echo "  would remove stale: ${path}"
+      else
+        echo "  removed stale: ${path}"
+        rm -f "$path"
+        rmdir "$(dirname "$path")" 2>/dev/null || true
+      fi
+    fi
+  done < "${MANIFEST}"
 fi
 
 # Finalize manifest
