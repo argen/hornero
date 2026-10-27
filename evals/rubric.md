@@ -1,10 +1,10 @@
 # Review quality rubric
 
-> Source for the `type: llm` graders in `evals/cases/*/graders/quality.md`. Those graders adapt the four dimensions below to a single-role PM output as PASS/FAIL conditions; this file keeps the full 0-1 scale for human spot checks.
+> Source for the `type: llm` graders in `evals/cases/*/graders/q-*.md`. Those graders adapt the four dimensions below to a single-role PM output as one PASS/FAIL grader each (`q-sources`, `q-distinct`, `q-tradeoff`, `q-actionable`), so a case passes at 0.8 with one criterion missing and the failing grader says which; this file keeps the full 0-1 scale for human spot checks.
 
 > Each run is scored on four dimensions. Each dimension gets one of `{0, 0.25, 0.5, 0.75, 1.0}`. The run's score is the mean of the four. Target across the 7 artifact cases in `evals/cases/`: **mean ≥ 0.8**.
 
-> The `quality.md` graders map dimension 2 to distinct findings (at least three different ones) and dimension 3 to a stated trade-off with a position, since each case is one response rather than a set of role reviews.
+> The `q-*.md` graders map dimension 2 to distinct findings (at least three different ones) and dimension 3 to a stated trade-off with a position, since each case is one response rather than a set of role reviews.
 
 Use this as a judge. Be honest. Round down when uncertain.
 

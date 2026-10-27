@@ -10,12 +10,17 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 - `EVAL_HORNERO_NO_AUTO_EXTRACT=1` opt-out in `hooks/auto-extract-lesson.sh`, set by every eval case so the Stop hook's extra lesson turn does not alter graded output.
 - `.github/workflows/evals.yml`: opt-in (`workflow_dispatch` plus weekly) eval run; needs the `ANTHROPIC_API_KEY` secret. `ci.yml` does not run evals.
 
+### Changed
+
+- Artifact eval cases split the single `quality.md` grader into `q-sources`, `q-distinct`, `q-tradeoff` and `q-actionable` (plus `q-decision` for the launch plan), so a case passes at 0.8 with one criterion missing and shows which one.
+
 ### Removed
 
 - `evals/judge.py`, `evals/score.sh`, `evals/tasks/` and `evals/runs/` (bespoke human and LLM dual-scoring flow that was never run); `evals/rubric.md` now feeds the llm graders and `evals/EVAL-REPORT.md` is kept as history.
 
 ### Fixed
 
+- Eval fixtures: the chronicle routing cases now seed a `chronicle/` project and `scripts/chronicle.sh` via `seed-chronicle.sh` (run with `--scaffold`, which CI and the README commands now pass); the positioning-statement, saas-revenue-growth-metrics and saas-economics-efficiency-metrics routing cases carry their artifact or metrics inline; `success-metrics` description now covers critiquing an existing metric definition.
 - Four skills (`prep`, `hypothesis-track`, `stakeholder-update`, `customer-update`), the `/hypothesis-track` command and the `github` resource card had unquoted `description:` values containing `: `, which is invalid YAML; Claude Code loaded them with empty metadata. Descriptions are now double-quoted.
 - `repository` in both plugin manifests is a string, as `claude plugin validate` requires.
 - Dead links to `skills/multi-role-review` and to roles that were never shipped (`software-engineer`, `data-scientist`, `tester`, `designer`, `security-expert`, `marketing-expert`) removed or reworded as plain "future role" prose; stale `../../` links in `commands/` and three renamed-file links corrected.
