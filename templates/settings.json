@@ -40,14 +40,14 @@
   "_optional_hooks": {
     "_comment": "Opt-in guardrails. Merge each entry's event/matcher/hooks into hooks{} above to enable. Each one trades agent ergonomics for stricter invariants — adopt incrementally. Replace <path-to-hornero> with your hornero clone path.",
     "PreToolUse_block_invalid_skill": {
-      "_when": "You want a SKILL.md edit to fail loudly if it violates anatomy (frontmatter missing, sections missing). Aggressive: exit 2 blocks the tool call.",
+      "_when": "You want a SKILL.md edit blocked if the file on disk already violates anatomy. PreToolUse fires before the write, so this validates the pre-edit file, not the result (and skips files that do not exist yet); the PostToolUse variant is the one that checks the edit's result. Aggressive: exit 2 blocks the tool call.",
       "event": "PreToolUse",
       "entry": {
         "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "command -v jq >/dev/null || exit 0; f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *SKILL.md) <path-to-hornero>/scripts/validate-skill.sh \"$f\" || exit 2;; esac"
+            "command": "command -v jq >/dev/null || exit 0; f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *SKILL.md) [ -f \"$f\" ] || exit 0; <path-to-hornero>/scripts/validate-skill.sh \"$f\" || exit 2;; esac"
           }
         ]
       }

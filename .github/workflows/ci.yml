@@ -9,6 +9,8 @@ jobs:
   self-breakage-guard:
     name: validators + smoke-check
     runs-on: ubuntu-latest
+    env:
+      DISABLE_AUTOUPDATER: "1"
     steps:
       - uses: actions/checkout@v4
 
@@ -43,8 +45,9 @@ jobs:
         run: ./scripts/test-check-md-links.sh
 
       - name: Install Claude Code CLI (for claude plugin validate)
+        # Pinned deliberately: validator behaviour changes between releases. Bump on purpose.
         run: |
-          npm install -g @anthropic-ai/claude-code
+          npm install -g @anthropic-ai/claude-code@2.1.311
           claude --version
 
       - name: smoke-check.sh (includes claude plugin validate)
