@@ -15,6 +15,12 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 
 ### Changed
 
+- Per-role skills moved from `roles/<role>/skills/<name>/` to `skills/<name>/`; every skill is now a real directory and role membership is the `role:` frontmatter key (38 skills carry `role: product-manager`). `roles/<role>/` keeps `ROLE.md` and `sources.md`. All path references and relative links across the docs are rewritten.
+- `catalog.sh` groups skills by `role:` and lists `type: command` skills under a new "Slash commands" section; `smoke-check.sh` step 7 now fails on any symlink under `skills/` or a `role:` with no `roles/<role>/ROLE.md`.
+- Slash commands are skills (`type: command`); the invocation syntax, argument handling, and route-declaration lines of the six commands that shadowed same-named skills (`review`, `prep`, `ingest`, `hypothesis-track`, `stakeholder-update`, `customer-update`) plus `extract-lesson` now live in each skill's Application section, with `argument-hint:` where they take arguments.
+- `validate-skill.sh` exempts `type: command` skills from the six-section anatomy (they still need `name`, `description`, `type`).
+- `install.sh` installs every file of each skill directory and uses flat skill names (no `<role>-` prefix); `--dry-run` counts and the DISPATCHER loading table follow the new layout.
+- `skills/competitive-teardown/SKILL.md` split: the worked example moved to `examples.md`, bringing it under the 500-line warning.
 - `evals/judge.py` and `evals/README.md` default judge models are now `claude-sonnet-5-5`, `gpt-5` (unverified) and `gemini-2.5-pro`; the README no longer claims 7 roles.
 - `orchestrate` and `cross-functional-orchestration` state that only `product-manager-reviewer` exists today and that the orchestrator covers unshipped lenses itself.
 - `catalog.sh` and `build-codex-agents.sh` strip surrounding double quotes from frontmatter values.
@@ -22,11 +28,18 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 
 ### Added
 
+- `skills/{orchestrate,role,kickoff,catalog,audit}/SKILL.md` as `type: command` skills (`kickoff`, `catalog`, `audit`, `role` set `disable-model-invocation: true`; `orchestrate` stays model-invocable because the dispatcher routes to it).
+- `.claude/skills -> ../skills` so a session opened at the repo root discovers every skill without the plugin or `install.sh`; `.gitignore` un-ignores it.
 - `validate-skill.sh` fails on unquoted `name`/`description` values containing `: ` or starting with a YAML indicator, fails on descriptions over 1024 characters, and warns over 500 lines; covered by `scripts/test-validate-skill.sh`.
 - `scripts/check-md-links.sh` (with `test-check-md-links.sh`) fails on broken relative Markdown links.
 - `smoke-check.sh` runs `claude plugin validate` on a dereferenced copy of the repo (skipped when the CLI is absent) and the link check; CI installs the CLI and runs the new tests.
 - This changelog.
 - Hardening of the new checks: `validate-skill.sh` also rejects unquoted values with `:<TAB>`, a trailing `:`, a leading `-`/`?`/`,`/`]`/`}`, a ` #` comment start, or an unclosed quote; `check-md-links.sh` ignores inline code spans and `~~~` fences, skips any URI scheme and accepts `<angle>` targets; `smoke-check.sh` validates a tracked-files-only dereferenced copy and no longer aborts on missing validator output; CI pins the Claude Code CLI to 2.1.311 with the auto-updater disabled.
+
+### Removed
+
+- `commands/` and the `.claude/commands` symlink (superseded by skills), and `scripts/build-plugin-skills.sh` (no symlinks left to generate).
+- `install.sh` no longer copies to `~/.claude/commands` or `~/.codex/prompts`; the skills cover both.
 
 ## [0.3.0] - 2026-05
 
