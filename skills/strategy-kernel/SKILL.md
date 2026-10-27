@@ -174,6 +174,14 @@ Produce the artifact in this shape:
 name it so the team can hold the line.>
 ```
 
+### Output discipline
+
+When the response critiques or produces an artifact:
+
+- **Ground each finding.** Name the framework and its author and work, drawn from this skill's References (for example "Cagan's four big risks, *Inspired*"). Cite only what the finding actually rests on.
+- **Name a trade-off.** State at least one cost the recommendation accepts and take a position on it.
+- **End with next actions.** Close with one to three concrete actions, each with a deliverable or owner (for example "rewrite the problem section with ticket counts and interview evidence"). Never end on "align", "iterate" or "more research".
+
 ## Examples
 
 ### Example 1 — B2B fintech onboarding (worked kernel)

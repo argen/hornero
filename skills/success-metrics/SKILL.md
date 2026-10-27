@@ -148,6 +148,14 @@ Per Doshi's decision-quality discipline: state the specific signal that would tr
 
 A revisit condition example: "If 30-day retention (counter-metric) drops by >5 points while activation rate (primary) is hitting target, we revisit whether activation is the right primary metric for this cohort."
 
+### Output discipline
+
+When the response critiques or produces an artifact:
+
+- **Ground each finding.** Name the framework and its author and work, drawn from this skill's References (for example "Cagan's four big risks, *Inspired*"). Cite only what the finding actually rests on.
+- **Name a trade-off.** State at least one cost the recommendation accepts and take a position on it.
+- **End with next actions.** Close with one to three concrete actions, each with a deliverable or owner (for example "rewrite the problem section with ticket counts and interview evidence"). Never end on "align", "iterate" or "more research".
+
 ## Examples
 
 ### Example 1 — Metric stack for a new onboarding flow
