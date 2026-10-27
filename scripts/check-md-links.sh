@@ -6,7 +6,7 @@
 # Skips #anchor targets and anything with a URI scheme (http, mailto, ...), strips #fragment, resolves the
 # rest against the linking file's directory. Links inside fenced code blocks
 # (``` or ~~~) and inline code spans are ignored; <angle-bracket> targets may
-# contain spaces. evals/runs/, chronicle/source/ and chronicle/proposals/ are
+# contain spaces. chronicle/source/ and chronicle/proposals/ are
 # excluded (captured run output and ingested material, not authored docs).
 
 set -uo pipefail
@@ -33,7 +33,7 @@ while IFS= read -r md; do
       BROKEN=$((BROKEN+1))
     fi
   done < <(awk '/^[[:space:]]*(```|~~~)/{f=!f; next} !f {gsub(/`[^`]*`/, ""); print}' "$md" | grep -oE '\]\((<[^>]+>|[^)[:space:]]+)' | sed -e 's/^](//' -e 's/^<//' -e 's/>$//')
-done < <(git ls-files '*.md' | grep -v -E '^(evals/runs|chronicle/source|chronicle/proposals)/')
+done < <(git ls-files '*.md' | grep -v -E '^(chronicle/source|chronicle/proposals)/')
 
 if [[ $BROKEN -eq 0 ]]; then
   echo "✓ $CHECKED relative markdown links resolve"
