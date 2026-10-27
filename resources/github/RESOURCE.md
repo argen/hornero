@@ -1,6 +1,6 @@
 ---
 name: github
-description: Code host — PRs, issues, Actions, code search, releases, CODEOWNERS. Cross-role: engineers (PR review), PMs (issue triage), testers (CI health), security (dependabot, secret scanning).
+description: "Code host — PRs, issues, Actions, code search, releases, CODEOWNERS. Cross-role: engineers (PR review), PMs (issue triage), testers (CI health), security (dependabot, secret scanning)."
 type: data-source
 status: stable
 mcp:

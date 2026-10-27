@@ -35,6 +35,7 @@ yaml_field() {
       if (match($0, pattern)) {
         line = substr($0, RSTART + RLENGTH)
         sub(/[[:space:]]+$/, "", line)
+        if (line ~ /^".*"$/) { line = substr(line, 2, length(line) - 2); gsub(/\\"/, "\"", line) }
         print line
         exit
       }
