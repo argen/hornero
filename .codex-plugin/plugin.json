@@ -6,10 +6,7 @@
     "name": "Bruno Belcastro"
   },
   "homepage": "https://github.com/argen/hornero",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/argen/hornero"
-  },
+  "repository": "https://github.com/argen/hornero",
   "license": "MIT",
   "skills": "./skills",
   "hooks": "./hooks/hooks.json"
