@@ -9,7 +9,7 @@ The user has a meeting coming up — a 1:1, a QBR, a design review, a vendor cal
 
 ## What to do
 
-1. **Load and follow [`skills/prep/SKILL.md`](../../skills/prep/SKILL.md)** — it is the canonical procedure. Do not improvise.
+1. **Load and follow [`skills/prep/SKILL.md`](../skills/prep/SKILL.md)** — it is the canonical procedure. Do not improvise.
 
 2. **Pick the mode** from `$ARGUMENTS`:
    - **Person mode** — argument matches a name or stakeholder slug. Load the `type: stakeholder` entry first, then decisions and hypotheses in their `affected_areas`.

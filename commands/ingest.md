@@ -9,7 +9,7 @@ The user has an artifact worth preserving in the chronicle layer — a customer 
 
 ## What to do
 
-1. **Load and follow [`skills/ingest/SKILL.md`](../../skills/ingest/SKILL.md)** — it is the canonical procedure. Do not improvise.
+1. **Load and follow [`skills/ingest/SKILL.md`](../skills/ingest/SKILL.md)** — it is the canonical procedure. Do not improvise.
 
 2. **Resolve the artifact** from `$ARGUMENTS`:
    - If the argument is a file path, use it directly.

@@ -35,6 +35,6 @@ In other words: every standard placeholder is present but every component has a 
 
 **How to run:**
 
-1. Place the metric definition at `evals/runs/12-metric-definition-activation/artifact.md` (the `roles/data-scientist/skills/metric-definition/SKILL.md` Examples section has a template).
+1. Place the metric definition at `evals/runs/12-metric-definition-activation/artifact.md` (structure follows a future `data-scientist` role's `metric-definition` skill).
 2. Invoke `multi-role-review` with data-scientist + product-manager + software-engineer.
 3. Score with attention to whether Goodhart was cited by name (Dimension 1) and whether the counter-metric absence was elevated to a Blocker (Dimension 4).

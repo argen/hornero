@@ -8,7 +8,7 @@ The user has a meaningful signal on a B2B account — metric shift, support esca
 
 ## What to do
 
-1. **Load and follow [`skills/customer-update/SKILL.md`](../../skills/customer-update/SKILL.md)** — it is the canonical procedure. Do not improvise the threshold check or the stakeholder-bridge step.
+1. **Load and follow [`skills/customer-update/SKILL.md`](../skills/customer-update/SKILL.md)** — it is the canonical procedure. Do not improvise the threshold check or the stakeholder-bridge step.
 
 2. **Confirm the entry is type: customer.** Read `chronicle/entries/<id>.md`. If it's a stakeholder entry, redirect to `/stakeholder-update`. If it's something else (decision, hypothesis), say so and stop.
 

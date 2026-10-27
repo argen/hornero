@@ -41,7 +41,7 @@ Override the default provider with `--provider` (or `EVAL_JUDGE_PROVIDER` env va
 
 ### Recommended workflow
 
-1. **Run** `multi-role-review` against the task artifact. Capture synthesis to `evals/runs/<task-slug>/synthesis.md`.
+1. **Run** the orchestrated review (the PM orchestrator; lenses without a shipped role are covered by the orchestrator itself) against the task artifact. Capture synthesis to `evals/runs/<task-slug>/synthesis.md`.
 2. **LLM-judge all tasks first** (fast, no human time required):
    ```bash
    for dir in evals/runs/*/; do ./evals/score.sh --judge "$dir"; done
@@ -94,7 +94,7 @@ Document systematic offsets below. Recalibrate quarterly or after any rubric cha
 
 | In scope | Out of scope |
 |---|---|
-| `multi-role-review` synthesis quality | Individual role-review quality (covered by per-skill editorial pass) |
+| Orchestrated-review synthesis quality | Individual role-review quality (covered by per-skill editorial pass) |
 | `cross-functional-orchestration` as a composing skill (compose-call) | The PM-side framing in isolation |
 | 2-5 role mixes | 6-7 role mixes (rarely useful; only sample if testing the upper bound) |
 | Concrete, plausible artifacts | Synthetic "perfect" artifacts — they tell us nothing about real-world performance |
@@ -119,7 +119,7 @@ mkdir -p evals/runs/<task-slug>
 cp <artifact-source> evals/runs/<task-slug>/artifact.md  # or link
 
 # In Claude Code, ask:
-# "Run multi-role-review on evals/runs/<task-slug>/artifact.md.
+# "/orchestrate on evals/runs/<task-slug>/artifact.md.
 #  Roles: <role-1>, <role-2>, <role-3>. Save the synthesis to
 #  evals/runs/<task-slug>/synthesis.md and each role's output to
 #  evals/runs/<task-slug>/<role>.md."
@@ -185,7 +185,6 @@ evals/
 
 ## Related Hornero skills
 
-- [`skills/multi-role-review`](../skills/multi-role-review/SKILL.md) — the skill being evaluated.
 - [`roles/product-manager/skills/cross-functional-orchestration`](../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — the PM-orchestrator composition tested in launch-shaped tasks.
-- [`roles/data-scientist/skills/experiment-design`](../roles/data-scientist/skills/experiment-design/SKILL.md) — pre-registration discipline applied here.
-- [`roles/data-scientist/skills/metric-definition`](../roles/data-scientist/skills/metric-definition/SKILL.md) — the rubric dimensions are themselves metrics; the same definitional discipline applies (counter-metric, owner, gaming surface).
+- a future `data-scientist` role's `experiment-design` skill — pre-registration discipline applied here.
+- a future `data-scientist` role's `metric-definition` skill — the rubric dimensions are themselves metrics; the same definitional discipline applies (counter-metric, owner, gaming surface).

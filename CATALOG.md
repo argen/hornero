@@ -15,8 +15,8 @@
 
 ## Cross-role skills
 
-> Process skills that any role can invoke. The dispatcher should reach
-> for `multi-role-review` whenever two or more roles match strongly.
+> Process skills that any role can invoke.
+> Parallel multi-role review is planned for when a second role ships.
 
 | Skill | Type | When to invoke |
 |---|---|---|

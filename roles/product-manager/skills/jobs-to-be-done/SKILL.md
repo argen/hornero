@@ -218,5 +218,5 @@ This JTBD changes no downstream decision. It's vanity. Reject and re-do.
 - **Related Hornero skills:**
   - [`prd`](../prd/SKILL.md) — JTBD feeds the PRD's Problem section.
   - [`positioning-statement`](../positioning-statement/SKILL.md) — JTBD feeds positioning's "for [target] who [need]" line.
-  - [`roles/marketing-expert/skills/positioning-canvas`](../../../marketing-expert/skills/positioning-canvas/SKILL.md) — JTBD's "competitive alternatives" feeds the positioning canvas.
+  - a future `marketing-expert` role's `positioning-canvas` skill — JTBD's "competitive alternatives" feeds the positioning canvas.
   - [`roles/product-manager/skills/cross-functional-orchestration`](../cross-functional-orchestration/SKILL.md) — the PM-orchestrator's Step 1 frames the customer job using this skill's vocabulary.

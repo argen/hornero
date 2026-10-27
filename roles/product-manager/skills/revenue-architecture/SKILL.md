@@ -47,7 +47,7 @@ where the bottleneck is, what lever moves what. Run revenue-architecture first;
 success-metrics instruments what revenue-architecture surfaces as the binding
 constraint.
 
-Distinct from the data-scientist's [`metric-definition`](../../../../data-scientist/skills/metric-definition/SKILL.md):
+Distinct from the data-scientist's `metric-definition` (a future `data-scientist` role skill):
 that skill handles definitional integrity for a *single* metric. PM-led;
 the data-scientist skill is the technical complement when stage-to-stage
 correlations harden into causal claims.
@@ -242,7 +242,7 @@ correlation in the diagram.
 better — not because activation causes retention, but because ICP is a confounder.
 
 **Fix.** Flag causal claims; refer to the data-scientist's
-[`causal-dag`](../../../../data-scientist/skills/causal-dag/SKILL.md).
+`causal-dag` (a future `data-scientist` role skill).
 The architecture says "the correlation suggests a relationship"; the DAG makes
 the causal structure explicit.
 
@@ -285,7 +285,7 @@ rate than one who didn't? If no, the definition is wrong. Activation = value del
     reweights bets. Cross-reference in Step 7.
   - [`strategy-kernel`](../strategy-kernel/SKILL.md) — the bottleneck often appears in
     the kernel's diagnosis. Cross-reference in Step 7.
-  - [`metric-definition`](../../../../data-scientist/skills/metric-definition/SKILL.md)
+  - `metric-definition` (a future `data-scientist` role skill)
     (data-scientist) — hardens individual stage metrics before investment decisions.
-  - [`causal-dag`](../../../../data-scientist/skills/causal-dag/SKILL.md)
+  - `causal-dag` (a future `data-scientist` role skill)
     (data-scientist) — use when stage correlations are proposed as causal.

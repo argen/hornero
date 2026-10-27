@@ -120,7 +120,7 @@ The skills that drive this exception are [`hypothesis-track`](../skills/hypothes
 
 ## Worked example
 
-See [`tests/chronicle/fixtures/good/2026-05-12-refuse-smb-segment.md`](../tests/chronicle/fixtures/good/2026-05-12-refuse-smb-segment.md) for a canonical entry.
+See [`tests/chronicle/fixtures/good/2026-05-15-refuse-smb-segment-for-fy26.md`](../tests/chronicle/fixtures/good/2026-05-15-refuse-smb-segment-for-fy26.md) for a canonical entry.
 
 ## Validator reference
 

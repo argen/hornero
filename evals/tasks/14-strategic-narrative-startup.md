@@ -26,6 +26,6 @@
 
 **How to run:**
 
-1. Place the strategic narrative at `evals/runs/14-strategic-narrative-startup/artifact.md` (the `roles/marketing-expert/skills/strategic-narrative/SKILL.md` Examples section has the structure).
+1. Place the strategic narrative at `evals/runs/14-strategic-narrative-startup/artifact.md` (structure follows a future `marketing-expert` role's `strategic-narrative` skill).
 2. Invoke `multi-role-review` with marketing-expert + product-manager.
 3. Score with attention to whether each of the 3 seeded weaknesses surfaced with a named citation.

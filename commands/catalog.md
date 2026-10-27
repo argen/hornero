@@ -8,11 +8,11 @@ The user wants to see what's in the box.
 
 ## What to do
 
-1. **Read [`CATALOG.md`](../../CATALOG.md)** — the generated one-liner index of every shipped role and skill.
+1. **Read [`CATALOG.md`](../CATALOG.md)** — the generated one-liner index of every shipped role and skill.
 
 2. **Present it compactly**, not by dumping the whole file. Group as:
-   - **Roles** (7) — one line each, with the trigger phrase.
-   - **Cross-role process skills** (5) — one line each: `spec-the-problem`, `harness-check`, `multi-role-review`, `extract-lesson`, `context-reset-check`.
+   - **Roles** — one line each, with the trigger phrase (only `product-manager` ships today).
+   - **Cross-role process skills** — one line each, as listed in `CATALOG.md` (for example `spec-the-problem`, `harness-check`, `extract-lesson`, `context-reset-check`).
    - **Per-role skills** — group by role; one line per skill.
    - **Slash commands** — `/orchestrate`, `/review`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`.
 

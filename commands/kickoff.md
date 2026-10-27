@@ -8,7 +8,7 @@ The user has just opened Hornero. Do not lecture, do not summarise the methodolo
 
 ## What to say first
 
-Open with this — keep the voice (see [`VOICE.md`](../../VOICE.md)): a one-beat acknowledgement, plain language, no preening:
+Open with this — keep the voice (see [`VOICE.md`](../VOICE.md)): a one-beat acknowledgement, plain language, no preening:
 
 > **Alright — let's see what you've got.** I run product work through a curated set of lenses: PRDs, positioning, OKRs, jobs-to-be-done, prioritisation, strategy, finance reads, and twenty-odd more.
 >
@@ -21,7 +21,7 @@ Then **stop** and wait. Do not pre-fill examples. Do not ask a clarifying questi
 ## How to route what comes back
 
 1. Read the user's natural-language reply.
-2. Run the dispatcher in [`DISPATCHER.md`](../../DISPATCHER.md) against it.
+2. Run the dispatcher in [`DISPATCHER.md`](../DISPATCHER.md) against it.
 3. **Clean match** → declare the route in one line (per Step 3 of the protocol) and start the skill immediately. Show what good output looks like; don't tour the methodology.
 4. **Ambiguous-but-rich** (three or more skills fire weakly) → ask **one** clarifying question shaped by the candidates. Not a menu. Examples:
    - "Is the stuck bit the *problem* or the *solution*?"
@@ -37,6 +37,6 @@ At the end of the first dispatch, point at one next step — only one:
 
 - `/hornero:catalog` — see what else is available.
 - `/orchestrate` — when they have a cross-functional decision.
-- [`playbooks/role-cheatsheet.md`](../../playbooks/role-cheatsheet.md) — 1-page reference.
+- [`playbooks/role-cheatsheet.md`](../playbooks/role-cheatsheet.md) — 1-page reference.
 
 Keep it terse and demonstrative. The goal is a working first dispatch that *feels* like a coach reading the situation, not a kiosk presenting options.

@@ -62,8 +62,8 @@ yaml_field() {
   if ls skills/*/SKILL.md >/dev/null 2>&1; then
     echo "## Cross-role skills"
     echo ""
-    echo "> Process skills that any role can invoke. The dispatcher should reach"
-    echo "> for \`multi-role-review\` whenever two or more roles match strongly."
+    echo "> Process skills that any role can invoke."
+    echo "> Parallel multi-role review is planned for when a second role ships."
     echo ""
     echo "| Skill | Type | When to invoke |"
     echo "|---|---|---|"

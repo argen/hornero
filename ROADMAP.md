@@ -46,7 +46,7 @@ Land `roles/software-engineer/` with the seed skills `adr`, `rfc`, `refactor-pla
 
 ### Non-engineer reach validation
 
-Graduate `[~]` → `[x]` after one designer and one marketer pass the three-criterion bar (reach / recognition / continuation) following [`playbooks/test-protocol-non-engineer-reach.md`](playbooks/test-protocol-non-engineer-reach.md).
+Graduate `[~]` → `[x]` after one designer and one marketer pass the three-criterion bar (reach / recognition / continuation) following a test protocol (not yet written).
 
 ## Later
 

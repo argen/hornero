@@ -42,7 +42,7 @@ Where Hornero incorporates synthesized frameworks from [Product-Manager-Skills](
 This role both **reads** and **writes** the project's local memory:
 
 - **Read** — at the top of any reviewer-mode invocation, scan `memory/decisions/` for entries whose `scope`, `affected_areas`, or `roles` include this role. Surface 1-5 most relevant in the review opening. See [`skills/memory-query`](../../skills/memory-query/SKILL.md).
-- **Write** — when a multi-role-review, strategy session, or producer-mode call lands on a decision that touches this role, capture it via [`skills/decision-record`](../../skills/decision-record/SKILL.md). The artifact lives at `memory/decisions/YYYY-MM-DD-slug.md`. PMs are the role most often *invoking* this skill, since `cross-functional-orchestration` outputs land as cross-role decisions.
+- **Write** — when an orchestrated review, strategy session, or producer-mode call lands on a decision that touches this role, capture it via [`skills/decision-record`](../../skills/decision-record/SKILL.md). The artifact lives at `memory/decisions/YYYY-MM-DD-slug.md`. PMs are the role most often *invoking* this skill, since `cross-functional-orchestration` outputs land as cross-role decisions.
 
 The layer is opt-in per project. If `memory/decisions/` does not exist in the working directory, the role operates without prior-decision context (no error).
 
@@ -103,7 +103,7 @@ When invoked to produce, the role generates:
 - **Interview syntheses** — per-interview snapshots, theme rollups, OST updates, and a quote bank from raw discovery interviews (Torres post-interview discipline). Skill: [`interview-synthesis`](skills/interview-synthesis/SKILL.md).
 - **Competitive teardowns** — structured analysis of a competitor's product, segments, jobs-hired-for, switching costs, and strategic implications. Skill: [`competitive-teardown`](skills/competitive-teardown/SKILL.md).
 - **Revenue architectures** — funnel + activation + retention + expansion + churn mapped as a single system; bottleneck identification; leverage analysis. Skill: [`revenue-architecture`](skills/revenue-architecture/SKILL.md).
-- **Cross-functional orchestrations** — frame the question as a customer job, triage the role mix, compose with `multi-role-review`, synthesise into a decision recommendation. Skill: [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md).
+- **Cross-functional orchestrations** — frame the question as a customer job, triage the role mix, dispatch reviewers in parallel (the orchestrator covers lenses whose role has not shipped), synthesise into a decision recommendation. Skill: [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md).
 
 > v0 status: 14 producer skills shipped as first drafts (`prd`, `jobs-to-be-done`, `positioning-statement`, `discovery-interview-prep`, `okrs`, `cross-functional-orchestration`, `success-metrics`, `prioritization-advisor`, `problem-framing-canvas`, `strategy-kernel`, `bet-portfolio`, `interview-synthesis`, `competitive-teardown`, `revenue-architecture`). The originally-listed forward-references `prd-development` and `product-strategy-session` have been removed — they overlap with existing skills (`prd` already produces the PRD; `cross-functional-orchestration` already orchestrates strategy sessions). The strategy-and-research batch (`strategy-kernel` + `bet-portfolio` + `interview-synthesis` + `competitive-teardown` + `revenue-architecture`) introduces Rumelt as the 12th anchor in `sources.md`; commercial skills (`pricing-strategy`, `gtm-sequencing`) are deliberately deferred to a future marketing-expert batch per the cross-role boundary decision. Editorial review on the shipped drafts is recommended before production use.
 
@@ -162,5 +162,5 @@ When invoked to produce, the role generates:
 - [`problem-framing-canvas`](skills/problem-framing-canvas/SKILL.md) — solution-free problem statement before PRD (Christensen, Cagan, Doshi, Perri)
 
 ### Workflow (multi-step) — shipped (v0 drafts)
-- [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md) — PM-led orchestration: frame as customer job, triage role mix, compose with `multi-role-review`, synthesise into a decision (Cagan, Christensen, Doshi, Heath)
+- [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md) — PM-led orchestration: frame as customer job, triage role mix, dispatch reviewers in parallel (the orchestrator covers lenses whose role has not shipped), synthesise into a decision (Cagan, Christensen, Doshi, Heath)
 - [`linear-triage`](skills/linear-triage/SKILL.md) — weekly Linear project triage; reads/writes via the [`linear`](../../resources/linear/RESOURCE.md) resource (Torres, Perri, Cagan)

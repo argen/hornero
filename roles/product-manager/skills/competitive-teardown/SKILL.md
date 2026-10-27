@@ -541,7 +541,7 @@ the teardown and produces the commercial framing.
   - [`jobs-to-be-done`](../jobs-to-be-done/SKILL.md) — the JTBD comparison in Step 6
     uses this skill's vocabulary and templates. If a JTBD artifact already exists, use
     it as the anchor.
-  - [`roles/marketing-expert/skills/positioning-canvas`](../../../marketing-expert/skills/positioning-canvas/SKILL.md) —
+  - a future `marketing-expert` role's `positioning-canvas` skill —
     the cross-role partner for the commercial view. The teardown feeds the canvas; the
     canvas produces the positioning copy. PM owns strategy framing; marketing owns
     commercial framing.

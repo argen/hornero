@@ -192,5 +192,5 @@ This positioning is also doing strategic work: it explicitly *narrows* the audie
 - **Andy Raskin** — strategic narrative; positioning feeds the narrative's "promised land" beat.
 - **Related Hornero skills:**
   - [`jobs-to-be-done`](../jobs-to-be-done/SKILL.md) — JTBD identifies the customer and the alternatives that feed positioning.
-  - [`roles/marketing-expert/skills/positioning-canvas`](../../../marketing-expert/skills/positioning-canvas/SKILL.md) — Dunford-style positioning canvas as a more detailed cousin.
-  - [`roles/marketing-expert/skills/strategic-narrative`](../../../marketing-expert/skills/strategic-narrative/SKILL.md) — uses positioning as input.
+  - a future `marketing-expert` role's `positioning-canvas` skill — Dunford-style positioning canvas as a more detailed cousin.
+  - a future `marketing-expert` role's `strategic-narrative` skill — uses positioning as input.

@@ -12,7 +12,7 @@ theme: memory
 best_for:
   - Top of every reviewer-agent invocation (the "memory check" preamble)
   - Before drafting a PRD, RFC, ADR, strategy kernel, or launch brief
-  - Before running multi-role-review on a contested topic
+  - Before running an orchestrated review on a contested topic
   - When a user asks "have we thought about X?"
 scenarios:
   - "Security-expert reviewer is invoked on a JWT change — memory-query scans for prior auth decisions, surfaces a 2026-04 record rejecting HS256, reviewer leads with that context"
@@ -153,13 +153,12 @@ Proceeding with no prior-decision context. This work is in fresh territory; cons
 2. **Surfacing too much.** Five is the soft cap. Ten surfaces are noise; the user stops reading. If the candidate set is large, the *scope tags* are too coarse — that is a memory-corpus problem, not a query problem.
 3. **Ignoring superseded records.** A superseded record is a *teaching artifact* — it shows the evolution. Don't drop it silently; surface it as lineage when the superseding record is also relevant.
 4. **Confusing memory with documentation.** Memory captures *decisions* (what we chose and why), not state (how the system is currently configured). State lives in code, schemas, dashboards. Records that read like documentation should not be in `memory/decisions/`.
-5. **Re-running on every sub-task.** One memory check per invocation (a review, a draft, a multi-role-review run) is enough. Re-running on every tool call burns context.
+5. **Re-running on every sub-task.** One memory check per invocation (a review, a draft, an orchestrated review run) is enough. Re-running on every tool call burns context.
 6. **Trusting `revisit_after` blindly.** A record past its revisit date is not invalid — it is *due for review*. Surface it with a "revisit-due" flag rather than dropping it.
 
 ## References
 
 - [`skills/decision-record`](../decision-record/SKILL.md) — the write side; the artifact shape this skill queries against.
 - [`playbooks/memory-loop.md`](../../playbooks/memory-loop.md) — the end-to-end read-decide-write cycle.
-- [`skills/multi-role-review`](../multi-role-review/SKILL.md) — the orchestration whose subagents most often consume this skill at the top of their work.
 - Quorum / Chronicle (Bal Pal, [github.com/balpal4495/Quorum](https://github.com/balpal4495/Quorum)) — the higher-infrastructure version of this idea (vector retrieval, gated writes, GH Action proposals). This skill is the markdown-only Hornero-shape; for projects that outgrow grep-scale memory, Quorum is the upgrade path.
 - David A. Patterson and John L. Hennessy on retrieval discipline: *Computer Architecture: A Quantitative Approach* — the principle that *cache hit* before *compute* is older than computing; it applies to decision retrieval no less than to memory addressing.

@@ -2,7 +2,7 @@
 name: cross-functional-orchestration
 description: Use when a PM needs to coordinate cross-functional work — a launch, a contested decision, a roadmap call, a strategic question — by framing it as a customer job, dispatching the right role mix, and synthesising into a product decision.
 intent: |
-  Composes `multi-role-review` with product-management framing so the PM
+  Composes parallel reviewer dispatch with product-management framing so the PM
   acts as the orchestrator-integrator rather than a generic lead agent.
   The skill enforces three disciplines: frame the question as a customer
   job before dispatching (Christensen JTBD); pick the role mix from the
@@ -34,10 +34,10 @@ Run a PM-led orchestration of cross-functional work, producing:
 
 1. **A reframed question** — the user's prompt restated as a customer job + outcomes + constraints.
 2. **A justified role mix** — 2-5 roles chosen because the job demands them, not because all roles are present.
-3. **Parallel role findings** — via [`skills/multi-role-review`](../../../../skills/multi-role-review/SKILL.md), passed in with a PM-framed brief.
+3. **Role findings** — from `product-manager-reviewer` (the only reviewer subagent shipped today) in parallel with any future role reviewers, plus the orchestrator's own pass for every lens whose role has not shipped, all briefed with a PM-framed brief.
 4. **A PM-synthesised decision recommendation** — outcomes, success criteria, alternative considered, revisit condition.
 
-This skill is not `multi-role-review` with a different name. `multi-role-review` is the generic orchestration *mechanism* — any role can invoke it. `cross-functional-orchestration` is the PM-specific *composition* of that mechanism: it adds JTBD-shaped triage in front and outcomes-shaped synthesis behind. The PM is the integrator; this is the skill that makes integration legible.
+A generic parallel-review mechanism (planned for when a second role ships) would be usable by any role. `cross-functional-orchestration` is the PM-specific *composition* of that idea: it adds JTBD-shaped triage in front and outcomes-shaped synthesis behind. The PM is the integrator; this is the skill that makes integration legible.
 
 It is also not the only orchestrator pattern. A staff engineer orchestrates a technical migration; a security expert orchestrates an incident retrospective; a CMO orchestrates a launch from the message side. PM-led orchestration fits cross-functional product decisions where the *customer job* is the integrating thread. When the integrating thread is technical or compliance-driven, route to the appropriate orchestrator instead.
 
@@ -61,7 +61,7 @@ Doshi's high-quality-decisions framing distinguishes the *decision quality* from
 
 ### Orchestrator-worker, with PM framing
 
-The Anthropic multi-agent research system framing (orchestrator-worker, detailed delegation, parallel-first, artifact passing, end-state eval) underlies `multi-role-review`. This skill consumes that protocol. Where `multi-role-review` says "decompose the task per role," this skill says "decompose the customer job per role, in PM language." Same machinery, sharper framing.
+The Anthropic multi-agent research system framing (orchestrator-worker, detailed delegation, parallel-first, artifact passing, end-state eval) underlies this skill's dispatch step. A generic fan-out would say "decompose the task per role"; this skill says "decompose the customer job per role, in PM language."
 
 ### The minimum role set
 
@@ -73,7 +73,7 @@ A useful recommendation answers: **what are we doing, what we are not doing inst
 
 ## Application
 
-Six steps; PM time 30-90 minutes (less for simple decisions, more for launches); role-subagent time runs in parallel and totals 5-15 minutes via `multi-role-review`.
+Six steps; PM time 30-90 minutes (less for simple decisions, more for launches); role-subagent time runs in parallel and totals 5-15 minutes.
 
 ### Step 1 — Frame the question as a customer job (10-15 minutes)
 
@@ -99,23 +99,23 @@ PM-led heuristics:
 - **Job has measurable success criteria that need protection** → tester (regression risk) + data-scientist (measurement validity).
 - **Job is launch-shaped** (positioning, audience, channel timing) → marketing-expert.
 
-If you arrive at >5 roles, drop the weakest match. Cagan's minimum-set discipline: every added role widens synthesis cost. Strict cap of 5 in this skill (vs. `multi-role-review`'s upper bound of 7) — when 6+ are genuinely needed, you're orchestrating a launch and should compose with the pre-launch sibling workflows instead.
+If you arrive at >5 roles, drop the weakest match. Cagan's minimum-set discipline: every added role widens synthesis cost. Strict cap of 5 in this skill (the dispatcher's upper bound is 7 role subagents) — when 6+ are genuinely needed, you're orchestrating a launch and should compose with the pre-launch sibling workflows instead.
 
 Output: an itemised role mix, each line `role — what this role uniquely surfaces`.
 
-### Step 3 — Compose with multi-role-review (5-15 minutes wall-clock)
+### Step 3 — Dispatch (5-15 minutes wall-clock)
 
-Invoke [`skills/multi-role-review`](../../../../skills/multi-role-review/SKILL.md) with the framed brief. The PM provides:
+Dispatch with the framed brief. Only `product-manager-reviewer` exists as a subagent today; for each role in the mix that has no shipped reviewer, the orchestrator covers that lens itself rather than spawning a nonexistent subagent (see [`DISPATCHER.md`](../../../../DISPATCHER.md)). The PM provides:
 
 - **The framed question** (Step 1) as the shared context for all role subagents.
 - **A per-role scope** that names *the part of the job this role owns*. Not "review the PR for security" — "review the PR for whether the auth changes preserve the customer's trust that a saved cohort is theirs alone."
-- **The standard delegation fields** (output format, sources, success criteria, out-of-scope) per `multi-role-review` Rule 2.
+- **The standard delegation fields** (output format, sources, success criteria, out-of-scope) per the detailed-delegation discipline in the Anthropic multi-agent research write-up.
 
-The subagents run in parallel and return condensed findings via the standard `tmp/<role>-review-<slug>.md` artifact pattern. The PM does not re-implement orchestration; this step *uses* the orchestration mechanism.
+Reviewer subagents run in parallel and return condensed findings via the standard `tmp/<role>-review-<slug>.md` artifact pattern; the orchestrator's own passes for unshipped lenses are written to the same shape.
 
 ### Step 4 — Synthesise through the PM lens (15-30 minutes)
 
-Read the role findings. Then write a synthesis that does five things `multi-role-review`'s generic synthesis doesn't:
+Read the role findings. Then write a synthesis that does five things a generic synthesis doesn't:
 
 1. **Map findings to the customer job.** Each finding either advances, blocks, or is orthogonal to the job. Orthogonal findings get filed; they're not synthesis material.
 2. **Surface trade-offs in product language.** Not "engineering wants a 3-week refactor and design wants a new component," but "if we ship in 2 weeks we delay the engineering refactor by a quarter, and we ship the existing component pattern users already understand." The PM translates each function's vocabulary into the customer-job frame.
@@ -172,7 +172,7 @@ A PM receives the cross-functional ask: "Should we build a 'duplicate cohort' fe
 
 **Step 2 — Triage.** designer (UI pattern + state inventory for the duplicate flow); software-engineer (feasibility against refactor; data-model impact); product-manager-self (synthesis, JTBD evidence from CS tickets). No security: no auth or data-trust change. No marketing: no launch. No tester at this stage — we'll add when the PR exists.
 
-**Step 3 — Compose.** Brief each role through `multi-role-review`. Designer scope: "Map the states for the duplicate-then-edit flow given the constraint of no new visual components." Engineer scope: "Can this ship before the refactor lands without paying interest twice?"
+**Step 3 — Compose.** Brief each lens in parallel (the orchestrator covers lenses without a shipped reviewer). Designer scope: "Map the states for the duplicate-then-edit flow given the constraint of no new visual components." Engineer scope: "Can this ship before the refactor lands without paying interest twice?"
 
 **Step 4 — Synthesise.** Designer finds two viable patterns reusing existing components; the lighter one matches CS-ticket language. Engineer finds the feature is 2 days of work *if* it lands before the refactor's last commit (in 6 days); 2 weeks of work afterward. PM frames: "Decision is whether to slot 2 days into the current sprint or wait a quarter."
 
@@ -211,7 +211,7 @@ PM receives: "Plan the LedgerStack v2 launch — payments migration, new dashboa
 
 **Step 2 — Triage.** marketing-expert (positioning + launch brief); tester (pre-release pass on migration + dashboard); security-expert (pre-launch audit on payments swap); product-manager-self (orchestration + synthesis). 4 roles — at the upper bound of this skill. Designer is not added because the UI changes are surfaced through the dashboard, which is already through `design-review`; that's a separate workflow that's already run.
 
-**Step 3 — Compose.** Invoke `multi-role-review` with the three pre-launch sibling workflows in parallel: marketing runs `pre-launch-marketing-audit`, tester runs `pre-release-test-pass`, security runs `pre-launch-security-audit`. PM provides each with the framed job and the outcomes.
+**Step 3 — Compose.** Run the three pre-launch sibling workflows in parallel: marketing runs `pre-launch-marketing-audit`, tester runs `pre-release-test-pass`, security runs `pre-launch-security-audit`. PM provides each with the framed job and the outcomes.
 
 **Step 4 — Synthesise.** Marketing flags positioning misalignment for the mid-tier (the brief says "for growing teams" but the pricing implies "for established teams" — a known buyer-confusion problem). Tester flags 2 blockers (refund-email regression + order-detail data loss). Security flags 1 warning (KWD rounding direction, small audience). PM frames: "Decision is whether to ship Tuesday as scheduled with positioning-tier fix, or HOLD until next cut for tester blockers; security is acceptable as warning."
 
@@ -347,11 +347,10 @@ Failures: no framed customer job; all 7 roles dispatched (no triage); synthesis 
 - **Shreyas Doshi** — High-quality-decisions framing; decision quality vs. outcome quality. The discipline behind recording reasoning + revisit condition.
 - **Chip Heath & Dan Heath** — *Decisive: How to Make Better Choices in Life and Work* (2013); WRAP framework (Widen options, Reality-test, Attain distance, Prepare to be wrong). The recommendation shape encodes WRAP.
 - **Teresa Torres** — *Continuous Discovery Habits* (2021); Opportunity Solution Tree; open questions feed the OST rather than being closed by the orchestration.
-- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system); orchestrator-worker, detailed delegation, parallel-first, artifact passing. This skill consumes that protocol via `multi-role-review`.
+- **Anthropic** — ["How we built our multi-agent research system"](https://www.anthropic.com/engineering/multi-agent-research-system); orchestrator-worker, detailed delegation, parallel-first, artifact passing. This skill consumes that protocol.
 - **Related Hornero skills:**
-  - [`skills/multi-role-review`](../../../../skills/multi-role-review/SKILL.md) — the orchestration mechanism this skill composes with PM framing.
   - [`jobs-to-be-done`](../jobs-to-be-done/SKILL.md) — the framing primitive used in Step 1.
   - [`prd`](../prd/SKILL.md) — when the orchestration's decision triggers a PRD, this skill hands off there.
   - [`okrs`](../okrs/SKILL.md) — the "outcomes we'll watch" line ties to the OKR frame when one exists.
   - [`discovery-interview-prep`](../discovery-interview-prep/SKILL.md) — when framing reveals the job is unclear, route to discovery before orchestrating.
-  - `roles/marketing-expert/skills/pre-launch-marketing-audit/SKILL.md`, `roles/tester/skills/pre-release-test-pass/SKILL.md`, `roles/security-expert/skills/pre-launch-security-audit/SKILL.md` — when orchestrating a launch, these are the sibling workflows the role subagents typically invoke.
+  - A future `marketing-expert` role's `pre-launch-marketing-audit`, a future `tester` role's `pre-release-test-pass`, and a future `security-expert` role's `pre-launch-security-audit` — when those roles ship, these are the sibling workflows their subagents would invoke when orchestrating a launch. Until then the orchestrator covers each lens itself.
