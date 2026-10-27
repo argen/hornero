@@ -147,7 +147,7 @@ The ingestion file references the chronicle entry IDs that resulted from it (in 
 
 ### Invocation notes
 
-Resolve the artifact from `$ARGUMENTS` before running the CLI:
+Resolve the artifact from the user's argument (`$ARGUMENTS` when invoked as a slash command) before running the CLI:
 
 - A file path is used directly.
 - A paste is written to a temp file first (for example `/tmp/ingest-<short-slug>.txt`), and the temp path is passed to `--path`.

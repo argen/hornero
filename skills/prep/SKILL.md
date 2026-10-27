@@ -130,7 +130,7 @@ A 3-page brief is a sign the user should narrow the meeting topic before walking
 
 ### Invocation notes
 
-The argument (`$ARGUMENTS`) picks the mode: a name or stakeholder slug is person mode; a scope tag is topic mode; a free-form description gets whichever mode fits, and the agent declares which. Read the matched entries directly when the query summaries aren't enough. After the meeting, the user runs `/ingest` on the resulting notes.
+The user's argument (`$ARGUMENTS` when invoked as a slash command) picks the mode: a name or stakeholder slug is person mode; a scope tag is topic mode; a free-form description gets whichever mode fits, and the agent declares which. Read the matched entries directly when the query summaries aren't enough. After the meeting, the user runs `/ingest` on the resulting notes.
 
 Declare the route in one line before starting (per `VOICE.md`):
 

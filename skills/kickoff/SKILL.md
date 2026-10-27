@@ -17,7 +17,7 @@ Open with this — keep the voice (see [`VOICE.md`](../../VOICE.md)): a one-beat
 >
 > **Tell me, in your own words, what you're working on.** A messy half-thought is fine: *"we're arguing whether to ship X", "my OKRs feel wrong", "I'm prepping a customer call and don't know what to ask".* I'll pick the lens and start there.
 >
-> *Want the full set instead? Say "show the catalog" or type `/hornero:catalog`.*
+> *Want the full set instead? Say "show the catalog" or type `/catalog` (`/hornero:catalog` when loaded as a plugin).*
 
 Then **stop** and wait. Do not pre-fill examples. Do not ask a clarifying question yet.
 
@@ -31,14 +31,14 @@ Then **stop** and wait. Do not pre-fill examples. Do not ask a clarifying questi
    - "Is this for team-internal alignment or an exec-facing decision?"
    - "Are you trying to *define* this from scratch or *critique* an existing version?"
    Route on the answer.
-5. **Genuinely no match** → say so plainly: "I'm not finding a strong lens for that — want to see what I do have? (`/hornero:catalog`)". Don't invent a skill name.
-6. If the user asked "show the catalog" or typed `/hornero:catalog`, read `CATALOG.md` and surface the table directly.
+5. **Genuinely no match** → say so plainly: "I'm not finding a strong lens for that — want to see what I do have? (`/catalog`, or `/hornero:catalog` when loaded as a plugin)". Don't invent a skill name.
+6. If the user asked "show the catalog" or typed `/catalog` (`/hornero:catalog` when loaded as a plugin), read `CATALOG.md` and surface the table directly.
 
 ## Wrap
 
 At the end of the first dispatch, point at one next step — only one:
 
-- `/hornero:catalog` — see what else is available.
+- `/catalog` (`/hornero:catalog` when loaded as a plugin) — see what else is available.
 - `/orchestrate` — when they have a cross-functional decision.
 - [`playbooks/role-cheatsheet.md`](../../playbooks/role-cheatsheet.md) — 1-page reference.
 
