@@ -4,27 +4,26 @@
 # Optional. Hornero already works as the project itself: clone the repo,
 # open it in Claude Code or Codex, and CLAUDE.md / AGENTS.md will be read
 # from the repo root. Run this installer only if you want the roles, skills,
-# subagents, and slash commands available globally across all your projects.
+# subagents, and slash commands (skills with type: command) available
+# globally across all your projects.
 #
 # Usage:
 #   ./install.sh                    # Claude Code only (default)
 #   ./install.sh --claude           # Claude Code only (explicit)
-#   ./install.sh --codex            # Codex only — full set (skills + agents + hooks + prompts)
+#   ./install.sh --codex            # Codex only — full set (skills + agents + hooks)
 #   ./install.sh --both             # Claude Code + Codex
 #   ./install.sh --force            # overwrite without asking
 #   ./install.sh --dry-run          # show what would be installed; don't write
 #   ./install.sh --uninstall        # remove Hornero-installed files
 #   ./install.sh --list-resources   # print the resource catalog (no install)
 #
-# What gets installed where:
-#   Claude target: skills (cross-role + per-role) → ~/.claude/skills/
+# What gets installed where (slash commands ship as skills):
+#   Claude target: skills (flat, one dir per skill) → ~/.claude/skills/
 #                  reviewer agent              → ~/.claude/agents/
-#                  slash commands               → ~/.claude/commands/
 #                  resource cards (read-only)   → ~/.claude/hornero-resources/
-#   Codex target:  skills (flat plugin layout)   → ~/.codex/skills/
+#   Codex target:  skills (flat layout)          → ~/.codex/skills/
 #                  reviewer agent (TOML)       → ~/.codex/agents/
 #                  session hooks                → ~/.codex/hooks.json
-#                  slash commands               → ~/.codex/prompts/
 #                  resource cards (read-only)   → ~/.codex/hornero-resources/
 #                  (AGENTS.md is read from the current working directory;
 #                   no install step needed for the dispatcher itself.)
@@ -52,7 +51,7 @@ for arg in "$@"; do
     --uninstall)       UNINSTALL=1 ;;
     --list-resources)  LIST_RESOURCES=1 ;;
     -h|--help)
-      sed -n '2,27p' "$0"
+      sed -n '2,29p' "$0"
       exit 0
       ;;
     *)
@@ -142,8 +141,13 @@ fi
 # Reset manifest at start of fresh install (dry-run does not touch manifest)
 [[ $DRY_RUN -eq 0 ]] && : > "${MANIFEST}.tmp"
 
+PLANNED="$(mktemp)"
+trap 'rm -f "$PLANNED"' EXIT
+
 record() {
+  echo "$1" >> "$PLANNED"
   [[ $DRY_RUN -eq 0 ]] && echo "$1" >> "${MANIFEST}.tmp"
+  return 0
 }
 
 confirm_overwrite() {
@@ -164,6 +168,7 @@ copy_file() {
   if confirm_overwrite "$target"; then
     if [[ $DRY_RUN -eq 1 ]]; then
       echo "  would install: ${src#${REPO_DIR}/}  →  ${target}"
+      record "$target"
     else
       mkdir -p "$(dirname "$target")"
       cp "$src" "$target"
@@ -172,12 +177,20 @@ copy_file() {
     fi
   else
     echo "  skipped:      ${label}"
+    # a declined overwrite is still ours if the previous install wrote it
+    if [[ -f "${MANIFEST}" ]] && grep -qxF "$target" "${MANIFEST}"; then record "$target"; fi
   fi
+}
+
+skill_name() {
+  local rel="${1#${REPO_DIR}/skills/}"
+  echo "${rel%%/*}"
 }
 
 install_skill() {
   local src="$1" name="$2"
-  copy_file "$src" "${CLAUDE_DIR}/skills/${name}/SKILL.md" "skill: ${name}"
+  local rel="${src#${REPO_DIR}/skills/${name}/}"
+  copy_file "$src" "${CLAUDE_DIR}/skills/${name}/${rel}" "skill: ${name}/${rel}"
 }
 
 install_agent() {
@@ -186,21 +199,10 @@ install_agent() {
   copy_file "$src" "${CLAUDE_DIR}/agents/${fname}" "agent: ${fname}"
 }
 
-install_claude_command() {
-  local src="$1"
-  local fname; fname=$(basename "$src")
-  copy_file "$src" "${CLAUDE_DIR}/commands/${fname}" "claude command: ${fname}"
-}
-
-install_codex_command() {
-  local src="$1"
-  local fname; fname=$(basename "$src")
-  copy_file "$src" "${CODEX_DIR}/prompts/${fname}" "codex command: ${fname}"
-}
-
 install_codex_skill() {
   local src="$1" name="$2"
-  copy_file "$src" "${CODEX_DIR}/skills/${name}/SKILL.md" "codex skill: ${name}"
+  local rel="${src#${REPO_DIR}/skills/${name}/}"
+  copy_file "$src" "${CODEX_DIR}/skills/${name}/${rel}" "codex skill: ${name}/${rel}"
 }
 
 install_codex_agent() {
@@ -229,19 +231,11 @@ install_resource_cards() {
 
 # ---------- Claude install ----------
 if want_claude; then
-  echo "Claude — cross-role skills:"
+  echo "Claude — skills:"
   while IFS= read -r -d '' file; do
-    name=$(basename "$(dirname "$file")")
+    name=$(skill_name "$file")
     install_skill "$file" "$name"
-  done < <(find "${REPO_DIR}/skills" -name "SKILL.md" -print0 2>/dev/null)
-
-  echo
-  echo "Claude — per-role skills:"
-  while IFS= read -r -d '' file; do
-    role=$(basename "$(dirname "$(dirname "$file")")")
-    skill=$(basename "$(dirname "$file")")
-    install_skill "$file" "${role}-${skill}"
-  done < <(find "${REPO_DIR}/roles" -path "*/skills/*/SKILL.md" -print0 2>/dev/null)
+  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f ! -name '.*' -print0 2>/dev/null)
 
   echo
   echo "Claude — reviewer agent:"
@@ -253,15 +247,6 @@ if want_claude; then
   fi
 
   echo
-  echo "Claude — slash commands:"
-  if [[ -d "${REPO_DIR}/.claude/commands" ]]; then
-    for f in "${REPO_DIR}/.claude/commands"/*.md; do
-      [[ -f "$f" ]] || continue
-      install_claude_command "$f"
-    done
-  fi
-
-  echo
   echo "Claude — resource cards (→ ${CLAUDE_DIR}/hornero-resources/):"
   install_resource_cards "${CLAUDE_DIR}" "claude"
 fi
@@ -269,21 +254,11 @@ fi
 # ---------- Codex install ----------
 if want_codex; then
   echo
-  echo "Codex — cross-role skills (→ ${CODEX_DIR}/skills/):"
+  echo "Codex — skills (→ ${CODEX_DIR}/skills/):"
   while IFS= read -r -d '' file; do
-    name=$(basename "$(dirname "$file")")
+    name=$(skill_name "$file")
     install_codex_skill "$file" "$name"
-  done < <(find "${REPO_DIR}/skills" -maxdepth 2 -name "SKILL.md" -type f -print0 2>/dev/null)
-
-  echo
-  echo "Codex — per-role skills (flat plugin layout):"
-  # Iterate per-role skills via their canonical roles/ path; install with flat
-  # names (matching the .codex-plugin/plugin.json skills layout the same way
-  # PR #21's top-level skills/<name>/ symlinks do for Claude).
-  while IFS= read -r -d '' file; do
-    skill=$(basename "$(dirname "$file")")
-    install_codex_skill "$file" "${skill}"
-  done < <(find "${REPO_DIR}/roles" -path "*/skills/*/SKILL.md" -type f -print0 2>/dev/null)
+  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f ! -name '.*' -print0 2>/dev/null)
 
   echo
   echo "Codex — reviewer agent (TOML → ${CODEX_DIR}/agents/):"
@@ -303,15 +278,6 @@ if want_codex; then
   fi
 
   echo
-  echo "Codex — slash commands (→ ${CODEX_DIR}/prompts/):"
-  if [[ -d "${REPO_DIR}/.claude/commands" ]]; then
-    for f in "${REPO_DIR}/.claude/commands"/*.md; do
-      [[ -f "$f" ]] || continue
-      install_codex_command "$f"
-    done
-  fi
-
-  echo
   echo "Codex — resource cards (→ ${CODEX_DIR}/hornero-resources/):"
   install_resource_cards "${CODEX_DIR}" "codex"
 
@@ -320,6 +286,32 @@ if want_codex; then
   echo "  If you want Hornero's dispatcher protocol active in every project,"
   echo "  copy AGENTS.md into the project root, or invoke Codex from inside"
   echo "  the Hornero repo."
+fi
+
+# ---------- Prune files the previous install wrote but this one does not ----------
+# Covers layouts from older versions (commands/, prompts/, <role>-<skill>/).
+# Entries outside the targets being installed are carried over untouched.
+if [[ -f "${MANIFEST}" ]]; then
+  while IFS= read -r path; do
+    [[ -z "$path" ]] && continue
+    in_scope=0
+    want_claude && [[ "$path" == "${CLAUDE_DIR}/"* ]] && in_scope=1
+    want_codex  && [[ "$path" == "${CODEX_DIR}/"*  ]] && in_scope=1
+    if [[ $in_scope -eq 0 ]]; then
+      [[ $DRY_RUN -eq 0 ]] && echo "$path" >> "${MANIFEST}.tmp"
+      continue
+    fi
+    grep -qxF "$path" "$PLANNED" && continue
+    if [[ -e "$path" ]]; then
+      if [[ $DRY_RUN -eq 1 ]]; then
+        echo "  would remove stale: ${path}"
+      else
+        echo "  removed stale: ${path}"
+        rm -f "$path"
+        rmdir "$(dirname "$path")" 2>/dev/null || true
+      fi
+    fi
+  done < "${MANIFEST}"
 fi
 
 # Finalize manifest

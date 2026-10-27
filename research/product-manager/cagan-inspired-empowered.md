@@ -28,9 +28,9 @@ Cagan's strongest anti-pattern — the *feature factory*, where output volume su
 
 ## How this anchors role skills
 
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — the four-big-risks checklist is the load-bearing critique structure; the "outcome over output" stance shapes the success-metric + counter-metric requirement.
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — the customer-job framing, the outcome-shaped synthesis, and the "alternative considered + revisit condition" output structure all inherit from Cagan's decision-quality stance.
-- [`discovery-interview-prep`](../../roles/product-manager/skills/discovery-interview-prep/SKILL.md) — the discovery-vs-delivery distinction underpins why this skill exists as a separate artifact from the PRD.
+- [`prd`](../../skills/prd/SKILL.md) — the four-big-risks checklist is the load-bearing critique structure; the "outcome over output" stance shapes the success-metric + counter-metric requirement.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — the customer-job framing, the outcome-shaped synthesis, and the "alternative considered + revisit condition" output structure all inherit from Cagan's decision-quality stance.
+- [`discovery-interview-prep`](../../skills/discovery-interview-prep/SKILL.md) — the discovery-vs-delivery distinction underpins why this skill exists as a separate artifact from the PRD.
 - General review heuristic: when the PM role flags a PRD as "feature-shaped" or "missing the customer-job frame," the citation is Cagan.
 
 ## Cross-role connection

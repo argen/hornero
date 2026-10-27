@@ -29,9 +29,9 @@ As AI-assisted development compresses delivery speed, the backlog grows faster t
 
 ## How this anchors role skills
 
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — story-map vocabulary ("activity," "walking skeleton," "horizontal release slice") informs how the PRD's scope section is structured. A PRD that scopes to a walking skeleton is Patton-compliant; one that scopes to "all stories for feature X" may be a vertical-stack release and should be flagged.
-- [`discovery-interview-prep`](../../roles/product-manager/skills/discovery-interview-prep/SKILL.md) — the OST (Torres) and the story map (Patton) are complementary artifacts: the OST captures opportunities and solution hypotheses organized by outcome; the story map captures user activities and story details organized by user journey. Together they cover the "why" (OST) and the "how the user experiences it" (story map).
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — when the PM is orchestrating a release decision, the story map is the artifact that makes "what's in / what's out" visible across functions. A horizontal slice decision is legible to designers, engineers, and QA in a way a priority-sorted ticket list is not.
+- [`prd`](../../skills/prd/SKILL.md) — story-map vocabulary ("activity," "walking skeleton," "horizontal release slice") informs how the PRD's scope section is structured. A PRD that scopes to a walking skeleton is Patton-compliant; one that scopes to "all stories for feature X" may be a vertical-stack release and should be flagged.
+- [`discovery-interview-prep`](../../skills/discovery-interview-prep/SKILL.md) — the OST (Torres) and the story map (Patton) are complementary artifacts: the OST captures opportunities and solution hypotheses organized by outcome; the story map captures user activities and story details organized by user journey. Together they cover the "why" (OST) and the "how the user experiences it" (story map).
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — when the PM is orchestrating a release decision, the story map is the artifact that makes "what's in / what's out" visible across functions. A horizontal slice decision is legible to designers, engineers, and QA in a way a priority-sorted ticket list is not.
 
 ## Cross-role connection
 

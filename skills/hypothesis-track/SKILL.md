@@ -8,6 +8,7 @@ intent: |
   currently riding?" answer goes stale. With it, every observation that
   bears on a hypothesis hits the Evidence Log within minutes of being
   noticed, and the entry's `status` stays accurate.
+argument-hint: <hypothesis-id>
 type: workflow
 theme: memory
 best_for:
@@ -87,6 +88,16 @@ Always tag the row with the weakest source the observation actually rests on. A 
 
 If the sourcing tag is unclear, default down (weaker), not up. Future-you reading the Evidence Log will treat `documented` as load-bearing; mis-labeling `verbal` as `documented` poisons that signal across the entire chronicle.
 
+### Invocation notes
+
+If the entry is not `status: open`, say which status it has and ask whether the user really wants evidence on a closed entry (rare; usually a new hypothesis is warranted). Default the sourcing tag down when uncertain. On a crossed threshold, the drafted command is `chronicle.sh propose --type decision --supersedes <id> --status validated ...`, surfaced for human commit and never run by the skill.
+
+Declare the route in one line before starting (per `VOICE.md`):
+
+```
+/hypothesis-track — appending evidence and checking thresholds on <id>.
+```
+
 ## Examples
 
 ### Evidence supporting the prediction (no threshold crossing)
@@ -154,5 +165,5 @@ Agent: Appending — `2026-05-20 — verbal — Discovery: admin at <team> said 
 - [`skills/chronicle-record/SKILL.md`](../chronicle-record/SKILL.md) — original write side; this skill is the post-commit growth path.
 - [`skills/chronicle-recall/SKILL.md`](../chronicle-recall/SKILL.md) — read side; useful for surfacing related hypotheses or prior evidence before recording a new row.
 - [`skills/review/SKILL.md`](../review/SKILL.md) — weekly sweep; flags hypotheses where this skill should be invoked.
-- [`roles/product-manager/skills/bet-portfolio/SKILL.md`](../../roles/product-manager/skills/bet-portfolio/SKILL.md) — slated for refactor to aggregate over open hypothesis entries once this skill is in use.
+- [`skills/bet-portfolio/SKILL.md`](../../skills/bet-portfolio/SKILL.md) — slated for refactor to aggregate over open hypothesis entries once this skill is in use.
 - [PM Brain — `/hypothesis-track`](https://github.com/phuryn/pm-brain) — design influence.

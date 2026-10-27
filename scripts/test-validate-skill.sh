@@ -151,6 +151,32 @@ write_skill "$TMP/big.md" "name: big" "description: ok." "$(seq 1 520 | sed 's/^
 assert_output "file over 500 lines warns but passes" "$TMP/big.md" \
   "⚠ over 500 lines; consider moving depth to a sibling reference.md"
 
+# write_command <file> <frontmatter lines...> — a body with no anatomy sections
+write_command() {
+  local file="$1"; shift
+  { echo "---"; printf '%s\n' "$@"; echo "---"; echo; echo "# /cmd"; echo; echo "Just a body."; } > "$file"
+}
+
+write_command "$TMP/cmd.md" "name: cmd" "description: Does a thing." "type: command"
+assert_pass "type: command skill needs no anatomy sections" "$TMP/cmd.md"
+
+write_command "$TMP/cmd-nodesc.md" "name: cmd" "type: command"
+assert_fail "type: command skill still requires description" "$TMP/cmd-nodesc.md" \
+  "frontmatter missing required field: description"
+
+write_command "$TMP/cmd-noname.md" "description: Does a thing." "type: command"
+assert_fail "type: command skill still requires name" "$TMP/cmd-noname.md" \
+  "frontmatter missing required field: name"
+
+write_command "$TMP/cmd-colon.md" "name: cmd" 'description: Use when `type: x` changes.' "type: command"
+assert_fail "type: command skill still lints unquoted description" "$TMP/cmd-colon.md" \
+  "frontmatter: description must be quoted"
+
+write_skill "$TMP/notcmd.md" "name: notcmd" "description: ok."
+sed -i.bak '/^## Common Pitfalls/,/^Watch out\./d' "$TMP/notcmd.md"
+assert_fail "non-command skill still needs anatomy sections" "$TMP/notcmd.md" \
+  "missing section: ## Common Pitfalls"
+
 echo
 echo "  ${PASS} passed, ${FAIL} failed"
 [[ $FAIL -eq 0 ]]

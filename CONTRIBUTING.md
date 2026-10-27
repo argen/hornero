@@ -22,10 +22,10 @@ Every `SKILL.md` is enforced by [`scripts/validate-skill.sh`](scripts/validate-s
 Run the validator on any new or edited `SKILL.md` before committing:
 
 ```sh
-./scripts/validate-skill.sh roles/<role>/skills/<skill>/SKILL.md
+./scripts/validate-skill.sh skills/<skill>/SKILL.md
 ```
 
-**When you add a new per-role skill**, also run `./scripts/build-plugin-skills.sh` — it creates the top-level `skills/<name>/` symlink that the Claude Code plugin loader expects. The script is idempotent; safe to re-run any time.
+**Every skill is a real directory at `skills/<name>/`.** A skill that belongs to a role carries `role: <role>` in its frontmatter (it must name an existing `roles/<role>/ROLE.md`); a cross-role skill omits the key. `scripts/catalog.sh` groups the catalog by that key, and smoke-check fails on any symlink under `skills/`.
 
 **When you edit a reviewer agent** (`agents/<role>-reviewer.md`), re-run `./scripts/build-codex-agents.sh` to regenerate the matching `.codex/agents/<name>.toml` mirror. The Markdown file is the canonical source; the TOML is the format Codex reads natively. `smoke-check.sh` fails loudly if the two drift.
 
@@ -51,13 +51,13 @@ Hornero ships `product-manager` today. Adding another role
 (`software-engineer`, `tester`, `designer`, `security-expert`,
 `marketing-expert`, `data-scientist`, or anything else) is a content drop-in:
 
-1. Author `roles/<role>/ROLE.md`, `roles/<role>/sources.md`, and the role's
-   skills under `roles/<role>/skills/<skill>/SKILL.md`.
+1. Author `roles/<role>/ROLE.md` and `roles/<role>/sources.md`, then the
+   role's skills at `skills/<skill>/SKILL.md`, each carrying `role: <role>`
+   in its frontmatter.
 2. Author `agents/<role>-reviewer.md` as the reviewer subagent's
    self-contained system prompt.
 3. Run, in this order:
    ```sh
-   ./scripts/build-plugin-skills.sh     # adds skills/<name> symlinks
    ./scripts/build-codex-agents.sh      # generates .codex/agents/<name>.toml
    ./scripts/catalog.sh                 # regenerates CATALOG.md
    ./scripts/smoke-check.sh             # confirms counts and frontmatter
@@ -170,11 +170,10 @@ remove a skill, update `routes.tsv` to match — CI will fail otherwise.
 ```sh
 ./scripts/validate-skill.sh        # if you touched any SKILL.md
 ./scripts/validate-resource.sh     # if you touched any RESOURCE.md
-./scripts/build-plugin-skills.sh   # if you added or renamed a per-role skill
 ./scripts/build-codex-agents.sh    # if you touched any agents/*.md
 ./scripts/catalog.sh               # if you touched any frontmatter
 ./scripts/validate-dispatcher.sh   # if you renamed/removed a skill or edited tests/dispatcher/routes.tsv
-./scripts/smoke-check.sh           # always — confirms counts, symlinks, sync, cross-refs, and dispatcher fixtures
+./scripts/smoke-check.sh           # always — confirms counts, flat layout, sync, cross-refs, and dispatcher fixtures
 ```
 
 These also run in CI on every PR — `validate-skill`, `validate-resource`, `test-validate-resource`, and `smoke-check` as explicit steps; `validate-dispatcher` runs transitively as step 12 inside `smoke-check`. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml). CI is the authoritative gate. To catch the same breakage **before** push, opt into the local pre-commit shim:

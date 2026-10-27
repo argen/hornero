@@ -17,9 +17,10 @@ When a prompt arrives:
 1. **Slash commands win** if the user typed one. Hornero ships these:
    `/orchestrate` (PM as cross-functional orchestrator), `/role <name> <task>`
    (single named role — `product-manager` is the only role currently shipped),
-   `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`. The `/review` command
-   from the v0-era multi-role surface is currently dormant. Definitions in
-   `<path-to-hornero>/.claude/commands/` (or `~/.claude/commands/` if installed).
+   `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, plus the chronicle
+   workflow skills (`/ingest`, `/prep`, `/review`, `/hypothesis-track`,
+   `/stakeholder-update`, `/customer-update`). Commands are skills: see
+   `<path-to-hornero>/skills/<name>/SKILL.md` (or `~/.claude/skills/<name>/` if installed).
 2. Scan `<path-to-hornero>/CATALOG.md` — a one-line-per-entry index of every
    shipped role and skill.
 3. Match the prompt against role triggers and skill `description:`/`scenarios:`

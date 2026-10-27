@@ -62,7 +62,7 @@ If any of the above is slow or unreliable, say so explicitly — agents need to 
 
 Hornero currently ships PM-only. The multi-role-review scaffolding remains in place but is dormant; every fan-out resolves to a single PM lens.
 
-Slash commands available (definitions in `<path-to-hornero>/.claude/commands/`):
+Slash commands available (definitions are skills at `<path-to-hornero>/skills/<name>/SKILL.md`):
 
 - `/orchestrate <task>` — PM as cross-functional orchestrator (marquee for launches/cross-functional decisions).
 - `/role <name> <task>` — single named role.
@@ -106,7 +106,7 @@ Roles invoked most in this project:
 
 1. Read `<path-to-hornero>/DISPATCHER.md` — the host-agnostic dispatcher protocol (Steps 1–6, when it does not apply, loading hierarchy).
 2. Scan `<path-to-hornero>/CATALOG.md` — it indexes every shipped role and skill.
-3. Read the relevant skill: `~/.claude/skills/<skill>/SKILL.md` (role skills are prefixed: `~/.claude/skills/<role>-<skill>/SKILL.md`). Or read it directly from `<path-to-hornero>/roles/<role>/skills/<skill>/SKILL.md`.
+3. Read the relevant skill: `~/.claude/skills/<skill>/SKILL.md`. Or read it directly from `<path-to-hornero>/skills/<skill>/SKILL.md`.
 4. For a structured critique, invoke the named reviewer subagent — same `product-manager-reviewer` name on either host. Claude Code uses the Agent tool (`subagent_type: "product-manager-reviewer"`); Codex parses natural-language ("have product-manager-reviewer pass over this PRD") and discovers the TOML at `~/.codex/agents/`. For Codex versions predating native subagents, fall back to `<path-to-hornero>/scripts/codex-parallel-review.sh <artifact> product-manager`.
 5. Try a slash command — `/orchestrate`, `/role <name>`, `/kickoff`, `/catalog`.
 6. Ask the user.

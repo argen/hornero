@@ -35,7 +35,7 @@ When a decision crosses concerns (launch readiness, contested calls), use `/orch
 Each role works in two modes, controlled by the `mode:` frontmatter in `ROLE.md`:
 
 - **Reviewer** — critique an artifact from that role's lens (spawned by name via `product-manager-reviewer` in Claude Code, or the equivalent native path in Codex).
-- **Producer** — generate that role's artifact (PRD, OKRs, strategy kernel, etc.). Invoke via the role's component or workflow skills under `<role>/skills/`.
+- **Producer** — generate that role's artifact (PRD, OKRs, strategy kernel, etc.). Invoke via the role's component or workflow skills (`skills/<name>/SKILL.md` with `role: <role>`).
 
 ## Anatomy of a role
 

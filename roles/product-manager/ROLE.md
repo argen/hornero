@@ -93,17 +93,17 @@ When invoked to produce, the role generates:
 - **Opportunity Solution Trees** — Torres' OST mapping outcome → opportunities → solutions → experiments. Skill: `opportunity-solution-tree` (phase 4).
 - **Positioning statements** — Moore template. Skill: `positioning-statement` (phase 4).
 - **Discovery interview guides** — Torres + Moesta methodology. Skill: `discovery-interview-prep` (phase 4).
-- **Prioritization frameworks** — RICE / Shreyas LNO / Itamar's Confidence Meter. Skill: [`prioritization-advisor`](skills/prioritization-advisor/SKILL.md).
+- **Prioritization frameworks** — RICE / Shreyas LNO / Itamar's Confidence Meter. Skill: [`prioritization-advisor`](../../skills/prioritization-advisor/SKILL.md).
 - **Jobs-to-be-Done statements** — Christensen + Ulwick. Skill: `jobs-to-be-done` (phase 4).
 - **OKRs** — Wodtke's *Radical Focus*. Skill: `okrs` (phase 4).
-- **Success metric stacks** — primary metric + counter-metric + guardrails + leading indicators. Skill: [`success-metrics`](skills/success-metrics/SKILL.md).
-- **Problem-framing canvases** — solution-free problem statement before a PRD is drafted. Skill: [`problem-framing-canvas`](skills/problem-framing-canvas/SKILL.md).
-- **Strategy kernels** — Rumelt-style diagnosis + guiding policy + coherent actions; the posture-shaped strategy artifact distinct from PRDs (feature-shaped) and OKRs (outcome-shaped). Skill: [`strategy-kernel`](skills/strategy-kernel/SKILL.md).
-- **Bet portfolios** — 3-7 explicit strategic bets with assumptions, confidence-weighted evidence, kill criteria, and revisit cadence. Skill: [`bet-portfolio`](skills/bet-portfolio/SKILL.md).
-- **Interview syntheses** — per-interview snapshots, theme rollups, OST updates, and a quote bank from raw discovery interviews (Torres post-interview discipline). Skill: [`interview-synthesis`](skills/interview-synthesis/SKILL.md).
-- **Competitive teardowns** — structured analysis of a competitor's product, segments, jobs-hired-for, switching costs, and strategic implications. Skill: [`competitive-teardown`](skills/competitive-teardown/SKILL.md).
-- **Revenue architectures** — funnel + activation + retention + expansion + churn mapped as a single system; bottleneck identification; leverage analysis. Skill: [`revenue-architecture`](skills/revenue-architecture/SKILL.md).
-- **Cross-functional orchestrations** — frame the question as a customer job, triage the role mix, dispatch reviewers in parallel (the orchestrator covers lenses whose role has not shipped), synthesise into a decision recommendation. Skill: [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md).
+- **Success metric stacks** — primary metric + counter-metric + guardrails + leading indicators. Skill: [`success-metrics`](../../skills/success-metrics/SKILL.md).
+- **Problem-framing canvases** — solution-free problem statement before a PRD is drafted. Skill: [`problem-framing-canvas`](../../skills/problem-framing-canvas/SKILL.md).
+- **Strategy kernels** — Rumelt-style diagnosis + guiding policy + coherent actions; the posture-shaped strategy artifact distinct from PRDs (feature-shaped) and OKRs (outcome-shaped). Skill: [`strategy-kernel`](../../skills/strategy-kernel/SKILL.md).
+- **Bet portfolios** — 3-7 explicit strategic bets with assumptions, confidence-weighted evidence, kill criteria, and revisit cadence. Skill: [`bet-portfolio`](../../skills/bet-portfolio/SKILL.md).
+- **Interview syntheses** — per-interview snapshots, theme rollups, OST updates, and a quote bank from raw discovery interviews (Torres post-interview discipline). Skill: [`interview-synthesis`](../../skills/interview-synthesis/SKILL.md).
+- **Competitive teardowns** — structured analysis of a competitor's product, segments, jobs-hired-for, switching costs, and strategic implications. Skill: [`competitive-teardown`](../../skills/competitive-teardown/SKILL.md).
+- **Revenue architectures** — funnel + activation + retention + expansion + churn mapped as a single system; bottleneck identification; leverage analysis. Skill: [`revenue-architecture`](../../skills/revenue-architecture/SKILL.md).
+- **Cross-functional orchestrations** — frame the question as a customer job, triage the role mix, dispatch reviewers in parallel (the orchestrator covers lenses whose role has not shipped), synthesise into a decision recommendation. Skill: [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md).
 
 > v0 status: 14 producer skills shipped as first drafts (`prd`, `jobs-to-be-done`, `positioning-statement`, `discovery-interview-prep`, `okrs`, `cross-functional-orchestration`, `success-metrics`, `prioritization-advisor`, `problem-framing-canvas`, `strategy-kernel`, `bet-portfolio`, `interview-synthesis`, `competitive-teardown`, `revenue-architecture`). The originally-listed forward-references `prd-development` and `product-strategy-session` have been removed — they overlap with existing skills (`prd` already produces the PRD; `cross-functional-orchestration` already orchestrates strategy sessions). The strategy-and-research batch (`strategy-kernel` + `bet-portfolio` + `interview-synthesis` + `competitive-teardown` + `revenue-architecture`) introduces Rumelt as the 12th anchor in `sources.md`; commercial skills (`pricing-strategy`, `gtm-sequencing`) are deliberately deferred to a future marketing-expert batch per the cross-role boundary decision. Editorial review on the shipped drafts is recommended before production use.
 
@@ -149,18 +149,4 @@ When invoked to produce, the role generates:
 
 ## Skills index
 
-### Component (artifacts) — shipped (v0 drafts)
-- [`prd`](skills/prd/SKILL.md) — Product Requirements Doc
-- [`positioning-statement`](skills/positioning-statement/SKILL.md) — Moore + Dunford template
-- [`jobs-to-be-done`](skills/jobs-to-be-done/SKILL.md) — JTBD statement
-- [`okrs`](skills/okrs/SKILL.md) — quarterly OKR set (Wodtke)
-- [`success-metrics`](skills/success-metrics/SKILL.md) — primary metric + counter-metric + guardrails + leading indicators (Cagan, Doshi, Wodtke, Cutler)
-
-### Interactive (guided flows) — shipped (v0 drafts)
-- [`discovery-interview-prep`](skills/discovery-interview-prep/SKILL.md) — Torres + Moesta interview guide
-- [`prioritization-advisor`](skills/prioritization-advisor/SKILL.md) — LNO + ICE-with-confidence + four-risks triage (Doshi, Gilad, Cagan, Wodtke)
-- [`problem-framing-canvas`](skills/problem-framing-canvas/SKILL.md) — solution-free problem statement before PRD (Christensen, Cagan, Doshi, Perri)
-
-### Workflow (multi-step) — shipped (v0 drafts)
-- [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md) — PM-led orchestration: frame as customer job, triage role mix, dispatch reviewers in parallel (the orchestrator covers lenses whose role has not shipped), synthesise into a decision (Cagan, Christensen, Doshi, Heath)
-- [`linear-triage`](skills/linear-triage/SKILL.md) — weekly Linear project triage; reads/writes via the [`linear`](../../resources/linear/RESOURCE.md) resource (Torres, Perri, Cagan)
+See the product-manager section of [`CATALOG.md`](../../CATALOG.md#product-manager).

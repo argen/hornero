@@ -13,6 +13,9 @@
 #   6. description is at most 1024 characters (Claude API limit)
 #   7. Warn (non-fatal) when a file exceeds 500 lines
 #
+# Skills with `type: command` (slash commands) are exempt from checks 2-4:
+# they need only name, description, and type.
+#
 # Check 5 is a targeted heuristic, not a YAML parser (no YAML library is
 # assumed). It only inspects single-line `name:` / `description:` values;
 # multi-line block scalars and other fields are not checked.
@@ -89,6 +92,11 @@ for file in "$@"; do
 
   if [[ $(wc -l < "$file") -gt 500 ]]; then
     echo "  ⚠ over 500 lines; consider moving depth to a sibling reference.md"
+  fi
+
+  # Slash-command skills carry no six-section anatomy.
+  if [[ "$(fm_value type "$file")" == "command" ]]; then
+    continue
   fi
 
   # Anatomy sections

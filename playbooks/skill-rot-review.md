@@ -4,7 +4,7 @@ Hornero's harness compounds only if it's pruned as well as extended. Skills, rol
 
 Anthropic's blog calls this out: *"Review CLAUDE.md every 3-6 months. Retire compensatory skills/hooks once those limitations disappear."* Rules optimized for older models may **constrain** newer ones.
 
-This playbook is the **judgment turn** that pairs with the mechanical [`/audit`](../.claude/commands/audit.md) command. Run `/audit` first to surface candidates; run this playbook to decide.
+This playbook is the **judgment turn** that pairs with the mechanical [`/audit`](../skills/audit/SKILL.md) command. Run `/audit` first to surface candidates; run this playbook to decide.
 
 ## Cadence
 
@@ -87,6 +87,6 @@ When you decide RETIRE:
 
 ## Linked artifacts
 
-- [`/audit`](../.claude/commands/audit.md) — the mechanical sweep that produces the candidate list.
+- [`/audit`](../skills/audit/SKILL.md) — the mechanical sweep that produces the candidate list.
 - [`scripts/smoke-check.sh`](../scripts/smoke-check.sh) — baseline health check, runs as part of `/audit`.
 - [`playbooks/feedback-ritual.md`](feedback-ritual.md) — weekly extraction; this playbook is its quarterly counterpart.

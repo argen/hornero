@@ -57,7 +57,7 @@ A decision warrants a `decision-record` when **all** of the following hold:
 A decision **does not** warrant a record when:
 
 - It's a routine implementation choice already covered by code.
-- It's a feature spec (use [`skills-prd`](../roles/product-manager/skills/prd/SKILL.md) instead).
+- It's a feature spec (use [`skills-prd`](../skills/prd/SKILL.md) instead).
 - It's an architectural call (would use an ADR — the `adr` skill is currently dormant alongside the software-engineer role).
 
 Records are for *cross-role* decisions and *strategy postures* — the calls that ADR / PRD scopes don't cover.

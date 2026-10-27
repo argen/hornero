@@ -40,14 +40,14 @@ files at this step — the catalog is designed so you don't have to.
 
 In rough order of authority:
 
-- **Slash commands win** if the user typed one. Commands are defined in
-  [`.claude/commands/`](.claude/commands/) — read the matching file and follow
-  it. (The same files are the source of truth for Codex; if your Codex install
-  loads commands from a different directory, mirror them there or invoke them
-  by reading the file content directly.)
+- **Slash commands win** if the user typed one. Commands are defined as
+  `type: command` skills under [`skills/`](skills/) — read the matching
+  `skills/<name>/SKILL.md` and follow it. (Codex loads the same skills; if a
+  host does not expose them as slash commands, invoke them by reading the
+  file content directly.)
 - **Artifact intake wins.** If the user pastes or attaches a transcript,
   meeting notes, doc export, screenshot, dashboard pull, or other raw
-  artifact worth preserving, route via [`/ingest`](.claude/commands/ingest.md)
+  artifact worth preserving, route via [`/ingest`](skills/ingest/SKILL.md)
   before doing any other lens-work. The artifact is preserved under
   `chronicle/source/` (gitignored) and a synthesis lands under
   `chronicle/ingestion/`; chronicle entry updates are proposed from the
@@ -90,7 +90,7 @@ This is the user's correction point. They can redirect with one word
 Only after the declaration:
 
 - `roles/<role>/ROLE.md` — for mindset, heuristics, anti-patterns.
-- `roles/<role>/skills/<skill>/SKILL.md` — for the actual procedure.
+- `skills/<skill>/SKILL.md` — for the actual procedure.
 - `roles/<role>/sources.md` — only if you need a citation or to defend a
   framework choice.
 
@@ -102,7 +102,7 @@ If two or more roles' triggers fire strongly on the same prompt (e.g. "review
 this payments PR" → engineer + tester + security; "plan the launch" → PM +
 marketing + designer), do not pick one and silently drop the others.
 
-Route to [`/orchestrate`](.claude/commands/orchestrate.md) — the PM as
+Route to [`/orchestrate`](skills/orchestrate/SKILL.md) — the PM as
 cross-functional orchestrator runs `cross-functional-orchestration`, frames
 the work as a customer job, and synthesises into a product decision
 (outcomes, success criteria, alternative considered, revisit condition).
@@ -171,9 +171,9 @@ start, not to interview the user.
 | `DISPATCHER.md` (this file) | Yes | First dispatch in a session |
 | `chronicle/SUMMARY.md` | Yes (if present) | First dispatch in a session — cold-start situational awareness |
 | `CATALOG.md` | Yes | First dispatch scan per prompt |
-| `.claude/commands/<name>.md` | No | When the user types `/<name>` |
+| `skills/<name>/SKILL.md` (`type: command`) | No | When the user types `/<name>` |
 | `roles/<role>/ROLE.md` | No | After role is chosen |
-| `roles/<role>/skills/<skill>/SKILL.md` | No | After skill is chosen |
+| `skills/<skill>/SKILL.md` (carries `role: <role>` when role-specific) | No | After skill is chosen |
 | `roles/<role>/sources.md` | No | Only if a citation is needed |
 | `chronicle/entries/<id>.md` | No | Loaded on demand by `chronicle-recall` / explicit dereference |
 | `methodology.md` | No | Only if the user asks about Hornero itself |

@@ -91,21 +91,8 @@ IFS=$'\n' REFERENCED_SKILLS=($(printf '%s\n' "${REFERENCED_SKILLS[@]}" | sort -u
 
 SCENARIOS_FAIL=0
 for skill in "${REFERENCED_SKILLS[@]}"; do
-  # Find the SKILL.md for this skill (could be in skills/ or roles/*/skills/)
   skill_md=""
-  if [[ -f "skills/${skill}/SKILL.md" ]]; then
-    skill_md="skills/${skill}/SKILL.md"
-  elif [[ -L "skills/${skill}" ]]; then
-    # Symlink — resolve to the real file
-    real_dir=$(readlink "skills/${skill}")
-    skill_md="${real_dir}/SKILL.md"
-    # If relative path, resolve from skills/
-    [[ "$skill_md" != /* ]] && skill_md="skills/${skill_md}"
-  else
-    # Search in roles/*/skills/
-    candidate=$(find roles -path "*/skills/${skill}/SKILL.md" -type f 2>/dev/null | head -1)
-    [[ -n "$candidate" ]] && skill_md="$candidate"
-  fi
+  [[ -f "skills/${skill}/SKILL.md" ]] && skill_md="skills/${skill}/SKILL.md"
 
   if [[ -z "$skill_md" || ! -f "$skill_md" ]]; then
     bad "scenarios check: cannot find SKILL.md for '$skill' (already caught by check 1 if dead)"

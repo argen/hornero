@@ -129,6 +129,10 @@ Show all proposals to the user. For each:
 
 After applying, suggest a follow-up: run `validate-skill.sh` on any modified SKILL.md files; commit the deltas to a feedback-loop branch.
 
+### Invocation notes
+
+Invoke with `/extract-lesson` mid-session, or let the Stop hook run it at session end. Ask before writing: show the proposed deltas and let the user accept, edit, or reject each. If nothing was surprising, say so in one line and stop; forced lessons rot the harness.
+
 ## Examples
 
 ### Example 1 — Recurring correction → skill change (success)
@@ -137,7 +141,7 @@ After applying, suggest a follow-up: run `validate-skill.sh` on any modified SKI
 
 **Distilled:** "Lead agent in cross-functional-orchestration is not enforcing Rule 4 (artifact passing)."
 
-**Target:** `roles/product-manager/skills/cross-functional-orchestration/SKILL.md`
+**Target:** `skills/cross-functional-orchestration/SKILL.md`
 
 **Proposal:** Add to "Step 3 — Parallel dispatch": "Each subagent prompt must include `Write your findings to tmp/<role>-review-<slug>.md.` literally — do not paraphrase, do not move the instruction to the middle of the prompt."
 

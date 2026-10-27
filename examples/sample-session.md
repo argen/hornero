@@ -67,7 +67,7 @@ The "Out of scope" line says *"This PRD does not cover the design of the in-app 
 
 The draft's Problem section reads: *"The audience builder produces duplicate cohort definitions because the fingerprinting normalisation differs between creation and save."* That's a hypothesis, not a problem statement. The problem is that users see two cohorts they think are different, end up running redundant analyses, and lose trust in the tool. The fingerprinting normalisation is one possible root cause; there may be others (e.g., a race in the save endpoint).
 
-**Recommendation:** rewrite the Problem section in jobs-to-be-done shape (use the [`jobs-to-be-done`](../roles/product-manager/skills/jobs-to-be-done/SKILL.md) skill for the rewrite). Move the fingerprinting-normalisation hypothesis to a separate "Working hypothesis" section that the implementing engineer is free to falsify.
+**Recommendation:** rewrite the Problem section in jobs-to-be-done shape (use the [`jobs-to-be-done`](../skills/jobs-to-be-done/SKILL.md) skill for the rewrite). Move the fingerprinting-normalisation hypothesis to a separate "Working hypothesis" section that the implementing engineer is free to falsify.
 
 ### Turn 4 — synthesis
 
@@ -85,7 +85,7 @@ The agent scans the transcript and proposes one update:
 
 > *"The PRD draft started with a hypothesis-shaped Problem section ('the fingerprinting normalisation differs…'). This is the second time in two months a PRD has done this — the previous instance was the `weak-prd.md` seeded fixture in `tests/seeded/`. Worth strengthening the `prd` skill's Common Pitfalls section: explicitly call out 'Problem-as-hypothesis' as a failure mode, with the JTBD-rewrite as the corrective."*
 
-The user accepts. The agent makes the edit, runs `scripts/validate-skill.sh roles/product-manager/skills/prd/SKILL.md` (passes), and stops. The lesson is now durable — the next PRD draft in any project will get critiqued against this pitfall.
+The user accepts. The agent makes the edit, runs `scripts/validate-skill.sh skills/prd/SKILL.md` (passes), and stops. The lesson is now durable — the next PRD draft in any project will get critiqued against this pitfall.
 
 ---
 
@@ -105,7 +105,7 @@ The user accepts. The agent makes the edit, runs `scripts/validate-skill.sh role
 
 ## Reading by section
 
-- [`roles/product-manager/skills/prd/SKILL.md`](../roles/product-manager/skills/prd/SKILL.md) — the PRD skill the session adopted.
+- [`skills/prd/SKILL.md`](../skills/prd/SKILL.md) — the PRD skill the session adopted.
 - [`agents/product-manager-reviewer.md`](../agents/product-manager-reviewer.md) — the reviewer subagent's system prompt.
 - [`playbooks/memory-loop.md`](../playbooks/memory-loop.md) — the read-decide-write cycle, including the 2026-02 activation-metric example referenced above.
 - [`skills/extract-lesson/SKILL.md`](../skills/extract-lesson/SKILL.md) — the lesson-extraction skill invoked at session end.

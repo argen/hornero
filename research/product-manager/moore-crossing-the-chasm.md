@@ -30,9 +30,9 @@ Moore's chasm framing is the reminder that the early-adopter-to-early-majority t
 
 ## How this anchors role skills
 
-- [`positioning-statement`](../../roles/product-manager/skills/positioning-statement/SKILL.md) — Moore is the primary anchor for the template. The six-slot structure, the differentiation-test, and the "unlike [specific alternative]" discipline are Moore. Dunford sharpens the method; Moore provides the template.
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — adoption-lifecycle framing informs the PM's framing step when the cross-functional question is a go-to-market decision. "Are we at the early-adopter or early-majority stage?" is a load-bearing question for picking the right message, channel, and success criteria.
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — the whole-product concept surfaces in the PRD's scope and dependency sections. A PRD that ships the core product without considering the integrations and support the Early Majority requires is chasm-incompatible.
+- [`positioning-statement`](../../skills/positioning-statement/SKILL.md) — Moore is the primary anchor for the template. The six-slot structure, the differentiation-test, and the "unlike [specific alternative]" discipline are Moore. Dunford sharpens the method; Moore provides the template.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — adoption-lifecycle framing informs the PM's framing step when the cross-functional question is a go-to-market decision. "Are we at the early-adopter or early-majority stage?" is a load-bearing question for picking the right message, channel, and success criteria.
+- [`prd`](../../skills/prd/SKILL.md) — the whole-product concept surfaces in the PRD's scope and dependency sections. A PRD that ships the core product without considering the integrations and support the Early Majority requires is chasm-incompatible.
 
 ## Cross-role connection
 

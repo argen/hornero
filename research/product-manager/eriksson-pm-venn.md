@@ -29,8 +29,8 @@ In a team where AI generates features, writes code, and drafts copy at speed, th
 
 ## How this anchors role skills
 
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — Eriksson is explicitly cited in the skill's Key Concepts ("PM as integrator, not adjudicator"); the Venn is the implicit structure behind the role-mix triage step.
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — the three-lens check (Tech feasibility, Business viability, UX desirability) maps to Cagan's four big risks; Eriksson's Venn is the faster heuristic for spotting which lens is missing.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — Eriksson is explicitly cited in the skill's Key Concepts ("PM as integrator, not adjudicator"); the Venn is the implicit structure behind the role-mix triage step.
+- [`prd`](../../skills/prd/SKILL.md) — the three-lens check (Tech feasibility, Business viability, UX desirability) maps to Cagan's four big risks; Eriksson's Venn is the faster heuristic for spotting which lens is missing.
 - General role-clarification: when someone asks "what does a PM do?" the Eriksson Venn is the one-image answer. The methodology treats it as foundational, not as a simplification.
 
 ## Cross-role connection

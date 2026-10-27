@@ -9,7 +9,7 @@ Anthropic's blog: *"Assign a DRI for Claude Code configuration. Invest in infras
 **One person owns Hornero in your team.** Not a committee, not "whoever last touched it." The DRI:
 
 - Owns the `CLAUDE.md` / `AGENTS.md` / sub-CLAUDE.md hierarchy for your repos.
-- Reviews PRs that touch `roles/`, `skills/`, or `.claude/commands/`.
+- Reviews PRs that touch `roles/` or `skills/`.
 - Runs the [skill-rot review](skill-rot-review.md) cadence quarterly.
 - Decides when to upgrade Hornero from upstream (or when to fork stable).
 - Is the final voice on "should this rule live in CLAUDE.md or a skill?"
@@ -43,11 +43,11 @@ Aggressive: gate every skill addition behind multi-role review (cumbersome, but 
 The blog explicitly: *"Small team pre-configures tooling so developers experience productivity on day one."* For Hornero, that means:
 
 - **Preferred for Claude Code teams: install as a plugin.** `claude --plugin-dir <path-to-hornero>` for local testing; once you've validated, distribute via a marketplace (see [Claude Code plugin marketplaces](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces)). Commands become namespaced (`/hornero:orchestrate`, `/hornero:review`, …).
-- **Alternative — install.sh.** For Codex teams or for global availability across non-plugin sessions, run `<path-to-hornero>/install.sh --claude` / `--codex` / `--both` to copy roles/skills/agents/commands into `~/.claude/`.
+- **Alternative — install.sh.** For Codex teams or for global availability across non-plugin sessions, run `<path-to-hornero>/install.sh --claude` / `--codex` / `--both` to copy skills/agents into `~/.claude/`.
 - `templates/settings.json` merged into team members' `~/.claude/settings.json` for opt-in guardrail hooks (validate-skill, catalog-regen, smoke-check) on top of the plugin's built-in session-lifecycle hooks.
 - A `MAP.md` (copy [`templates/MAP.md.template`](../templates/MAP.md.template)) in your repo root, populated with your folder structure.
 - Reviewer subagents (`agents/*-reviewer.md`) visible in the user's Agent tool list.
-- The [`/kickoff`](../.claude/commands/kickoff.md) command working — that's the day-one productivity moment.
+- The [`/kickoff`](../skills/kickoff/SKILL.md) command working — that's the day-one productivity moment.
 
 Don't roll out to the team until at least one full multi-role review has run end-to-end on a real artifact in your repo. The first session is the most fragile.
 
@@ -56,7 +56,7 @@ Don't roll out to the team until at least one full multi-role review has run end
 Two cadences, set at adoption:
 
 - **Weekly: [feedback ritual](feedback-ritual.md).** 15 minutes; one person reads recent `/extract-lesson` outputs and decides which propose durable updates.
-- **Quarterly: [skill-rot review](skill-rot-review.md).** 60-90 minutes; the DRI runs [`/audit`](../.claude/commands/audit.md) and walks the working group through candidates.
+- **Quarterly: [skill-rot review](skill-rot-review.md).** 60-90 minutes; the DRI runs [`/audit`](../skills/audit/SKILL.md) and walks the working group through candidates.
 
 Without these, Hornero accumulates without pruning, and the harness becomes liability rather than leverage.
 
@@ -82,7 +82,7 @@ The dispatcher in `DISPATCHER.md` handles partial role sets — it never assumes
 
 ### "We added 20 skills in month one and they're all stale"
 **Cause:** Eagerness without rot review.
-**Fix:** Run [`/audit`](../.claude/commands/audit.md) immediately. Retire half. Set the quarterly cadence so it doesn't repeat.
+**Fix:** Run [`/audit`](../skills/audit/SKILL.md) immediately. Retire half. Set the quarterly cadence so it doesn't repeat.
 
 ### "The methodology slowed us down"
 **Cause:** Dispatch on trivial edits; multi-role review on bounded changes; over-formalisation.
@@ -93,5 +93,5 @@ The dispatcher in `DISPATCHER.md` handles partial role sets — it never assumes
 - [`playbooks/onboarding.md`](onboarding.md) — Day 1 walkthrough for individual contributors.
 - [`playbooks/feedback-ritual.md`](feedback-ritual.md) — weekly cadence.
 - [`playbooks/skill-rot-review.md`](skill-rot-review.md) — quarterly cadence.
-- [`/audit`](../.claude/commands/audit.md) — automation for the quarterly review.
+- [`/audit`](../skills/audit/SKILL.md) — automation for the quarterly review.
 - [`CONTRIBUTING.md`](../CONTRIBUTING.md) — anatomy and discipline rules for additions.

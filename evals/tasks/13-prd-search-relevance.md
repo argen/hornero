@@ -28,6 +28,6 @@
 
 **How to run:**
 
-1. Place the PRD at `evals/runs/13-prd-search-relevance/artifact.md` (the `roles/product-manager/skills/prd/SKILL.md` Examples section has a template).
+1. Place the PRD at `evals/runs/13-prd-search-relevance/artifact.md` (the `skills/prd/SKILL.md` Examples section has a template).
 2. Invoke `multi-role-review` with product-manager + data-scientist + designer.
 3. Score with attention to whether the problem-shape issue made it through to the recommendation as a forcing decision.

@@ -32,7 +32,7 @@ A `product-manager` role with **38 expert-grounded skills** that turn plain-Engl
 - **Career + leadership** — altitude/horizon diagnostic, director-readiness coaching, executive onboarding, product-sense interview prep.
 - **Operations + orchestration** — Linear triage, HubSpot pipeline readout, cross-functional decision orchestration.
 
-Plus **16 cross-role process skills** for the harness itself: problem-spec, lesson-extract, harness-check, context-reset, decision records, memory query, chronicle record + recall, the three chronicle-append-shaped skills (hypothesis-track, stakeholder-update, customer-update), the chronicle workflow trio (ingest, prep, review), and two cross-system read primitives (query-issue-tracker for Linear/Jira, query-warehouse for BigQuery/Snowflake with a kill-cost guardrail). A `product-manager-reviewer` subagent critiques artefacts to the same bar, and a 12-command slash surface covers kickoff, orchestration, catalog, rot-review, and the chronicle workflow.
+Plus **16 cross-role process skills** for the harness itself: problem-spec, lesson-extract, harness-check, context-reset, decision records, memory query, chronicle record + recall, the three chronicle-append-shaped skills (hypothesis-track, stakeholder-update, customer-update), the chronicle workflow trio (ingest, prep, review), and two cross-system read primitives (query-issue-tracker for Linear/Jira, query-warehouse for BigQuery/Snowflake with a kill-cost guardrail). A `product-manager-reviewer` subagent critiques artefacts to the same bar, and a 12-command slash surface (five `type: command` skills plus seven invocable workflow skills) covers kickoff, orchestration, catalog, rot-review, and the chronicle workflow.
 
 **Lessons extract themselves.** The `extract-lesson` skill fires on the Stop hook at the end of every session — the agent scans for corrections, surprises, and validated approaches, and surfaces concrete proposals when there's real signal (otherwise it stays quiet). Proposals are reviewed before any harness file changes. Opt out per-session with `HORNERO_NO_AUTO_EXTRACT=1`.
 
@@ -85,7 +85,7 @@ Then in the session: `/hornero:catalog`, `/hornero:kickoff`, `/hornero:orchestra
 ./install.sh --claude
 ```
 
-Slash commands available as bare `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update` (no `hornero:` namespace).
+Slash commands (skills, so installed to `~/.claude/skills/` with everything else) are available as bare `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update` (no `hornero:` namespace).
 
 ### Codex
 
@@ -103,23 +103,22 @@ Then enable the `hornero` plugin in `~/.codex/config.toml`.
 ./install.sh --codex
 ```
 
-Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (TOML), session hooks → `~/.codex/hooks.json`, slash command prompts → `~/.codex/prompts/`.
+Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (TOML), session hooks → `~/.codex/hooks.json`. Slash commands ship as skills, so there is no separate prompts directory and no `/orchestrate` style prompt. In Codex, invoke a skill explicitly by typing `$` or `/skills` and picking it (for example `$orchestrate`), or describe the task in natural language and let Codex match the skill implicitly. `disable-model-invocation` is a Claude Code field that Codex ignores.
 
 ### What you get either way (both hosts)
 
 - ✅ **1 reviewer subagent** — `product-manager-reviewer`, callable by name on either host (Claude via the Agent tool; Codex via the natural-language native path).
 - ✅ **54 expert-grounded skills** — 38 product-management skills (across discovery, strategy, AI-PM, finance, outside-in, workshops, delivery, career-leadership, operations) + 16 cross-role process skills (including the chronicle write/read/append trio, the chronicle workflow trio of `ingest`/`prep`/`review`, and the cross-system `query-issue-tracker` / `query-warehouse` primitives); see *What's in the box*.
-- ✅ **12 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update` (namespaced as `/hornero:<name>` under the Claude Code plugin).
+- ✅ **12 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update` (skills; namespaced as `/hornero:<name>` under the Claude Code plugin).
 - ✅ **Session hooks** — `SessionStart` primer and `Stop` lesson reminder via `hooks/hooks.json` (same JSON format both hosts read).
 
 ### Build-time scripts
 
-If you add a new skill or edit an agent definition, two generators keep the plugin layouts in sync:
+If you edit an agent definition, one generator keeps the Codex layout in sync (skills need no generator: every skill is a real directory at `skills/<name>/`):
 
-- `./scripts/build-plugin-skills.sh` — refreshes the top-level `skills/<name>/` symlinks Claude Code's plugin loader reads.
 - `./scripts/build-codex-agents.sh` — regenerates the `.codex/agents/<name>.toml` files Codex reads from the canonical `agents/<name>.md` Markdown sources.
 
-Both are idempotent. `scripts/smoke-check.sh` fails loudly if either gets out of sync.
+It is idempotent. `scripts/smoke-check.sh` fails loudly if it gets out of sync.
 
 ### CI + local guards
 
@@ -137,7 +136,7 @@ See [`playbooks/harness-guide.md`](playbooks/harness-guide.md) for the full inve
 
 ### Plugin namespace caveat (Claude Code)
 
-Plugin-loaded slash commands are namespaced — `/hornero:orchestrate`, not `/orchestrate`. If you also have `.claude/commands/` in your project, the bare `/orchestrate` continues to work there. Both can coexist; the bare form takes precedence in project-local scope. Codex doesn't namespace.
+Plugin-loaded slash commands are namespaced — `/hornero:orchestrate`, not `/orchestrate`. Opened from the repo root (or after `./install.sh`), the same skills load unnamespaced as bare `/orchestrate`. Codex doesn't namespace.
 
 ---
 
@@ -169,7 +168,7 @@ For launches, contested decisions, or any question that crosses concerns, invoke
 /orchestrate Plan the v2 launch — is it ready?
 ```
 
-The PM frames the request as a customer job, runs the work through [`cross-functional-orchestration`](roles/product-manager/skills/cross-functional-orchestration/SKILL.md), and synthesises into a *product decision* — outcomes, success criteria, the alternative considered, the revisit condition — rather than a pile of opinions.
+The PM frames the request as a customer job, runs the work through [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md), and synthesises into a *product decision* — outcomes, success criteria, the alternative considered, the revisit condition — rather than a pile of opinions.
 
 ### Process commands
 

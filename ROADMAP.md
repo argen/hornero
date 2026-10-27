@@ -24,7 +24,7 @@ One role, `product-manager`, carrying **38 expert-grounded skills**:
 
 - **16 cross-role process skills** for the harness itself: `spec-the-problem`, `extract-lesson`, `harness-check`, `context-reset-check`, `decision-record`, `memory-query`, `chronicle-record`, `chronicle-recall`, `ingest`, `prep`, `review`, `hypothesis-track`, `stakeholder-update`, `customer-update`, `query-issue-tracker`, `query-warehouse`. `extract-lesson` runs automatically on the Stop hook (`hooks/auto-extract-lesson.sh`) — proposes durable harness updates at session end without the user invoking it. The three append-shaped skills (hypothesis-track, stakeholder-update, customer-update) drive the chronicle layer's [append exception](chronicle/SCHEMA.md#append-exception): they grow whitelisted body sections row-by-row without forcing a full supersede.
 - **`product-manager-reviewer`** subagent in [`agents/`](agents/), callable by name on either host (Claude Code via the Agent tool; Codex via its native subagent path).
-- **12 slash commands** in [`.claude/commands/`](.claude/commands/): `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update`.
+- **12 slash commands**, all skills under [`skills/`](skills/) (`type: command` for the first five): `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update`.
 - **Chronicle layer** — machine-queryable record of decisions (`scripts/chronicle.sh`, deterministic harness at `tests/chronicle/`).
 - **Voice** — [`VOICE.md`](VOICE.md) codifies the companion's voice (calm, terse, plain-spoken; bird metaphor → patient layers + duet). Applies to lifecycle touchpoints only (banner, kickoff, declared route, lesson-extraction). Artefact outputs (PRDs, OKRs, strategy kernels) stay voice-neutral.
 - **Memory layer (v0)** — project-local `memory/decisions/`, paired with `memory-query` + `decision-record`. Opt-in; absent directory → no-op.
@@ -32,6 +32,7 @@ One role, `product-manager`, carrying **38 expert-grounded skills**:
 
 ### Plumbing
 
+- **Flat skills layout** — every skill is a real directory at `skills/<name>/` (role membership is a `role:` frontmatter key; slash commands are `type: command` skills). No symlink generator; `.claude/skills` points at `skills/` for project-level discovery.
 - **Vendor-agnostic plugin parity** — `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` sibling manifests; reviewer subagents available as `agents/<name>.md` (Claude) and auto-generated `.codex/agents/<name>.toml` (Codex). `install.sh --claude / --codex / --both` for global installs.
 - **CI self-breakage guard** — `validate-skill`, `validate-resource`, `test-validate-resource`, `smoke-check` on every PR; opt-in local pre-commit mirror via `scripts/install-git-hooks.sh`.
 - **Antagonistic reviewer harness** — `scripts/play-against.sh --check` for catastrophic-persona-drift regression on the PM reviewer.
@@ -76,7 +77,7 @@ When a second role lands, the parallel `multi-role-review` path activates (paral
 
 ### Bet-portfolio refactor (PM)
 
-Follow-on now that `hypothesis-track` is shipped: `roles/product-manager/skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Waits on enough real-chronicle hypothesis content to design the aggregation against.
+Follow-on now that `hypothesis-track` is shipped: `skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Waits on enough real-chronicle hypothesis content to design the aggregation against.
 
 ### Distribution
 

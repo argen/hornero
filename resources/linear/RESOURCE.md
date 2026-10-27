@@ -116,4 +116,4 @@ The fallback path is slower and more verbose; skills using it should batch Graph
 - Linear GraphQL schema — <https://studio.apollographql.com/public/Linear-API/home>
 - MCP server source — <https://github.com/jerhadf/linear-mcp-server> (community reference; check for an Atlassian/Linear-official server before adoption)
 - MCP spec — <https://modelcontextprotocol.io>
-- Related Hornero skills: `roles/product-manager/skills/linear-triage/SKILL.md`
+- Related Hornero skills: `skills/linear-triage/SKILL.md`

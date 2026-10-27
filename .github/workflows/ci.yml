@@ -24,7 +24,7 @@ jobs:
       - name: validate-skill.sh
         run: |
           SKILLS=()
-          while IFS= read -r f; do SKILLS+=("$f"); done < <(find skills roles -name SKILL.md -type f | sort)
+          while IFS= read -r f; do SKILLS+=("$f"); done < <(find skills -name SKILL.md -type f | sort)
           ./scripts/validate-skill.sh "${SKILLS[@]}"
 
       - name: validate-resource.sh

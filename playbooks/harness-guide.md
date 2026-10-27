@@ -51,7 +51,7 @@ None of these sections may be empty. The `description` field must be vivid and c
 
 **Sources discipline:** frameworks cited in Key Concepts must trace to the role's `sources.md`. Decorative citations (name-dropping without actual grounding) fail the editorial bar even if they pass the validator.
 
-**Verification:** `bash scripts/validate-skill.sh roles/product-manager/skills/ skills/`
+**Verification:** `bash scripts/validate-skill.sh skills/ skills/`
 
 **Failure mode:** an empty Examples or Purpose section produces a skill the dispatcher can invoke but that produces weak output. The validator catches empty sections; editorial review catches thin ones.
 
@@ -106,7 +106,7 @@ The idempotency check (`stop_hook_active`) is the key invariant. Without it, the
 | 4 | `CATALOG.md` is up to date (no drift from `catalog.sh`) |
 | 5 | Every CATALOG entry resolves to a real directory on disk |
 | 6 | `install.sh --dry-run` reports the expected file count |
-| 7 | Every per-role skill has a top-level `skills/<name>` symlink; no dangling symlinks |
+| 7 | `skills/` holds only real directories (no symlinks); every `role:` value names an existing `roles/<role>/ROLE.md` |
 | 8 | `.codex-plugin/plugin.json` valid + in sync with `.claude-plugin/`; Codex agent TOMLs parse and match Markdown sources |
 | 9 | Every RESOURCE.md passes `validate-resource.sh` anatomy lint |
 | 10 | Skill `resources:` → RESOURCE.md and RESOURCE.md `used_by:` → SKILL.md are bidirectionally consistent |
@@ -117,10 +117,9 @@ Step 13 (optional, `--install` flag): real install against `~/.claude` with mani
 
 Other build-time scripts:
 - `scripts/catalog.sh` — regenerates `CATALOG.md` from SKILL.md / ROLE.md frontmatter. Run after any description change.
-- `scripts/build-plugin-skills.sh` — recreates `skills/<name>/` symlinks from `roles/*/skills/`. Run after adding a role skill.
 - `scripts/build-codex-agents.sh` — regenerates `.codex/agents/*.toml` from `agents/*.md`. Run after any agent change.
 
-All three are idempotent. `smoke-check.sh` fails if any drift is detected.
+Both are idempotent. `smoke-check.sh` fails if any drift is detected.
 
 ---
 
@@ -136,7 +135,7 @@ bash scripts/smoke-check.sh
 bash scripts/test-chronicle.sh
 
 # Skills only
-bash scripts/validate-skill.sh roles/product-manager/skills/ skills/
+bash scripts/validate-skill.sh skills/ skills/
 
 # Resources only
 bash scripts/validate-resource.sh resources/
@@ -156,7 +155,7 @@ All of these are run in CI on every PR. Run them locally with `scripts/install-g
 |---|---|
 | Added / renamed a skill | `catalog.sh` + `smoke-check.sh` |
 | Edited a skill description | `catalog.sh` + `validate-dispatcher.sh` |
-| Added a role skill | `build-plugin-skills.sh` + `catalog.sh` + `smoke-check.sh` |
+| Added a role skill | set `role: <role>` in its frontmatter, then `catalog.sh` + `smoke-check.sh` |
 | Changed an agent | `build-codex-agents.sh` + `smoke-check.sh` |
 | Added a chronicle entry | `chronicle.sh validate` + `test-chronicle.sh` |
 | Changed a resource | `validate-resource.sh` + `smoke-check.sh` (cross-ref check) |

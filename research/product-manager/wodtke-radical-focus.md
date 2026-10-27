@@ -30,9 +30,9 @@ OKR theatre is worse with AI. Without Wodtke's discipline — which forces the t
 
 ## How this anchors role skills
 
-- [`okrs`](../../roles/product-manager/skills/okrs/SKILL.md) — Wodtke is the primary anchor for every section. The one-Objective cap, the outcome-KR requirement, the stretch-goal framing, the weekly check-in, and the bench test are all Wodtke.
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — the outcomes-over-outputs synthesis principle and the "what outcomes will tell us this decision was right?" question are Wodtke's KR vocabulary applied to a cross-functional decision.
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — the success-metric + counter-metric structure in a PRD is OKR discipline applied to a feature: what outcome are we targeting, and what's the counter-metric that would tell us we optimized the wrong thing?
+- [`okrs`](../../skills/okrs/SKILL.md) — Wodtke is the primary anchor for every section. The one-Objective cap, the outcome-KR requirement, the stretch-goal framing, the weekly check-in, and the bench test are all Wodtke.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — the outcomes-over-outputs synthesis principle and the "what outcomes will tell us this decision was right?" question are Wodtke's KR vocabulary applied to a cross-functional decision.
+- [`prd`](../../skills/prd/SKILL.md) — the success-metric + counter-metric structure in a PRD is OKR discipline applied to a feature: what outcome are we targeting, and what's the counter-metric that would tell us we optimized the wrong thing?
 
 ## Cross-role connection
 

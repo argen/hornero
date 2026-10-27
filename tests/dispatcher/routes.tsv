@@ -14,7 +14,7 @@
 /prep Maya	prep	cross-role	explicit slash command — stakeholder brief
 /review	review	cross-role	explicit slash command — chronicle health sweep
 /extract-lesson	extract-lesson	cross-role	explicit slash command — session-end lesson capture
-/catalog	harness-check	cross-role	explicit slash command — catalog display
+/catalog	catalog	cross-role	explicit slash command — catalog display
 
 # ── Artifact intake signals ───────────────────────────────────────────────────
 Here is my PRD, please critique it	prd	product-manager	artifact + critique verb → PRD reviewer mode
