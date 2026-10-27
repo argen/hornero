@@ -1,8 +1,8 @@
-# Evals — multi-role-review quality measurement
+# Evals — orchestrated review quality measurement
 
-A repeatable way to measure whether `multi-role-review` is producing useful output, not just plausible output.
+A repeatable way to measure whether Hornero's orchestrated review (the PM orchestrator fanning out to reviewers) is producing useful output, not just plausible output.
 
-> **Status:** scaffold complete (v0.7). Rubric, scoring script, and the full **20-task suite** are shipped. Running the campaign is the remaining work — needs human-judgement scoring on the four rubric dimensions per [`rubric.md`](rubric.md). The 20 tasks deliberately span all 7 roles, the 2-role through 5-role mixes, the PM-orchestrator path (task 04) and the tester-orchestrated workflow path (task 15), and the three threat-model shapes (LLM-feature, third-party integration, multi-region architecture).
+> **Status:** scaffold complete. Rubric, scoring script, and the full **20-task suite** are shipped. Running the campaign is the remaining work — needs human-judgement scoring on the four rubric dimensions per [`rubric.md`](rubric.md). Hornero ships one role today (`product-manager`); the 20 tasks were designed for a multi-role future (2-role through 5-role mixes, a tester-orchestrated workflow path, three threat-model shapes) and currently exercise the PM orchestrator path, which covers unshipped roles itself rather than spawning their reviewers.
 
 ## Why this exists
 
@@ -33,9 +33,9 @@ The LLM judge is **provider-agnostic** — Anthropic, OpenAI, or Gemini. Each pr
 
 | Provider | Default model | API key env | Install |
 |---|---|---|---|
-| `anthropic` (default) | `claude-sonnet-4-6` | `ANTHROPIC_API_KEY` | `pip install anthropic` |
-| `openai` | `gpt-4o` | `OPENAI_API_KEY` | `pip install openai` |
-| `gemini` | `gemini-1.5-pro` | `GEMINI_API_KEY` | `pip install google-genai` |
+| `anthropic` (default) | `claude-sonnet-5-5` | `ANTHROPIC_API_KEY` | `pip install anthropic` |
+| `openai` | `gpt-5` (unverified; confirm the current OpenAI id) | `OPENAI_API_KEY` | `pip install openai` |
+| `gemini` | `gemini-2.5-pro` | `GEMINI_API_KEY` | `pip install google-genai` |
 
 Override the default provider with `--provider` (or `EVAL_JUDGE_PROVIDER` env var); override the model with `--model` (or `EVAL_JUDGE_MODEL` env var).
 
