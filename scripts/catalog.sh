@@ -149,6 +149,7 @@ yaml_field() {
       [[ "$(yaml_field role "$skill_md")" == "$(basename "$role_dir")" ]] || continue
       name=$(yaml_field name "$skill_md")
       type=$(yaml_field type "$skill_md")
+      [[ "$type" == "command" ]] && continue
       desc=$(yaml_field description "$skill_md")
       [[ -n "$name" ]] || continue
       rows+="| \`${name}\` | ${type} | ${desc} |"$'\n'

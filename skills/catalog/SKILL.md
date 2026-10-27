@@ -3,6 +3,9 @@ name: catalog
 description: Shows what Hornero ships (roles, cross-role skills, and per-role skills) as a scannable index. Use when the user wants to know what is available without reading the full files.
 type: command
 disable-model-invocation: true
+scenarios:
+  - "User types /catalog to see what Hornero ships"
+  - "User asks what roles and skills are available"
 ---
 
 # /catalog
