@@ -14,6 +14,7 @@ tmp/
 
 # claude plugin eval output, written on every run
 evals/results/
+/results.json
 
 # Chronicle proposals are workspace-local until human-committed → entries/
 chronicle/proposals/*

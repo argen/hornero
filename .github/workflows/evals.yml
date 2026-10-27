@@ -5,10 +5,14 @@ on:
   schedule:
     - cron: "0 6 * * 1"
 
+permissions:
+  contents: read
+
 jobs:
   plugin-eval:
     name: claude plugin eval
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     env:
       DISABLE_AUTOUPDATER: "1"
     steps:
