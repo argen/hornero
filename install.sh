@@ -302,6 +302,7 @@ if [[ -f "${MANIFEST}" ]]; then
     in_scope=0
     want_claude && [[ "$path" == "${CLAUDE_DIR}/"* ]] && in_scope=1
     want_codex  && [[ "$path" == "${CODEX_DIR}/"*  ]] && in_scope=1
+    want_codex  && [[ "$path" == "${AGENTS_SKILLS_DIR}/"* ]] && in_scope=1
     if [[ $in_scope -eq 0 ]]; then
       [[ $DRY_RUN -eq 0 ]] && echo "$path" >> "${MANIFEST}.tmp"
       continue
