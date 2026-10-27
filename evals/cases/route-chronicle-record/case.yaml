@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: route-chronicle-record
+context:
+  scaffold_script: seed-chronicle.sh

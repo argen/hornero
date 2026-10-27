@@ -1,6 +1,6 @@
 ---
 name: success-metrics
-description: Use before instrumentation to define what good looks like — primary metric, counter-metric, guardrails, and leading indicators — for a feature, launch, or quarter.
+description: "Produces a metric stack for a feature, launch or quarter: one primary metric, a counter-metric against gaming, guardrails for adjacent health, and leading indicators; also critiques an existing metric definition or dashboard metric for missing counter-metrics, unscoped populations and gaming surfaces. Use before instrumentation to define what good looks like, or when asked to review, challenge or tighten a metric definition. For finance metrics (ARR, NRR, Rule of 40, burn multiple) use saas-revenue-growth-metrics or saas-economics-efficiency-metrics; to draft OKRs use okrs."
 role: product-manager
 intent: |
   Produces a metric stack for a feature, launch, or quarter: the one primary

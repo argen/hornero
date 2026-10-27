@@ -27,7 +27,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          claude plugin eval . --trust-plugin --json results.json --threshold 0.8 \
+          claude plugin eval . --trust-plugin --scaffold --json results.json --threshold 0.8 \
             --model claude-sonnet-5-5 --judge-model claude-haiku-5-5 \
             --ablation none --max-cost-usd 10 --no-publish
 
