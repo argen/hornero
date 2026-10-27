@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # validate-dispatcher.sh — structural checks for dispatcher routing fixtures and CATALOG.md
 #
-# Runs three deterministic checks (no LLM required):
+# Runs four deterministic checks (no LLM required):
 #   1. Dead references: every expected_skill in tests/dispatcher/routes.tsv must resolve
 #      to an entry in CATALOG.md (or be "ESCALATE" for documented multi-match cases).
 #   2. Description completeness: every skill in CATALOG.md must have a non-empty
 #      "When to invoke" description.
 #   3. Scenarios presence: every expected_skill in routes.tsv must have a non-empty
 #      `scenarios:` field in its SKILL.md frontmatter.
+#   4. Eval coverage: every natural-language row in routes.tsv (slash rows excluded)
+#      must have an evals/cases/route-<skill>[-n]/ directory (ESCALATE rows use
+#      route-escalate[-n]), and no route-* case may be orphaned.
 #
 # Usage:
 #   ./scripts/validate-dispatcher.sh
@@ -111,6 +114,35 @@ for skill in "${REFERENCED_SKILLS[@]}"; do
 done
 
 [[ $SCENARIOS_FAIL -eq 0 ]] && ok "all referenced skills have scenarios frontmatter"
+
+# ── Check 4: routes.tsv ↔ evals/cases/route-* in sync ───────────────────────
+echo "─── Check 4: routes.tsv ↔ evals/cases/route-* ──────────────────────"
+
+SYNC_FAIL=0
+EXPECTED=0
+SEEN_LIST=""
+while IFS=$'\t' read -r prompt expected_skill expected_role notes; do
+  [[ "$prompt" =~ ^#.*$ || -z "$prompt" ]] && continue
+  [[ "$prompt" == /* ]] && continue
+  slug="$(printf '%s' "$expected_skill" | tr '[:upper:]' '[:lower:]')"
+  SEEN_LIST="${SEEN_LIST}${slug}"$'\n'
+  n=$(printf '%s' "$SEEN_LIST" | grep -cx "$slug")
+  dir="evals/cases/route-${slug}"
+  [[ $n -gt 1 ]] && dir="${dir}-${n}"
+  EXPECTED=$((EXPECTED+1))
+  if [[ ! -f "$dir/prompt.md" ]]; then
+    bad "no eval case $dir/prompt.md for routes.tsv row: ${prompt:0:50}"
+    SYNC_FAIL=1
+  fi
+done < "$ROUTES"
+
+ACTUAL=$(find evals/cases -maxdepth 1 -type d -name 'route-*' 2>/dev/null | wc -l | tr -d ' ')
+if [[ "$ACTUAL" -ne "$EXPECTED" ]]; then
+  bad "evals/cases has $ACTUAL route-* directories, routes.tsv implies $EXPECTED"
+  SYNC_FAIL=1
+fi
+
+[[ $SYNC_FAIL -eq 0 ]] && ok "every natural-language routes.tsv row has a matching evals/cases/route-* case"
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo
