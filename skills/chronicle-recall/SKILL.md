@@ -1,12 +1,13 @@
 ---
 name: chronicle-recall
-description: Use before reviewing, proposing, or producing any non-trivial artifact — queries the project's `chronicle/entries/` layer for prior decisions whose scope, role, status, or keywords overlap with the current work, and surfaces relevant entries before fresh analysis begins.
+description: "Queries the project's chronicle/entries/ layer for prior decisions, hypotheses, stakeholders, and customers whose scope, role, status, or keywords overlap the current work, and surfaces them before fresh analysis begins. Use before reviewing, proposing, or producing a non-trivial artifact in a project with a chronicle. If the project only has memory/decisions/ files use memory-query; to write a new entry use chronicle-record."
 intent: |
   The read side of the Hornero Chronicle layer. Closes the most expensive
   failure mode in AI-assisted work — re-proposing approaches the team has
   already considered, validated, or refuted. Reviewer subagents call this
   skill at the top of every review; producer skills call it before
   drafting a new artifact.
+allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh query *), Bash(scripts/chronicle.sh summary*), Bash(scripts/chronicle.sh validate*)
 type: workflow
 theme: memory
 best_for:
@@ -29,6 +30,8 @@ estimated_time: 1-3 minutes
 Scan the project's Chronicle layer before doing fresh work. If a relevant decision exists, the work should start *upstream of that decision*, not re-derive it. This skill is the read side of the Chronicle loop; [`chronicle-record`](../chronicle-record/SKILL.md) is the write side.
 
 The skill is short by design. It is the **discipline of looking first**, executed via two cheap, deterministic operations: read `chronicle/SUMMARY.md` (cold-start digest), and run `scripts/chronicle.sh query ...` (filtered scan). No vector search, no LLM in the read path — same guarantee as `memory-query`, but against a strict-schema corpus that supports structured filters.
+
+> Under a plugin install the script lives at `${CLAUDE_PLUGIN_ROOT}/scripts/chronicle.sh`, so the `allowed-tools` pre-approval does not apply and each call prompts.
 
 ## Key Concepts
 

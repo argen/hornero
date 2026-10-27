@@ -1,6 +1,6 @@
 ---
 name: memory-query
-description: Use before reviewing, proposing, or producing any non-trivial artifact — scans the project's `memory/decisions/` directory for prior decisions whose scope, affected-areas, or roles overlap with the current work, and surfaces relevant entries before fresh analysis begins.
+description: "Scans the project's memory/decisions/ directory for prior decisions whose scope, affected areas, or roles overlap the current work, and surfaces the relevant entries before fresh analysis begins. Use before reviewing, proposing, or producing a non-trivial artifact in a project that keeps lightweight decision files. If the project has a chronicle/ layer use chronicle-recall instead, which queries schema-validated entries."
 intent: |
   The read side of the Hornero memory layer. Closes the most expensive
   failure mode in AI-assisted work — re-proposing approaches that the

@@ -181,29 +181,69 @@ if [[ $LAYOUT_FAIL -eq 0 ]]; then
 fi
 
 # ─── Step 8: Codex plugin manifest + agent TOMLs ──────────────────────
-step "Codex plugin parity (.codex-plugin/plugin.json + .codex/agents/*.toml)"
+step "Codex plugin parity (root plugin.json + mcp.json + .codex/agents/*.toml)"
 
 CODEX_FAIL=0
 
-# 8a. .codex-plugin/plugin.json exists and parses as JSON.
-if [[ ! -f .codex-plugin/plugin.json ]]; then
-  bad ".codex-plugin/plugin.json missing"
+# 8a. Root plugin.json (Agent Plugins portable manifest) exists, parses, and is
+# the Codex source of truth: no .codex-plugin/ overlay may linger beside it.
+if [[ ! -f plugin.json ]]; then
+  bad "plugin.json missing (portable root manifest for Codex)"
   CODEX_FAIL=1
-elif ! python3 -m json.tool .codex-plugin/plugin.json >/dev/null 2>&1; then
-  bad ".codex-plugin/plugin.json is not valid JSON"
+elif ! python3 -m json.tool plugin.json >/dev/null 2>&1; then
+  bad "plugin.json is not valid JSON"
+  CODEX_FAIL=1
+elif ! python3 -c "import json,sys; d=json.load(open('plugin.json')); sys.exit(0 if isinstance(d.get('extensions',{}).get('com.openai'), dict) else 1)"; then
+  bad "plugin.json lacks extensions[\"com.openai\"] (it replaces the .codex-plugin overlay)"
+  CODEX_FAIL=1
+fi
+if [[ -f plugin.json ]]; then
+  extra_keys=$(python3 -c "
+import json
+allowed={'\$schema','name','version','description','author','homepage','repository','license','keywords','extensions'}
+print(' '.join(sorted(set(json.load(open('plugin.json'))) - allowed)))" 2>/dev/null) || extra_keys="?"
+  if [[ -n "$extra_keys" ]]; then
+    bad "plugin.json has keys outside the Agent Plugins schema: ${extra_keys}"
+    CODEX_FAIL=1
+  fi
+fi
+if [[ -e .codex-plugin ]]; then
+  bad ".codex-plugin/ must not exist; root plugin.json supersedes it"
   CODEX_FAIL=1
 fi
 
-# 8b. .codex-plugin name + version match .claude-plugin (stay-in-sync invariant).
-if [[ -f .codex-plugin/plugin.json && -f .claude-plugin/plugin.json ]]; then
+# 8b. Root plugin.json name + version match .claude-plugin (stay-in-sync invariant).
+if [[ -f plugin.json && -f .claude-plugin/plugin.json ]]; then
   for field in name version; do
     claude_val=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json')).get('${field}', ''))" 2>/dev/null)
-    codex_val=$(python3 -c "import json; print(json.load(open('.codex-plugin/plugin.json')).get('${field}', ''))" 2>/dev/null)
+    codex_val=$(python3 -c "import json; print(json.load(open('plugin.json')).get('${field}', ''))" 2>/dev/null)
     if [[ "$claude_val" != "$codex_val" ]]; then
-      bad "manifest ${field} drift: .claude-plugin='${claude_val}' .codex-plugin='${codex_val}'"
+      bad "manifest ${field} drift: .claude-plugin='${claude_val}' plugin.json='${codex_val}'"
       CODEX_FAIL=1
     fi
   done
+fi
+
+# 8b2. MCP servers declared for Claude must be declared in mcp.json (same names),
+# and mcp.json must not invent servers Claude lacks. Hornero declares none today.
+mcp_names() {
+  python3 -c "import json,sys; print(' '.join(sorted(json.load(open(sys.argv[1])).get('mcpServers', {}))))" "$1"
+}
+claude_mcp=$(mcp_names .claude-plugin/plugin.json) || { bad ".claude-plugin/plugin.json is not valid JSON"; CODEX_FAIL=1; claude_mcp=""; }
+codex_mcp=""
+for f in mcp.json .mcp.json; do
+  [[ -f "$f" ]] || continue
+  if names=$(mcp_names "$f"); then
+    codex_mcp="${codex_mcp:+$codex_mcp }${names}"
+  else
+    bad "$f is not valid JSON"
+    CODEX_FAIL=1
+  fi
+done
+codex_mcp=$(echo "$codex_mcp" | tr ' ' '\n' | sort -u | tr '\n' ' ' | sed 's/ $//')
+if [[ "$claude_mcp" != "$codex_mcp" ]]; then
+  bad "MCP server drift: .claude-plugin='${claude_mcp}' mcp.json='${codex_mcp}'"
+  CODEX_FAIL=1
 fi
 
 # 8c. Every agents/*.md has a corresponding .codex/agents/<name>.toml that parses.
@@ -246,7 +286,7 @@ done
 
 if [[ $CODEX_FAIL -eq 0 ]]; then
   agent_count=$(find .codex/agents -maxdepth 1 -name '*.toml' -type f | wc -l | tr -d ' ')
-  ok "manifest valid + in sync; ${agent_count} Codex agent TOMLs parse and match Markdown sources"
+  ok "root plugin.json valid + in sync; ${agent_count} Codex agent TOMLs parse and match Markdown sources"
 fi
 
 # ─── Step 9: every RESOURCE.md validates ─────────────────────────────

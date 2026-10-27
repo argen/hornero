@@ -9,6 +9,7 @@ intent: |
   it, every meeting starts from a tight one-pager grounded in the
   durable chronicle layer.
 argument-hint: <stakeholder-name-or-scope-tag-or-meeting-description>
+allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh query *)
 type: workflow
 theme: memory
 best_for:
@@ -31,6 +32,8 @@ estimated_time: 3-7 minutes
 Produce a one-page meeting brief grounded in the project's chronicle. The brief names: the person or topic, their open asks, the decisions in their scope they are most likely to engage with, the open hypotheses they could help resolve, and 3-5 suggested questions or talking points. The output is short on purpose — it fits a phone screen — because long briefs go unread.
 
 This skill closes the gap between "we have a chronicle layer" and "the PM walks into the meeting with the chronicle loaded." Without it, the chronicle is a record consulted *after* meetings (during writeups) rather than *before* them (during prep).
+
+> Under a plugin install the script lives at `${CLAUDE_PLUGIN_ROOT}/scripts/chronicle.sh`, so the `allowed-tools` pre-approval does not apply and each call prompts.
 
 ## Key Concepts
 
@@ -99,7 +102,7 @@ scripts/chronicle.sh query --type customer --keyword Acme
 # Then pull the stakeholders that customer entry references in its body.
 
 # In all modes, surface recent ingestion notes:
-ls -t chronicle/ingestion/ | head -10
+# list chronicle/ingestion/ newest first with Glob
 # (then read a couple if their slugs match the scope/person/account)
 ```
 

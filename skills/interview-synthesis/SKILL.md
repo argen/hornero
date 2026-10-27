@@ -1,6 +1,6 @@
 ---
 name: interview-synthesis
-description: Use after discovery interviews to produce per-interview snapshots, theme rollups, OST updates, and a quote bank — the post-call discipline that makes the continuous-discovery cadence compound.
+description: "Produces per-interview snapshots, theme rollups, opportunity-solution-tree updates, and a quote bank from discovery interview notes or transcripts. Use after the calls, when asked to synthesise, summarise, or find patterns across interviews. To plan the interview beforehand use discovery-interview-prep; to file a raw transcript into the chronicle use ingest."
 role: product-manager
 intent: |
   Takes raw notes or transcripts from one or more customer interviews and

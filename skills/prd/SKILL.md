@@ -1,6 +1,6 @@
 ---
 name: prd
-description: Use when a product manager needs to produce or critique a PRD — to anchor a feature in a problem statement, expose solution-shaped thinking before it ossifies, pair every success metric with a counter-metric, and name what's deliberately out of scope.
+description: "Produces or critiques a PRD that anchors a feature in a problem statement, exposes solution-shaped thinking before it ossifies, pairs every success metric with a counter-metric, and names what is deliberately out of scope. Use when asked to write, review, or tighten a PRD or product spec. If the problem is not yet framed use problem-framing-canvas first; for a lightweight pre-implementation problem statement before code use spec-the-problem."
 role: product-manager
 intent: |
   Produces or evaluates a PRD that resists the build-trap. The PRD is

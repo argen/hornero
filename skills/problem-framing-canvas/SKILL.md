@@ -1,6 +1,6 @@
 ---
 name: problem-framing-canvas
-description: Use before drafting a PRD to produce a structured problem statement — who has it, what triggers it, what happens if unsolved, what alternatives exist, what success looks like for the customer.
+description: "Produces a structured problem statement from the customer's side: who has the problem, what triggers it, what happens if it is unsolved, what alternatives exist, and what success looks like for them. Use before drafting a PRD or committing to a solution. After the frame is settled use prd for the spec; for a quick code-facing problem and constraints pass before implementation use spec-the-problem."
 role: product-manager
 intent: |
   Produces a structured problem statement that captures who has the problem,

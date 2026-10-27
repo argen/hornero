@@ -1,6 +1,6 @@
 ---
 name: decision-record
-description: Use after a non-trivial decision is made — captures the diagnosis, the decision, the alternatives rejected and why, the validation plan, and the revisit-by date as a durable artifact in `memory/decisions/`.
+description: "Captures a decision as a lightweight document in memory/decisions/: the diagnosis, the decision, alternatives rejected and why, the validation plan, and the revisit-by date. Use after a non-trivial decision in a project without a chronicle/ layer. If the project has chronicle/ use chronicle-record, the strict-schema successor; to read prior decisions back use memory-query."
 intent: |
   The write side of the Hornero memory layer. Converts ephemeral
   decisions (made in an orchestrated review, a strategy session, a

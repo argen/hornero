@@ -21,18 +21,22 @@
 #   Claude target: skills (flat, one dir per skill) → ~/.claude/skills/
 #                  reviewer agent              → ~/.claude/agents/
 #                  resource cards (read-only)   → ~/.claude/hornero-resources/
-#   Codex target:  skills (flat layout)          → ~/.codex/skills/
+#   Codex target:  skills (flat layout)          → ~/.agents/skills/ (shared cross-agent path)
 #                  reviewer agent (TOML)       → ~/.codex/agents/
 #                  session hooks                → ~/.codex/hooks.json
 #                  resource cards (read-only)   → ~/.codex/hornero-resources/
 #                  (AGENTS.md is read from the current working directory;
 #                   no install step needed for the dispatcher itself.)
+#
+# Lighter path for skills only, across ~75 agents (no agents/hooks/resources):
+#   npx skills add argen/hornero
 
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="${HOME}/.claude"
 CODEX_DIR="${HOME}/.codex"
+AGENTS_SKILLS_DIR="${HOME}/.agents/skills"
 MANIFEST="${REPO_DIR}/.hornero-manifest"
 
 FORCE=0
@@ -51,7 +55,7 @@ for arg in "$@"; do
     --uninstall)       UNINSTALL=1 ;;
     --list-resources)  LIST_RESOURCES=1 ;;
     -h|--help)
-      sed -n '2,29p' "$0"
+      sed -n '2,33p' "$0"
       exit 0
       ;;
     *)
@@ -202,7 +206,7 @@ install_agent() {
 install_codex_skill() {
   local src="$1" name="$2"
   local rel="${src#${REPO_DIR}/skills/${name}/}"
-  copy_file "$src" "${CODEX_DIR}/skills/${name}/${rel}" "codex skill: ${name}/${rel}"
+  copy_file "$src" "${AGENTS_SKILLS_DIR}/${name}/${rel}" "codex skill: ${name}/${rel}"
 }
 
 install_codex_agent() {
@@ -254,7 +258,7 @@ fi
 # ---------- Codex install ----------
 if want_codex; then
   echo
-  echo "Codex — skills (→ ${CODEX_DIR}/skills/):"
+  echo "Codex — skills (→ ${AGENTS_SKILLS_DIR}/, shared by Codex, Cursor, Copilot, Gemini CLI):"
   while IFS= read -r -d '' file; do
     name=$(skill_name "$file")
     install_codex_skill "$file" "$name"
@@ -282,6 +286,7 @@ if want_codex; then
   install_resource_cards "${CODEX_DIR}" "codex"
 
   echo
+  echo "  Skills-only alternative for any agent: npx skills add argen/hornero"
   echo "  Note: AGENTS.md is read by Codex from the current working directory."
   echo "  If you want Hornero's dispatcher protocol active in every project,"
   echo "  copy AGENTS.md into the project root, or invoke Codex from inside"
@@ -297,6 +302,7 @@ if [[ -f "${MANIFEST}" ]]; then
     in_scope=0
     want_claude && [[ "$path" == "${CLAUDE_DIR}/"* ]] && in_scope=1
     want_codex  && [[ "$path" == "${CODEX_DIR}/"*  ]] && in_scope=1
+    want_codex  && [[ "$path" == "${AGENTS_SKILLS_DIR}/"* ]] && in_scope=1
     if [[ $in_scope -eq 0 ]]; then
       [[ $DRY_RUN -eq 0 ]] && echo "$path" >> "${MANIFEST}.tmp"
       continue

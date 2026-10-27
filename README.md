@@ -66,20 +66,29 @@ Redirect any pick with one word (*"use okrs instead"*). No menu to navigate. Typ
 
 ## Install for global availability
 
-Hornero ships sibling plugin manifests for both AI coding hosts. Same skills, same agents, same dispatcher protocol — discovered natively by whichever runtime you use. The plugin path is preferred where the host supports it; `install.sh` is the file-copy alternative.
+Hornero ships plugin manifests for both AI coding hosts. Same skills, same agents, same dispatcher protocol — discovered natively by whichever runtime you use. The plugin path is preferred where the host supports it; `install.sh` is the file-copy alternative.
 
 ### Claude Code
 
-**Preferred — plugin install:**
+**Preferred: marketplace install.** Hornero ships its own marketplace (`.claude-plugin/marketplace.json`), so two commands inside Claude Code install it:
+
+```
+/plugin marketplace add argen/hornero
+/plugin install hornero@hornero
+```
+
+On Claude Code 2.1.275 or later the same thing works in one step: `/plugin install hornero --marketplace argen/hornero`.
+
+Then in the session: `/hornero:catalog`, `/hornero:kickoff`, `/hornero:orchestrate`, `/hornero:role`.
+
+**Try it out without installing:**
 
 ```bash
 git clone git@github.com:argen/hornero.git
 claude --plugin-dir ./hornero
 ```
 
-Then in the session: `/hornero:catalog`, `/hornero:kickoff`, `/hornero:orchestrate`, `/hornero:role`.
-
-**Alternative — copy into `~/.claude/`:**
+**File-copy fallback: copy into `~/.claude/`:**
 
 ```bash
 ./install.sh --claude
@@ -89,26 +98,36 @@ Slash commands (skills, so installed to `~/.claude/skills/` with everything else
 
 ### Codex
 
-**Preferred — plugin install** (via Codex's marketplace, see [docs](https://developers.openai.com/codex/plugins/build)):
+Hornero ships a portable root [`plugin.json`](plugin.json) (the Agent Plugins standard; OpenAI-specific settings live under `extensions["com.openai"]`) and a repo marketplace at `.agents/plugins/marketplace.json`.
+
+**Preferred: plugin install** (see the [Codex plugin docs](https://developers.openai.com/codex/plugins/build)):
 
 ```bash
-codex plugin marketplace add argen/hornero   # once Hornero is published
+codex plugin marketplace add argen/hornero
 ```
 
-Then enable the `hornero` plugin in `~/.codex/config.toml`.
+Then install the `hornero` plugin from the Plugins Directory. Trade-off: Codex treats plugin hooks as untrusted until you review them, and a plugin that ships hooks is not eligible for the public Codex directory. Hornero keeps `hooks/hooks.json` because Claude Code needs it.
 
-**Alternative — copy into `~/.codex/` from a clone:**
+The marketplace entry uses the documented `url` source for a plugin at the repository root. It has not been tested against a live Codex install.
+
+**Lighter path: skills only, any agent.** Skills install to the cross-agent `~/.agents/skills/` path shared by Codex, Cursor, Copilot, Gemini CLI and others:
+
+```bash
+npx skills add argen/hornero
+```
+
+**File-copy alternative from a clone:**
 
 ```bash
 ./install.sh --codex
 ```
 
-Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (TOML), session hooks → `~/.codex/hooks.json`. Slash commands ship as skills, so there is no separate prompts directory and no `/orchestrate` style prompt. In Codex, invoke a skill explicitly by typing `$` or `/skills` and picking it (for example `$orchestrate`), or describe the task in natural language and let Codex match the skill implicitly. `disable-model-invocation` is a Claude Code field that Codex ignores.
+Installs skills to `~/.agents/skills/`, reviewer agents to `~/.codex/agents/` (TOML), and session hooks to `~/.codex/hooks.json`. Slash commands ship as skills, so there is no separate prompts directory and no `/orchestrate` style prompt. In Codex, invoke a skill explicitly by typing `$` or `/skills` and picking it (for example `$orchestrate`), or describe the task in natural language and let Codex match the skill implicitly. `disable-model-invocation` is a Claude Code field that Codex ignores.
 
 ### What you get either way (both hosts)
 
 - ✅ **1 reviewer subagent** — `product-manager-reviewer`, callable by name on either host (Claude via the Agent tool; Codex via the natural-language native path).
-- ✅ **54 expert-grounded skills** — 38 product-management skills (across discovery, strategy, AI-PM, finance, outside-in, workshops, delivery, career-leadership, operations) + 16 cross-role process skills (including the chronicle write/read/append trio, the chronicle workflow trio of `ingest`/`prep`/`review`, and the cross-system `query-issue-tracker` / `query-warehouse` primitives); see *What's in the box*.
+- ✅ **59 skills** — 38 product-management skills (across discovery, strategy, AI-PM, finance, outside-in, workshops, delivery, career-leadership, operations), 16 cross-role process skills (including the chronicle write/read/append trio, the chronicle workflow trio of `ingest`/`prep`/`review`, and the cross-system `query-issue-tracker` / `query-warehouse` primitives), and 5 command skills; see *What's in the box*.
 - ✅ **12 slash commands** — `/orchestrate`, `/role`, `/kickoff`, `/catalog`, `/extract-lesson`, `/audit`, `/ingest`, `/prep`, `/review`, `/hypothesis-track`, `/stakeholder-update`, `/customer-update` (skills; namespaced as `/hornero:<name>` under the Claude Code plugin).
 - ✅ **Session hooks** — `SessionStart` primer and `Stop` lesson reminder via `hooks/hooks.json` (same JSON format both hosts read).
 

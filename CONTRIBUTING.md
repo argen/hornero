@@ -25,6 +25,8 @@ Run the validator on any new or edited `SKILL.md` before committing:
 ./scripts/validate-skill.sh skills/<skill>/SKILL.md
 ```
 
+The same reminders load automatically for Claude Code sessions via [`.claude/rules/skills.md`](.claude/rules/skills.md), a path-scoped rule that applies only when files under `skills/`, `roles/`, or `resources/` are read.
+
 **Every skill is a real directory at `skills/<name>/`.** A skill that belongs to a role carries `role: <role>` in its frontmatter (it must name an existing `roles/<role>/ROLE.md`); a cross-role skill omits the key. `scripts/catalog.sh` groups the catalog by that key, and smoke-check fails on any symlink under `skills/`.
 
 **When you edit a reviewer agent** (`agents/<role>-reviewer.md`), re-run `./scripts/build-codex-agents.sh` to regenerate the matching `.codex/agents/<name>.toml` mirror. The Markdown file is the canonical source; the TOML is the format Codex reads natively. `smoke-check.sh` fails loudly if the two drift.

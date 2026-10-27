@@ -1,0 +1,16 @@
+{
+  "name": "hornero",
+  "description": "Hornero: a product-management skills plugin for Claude Code and Codex.",
+  "owner": {
+    "name": "Bruno Belcastro"
+  },
+  "plugins": [
+    {
+      "name": "hornero",
+      "source": "./",
+      "description": "Role-and-skill methodology for product managers: 59 skills (38 PM, 16 cross-role, 5 command skills), a PM reviewer subagent, and a project-local chronicle of decisions.",
+      "category": "productivity",
+      "tags": ["product-management", "skills", "prd", "strategy", "discovery"]
+    }
+  ]
+}

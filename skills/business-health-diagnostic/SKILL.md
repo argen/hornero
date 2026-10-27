@@ -1,6 +1,6 @@
 ---
 name: business-health-diagnostic
-description: Use when a PM needs a structured business-health pass — growth × efficiency × retention × runway — before a strategy debate, a board prep, or a quarterly review, integrating the four SaaS-metrics dimensions into one read.
+description: "Produces a structured business-health read across four dimensions (growth, efficiency, retention, runway), integrating the SaaS metrics into one verdict with the weakest dimension named. Use before a strategy debate, board prep, or quarterly review when the question is how healthy the business is. It applies the metrics rather than teaching them: for explanations of growth and retention metrics use saas-revenue-growth-metrics, for efficiency metrics use saas-economics-efficiency-metrics, for a definitions lookup use finance-metrics-quickref."
 role: product-manager
 intent: |
   Synthesises four metric dimensions — growth, efficiency, retention, and
