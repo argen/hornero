@@ -1,65 +1,81 @@
 {
-  "_comment": "Hornero recommended Claude Code settings. Copy into your project's .claude/settings.json (or merge with your existing file). The 'hooks' block wires Hornero's scripts into Claude Code lifecycle events — soft by default (warn, don't block); the aggressive variants are commented out for opt-in.",
-
+  "_comment": "Hornero recommended Claude Code settings. Copy into your project's .claude/settings.json (or merge with your existing file). The 'hooks' block wires Hornero's scripts into Claude Code lifecycle events — soft by default (warn, don't block); the aggressive variants live under _optional_hooks for opt-in. Hook shape: each event maps to an array of { matcher, hooks: [{ type: 'command', command }] }. PostToolUse/PreToolUse hooks receive JSON on stdin; the edited path is tool_input.file_path.",
   "permissions": {
     "defaultMode": "auto"
   },
-  "skipAutoPermissionPrompt": true,
-  "effortLevel": "high",
   "model": "sonnet",
-
   "hooks": {
     "SessionStart": [
       {
-        "command": "echo '↪ Hornero here. Tell me what you'\\''re working on and I'\\''ll find the right lens. Scan CATALOG.md first, then load only the chosen ROLE.md + SKILL.md.'"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '↪ Hornero here. Tell me what you'\\''re working on and I'\\''ll find the right lens. Scan CATALOG.md first, then load only the chosen ROLE.md + SKILL.md.'"
+          }
+        ]
       }
     ],
-
     "PostToolUse": [
       {
-        "_comment": "Soft: after any Edit/Write touching a SKILL.md, lint it. Warning only — never blocks the tool call. Replace <path-to-hornero> with your hornero clone (or drop this hook if Hornero is global via install.sh and you'd rather wire validate-skill into pre-commit).",
         "matcher": "Edit|Write",
-        "command": "case \"$CLAUDE_TOOL_FILE_PATH\" in *SKILL.md) <path-to-hornero>/scripts/validate-skill.sh \"$CLAUDE_TOOL_FILE_PATH\" || echo '⚠ validate-skill warned — see above. Hook is non-blocking; fix before committing.';; esac"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v jq >/dev/null || exit 0; f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *SKILL.md) <path-to-hornero>/scripts/validate-skill.sh \"$f\" || echo '⚠ validate-skill warned — see above. Hook is non-blocking; fix before committing.';; esac"
+          }
+        ]
       }
     ],
-
     "Stop": [
       {
-        "_comment": "Auto-extract-lesson at session end. Replace <path-to-hornero> with your hornero clone path (or drop this hook if you prefer the manual /extract-lesson workflow). To disable for a session, set HORNERO_NO_AUTO_EXTRACT=1 before launching Claude Code.",
-        "command": "bash <path-to-hornero>/hooks/auto-extract-lesson.sh"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash <path-to-hornero>/hooks/auto-extract-lesson.sh"
+          }
+        ]
       }
     ]
   },
-
   "_optional_hooks": {
-    "_comment": "Opt-in guardrails. Move into hooks{} above to enable. Each one trades agent ergonomics for stricter invariants — adopt incrementally.",
-
+    "_comment": "Opt-in guardrails. Merge each entry's event/matcher/hooks into hooks{} above to enable. Each one trades agent ergonomics for stricter invariants — adopt incrementally. Replace <path-to-hornero> with your hornero clone path.",
     "PreToolUse_block_invalid_skill": {
-      "_when": "You want a SKILL.md edit to fail loudly if it violates anatomy (frontmatter missing, sections missing). Aggressive: blocks the tool call.",
-      "matcher": "Edit|Write",
-      "command": "case \"$CLAUDE_TOOL_FILE_PATH\" in *SKILL.md) <path-to-hornero>/scripts/validate-skill.sh \"$CLAUDE_TOOL_FILE_PATH\" || exit 2;; esac"
+      "_when": "You want a SKILL.md edit to fail loudly if it violates anatomy (frontmatter missing, sections missing). Aggressive: exit 2 blocks the tool call.",
+      "event": "PreToolUse",
+      "entry": {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v jq >/dev/null || exit 0; f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *SKILL.md) <path-to-hornero>/scripts/validate-skill.sh \"$f\" || exit 2;; esac"
+          }
+        ]
+      }
     },
-
     "PostToolUse_auto_catalog_regen": {
       "_when": "You want CATALOG.md kept in sync automatically after any description-line change. Re-runs catalog.sh and stages the result. Adds latency to every SKILL/ROLE edit.",
-      "matcher": "Edit|Write",
-      "command": "case \"$CLAUDE_TOOL_FILE_PATH\" in *SKILL.md|*ROLE.md) ( cd <path-to-hornero> && ./scripts/catalog.sh > /dev/null && git diff --quiet CATALOG.md || git add CATALOG.md ) ;; esac"
+      "event": "PostToolUse",
+      "entry": {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v jq >/dev/null || exit 0; f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *SKILL.md|*ROLE.md) ( cd <path-to-hornero> && ./scripts/catalog.sh > /dev/null && git diff --quiet CATALOG.md || git add CATALOG.md ) ;; esac"
+          }
+        ]
+      }
     },
-
     "PreCommit_smoke_check": {
       "_when": "Not a Claude Code hook — a git pre-commit hook. Install with: ln -s ../../scripts/smoke-check.sh .git/hooks/pre-commit. Runs full validate-skill + catalog-drift before any commit.",
       "command": "ln -sf ../../scripts/smoke-check.sh .git/hooks/pre-commit"
     }
   },
-
   "_notes": [
     "permissions.defaultMode: 'auto' lets the harness auto-approve known-safe tools.",
-    "skipAutoPermissionPrompt: true suppresses prompts for operations already in the allow list.",
-    "effortLevel: 'high' biases the model toward more thorough output (more tokens, better quality).",
     "model: 'sonnet' is the default for new tasks; switch to opus for planning / haiku for trivial edits.",
     "hooks.SessionStart primes the dispatcher behaviour at every session-start.",
-    "hooks.PostToolUse runs validate-skill.sh after SKILL.md edits and warns on failure. CLAUDE_TOOL_FILE_PATH stands in for whichever env var your Claude Code version exposes for the touched file — verify against the current hook docs before relying on it. If the var is empty the case statement no-ops, so the hook is safe-by-default.",
+    "hooks.PostToolUse runs validate-skill.sh after SKILL.md edits and warns on failure. It reads the touched path from the hook's stdin JSON (tool_input.file_path) via jq and no-ops when jq is missing or the path is empty, so it is safe by default.",
     "hooks.Stop automatically runs the extract-lesson skill at session end via hooks/auto-extract-lesson.sh — the agent self-filters (says 'no lessons to extract' on routine sessions, proposes durable updates when there's signal). Opt out per-session with HORNERO_NO_AUTO_EXTRACT=1.",
-    "_optional_hooks are commented examples — paste into hooks{} when you want stricter guardrails. Aggressive variants (blocking, auto-regen) trade agent ergonomics for invariants; adopt incrementally."
+    "_optional_hooks are examples — merge into hooks{} when you want stricter guardrails. Aggressive variants (blocking, auto-regen) trade agent ergonomics for invariants; adopt incrementally."
   ]
 }
