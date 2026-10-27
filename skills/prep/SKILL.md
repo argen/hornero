@@ -1,6 +1,6 @@
 ---
 name: prep
-description: Use before a meeting, 1:1, design review, vendor call, or QBR — pulls the matching `type: stakeholder` entry, recent `type: decision` and open `type: hypothesis` entries in their scope, and recent ingestion notes, then renders a one-page brief with open asks, likely points of disagreement, and suggested questions.
+description: "Use before a meeting, 1:1, design review, vendor call, or QBR — pulls the matching `type: stakeholder` entry, recent `type: decision` and open `type: hypothesis` entries in their scope, and recent ingestion notes, then renders a one-page brief with open asks, likely points of disagreement, and suggested questions."
 intent: |
   Make a meeting brief mechanical rather than memory-bound. Without this
   skill, the PM walks into a stakeholder meeting carrying a partial

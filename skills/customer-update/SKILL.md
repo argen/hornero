@@ -1,6 +1,6 @@
 ---
 name: customer-update
-description: Use after a meaningful event on a B2B customer account — new metric snapshot, support escalation, SLA event, expansion signal, or a new contact discovered. Appends to the relevant section on the `type: customer` chronicle entry (Usage shape, Health signals, Decision drivers, Stakeholders) via `chronicle.sh append`, keeping the account picture current without forcing a full supersede.
+description: "Use after a meaningful event on a B2B customer account — new metric snapshot, support escalation, SLA event, expansion signal, or a new contact discovered. Appends to the relevant section on the `type: customer` chronicle entry (Usage shape, Health signals, Decision drivers, Stakeholders) via `chronicle.sh append`, keeping the account picture current without forcing a full supersede."
 intent: |
   Make B2B account tending mechanical. Without this skill, account
   signals surface in dashboards, support tickets, and CSM Slack threads

@@ -1,6 +1,6 @@
 ---
 name: stakeholder-update
-description: Use after any meaningful touchpoint with a stakeholder (1:1, ad-hoc Slack, meeting outcome) — appends to the relevant section on their `type: stakeholder` chronicle entry (Open asks, Concerns, Last contact, Decision affinity) via `chronicle.sh append`, keeping the entry current without forcing a full supersede.
+description: "Use after any meaningful touchpoint with a stakeholder (1:1, ad-hoc Slack, meeting outcome) — appends to the relevant section on their `type: stakeholder` chronicle entry (Open asks, Concerns, Last contact, Decision affinity) via `chronicle.sh append`, keeping the entry current without forcing a full supersede."
 intent: |
   Make stakeholder tending mechanical. Without this skill, asks and
   concerns surface in conversation and never land on the person's

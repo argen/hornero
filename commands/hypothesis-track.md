@@ -1,5 +1,5 @@
 ---
-description: Append evidence to an open `type: hypothesis` chronicle entry; surface threshold crossings (falsifier triggered or prediction met) as supersedes proposals. Usage- /hypothesis-track <hypothesis-id>.
+description: "Append evidence to an open `type: hypothesis` chronicle entry; surface threshold crossings (falsifier triggered or prediction met) as supersedes proposals. Usage- /hypothesis-track <hypothesis-id>."
 ---
 
 # /hypothesis-track
