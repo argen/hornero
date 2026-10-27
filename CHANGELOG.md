@@ -26,6 +26,7 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 - `scripts/check-md-links.sh` (with `test-check-md-links.sh`) fails on broken relative Markdown links.
 - `smoke-check.sh` runs `claude plugin validate` on a dereferenced copy of the repo (skipped when the CLI is absent) and the link check; CI installs the CLI and runs the new tests.
 - This changelog.
+- Hardening of the new checks: `validate-skill.sh` also rejects unquoted values with `:<TAB>`, a trailing `:`, a leading `-`/`?`/`,`/`]`/`}`, a ` #` comment start, or an unclosed quote; `check-md-links.sh` ignores inline code spans and `~~~` fences, skips any URI scheme and accepts `<angle>` targets; `smoke-check.sh` validates a tracked-files-only dereferenced copy and no longer aborts on missing validator output; CI pins the Claude Code CLI to 2.1.311 with the auto-updater disabled.
 
 ## [0.3.0] - 2026-05
 
