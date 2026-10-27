@@ -25,9 +25,20 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 - `orchestrate` and `cross-functional-orchestration` state that only `product-manager-reviewer` exists today and that the orchestrator covers unshipped lenses itself.
 - `catalog.sh` and `build-codex-agents.sh` strip surrounding double quotes from frontmatter values.
 - ROADMAP "Releases" section replaced by a pointer to this file.
+- `install.sh --codex` installs skills to the shared `~/.agents/skills/` path (agents and hooks stay under `~/.codex/`) and points to `npx skills add argen/hornero` as the lighter path.
+- `smoke-check.sh` step 8 compares root `plugin.json` against `.claude-plugin/plugin.json` (name, version, `extensions["com.openai"]` present) and checks `mcp.json` server names against the Claude manifest (none declared today, so no `mcp.json` ships).
+- README install sections lead with the marketplace flows; counts now read 59 skills (38 PM, 16 cross-role, 5 command skills; 12 slash-invocable) in the README and plugin descriptions.
+- Descriptions of 15 skills in the finance, problem-framing, memory, discovery, and strategy clusters state what they produce, when to use them, and which sibling to use instead.
+- ROADMAP Distribution: marketplace files ship; public Codex directory submission is blocked because plugins that ship hooks are ineligible.
 
 ### Added
 
+- `.claude-plugin/marketplace.json`: `/plugin marketplace add argen/hornero` then `/plugin install hornero@hornero`.
+- Portable root `plugin.json` (Agent Plugins standard) with Codex settings under `extensions["com.openai"]` (display name, default prompts, `kickoff` as the onboarding skill), and `.agents/plugins/marketplace.json` for the Codex repo marketplace.
+- skills.sh install badge in the README; `npx skills add argen/hornero` verified to discover all 59 skills.
+- `.claude/rules/skills.md`, a path-scoped rule (`skills/**`, `roles/**`, `resources/**`) with the validate-skill, catalog, and validate-resource reminders.
+- `allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)` on `chronicle-recall`, `prep`, and `review`.
+- Stop hook `timeout` (30s) and `statusMessage`; `_comment` notes Claude Code's cap of 8 consecutive Stop-hook continuations.
 - `skills/{orchestrate,role,kickoff,catalog,audit}/SKILL.md` as `type: command` skills (`kickoff`, `catalog`, `audit`, `role` set `disable-model-invocation: true`; `orchestrate` stays model-invocable because the dispatcher routes to it).
 - `.claude/skills -> ../skills` so a session opened at the repo root discovers every skill without the plugin or `install.sh`; `.gitignore` un-ignores it.
 - `validate-skill.sh` fails on unquoted `name`/`description` values containing `: ` or starting with a YAML indicator, fails on descriptions over 1024 characters, and warns over 500 lines; covered by `scripts/test-validate-skill.sh`.
@@ -42,6 +53,7 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 
 ### Removed
 
+- `.codex-plugin/plugin.json`, superseded by the root `plugin.json`.
 - `commands/` and the `.claude/commands` symlink (superseded by skills), and `scripts/build-plugin-skills.sh` (no symlinks left to generate).
 - `install.sh` no longer copies to `~/.claude/commands` or `~/.codex/prompts`; skills replace both. Claude Code users type `/<name>`. Codex has no `disable-model-invocation` and no prompts directory here, so a Codex user invokes a skill explicitly by typing `$` or using `/skills` to mention it (for example `$orchestrate`), or implicitly by describing the task in natural language.
 
