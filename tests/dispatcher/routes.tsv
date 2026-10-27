@@ -18,7 +18,7 @@
 
 # ── Artifact intake signals ───────────────────────────────────────────────────
 Here is my PRD, please critique it	prd	product-manager	artifact + critique verb → PRD reviewer mode
-Critique this launch plan	prd	product-manager	launch plan artifact → PRD critique
+Critique this launch plan	cross-functional-orchestration	product-manager	launch plan artifact → PM-as-orchestrator launch readiness
 Here's the positioning deck, review it	positioning-statement	product-manager	positioning artifact
 
 # ── Verb + shape triggers (product-manager skills) ───────────────────────────

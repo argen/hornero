@@ -1,6 +1,6 @@
 ---
 name: cross-functional-orchestration
-description: Use when a PM needs to coordinate cross-functional work — a launch, a contested decision, a roadmap call, a strategic question — by framing it as a customer job, dispatching the right role mix, and synthesising into a product decision.
+description: "Runs cross-functional work as the PM orchestrator: frames a launch, launch-readiness review, contested decision, roadmap call, or strategic question as a customer job, dispatches the right role mix, and synthesises the findings into a product decision with outcomes, success criteria, the alternative considered, and a revisit condition. Use when asked to critique, pressure-test, or sign off a launch plan, or when a question crosses product, engineering, design, marketing, or data. For a single feature spec use prd; for the strategy itself use strategy-kernel."
 role: product-manager
 intent: |
   Composes parallel reviewer dispatch with product-management framing so the PM
