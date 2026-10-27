@@ -213,5 +213,5 @@ Agent: ✗ Estimated 10,247 GB scan ($51.24) exceeds the 100 GB per-call cap.
 - [`resources/bigquery/RESOURCE.md`](../../resources/bigquery/RESOURCE.md) — BigQuery MCP capabilities, dry-run mechanics, partition / clustering guidance, `bq` fallback.
 - [`resources/snowflake/RESOURCE.md`](../../resources/snowflake/RESOURCE.md) — Snowflake MCP capabilities, warehouse-cost gotchas, `snowsql` fallback.
 - [`skills/query-issue-tracker/SKILL.md`](../query-issue-tracker/SKILL.md) — sibling cross-system primitive over Linear / Jira.
-- [`roles/product-manager/skills/prd/SKILL.md`](../../roles/product-manager/skills/prd/SKILL.md) — PRDs that reference live metric counts pull through this skill.
-- [`roles/product-manager/skills/success-metrics/SKILL.md`](../../roles/product-manager/skills/success-metrics/SKILL.md) — metric definitions that need warehouse-backed validation.
+- [`skills/prd/SKILL.md`](../../skills/prd/SKILL.md) — PRDs that reference live metric counts pull through this skill.
+- [`skills/success-metrics/SKILL.md`](../../skills/success-metrics/SKILL.md) — metric definitions that need warehouse-backed validation.

@@ -115,7 +115,7 @@ When a session ends, run it. It scans for surprises and proposes durable deltas 
 
 **The agent doesn't pick up the skill.** The Hornero-as-project flow expects you to be inside the `hornero/` directory when you run `claude` or `codex`. If you're in a different repo and want Hornero available there too, install it as a Claude Code plugin (`claude --plugin-dir <path-to-hornero>`) or run `./install.sh` once to copy roles/skills/subagents into `~/.claude/` globally.
 
-**Skill output feels generic.** The skill's `description` may not be triggering well. Invoke explicitly: *"Use the `prd` skill at `roles/product-manager/skills/prd/SKILL.md`."*
+**Skill output feels generic.** The skill's `description` may not be triggering well. Invoke explicitly: *"Use the `prd` skill at `skills/prd/SKILL.md`."*
 
 **Skills lose anchor sources in the output.** Run `scripts/validate-skill.sh <path>` to check anatomy. If it passes but content is generic, the skill needs editorial review.
 

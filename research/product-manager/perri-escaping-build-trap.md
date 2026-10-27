@@ -29,9 +29,9 @@ The PM who hasn't absorbed Perri will treat AI as a throughput multiplier and co
 
 ## How this anchors role skills
 
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — Perri's outputs-vs-outcomes distinction is the load-bearing argument for why the `prd` skill requires outcome-shaped success metrics. "Ship feature X" as a success criterion is a build-trap artifact.
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — the "outcomes over outputs" synthesis principle in Step 5 cites Perri alongside Wodtke. The "what outcomes will tell us this decision was right?" question is Perri's product kata made explicit.
-- [`okrs`](../../roles/product-manager/skills/okrs/SKILL.md) — Perri's distinction reinforces why OKR Key Results must be outcome metrics, not output milestones. Output-shaped KRs are build-trap signals.
+- [`prd`](../../skills/prd/SKILL.md) — Perri's outputs-vs-outcomes distinction is the load-bearing argument for why the `prd` skill requires outcome-shaped success metrics. "Ship feature X" as a success criterion is a build-trap artifact.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — the "outcomes over outputs" synthesis principle in Step 5 cites Perri alongside Wodtke. The "what outcomes will tell us this decision was right?" question is Perri's product kata made explicit.
+- [`okrs`](../../skills/okrs/SKILL.md) — Perri's distinction reinforces why OKR Key Results must be outcome metrics, not output milestones. Output-shaped KRs are build-trap signals.
 
 ## Cross-role connection
 

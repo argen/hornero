@@ -185,6 +185,6 @@ Which is it?"
 
 - **Chris MDP** — ["Coding with AI"](https://www.chrismdp.com/coding-with-ai/) — the "Spec problems, not solutions" principle is the source for this skill.
 - **Related Hornero skills:**
-  - `roles/product-manager/skills/cross-functional-orchestration/SKILL.md` — its dispatch step (detailed delegation) applies the same principle one level down: each reviewer subagent gets a problem-shaped brief, not a solution-shaped one.
+  - `skills/cross-functional-orchestration/SKILL.md` — its dispatch step (detailed delegation) applies the same principle one level down: each reviewer subagent gets a problem-shaped brief, not a solution-shaped one.
   - `skills/extract-lesson/SKILL.md` — at session end, may propose updates to specs for future similar work.
 - **Tangential discipline:** Marty Cagan's "four risks" framing (value/usability/feasibility/business viability) in `roles/product-manager/sources.md` — problem-shaped specs naturally surface unaddressed risks.

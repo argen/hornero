@@ -30,9 +30,9 @@ Christensen's disruption theory adds a further warning: AI tools may be generati
 
 ## How this anchors role skills
 
-- [`jobs-to-be-done`](../../roles/product-manager/skills/jobs-to-be-done/SKILL.md) — Christensen is the primary anchor. Every section of the skill — the JTBD statement template, the three job dimensions, the four forces, the broad-alternatives requirement, the three tests — is Christensen (with Bob Moesta providing the switch-interview technique).
-- [`positioning-statement`](../../roles/product-manager/skills/positioning-statement/SKILL.md) — the "unlike [primary competitive alternative]" slot in Moore's template is populated from the JTBD's broad-alternatives analysis. Christensen's milkshake research is the example of why the alternative is broader than "other products in the category."
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — Step 1 (frame the question as a customer job) uses JTBD vocabulary: the PM restates the cross-functional ask in terms of the job the customer is hiring the product for before dispatching any role reviewer.
+- [`jobs-to-be-done`](../../skills/jobs-to-be-done/SKILL.md) — Christensen is the primary anchor. Every section of the skill — the JTBD statement template, the three job dimensions, the four forces, the broad-alternatives requirement, the three tests — is Christensen (with Bob Moesta providing the switch-interview technique).
+- [`positioning-statement`](../../skills/positioning-statement/SKILL.md) — the "unlike [primary competitive alternative]" slot in Moore's template is populated from the JTBD's broad-alternatives analysis. Christensen's milkshake research is the example of why the alternative is broader than "other products in the category."
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — Step 1 (frame the question as a customer job) uses JTBD vocabulary: the PM restates the cross-functional ask in terms of the job the customer is hiring the product for before dispatching any role reviewer.
 
 ## Cross-role connection
 

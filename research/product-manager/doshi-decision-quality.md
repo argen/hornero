@@ -29,8 +29,8 @@ The LNO framework — which tasks have leverage, which are neutral, which are ov
 
 ## How this anchors role skills
 
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — Doshi is explicitly cited in Key Concepts: the decision-quality framing, the Type-1/Type-2 structure, and the "reasoning preserved separately from outcome" requirement in the synthesis step.
-- [`okrs`](../../roles/product-manager/skills/okrs/SKILL.md) — Doshi's OKR failure modes are enumerated directly in the skill's Common Pitfalls section.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — Doshi is explicitly cited in Key Concepts: the decision-quality framing, the Type-1/Type-2 structure, and the "reasoning preserved separately from outcome" requirement in the synthesis step.
+- [`okrs`](../../skills/okrs/SKILL.md) — Doshi's OKR failure modes are enumerated directly in the skill's Common Pitfalls section.
 - General prioritization heuristic: when the PM role is asked to triage what to dispatch versus handle directly, LNO is the implicit frame. If a decision is Overhead-level, the PM should not be orchestrating a multi-role-review for it.
 
 ## Cross-role connection

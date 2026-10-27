@@ -29,8 +29,8 @@ The "feature factory" diagnostic — organizations that treat shipping as progre
 
 ## How this anchors role skills
 
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — the North Star / input-output metric structure is the implicit model behind the success-metric + counter-metric requirement. A good PRD metric is an input metric in Cutler's vocabulary.
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — systems thinking surfaces when the PM asks "what does this change affect beyond the immediate feature?" before dispatching role reviewers. Cutler's second-order-effects framing is the reason the skill asks for "what are we *not* doing instead."
+- [`prd`](../../skills/prd/SKILL.md) — the North Star / input-output metric structure is the implicit model behind the success-metric + counter-metric requirement. A good PRD metric is an input metric in Cutler's vocabulary.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — systems thinking surfaces when the PM asks "what does this change affect beyond the immediate feature?" before dispatching role reviewers. Cutler's second-order-effects framing is the reason the skill asks for "what are we *not* doing instead."
 - General: the feature-factory diagnostic is a review heuristic. When the PM role flags a PRD as "output-shaped" or a roadmap as "commitment-not-hypothesis," the citation is Cutler (alongside Perri, who names the same pattern in organizational terms).
 
 ## Cross-role connection

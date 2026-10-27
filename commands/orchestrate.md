@@ -9,7 +9,7 @@ The user wants the PM to orchestrate cross-functional work. **Do not improvise t
 
 ## What to do
 
-1. **Load the skill**: read [`roles/product-manager/skills/cross-functional-orchestration/SKILL.md`](../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) end to end before doing anything else. It is the canonical procedure for this command.
+1. **Load the skill**: read [`skills/cross-functional-orchestration/SKILL.md`](../skills/cross-functional-orchestration/SKILL.md) end to end before doing anything else. It is the canonical procedure for this command.
 
 2. **Load the PM role context**: read [`roles/product-manager/ROLE.md`](../roles/product-manager/ROLE.md) for the mindset, heuristics, and anti-patterns the PM brings as integrator (Cagan, Eriksson's PM Venn, Christensen JTBD, Wodtke outcomes, Doshi decision quality).
 

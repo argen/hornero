@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # catalog.sh — regenerate CATALOG.md from role + skill frontmatter
 #
-# Walks roles/*/ROLE.md, roles/*/skills/*/SKILL.md, and skills/*/SKILL.md
-# and writes a dispatcher-friendly catalog to CATALOG.md at the repo root.
+# Walks roles/*/ROLE.md and skills/*/SKILL.md (grouping skills by their
+# `role:` frontmatter) and writes a dispatcher-friendly catalog to CATALOG.md
+# at the repo root.
 #
 # Run after adding, renaming, or re-describing a role or skill. The
 # generated CATALOG.md is committed so consumers don't need to run
@@ -59,7 +60,24 @@ yaml_field() {
   done
   echo ""
 
+  # Command skills (type: command) are slash commands; role: groups per-role
+  # skills; everything else is cross-role.
   if ls skills/*/SKILL.md >/dev/null 2>&1; then
+    cmd_rows=""
+    cross_rows=""
+    for skill_md in skills/*/SKILL.md; do
+      name=$(yaml_field name "$skill_md")
+      [[ -n "$name" ]] || continue
+      type=$(yaml_field type "$skill_md")
+      desc=$(yaml_field description "$skill_md")
+      row="| \`${name}\` | ${type} | ${desc} |"
+      if [[ "$type" == "command" ]]; then
+        cmd_rows+="${row}"$'\n'
+      elif [[ -z "$(yaml_field role "$skill_md")" ]]; then
+        cross_rows+="${row}"$'\n'
+      fi
+    done
+
     echo "## Cross-role skills"
     echo ""
     echo "> Process skills that any role can invoke."
@@ -67,19 +85,20 @@ yaml_field() {
     echo ""
     echo "| Skill | Type | When to invoke |"
     echo "|---|---|---|"
-    for skill_md in skills/*/SKILL.md; do
-      [[ -f "$skill_md" ]] || continue
-      # Skip plugin-loader symlinks pointing at per-role skills — those are
-      # listed under their role's section below.
-      skill_dir=$(dirname "$skill_md")
-      [[ -L "$skill_dir" ]] && continue
-      name=$(yaml_field name "$skill_md")
-      type=$(yaml_field type "$skill_md")
-      desc=$(yaml_field description "$skill_md")
-      [[ -n "$name" ]] || continue
-      echo "| \`${name}\` | ${type} | ${desc} |"
-    done
+    printf '%s' "$cross_rows"
     echo ""
+
+    if [[ -n "$cmd_rows" ]]; then
+      echo "## Slash commands"
+      echo ""
+      echo "> Skills with \`type: command\`. Typed as \`/<name>\` (\`/hornero:<name>\` when"
+      echo "> installed as a plugin); most are user-invoked only."
+      echo ""
+      echo "| Command | Type | When to invoke |"
+      echo "|---|---|---|"
+      printf '%s' "$cmd_rows"
+      echo ""
+    fi
   fi
 
   if ls resources/*/RESOURCE.md >/dev/null 2>&1; then
@@ -125,22 +144,24 @@ yaml_field() {
     role_name=$(yaml_field name "$role_md")
     [[ -n "$role_name" ]] || continue
 
+    rows=""
+    for skill_md in skills/*/SKILL.md; do
+      [[ "$(yaml_field role "$skill_md")" == "$(basename "$role_dir")" ]] || continue
+      name=$(yaml_field name "$skill_md")
+      type=$(yaml_field type "$skill_md")
+      desc=$(yaml_field description "$skill_md")
+      [[ -n "$name" ]] || continue
+      rows+="| \`${name}\` | ${type} | ${desc} |"$'\n'
+    done
+
     # Skip if the role has no shipped skills yet.
-    if ! ls "$role_dir"/skills/*/SKILL.md >/dev/null 2>&1; then
-      continue
-    fi
+    [[ -n "$rows" ]] || continue
 
     echo "### ${role_name}"
     echo ""
     echo "| Skill | Type | When to invoke |"
     echo "|---|---|---|"
-    for skill_md in "$role_dir"/skills/*/SKILL.md; do
-      name=$(yaml_field name "$skill_md")
-      type=$(yaml_field type "$skill_md")
-      desc=$(yaml_field description "$skill_md")
-      [[ -n "$name" ]] || continue
-      echo "| \`${name}\` | ${type} | ${desc} |"
-    done
+    printf '%s' "$rows"
     echo ""
   done
 

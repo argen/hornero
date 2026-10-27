@@ -76,7 +76,7 @@ When a second role lands, the parallel `multi-role-review` path activates (paral
 
 ### Bet-portfolio refactor (PM)
 
-Follow-on now that `hypothesis-track` is shipped: `roles/product-manager/skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Waits on enough real-chronicle hypothesis content to design the aggregation against.
+Follow-on now that `hypothesis-track` is shipped: `skills/bet-portfolio/SKILL.md` becomes an aggregator over open `type: hypothesis` chronicle entries instead of a standalone artifact. Waits on enough real-chronicle hypothesis content to design the aggregation against.
 
 ### Distribution
 

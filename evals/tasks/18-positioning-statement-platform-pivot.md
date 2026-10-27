@@ -31,7 +31,7 @@ Three seeded issues: (1) "mid-market" is unscoped (5K-employee firms? 500-employ
 
 **How to run:**
 
-1. Place the positioning statement at `evals/runs/18-positioning-statement-platform-pivot/artifact.md` (the `roles/product-manager/skills/positioning-statement/SKILL.md` Examples section has the structure).
+1. Place the positioning statement at `evals/runs/18-positioning-statement-platform-pivot/artifact.md` (the `skills/positioning-statement/SKILL.md` Examples section has the structure).
 2. Invoke `multi-role-review` with product-manager + marketing-expert (2 roles).
 3. Score, with attention to whether each of the 3 seeded issues surfaced with a named citation.
 

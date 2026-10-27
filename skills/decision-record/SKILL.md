@@ -36,7 +36,7 @@ The skill exists because the most expensive failure mode in AI-assisted work is 
 
 ### The Rumelt shape
 
-A decision record borrows Rumelt's strategy kernel ([`roles/product-manager/skills/strategy-kernel`](../../roles/product-manager/skills/strategy-kernel/SKILL.md)) compressed into a record:
+A decision record borrows Rumelt's strategy kernel ([`skills/strategy-kernel`](../../skills/strategy-kernel/SKILL.md)) compressed into a record:
 
 1. **Diagnosis** — one paragraph naming the central challenge the decision is responding to. The crux, not a list of considerations.
 2. **Decision** — one sentence stating what was chosen.
@@ -52,7 +52,7 @@ This skill overlaps with two existing artifacts and is deliberately distinct fro
 | Artifact | Owner | Scope |
 |---|---|---|
 | `adr` (a future `software-engineer` role skill) | software-engineer role | Architectural decisions — system topology, framework choice, data-model trade-offs |
-| [`skills-prd`](../../roles/product-manager/skills/prd/SKILL.md) | product-manager role | Feature specification — problem, hypothesis, success criteria, scope |
+| [`skills-prd`](../../skills/prd/SKILL.md) | product-manager role | Feature specification — problem, hypothesis, success criteria, scope |
 | **`decision-record`** (this skill) | **cross-role** | **Any decision an orchestrated review produces, especially cross-functional ones — pricing, packaging, strategy posture, launch sequencing, bet portfolio, role-mix calls** |
 
 Use ADR for "we chose Postgres over DynamoDB." Use PRD for "we are building search filters." Use `decision-record` for "we are refusing the SMB segment this year" or "we accepted the shadow-column migration over pg_repack after security and DB review."
@@ -221,7 +221,7 @@ Refuse the SMB segment for 2026. All product, marketing, and sales investment go
 ## References
 
 - [`skills/memory-query`](../memory-query/SKILL.md) — the read side; how reviewer agents and future sessions scan `memory/decisions/` before proposing.
-- [`roles/product-manager/skills/strategy-kernel`](../../roles/product-manager/skills/strategy-kernel/SKILL.md) — the longer-form Rumelt artifact this record is a compressed instance of.
+- [`skills/strategy-kernel`](../../skills/strategy-kernel/SKILL.md) — the longer-form Rumelt artifact this record is a compressed instance of.
 - a future `software-engineer` role's `adr` skill — engineer-scoped sibling artifact; use ADR for architectural decisions, decision-record for cross-role ones.
 - [`playbooks/memory-loop.md`](../../playbooks/memory-loop.md) — the read-decide-write cycle, worked end-to-end.
 - Richard Rumelt, *Good Strategy / Bad Strategy* (2011) — diagnosis / guiding policy / coherent actions, the kernel this record borrows. The "alternatives rejected" section is Rumelt's discipline ported into ADR-style format.

@@ -114,12 +114,11 @@ Installs skills → `~/.codex/skills/`, reviewer agents → `~/.codex/agents/` (
 
 ### Build-time scripts
 
-If you add a new skill or edit an agent definition, two generators keep the plugin layouts in sync:
+If you edit an agent definition, one generator keeps the Codex layout in sync (skills need no generator: every skill is a real directory at `skills/<name>/`):
 
-- `./scripts/build-plugin-skills.sh` — refreshes the top-level `skills/<name>/` symlinks Claude Code's plugin loader reads.
 - `./scripts/build-codex-agents.sh` — regenerates the `.codex/agents/<name>.toml` files Codex reads from the canonical `agents/<name>.md` Markdown sources.
 
-Both are idempotent. `scripts/smoke-check.sh` fails loudly if either gets out of sync.
+It is idempotent. `scripts/smoke-check.sh` fails loudly if it gets out of sync.
 
 ### CI + local guards
 
@@ -169,7 +168,7 @@ For launches, contested decisions, or any question that crosses concerns, invoke
 /orchestrate Plan the v2 launch — is it ready?
 ```
 
-The PM frames the request as a customer job, runs the work through [`cross-functional-orchestration`](roles/product-manager/skills/cross-functional-orchestration/SKILL.md), and synthesises into a *product decision* — outcomes, success criteria, the alternative considered, the revisit condition — rather than a pile of opinions.
+The PM frames the request as a customer job, runs the work through [`cross-functional-orchestration`](skills/cross-functional-orchestration/SKILL.md), and synthesises into a *product decision* — outcomes, success criteria, the alternative considered, the revisit condition — rather than a pile of opinions.
 
 ### Process commands
 

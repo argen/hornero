@@ -193,6 +193,6 @@ Open WIP (in-progress) instead — 7 issues, top 5 by age:
 
 - [`resources/linear/RESOURCE.md`](../../resources/linear/RESOURCE.md) — Linear MCP capabilities, auth, object model, fallback recipes.
 - [`resources/jira/RESOURCE.md`](../../resources/jira/RESOURCE.md) — Jira MCP capabilities, JQL guidance, fallback recipes.
-- [`roles/product-manager/skills/linear-triage/SKILL.md`](../../roles/product-manager/skills/linear-triage/SKILL.md) — Linear-specific weekly triage workflow that uses this primitive as input.
-- [`roles/product-manager/skills/prd/SKILL.md`](../../roles/product-manager/skills/prd/SKILL.md) — PRDs that reference live tracker state pull through this skill.
+- [`skills/linear-triage/SKILL.md`](../../skills/linear-triage/SKILL.md) — Linear-specific weekly triage workflow that uses this primitive as input.
+- [`skills/prd/SKILL.md`](../../skills/prd/SKILL.md) — PRDs that reference live tracker state pull through this skill.
 - [`skills/prep/SKILL.md`](../prep/SKILL.md) — meeting briefs that include "what's currently open for this person/project".

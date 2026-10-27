@@ -29,9 +29,9 @@ Where Cagan defines what discovery *is*, Torres operationalises how it *runs* �
 
 ## How this anchors role skills
 
-- [`discovery-interview-prep`](../../roles/product-manager/skills/discovery-interview-prep/SKILL.md) — Torres is the primary anchor: the OST as the destination for interview evidence, the weekly cadence as the operating constraint, and the snapshot discipline as the post-interview synthesis requirement.
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — the evidence section of a PRD traces directly to interview snapshots and OST placement. A claim marked "assumed" vs. "validated" uses Torres' assumption-test vocabulary.
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — the weekly customer-touchpoint frequency in the orchestration cadence is Torres' cadence discipline. The "evidence available" field in a decision recommendation distinguishes snapshot-backed claims from internal hypotheses.
+- [`discovery-interview-prep`](../../skills/discovery-interview-prep/SKILL.md) — Torres is the primary anchor: the OST as the destination for interview evidence, the weekly cadence as the operating constraint, and the snapshot discipline as the post-interview synthesis requirement.
+- [`prd`](../../skills/prd/SKILL.md) — the evidence section of a PRD traces directly to interview snapshots and OST placement. A claim marked "assumed" vs. "validated" uses Torres' assumption-test vocabulary.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — the weekly customer-touchpoint frequency in the orchestration cadence is Torres' cadence discipline. The "evidence available" field in a decision recommendation distinguishes snapshot-backed claims from internal hypotheses.
 
 ## Cross-role connection
 

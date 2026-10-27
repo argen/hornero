@@ -29,9 +29,9 @@ Gilad's Confidence Meter — which scores not the idea but the evidence quality 
 
 ## How this anchors role skills
 
-- [`prd`](../../roles/product-manager/skills/prd/SKILL.md) — Gilad's evidence-quality vocabulary ("assumed," "anecdote-backed," "tested," "validated") maps directly to the PRD's evidence section. A PRD that marks assumptions honestly is GIST-compatible; one that presents all claims as validated is a Confidence Meter failure.
-- [`okrs`](../../roles/product-manager/skills/okrs/SKILL.md) — the OKR skill's References cite Gilad as the evidence-weighting complement to Wodtke's focus discipline. GIST Goals are OKR-shaped; GIST Ideas require confidence scoring before roadmap commitment.
-- [`cross-functional-orchestration`](../../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — the "evidence available" field in the decision recommendation is Gilad's Confidence Meter applied to a cross-functional decision. Distinguishes snapshot-backed claims from internal hypotheses.
+- [`prd`](../../skills/prd/SKILL.md) — Gilad's evidence-quality vocabulary ("assumed," "anecdote-backed," "tested," "validated") maps directly to the PRD's evidence section. A PRD that marks assumptions honestly is GIST-compatible; one that presents all claims as validated is a Confidence Meter failure.
+- [`okrs`](../../skills/okrs/SKILL.md) — the OKR skill's References cite Gilad as the evidence-weighting complement to Wodtke's focus discipline. GIST Goals are OKR-shaped; GIST Ideas require confidence scoring before roadmap commitment.
+- [`cross-functional-orchestration`](../../skills/cross-functional-orchestration/SKILL.md) — the "evidence available" field in the decision recommendation is Gilad's Confidence Meter applied to a cross-functional decision. Distinguishes snapshot-backed claims from internal hypotheses.
 
 ## Cross-role connection
 

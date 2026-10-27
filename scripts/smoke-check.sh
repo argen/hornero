@@ -48,7 +48,7 @@ bad() { echo "  ✗ $1" >&2; FAIL=$((FAIL+1)); }
 step "validate-skill.sh on every shipped SKILL.md"
 
 SKILLS=()
-while IFS= read -r line; do SKILLS+=("$line"); done < <(find skills roles -name SKILL.md -type f | sort)
+while IFS= read -r line; do SKILLS+=("$line"); done < <(find skills -name SKILL.md -type f | sort)
 echo "  scanning ${#SKILLS[@]} skill files..."
 
 if ./scripts/validate-skill.sh "${SKILLS[@]}" >/tmp/hornero-validate.log 2>&1; then
@@ -111,13 +111,12 @@ RESOLVE_FAIL=0
 CATALOG_NAMES=()
 while IFS= read -r line; do CATALOG_NAMES+=("$line"); done < <(grep -E "^\| \`[a-z][a-z0-9-]+\`" CATALOG.md | sed -E 's/^\| `([^`]+)`.*/\1/' | sort -u)
 
-# Build a set of valid names from the filesystem: cross-role skills, per-role
-# skills, role names, and resources. Anything CATALOG.md references must resolve
+# Build a set of valid names from the filesystem: skills, role names, and
+# resources. Anything CATALOG.md references must resolve
 # to one of these.
 FS_NAMES=()
 while IFS= read -r line; do FS_NAMES+=("$line"); done < <(
   find skills -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
-  find roles -mindepth 3 -maxdepth 3 -type d -path "*/skills/*" -exec basename {} \;
   find roles -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
   find resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \; 2>/dev/null
 )
@@ -143,7 +142,7 @@ DRY_HOME=$(mktemp -d); mkdir -p "$DRY_HOME/.claude"
 HOME="$DRY_HOME" ./install.sh --dry-run >"$DRY_LOG" 2>&1 || true
 rm -rf "$DRY_HOME"
 
-expected_skills=$(find skills roles -name SKILL.md -type f | wc -l | tr -d ' ')
+expected_skills=$(find skills -mindepth 2 -type f | wc -l | tr -d ' ')
 expected_agents=$(find agents -maxdepth 1 -name '*.md' -type f | wc -l | tr -d ' ')
 expected_commands=$(find commands -maxdepth 1 -name '*.md' -type f 2>/dev/null | wc -l | tr -d ' ')
 expected_resources=$(find resources -mindepth 2 -maxdepth 2 -name RESOURCE.md -type f 2>/dev/null | wc -l | tr -d ' ')
@@ -157,39 +156,29 @@ else
   bad "install.sh --dry-run mismatch: expected $expected_total, got $actual_total (see $DRY_LOG)"
 fi
 
-# ─── Step 7: plugin-skill symlink integrity ──────────────────────────
-step "plugin skill symlinks (skills/<name> → roles/<role>/skills/<skill>)"
+# ─── Step 7: flat skills layout ───────────────────────────────────────
+step "skills/ layout (no symlinks; role: names a real role)"
 
-SYM_FAIL=0
+LAYOUT_FAIL=0
 
-# 7a. Every per-role skill must have a top-level symlink at skills/<name>.
-missing_symlinks=0
-for skill_md in roles/*/skills/*/SKILL.md; do
-  skill_name=$(basename "$(dirname "$skill_md")")
-  link="skills/$skill_name"
-  if [[ ! -L "$link" ]]; then
-    bad "missing plugin symlink: $link (run scripts/build-plugin-skills.sh)"
-    missing_symlinks=$((missing_symlinks+1))
-    SYM_FAIL=1
-  elif [[ ! -e "$link" ]]; then
-    bad "dangling plugin symlink: $link → $(readlink "$link")"
-    SYM_FAIL=1
+while IFS= read -r link; do
+  bad "symlink under skills/: $link (skills must be real directories)"
+  LAYOUT_FAIL=1
+done < <(find skills -type l)
+
+for skill_md in skills/*/SKILL.md; do
+  role=$(awk '/^---$/{c++; next} c==1 && /^role:/{sub(/^role:[[:space:]]*/,""); print; exit}' "$skill_md")
+  [[ -z "$role" ]] && continue
+  if [[ ! -f "roles/${role}/ROLE.md" ]]; then
+    bad "$skill_md: role '$role' has no roles/${role}/ROLE.md"
+    LAYOUT_FAIL=1
   fi
 done
 
-# 7b. Every top-level symlink in skills/ must point at a real per-role skill.
-for entry in skills/*; do
-  [[ -L "$entry" ]] || continue
-  if [[ ! -e "$entry" ]]; then
-    bad "dangling plugin symlink: $entry → $(readlink "$entry")"
-    SYM_FAIL=1
-  fi
-done
-
-if [[ $SYM_FAIL -eq 0 ]]; then
-  per_role_count=$(find skills -mindepth 1 -maxdepth 1 -type l | wc -l | tr -d ' ')
-  cross_role_count=$(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-  ok "$per_role_count per-role symlinks + $cross_role_count cross-role dirs all resolve"
+if [[ $LAYOUT_FAIL -eq 0 ]]; then
+  role_skill_count=$(grep -l '^role:' skills/*/SKILL.md | wc -l | tr -d ' ')
+  total_skill_count=$(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+  ok "$total_skill_count skill dirs, none symlinked; $role_skill_count carry a valid role:"
 fi
 
 # ─── Step 8: Codex plugin manifest + agent TOMLs ──────────────────────
@@ -304,10 +293,10 @@ while IFS= read -r skill_md; do
       XREF_FAIL=1
     fi
   done
-done < <(find skills roles -name SKILL.md -type f ! -path "skills/*/RESOURCE.md")
+done < <(find skills -name SKILL.md -type f)
 
 # 10b. Every RESOURCE.md `used_by:` slug must resolve to a real SKILL.md.
-#      Slug shape: `<role-or-bare>/<skill>` — bare means cross-role at skills/<skill>.
+#      Slug shape: `<skill>` (a legacy `<role>/<skill>` prefix is tolerated).
 #      Parses both YAML shapes (inline `used_by: [a, b]` and block list `- a\n- b`).
 #      Known limitation: only verifies the file path resolves; does not catch the
 #      case where a stale `<role>/` prefix happens to coincide with another real
@@ -325,13 +314,8 @@ if [[ -d resources ]]; then
     for ref in $refs; do
       # Strip quotes if present
       ref="${ref//\"/}"; ref="${ref//\'/}"
-      if [[ "$ref" == */* ]]; then
-        role="${ref%%/*}"
-        skill="${ref##*/}"
-        target="roles/${role}/skills/${skill}/SKILL.md"
-      else
-        target="skills/${ref}/SKILL.md"
-      fi
+      # A legacy "<role>/" prefix is tolerated; skills are flat now.
+      target="skills/${ref##*/}/SKILL.md"
       if [[ ! -f "$target" ]]; then
         bad "$res_md back-references $ref but $target does not exist"
         XREF_FAIL=1

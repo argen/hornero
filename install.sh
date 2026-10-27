@@ -17,7 +17,7 @@
 #   ./install.sh --list-resources   # print the resource catalog (no install)
 #
 # What gets installed where:
-#   Claude target: skills (cross-role + per-role) → ~/.claude/skills/
+#   Claude target: skills (flat, one dir per skill) → ~/.claude/skills/
 #                  reviewer agent              → ~/.claude/agents/
 #                  slash commands               → ~/.claude/commands/
 #                  resource cards (read-only)   → ~/.claude/hornero-resources/
@@ -177,7 +177,8 @@ copy_file() {
 
 install_skill() {
   local src="$1" name="$2"
-  copy_file "$src" "${CLAUDE_DIR}/skills/${name}/SKILL.md" "skill: ${name}"
+  local rel="${src#${REPO_DIR}/skills/${name}/}"
+  copy_file "$src" "${CLAUDE_DIR}/skills/${name}/${rel}" "skill: ${name}/${rel}"
 }
 
 install_agent() {
@@ -200,7 +201,8 @@ install_codex_command() {
 
 install_codex_skill() {
   local src="$1" name="$2"
-  copy_file "$src" "${CODEX_DIR}/skills/${name}/SKILL.md" "codex skill: ${name}"
+  local rel="${src#${REPO_DIR}/skills/${name}/}"
+  copy_file "$src" "${CODEX_DIR}/skills/${name}/${rel}" "codex skill: ${name}/${rel}"
 }
 
 install_codex_agent() {
@@ -229,19 +231,11 @@ install_resource_cards() {
 
 # ---------- Claude install ----------
 if want_claude; then
-  echo "Claude — cross-role skills:"
+  echo "Claude — skills:"
   while IFS= read -r -d '' file; do
     name=$(basename "$(dirname "$file")")
     install_skill "$file" "$name"
-  done < <(find "${REPO_DIR}/skills" -name "SKILL.md" -print0 2>/dev/null)
-
-  echo
-  echo "Claude — per-role skills:"
-  while IFS= read -r -d '' file; do
-    role=$(basename "$(dirname "$(dirname "$file")")")
-    skill=$(basename "$(dirname "$file")")
-    install_skill "$file" "${role}-${skill}"
-  done < <(find "${REPO_DIR}/roles" -path "*/skills/*/SKILL.md" -print0 2>/dev/null)
+  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f -print0 2>/dev/null)
 
   echo
   echo "Claude — reviewer agent:"
@@ -269,21 +263,11 @@ fi
 # ---------- Codex install ----------
 if want_codex; then
   echo
-  echo "Codex — cross-role skills (→ ${CODEX_DIR}/skills/):"
+  echo "Codex — skills (→ ${CODEX_DIR}/skills/):"
   while IFS= read -r -d '' file; do
     name=$(basename "$(dirname "$file")")
     install_codex_skill "$file" "$name"
-  done < <(find "${REPO_DIR}/skills" -maxdepth 2 -name "SKILL.md" -type f -print0 2>/dev/null)
-
-  echo
-  echo "Codex — per-role skills (flat plugin layout):"
-  # Iterate per-role skills via their canonical roles/ path; install with flat
-  # names (matching the .codex-plugin/plugin.json skills layout the same way
-  # PR #21's top-level skills/<name>/ symlinks do for Claude).
-  while IFS= read -r -d '' file; do
-    skill=$(basename "$(dirname "$file")")
-    install_codex_skill "$file" "${skill}"
-  done < <(find "${REPO_DIR}/roles" -path "*/skills/*/SKILL.md" -type f -print0 2>/dev/null)
+  done < <(find "${REPO_DIR}/skills" -mindepth 2 -type f -print0 2>/dev/null)
 
   echo
   echo "Codex — reviewer agent (TOML → ${CODEX_DIR}/agents/):"

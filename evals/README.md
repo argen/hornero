@@ -185,6 +185,6 @@ evals/
 
 ## Related Hornero skills
 
-- [`roles/product-manager/skills/cross-functional-orchestration`](../roles/product-manager/skills/cross-functional-orchestration/SKILL.md) — the PM-orchestrator composition tested in launch-shaped tasks.
+- [`skills/cross-functional-orchestration`](../skills/cross-functional-orchestration/SKILL.md) — the PM-orchestrator composition tested in launch-shaped tasks.
 - a future `data-scientist` role's `experiment-design` skill — pre-registration discipline applied here.
 - a future `data-scientist` role's `metric-definition` skill — the rubric dimensions are themselves metrics; the same definitional discipline applies (counter-metric, owner, gaming surface).

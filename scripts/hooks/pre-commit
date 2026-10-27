@@ -13,7 +13,7 @@ cd "$ROOT"
 echo "↪ hornero pre-commit"
 
 SKILLS=()
-while IFS= read -r f; do SKILLS+=("$f"); done < <(find skills roles -name SKILL.md -type f | sort)
+while IFS= read -r f; do SKILLS+=("$f"); done < <(find skills -name SKILL.md -type f | sort)
 ./scripts/validate-skill.sh "${SKILLS[@]}" >/dev/null
 
 if compgen -G "resources/*/RESOURCE.md" > /dev/null; then

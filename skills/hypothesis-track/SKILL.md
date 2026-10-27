@@ -154,5 +154,5 @@ Agent: Appending — `2026-05-20 — verbal — Discovery: admin at <team> said 
 - [`skills/chronicle-record/SKILL.md`](../chronicle-record/SKILL.md) — original write side; this skill is the post-commit growth path.
 - [`skills/chronicle-recall/SKILL.md`](../chronicle-recall/SKILL.md) — read side; useful for surfacing related hypotheses or prior evidence before recording a new row.
 - [`skills/review/SKILL.md`](../review/SKILL.md) — weekly sweep; flags hypotheses where this skill should be invoked.
-- [`roles/product-manager/skills/bet-portfolio/SKILL.md`](../../roles/product-manager/skills/bet-portfolio/SKILL.md) — slated for refactor to aggregate over open hypothesis entries once this skill is in use.
+- [`skills/bet-portfolio/SKILL.md`](../../skills/bet-portfolio/SKILL.md) — slated for refactor to aggregate over open hypothesis entries once this skill is in use.
 - [PM Brain — `/hypothesis-track`](https://github.com/phuryn/pm-brain) — design influence.

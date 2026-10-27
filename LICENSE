@@ -22,7 +22,7 @@ SOFTWARE.
 
 ----
 
-Note on incorporated frameworks: Hornero's `roles/*/skills/*/SKILL.md` files
+Note on incorporated frameworks: Hornero's `skills/*/SKILL.md` files
 synthesise frameworks, vocabularies, and heuristics from the authors and works
 named in each role's `sources.md` and in the top-level `ATTRIBUTION.md`. Those
 underlying works remain the intellectual property of their respective authors
