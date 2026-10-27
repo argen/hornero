@@ -60,6 +60,27 @@ r=$(new_repo dirlink)
 printf '[d](sub)\n' > "$r/README.md"
 expect "directory targets resolve" 0 "" "$r"
 
+r=$(new_repo codespan)
+printf 'Use `[x](nope.md)` syntax and `a](b)` too. [real](README.md)\n' > "$r/README.md"
+expect "links inside inline code spans are ignored" 0 "" "$r"
+
+r=$(new_repo scheme)
+printf '[a](ftp://x.com/f) [b](tel:+123) [c](vscode://file/x) [d](data:text/plain,hi)\n' > "$r/README.md"
+expect "any URI scheme is skipped" 0 "" "$r"
+
+r=$(new_repo angle)
+echo x > "$r/sub/with space.md"
+printf '[a](<sub/with space.md>)\n' > "$r/README.md"
+expect "angle-bracket target with spaces resolves" 0 "" "$r"
+
+r=$(new_repo angle_broken)
+printf '[a](<sub/no such.md>)\n' > "$r/README.md"
+expect "broken angle-bracket target fails" 1 "README.md -> sub/no such.md" "$r"
+
+r=$(new_repo tilde)
+printf '~~~\n[a](nope.md)\n~~~\n[b](README.md)\n' > "$r/README.md"
+expect '~~~ fences are ignored like backtick fences' 0 "" "$r"
+
 echo
 echo "  ${PASS} passed, ${FAIL} failed"
 [[ $FAIL -eq 0 ]]
