@@ -35,7 +35,7 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 
 - `.claude-plugin/marketplace.json`: `/plugin marketplace add argen/hornero` then `/plugin install hornero@hornero`.
 - Portable root `plugin.json` (Agent Plugins standard) with Codex settings under `extensions["com.openai"]` (display name, default prompts, `kickoff` as the onboarding skill), and `.agents/plugins/marketplace.json` for the Codex repo marketplace.
-- skills.sh install badge in the README; `npx skills add argen/hornero` verified to discover all 59 skills.
+- skills.sh install path (`npx skills add argen/hornero`); a local `npx skills add` run discovered all 59 skills.
 - `.claude/rules/skills.md`, a path-scoped rule (`skills/**`, `roles/**`, `resources/**`) with the validate-skill, catalog, and validate-resource reminders.
 - `allowed-tools: Read, Grep, Glob, Bash(scripts/chronicle.sh *)` on `chronicle-recall`, `prep`, and `review`.
 - Stop hook `timeout` (30s) and `statusMessage`; `_comment` notes Claude Code's cap of 8 consecutive Stop-hook continuations.

@@ -1,7 +1,5 @@
 # Hornero
 
-[![Install with skills](https://skills.sh/b/argen/hornero)](https://skills.sh/argen/hornero)
-
 ```
                             .--.
                           .'    \__
@@ -109,6 +107,8 @@ codex plugin marketplace add argen/hornero
 ```
 
 Then install the `hornero` plugin from the Plugins Directory. Trade-off: Codex treats plugin hooks as untrusted until you review them, and a plugin that ships hooks is not eligible for the public Codex directory. Hornero keeps `hooks/hooks.json` because Claude Code needs it.
+
+The marketplace entry uses the documented `url` source for a plugin at the repository root. It has not been tested against a live Codex install.
 
 **Lighter path: skills only, any agent.** Skills install to the cross-agent `~/.agents/skills/` path shared by Codex, Cursor, Copilot, Gemini CLI and others:
 

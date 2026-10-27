@@ -1,11 +1,14 @@
 {
   "name": "hornero",
+  "interface": {
+    "displayName": "Hornero"
+  },
   "plugins": [
     {
       "name": "hornero",
       "source": {
-        "source": "local",
-        "path": "./"
+        "source": "url",
+        "url": "https://github.com/argen/hornero.git"
       },
       "policy": {
         "installation": "AVAILABLE",
