@@ -138,7 +138,10 @@ done
 step "install.sh --dry-run count"
 
 DRY_LOG=/tmp/hornero-dry.log
-./install.sh --dry-run >"$DRY_LOG" 2>&1 || true
+# install.sh refuses to run without ~/.claude; CI runners have none, so point HOME at a scratch dir.
+DRY_HOME=$(mktemp -d); mkdir -p "$DRY_HOME/.claude"
+HOME="$DRY_HOME" ./install.sh --dry-run >"$DRY_LOG" 2>&1 || true
+rm -rf "$DRY_HOME"
 
 expected_skills=$(find skills roles -name SKILL.md -type f | wc -l | tr -d ' ')
 expected_agents=$(find agents -maxdepth 1 -name '*.md' -type f | wc -l | tr -d ' ')
