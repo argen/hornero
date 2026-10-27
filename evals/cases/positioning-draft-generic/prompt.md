@@ -4,6 +4,8 @@ description: "Critique a positioning draft whose slots are all filled with gener
 tags: [artifact]
 runs: 2
 max_turns: 12
+env:
+  EVAL_HORNERO_NO_AUTO_EXTRACT: "1"
 allowed_tools: [Read, Glob, Grep, Skill, Agent]
 expected_outcome: "The positioning-statement skill is invoked; the critique names the generic slots (status quo alternative, adjective claims, unscoped segment) and proposes a tighter segment."
 ---

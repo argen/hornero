@@ -7,6 +7,7 @@ All notable changes to Hornero are documented here. The format follows [Keep a C
 ### Added
 
 - `claude plugin eval` suite under `evals/cases/`: 25 routing cases (one per natural-language row of `tests/dispatcher/routes.tsv`, graded on the skill that fired) and 7 PM-lens artifact cases with an `llm` quality grader. `validate-dispatcher.sh` Check 4 keeps routes.tsv and the routing cases in sync.
+- `EVAL_HORNERO_NO_AUTO_EXTRACT=1` opt-out in `hooks/auto-extract-lesson.sh`, set by every eval case so the Stop hook's extra lesson turn does not alter graded output.
 - `.github/workflows/evals.yml`: opt-in (`workflow_dispatch` plus weekly) eval run; needs the `ANTHROPIC_API_KEY` secret. `ci.yml` does not run evals.
 
 ### Removed

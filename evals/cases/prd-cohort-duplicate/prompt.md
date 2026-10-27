@@ -4,6 +4,8 @@ description: "Critique a PRD for the duplicate-cohort feature as a product manag
 tags: [artifact]
 runs: 2
 max_turns: 12
+env:
+  EVAL_HORNERO_NO_AUTO_EXTRACT: "1"
 allowed_tools: [Read, Glob, Grep, Skill, Agent]
 expected_outcome: "The prd skill is invoked in reviewer mode; the critique flags the missing counter-metric, the vague 'immediately edit' definition and the unbudgeted schema change, and ends with ranked actions."
 ---

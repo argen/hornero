@@ -4,6 +4,8 @@ description: "Critique a Moore-template positioning statement for a platform piv
 tags: [artifact]
 runs: 2
 max_turns: 12
+env:
+  EVAL_HORNERO_NO_AUTO_EXTRACT: "1"
 allowed_tools: [Read, Glob, Grep, Skill, Agent]
 expected_outcome: "The positioning-statement skill is invoked; the critique flags unscoped 'mid-market', 'AI-powered' as adjective marketing, and the weak competitive-alternative framing."
 ---

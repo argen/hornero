@@ -4,6 +4,8 @@ description: "Critique a polished but solution-shaped PRD for search relevance."
 tags: [artifact]
 runs: 2
 max_turns: 12
+env:
+  EVAL_HORNERO_NO_AUTO_EXTRACT: "1"
 allowed_tools: [Read, Glob, Grep, Skill, Agent]
 expected_outcome: "The prd skill is invoked; the critique names the solution-shaped problem statement, the success metric untied to behaviour, and the absent counter-metric."
 ---

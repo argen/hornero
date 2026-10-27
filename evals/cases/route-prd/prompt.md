@@ -4,6 +4,8 @@ description: "Natural-language prompt routes to the prd skill."
 tags: [routing]
 runs: 1
 max_turns: 4
+env:
+  EVAL_HORNERO_NO_AUTO_EXTRACT: "1"
 allowed_tools: [Read, Glob, Grep, Skill]
 expected_outcome: "The prd skill is invoked. The artifact is inline so the routing test is fair, since runs start in an empty workspace."
 ---
