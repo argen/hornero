@@ -367,7 +367,27 @@ else
   bad "scripts/validate-dispatcher.sh missing or not executable"
 fi
 
-# ─── Step 13 (optional): real install + verify ────────────────────────
+# ─── Step 13: claude plugin validate on a dereferenced copy ──────────
+step "claude plugin validate (dereferenced copy)"
+
+if ! command -v claude >/dev/null 2>&1; then
+  echo "  skipped: claude CLI not installed"
+else
+  DEREF="$(mktemp -d)"
+  # The validator does not follow symlinks; a running session does. Without --strict:
+  # --strict also fails on directory-profile warnings (icon, CLAUDE.md at root).
+  while IFS= read -r entry; do cp -RL "$entry" "$DEREF/"; done < <(find . -mindepth 1 -maxdepth 1 ! -name .git)
+  find "$DEREF" -name .DS_Store -delete
+  if claude plugin validate "$DEREF" >/tmp/hornero-plugin-validate.log 2>&1; then
+    ok "claude plugin validate passed (errors only; warnings tolerated)"
+  else
+    bad "claude plugin validate failed (see /tmp/hornero-plugin-validate.log)"
+    grep -E '✘|❯' /tmp/hornero-plugin-validate.log | head -20 >&2
+  fi
+  rm -rf "$DEREF"
+fi
+
+# ─── Step 14 (optional): real install + verify ────────────────────────
 if [[ $INSTALL -eq 1 ]]; then
   step "install.sh against ~/.claude"
 
