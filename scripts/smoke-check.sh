@@ -231,6 +231,16 @@ for src in agents/*.md; do
     CODEX_FAIL=1
     continue
   fi
+  # Codex ignores sandbox_mode in custom agent files (subagents inherit the parent
+  # sandbox), so a generated TOML carrying it is stale; it must set an effort instead.
+  if grep -q '^sandbox_mode' "$target"; then
+    bad "stale sandbox_mode in $target (run scripts/build-codex-agents.sh)"
+    CODEX_FAIL=1
+  fi
+  if ! grep -q '^model_reasoning_effort = "medium"' "$target"; then
+    bad "missing model_reasoning_effort in $target (run scripts/build-codex-agents.sh)"
+    CODEX_FAIL=1
+  fi
   # Description in TOML must match description in Markdown frontmatter.
   md_desc=$(awk '/^---$/{c++; next} c==1 && /^description:/{sub(/^description:[[:space:]]*/,""); print; exit}' "$src")
   toml_desc=$(python3 -c "import tomllib; print(tomllib.load(open('${target}','rb')).get('description',''))" 2>/dev/null)

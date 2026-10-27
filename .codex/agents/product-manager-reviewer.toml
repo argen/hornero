@@ -3,7 +3,7 @@
 
 name = "product-manager-reviewer"
 description = "Reviewer subagent adopting the product-manager role from Hornero. Use when a product-lens critique of a PRD, roadmap, feature proposal, success-metric, or positioning artifact is needed — frames against customer job, outcomes, and the four big risks. Read-only."
-sandbox_mode = "read-only"
+model_reasoning_effort = "medium"
 
 developer_instructions = '''
 
