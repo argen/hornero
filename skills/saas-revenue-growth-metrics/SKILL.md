@@ -1,6 +1,6 @@
 ---
 name: saas-revenue-growth-metrics
-description: "Explains and critiques SaaS growth and retention metrics (ARR, NRR, GRR, CAC payback, magic number, expansion levers), with the formula, healthy range, and common misread for each. Use when asked to read, sanity-check, or challenge top-of-funnel and retention numbers. For unit economics and capital efficiency (Rule of 40, burn multiple, margins, FCF) use saas-economics-efficiency-metrics; for a one-page lookup of all ~30 metrics use finance-metrics-quickref; for a combined health read use business-health-diagnostic."
+description: "Explains and critiques SaaS growth and retention metrics (ARR, NRR, GRR, CAC payback, magic number, expansion levers), with the formula, healthy range, and common misread for each. Use when asked to read, sanity-check, challenge, or walk through ARR, NRR, GRR, retention, or expansion numbers, including \"tell our ARR/NRR story\" for a board or investor update. For unit economics and capital efficiency (Rule of 40, burn multiple, margins, FCF) use saas-economics-efficiency-metrics; for a one-page lookup of all ~30 metrics use finance-metrics-quickref; for a combined health read use business-health-diagnostic."
 role: product-manager
 intent: |
   Builds fluency in the SaaS revenue metric stack — from how ARR is composed
