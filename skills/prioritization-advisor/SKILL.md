@@ -1,6 +1,6 @@
 ---
 name: prioritization-advisor
-description: Use to triage a backlog or set of options into Do-Now / Defer / Discard — applying LNO, ICE-with-confidence, and the four-risks lens to produce a ranked list with explicit reasoning and rank-change conditions.
+description: "Use to prioritise, rank, or triage a backlog, a list of feature requests, or a set of options into Do-Now / Defer / Discard (for example, \"what goes into next sprint\" or \"rank these items\"), applying LNO, ICE-with-confidence, and the four-risks lens to produce a ranked list with explicit reasoning and rank-change conditions."
 role: product-manager
 intent: |
   Triages a backlog, set of competing features, or set of strategic options
