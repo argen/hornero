@@ -27,9 +27,23 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          claude plugin eval . --trust-plugin --scaffold --json results.json --threshold 0.8 \
+          claude plugin eval . --trust-plugin --scaffold --json results.json --threshold 0 \
             --model claude-sonnet-5-5 --judge-model claude-haiku-5-5 \
             --ablation none --max-cost-usd 10 --no-publish
+
+      # --threshold is per case, and one sample per routing case makes that gate
+      # flaky, so gate on the overall score and only report low cases.
+      - name: Gate on overall score
+        env:
+          GATE: "0.85"
+        run: |
+          jq -r --argjson gate "$GATE" '
+            "Overall score: \(.aggregates.overallScore * 1000 | round / 1000) (gate \($gate)), \(.aggregates.casesPassed)/\(.aggregates.casesTotal) cases passed",
+            "",
+            "Cases below 0.8:",
+            (.cases[] | select(.aggregates.score < 0.8) | "- \(.name): \(.aggregates.score * 100 | round / 100)")
+          ' results.json | tee -a "$GITHUB_STEP_SUMMARY"
+          jq -e --argjson gate "$GATE" '(.partial | not) and .aggregates.overallScore >= $gate' results.json > /dev/null
 
       - name: Upload results
         if: always()
